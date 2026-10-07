@@ -1,9 +1,17 @@
+import { Hero } from "@/src/components/home/Hero";
+import { SearchBar } from "@/src/components/home/SearchBar";
+import { Categories } from "@/src/components/home/Categories";
+import { WhyNexiera } from "@/src/components/home/WhyNexiera";
+import { TutorCta } from "@/src/components/home/TutorCta";
+
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main>
-        <h1 className="text-6xl font-bold">APIP GANTENG BANGET</h1>
-      </main>
-    </div>
+    <>
+      <Hero />
+      <SearchBar />
+      <Categories />
+      <WhyNexiera />
+      <TutorCta />
+    </>
   );
 }

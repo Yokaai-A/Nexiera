@@ -1,0 +1,1 @@
+kalo ada file foto, video atau semacamnya dan mau di pake di web, tolong copy dulu dan paste di folder public. Nanti implememntasinya pake yang di folder public

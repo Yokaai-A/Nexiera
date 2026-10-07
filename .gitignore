@@ -38,4 +38,12 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
-next-env.d.ts
+
+# folder pribadi apip
+/Foto/
+architecture.md 
+dokumentasi.md
+
+# file-file ai
+AGENTS.md 
+CLAUDE.md 
