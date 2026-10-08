@@ -7,7 +7,7 @@ const DROPDOWNS = ["Baya: Semua Model", "Format: Semua Format", "Tipe: Bootcamp 
 
 export function FilterBar() {
   return (
-    <section className="mx-auto max-w-7xl px-6">
+    <section className="mx-auto w-full px-45">
       <div className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100">
         <div className="flex flex-col gap-3 lg:flex-row">
           <div className="flex flex-1 items-center gap-2 rounded-lg bg-slate-50 px-3 py-2.5">

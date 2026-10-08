@@ -1,35 +1,42 @@
 import Link from "next/link";
+import Image from "next/image";
 
 const CATEGORIES = [
   {
     name: "Sains & Teknologi",
-    desc: "Kalkulus, FisKalkulus, Fisika Dasar, Kimia Organik, Pemrograman Dasar, Matematika Diskrit…ika Dasar, Kimia Organik, Pemrograman Dasar, Matematika Diskrit",
+    desc: "Kalkulus, Fisika Dasar, Kimia Organik, Pemrograman Dasar, Matematika Diskrit...",
     count: "120+ Kelas",
+    icon: "/icons-HomePage/sains-teknologi.png",
   },
   {
     name: "Ekonomi & Bisnis",
-    desc: "Pengantar Akuntansi, Ekonomi Mikro/Anatomi, Farmakologi, Biokimia, Keperawatan Dasar…, Manajemen Keuangan, Statistika...",
+    desc: "Pengantar Akuntansi, Ekonomi Mikro/Makro, Manajemen Keuangan, Statistika...",
     count: "98+ Kelas",
+    icon: "/icons-HomePage/ekonomi-bisnis.png",
   },
   {
     name: "Sosial & Hukum",
-    desc: "Analisis data statistik, Python, Machine Learning dasar, danPengantar Akuntansi, Ekonomi Mikro/Makro, Manajemen Keuangan, Statistika… visualisasi tabel...",
+    desc: "Analisis data statistik, Python, Machine Learning dasar, dan visualisasi tabel...",
     count: "85+ Kelas",
+    icon: "/icons-HomePage/sosial-hukum.png",
   },
   {
     name: "Kesehatan & Kedokteran",
-    desc: "Anatomi, Farmakologi, Biokimia, Gambar Teknik, Estetika Bentuk, Studio Perancangan, Mekanika Bahan... Dasar...",
+    desc: "Anatomi, Farmakologi, Biokimia, Keperawatan Dasar...",
     count: "140+ Kelas",
+    icon: "/icons-HomePage/Doctor.png",
   },
   {
     name: "Seni, Desain & Arsitektur",
-    desc: "Gambar Teknik, Estetika Bentuk, Studio Analisis data statistik, Python, Machine Learning dasar, dan visualisasi Tableau., Mekaniik Bahan...",
+    desc: "Gambar Teknik, Estetika Bentuk, Studio Perancangan, Mekanika Bahan...",
     count: "64+ Kelas",
+    icon: "/icons-HomePage/seni.png",
   },
   {
     name: "Pertanian & Peternakan",
-    desc: "Agroteknologi, Agronomi, Ilmu Agroteknologi, Agribisnis, Ilmu Tanah, Genetika Tanaman/Ternak..., Genetika Tanaman/Ternak...",
+    desc: "Agroteknologi, Agronomi, Ilmu Tanah, Genetika Tanaman/Ternak...",
     count: "210+ Tutor",
+    icon: "/icons-HomePage/farm.png",
   },
 ];
 
@@ -46,7 +53,7 @@ export function Categories() {
           </h2>
         </div>
         <Link
-          href="#"
+          href="/cari-kelas"
           className="text-sm font-medium text-blue-600 hover:underline"
         >
           Lihat Semua Kategori →
@@ -63,16 +70,14 @@ export function Categories() {
               {c.count}
             </span>
             <div className="flex items-start gap-3">
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
-                <svg
-                  className="h-5 w-5"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth={1.6}
-                  viewBox="0 0 24 24"
-                >
-                  <path d={c.icon} />
-                </svg>
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-blue-50">
+                <Image
+                  src={c.icon}
+                  alt={c.name}
+                  width={28}
+                  height={28}
+                  className="object-contain"
+                />
               </div>
               <h3 className="text-base font-semibold text-slate-900">
                 {c.name}

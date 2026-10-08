@@ -44,7 +44,7 @@ const COLUMNS = [
 
 export function Footer() {
   return (
-    <footer className="mt-20 border-t border-slate-100 bg-background">
+    <footer className="mt-20 border-t border-slate-100 bg-white">
       <div className="mx-auto grid max-w-7xl grid-cols-2 gap-10 px-6 py-14 md:grid-cols-6">
         <div className="col-span-2">
           <Link href="/">

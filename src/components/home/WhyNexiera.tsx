@@ -1,23 +1,24 @@
 import Link from "next/link";
+import Image from "next/image";
 
 const FEATURES = [
   {
     title: "Temukan Kelas",
     desc: "Cari pembelajaran sesuai kebutuhan spesifik, bidang keahlian kampus, jadwal fleksibel tanpa kantong mahasiswa.",
     cta: "Filter Kebutuhan Studi →",
-    // icon: "M21 12a9 9 0 1 1-9-9 9 9 0 0 1 9 9zM9 12l2 2 4-4",
+    icon: "/icons-HomePage/kelas.png",
   },
   {
     title: "Belajar dari Tutor",
     desc: "Temukan tutor sebaya prestatif, asisten laboratorium, alumni berpengalaman, dan pencyelengga kredibel yang terverifikasi identitas kampusnya.",
     cta: "Verifikasi ID Kampus →",
-    // icon: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z",
+    icon: "/icons-HomePage/BelajarDariTutor.png",
   },
   {
     title: "Bagikan Keahlian",
     desc: "Buka kelas sendiri, bangun reputasi akademik, perkuat portofolio kepemimpinan, dan dapatkan penghasilan tambahan semester ini bersama teman sebaya.",
     cta: "Mulai Jadi Tutor →",
-    // icon: "M12 2v20M2 12h20M5 5l14 14M19 5 5 19",
+    icon: "/icons-HomePage/ahli.png",
   },
 ];
 
@@ -42,10 +43,14 @@ export function WhyNexiera() {
               key={f.title}
               className="rounded-2xl bg-white p-6 text-left shadow-sm ring-1 ring-slate-100"
             >
-              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
-                <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={1.6} viewBox="0 0 24 24">
-                  <path d={f.icon} />
-                </svg>
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-50">
+                <Image
+                  src={f.icon}
+                  alt={f.title}
+                  width={28}
+                  height={28}
+                  className="object-contain"
+                />
               </div>
               <h3 className="mt-4 text-base font-semibold text-slate-900">
                 {f.title}
@@ -54,7 +59,13 @@ export function WhyNexiera() {
                 {f.desc}
               </p>
               <Link
-                href="#"
+                href={
+                  f.title === "Temukan Kelas"
+                    ? "/cari-kelas"
+                    : f.title === "Belajar dari Tutor"
+                      ? "/cari-kelas"
+                      : "/register"
+                }
                 className="mt-4 inline-block text-sm font-medium text-blue-600 hover:underline"
               >
                 {f.cta}

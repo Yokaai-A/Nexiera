@@ -24,24 +24,42 @@ export function PromoSlider() {
   }, [next]);
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-slate-100 via-blue-50 to-white">
-      <div className="relative mx-auto max-w-4xl px-6 py-10 md:py-14">
-        <div className="relative aspect-[16/9] w-full overflow-hidden rounded-2xl shadow-sm ring-1 ring-slate-100">
+    <section className="relative w-full overflow-hidden bg-background">
+      <div className="relative mx-auto w-full px-45 py-10 md:py-14">
+        <div className="relative w-full overflow-hidden rounded-2xl shadow-sm ring-1 ring-slate-100">
           {SLIDES.map((src, i) => (
             <Image
               key={i}
               src={src}
               alt={`Iklan promo ${i + 1}`}
-              fill
+              width={1200}
+              height={400}
               sizes="(min-width: 768px) 50vw, 100vw"
-              className={`absolute inset-0 object-cover transition-opacity duration-700 ${
-                i === index ? "opacity-100" : "opacity-0"
+              className={`h-auto w-full transition-opacity duration-700 ${
+                i === index ? "relative opacity-100" : "absolute inset-0 opacity-0"
               }`}
             />
           ))}
+
+          <button
+            type="button"
+            aria-label="Slide sebelumnya"
+            onClick={prev}
+            className="absolute left-0 top-1/2 z-10 flex h-20 w-10 -translate-y-1/2 items-center justify-center rounded-r-full bg-black/5 text-2xl text-black hover:bg-black/50"
+          >
+            ‹
+          </button>
+          <button
+            type="button"
+            aria-label="Slide berikutnya"
+            onClick={next}
+            className="absolute right-0 top-1/2 z-10 flex h-20 w-10 -translate-y-1/2 items-center justify-center rounded-l-full bg-black/5 text-2xl text-black hover:bg-black/50"
+          >
+            ›
+          </button>
         </div>
 
-        <div className="mt-4 flex items-center gap-3">
+        <div className="mt-4 flex items-center justify-center gap-3">
           {SLIDES.map((_, i) => (
             <button
               key={i}
@@ -53,25 +71,6 @@ export function PromoSlider() {
               }`}
             />
           ))}
-          <span className="ml-auto text-xs text-slate-400">
-            {index + 1} / {SLIDES.length}
-          </span>
-          <div className="flex gap-1">
-            <button
-              type="button"
-              onClick={prev}
-              className="flex h-7 w-7 items-center justify-center rounded-md border border-slate-200 text-slate-500 hover:bg-slate-50"
-            >
-              ‹
-            </button>
-            <button
-              type="button"
-              onClick={next}
-              className="flex h-7 w-7 items-center justify-center rounded-md border border-slate-200 text-slate-500 hover:bg-slate-50"
-            >
-              ›
-            </button>
-          </div>
         </div>
       </div>
     </section>

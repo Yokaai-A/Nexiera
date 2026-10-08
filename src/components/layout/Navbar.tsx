@@ -6,7 +6,7 @@ import { Logo } from "@/src/components/ui/Logo";
 
 const NAV_LINKS = [
   { label: "Home", href: "/" },
-  { label: "Cari Kelas", href: "#" },
+  { label: "Cari Kelas", href: "/cari-kelas" },
   { label: "Buat Kelas", href: "/buat-kelas" },
   { label: "Tentang Kami", href: "/tentang-kami" },
 ];
@@ -15,7 +15,7 @@ export function Navbar() {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-50 border-b border-slate-100 bg-background">
+    <header className="sticky top-0 z-50 border-b border-slate-100 bg-white">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
         <Link href="/">
           <Logo />
