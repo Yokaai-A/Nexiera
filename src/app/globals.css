@@ -1,19 +1,67 @@
 @import "tailwindcss";
 
 :root {
-  --background: #EDF4FF;
-  --foreground: #171717;
+  --background: #F8FAFC;
+  --foreground: #0F172A;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+@theme {
+  --color-nexiera-navy: #0F172A;
+  --color-nexiera-navy-light: #1E293B;
+  --color-nexiera-navy-dark: #080D1A;
+  
+  --color-nexiera-blue: #2563EB;
+  --color-nexiera-blue-hover: #1D4ED8;
+  --color-nexiera-blue-light: #EFF6FF;
+
+  --color-nexiera-cyan: #06B6D4;
+  --color-nexiera-cyan-light: #67E8F9;
+
+  --color-nexiera-slate: #64748B;
+  --color-nexiera-slate-light: #F8FAFC;
+  --color-nexiera-slate-border: #E2E8F0;
+
+  --radius-card: 16px;
+  --radius-button: 8px;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+a,
+button,
+[role="button"] {
+  transition-property: color, background-color, border-color, box-shadow, opacity, transform;
+  transition-duration: 160ms;
+  transition-timing-function: ease;
+}
+
+.page-transition {
+  animation: page-enter 200ms ease-out both;
+}
+
+@keyframes page-enter {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  a,
+  button,
+  [role="button"] {
+    transition-duration: 0.01ms;
+  }
+
+  .page-transition {
+    animation: none;
+  }
 }

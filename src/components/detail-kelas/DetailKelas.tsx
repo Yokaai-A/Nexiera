@@ -1,359 +1,434 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
-
-/* ── small helpers ─────────────────────────────────────────────── */
-
-function SectionIcon({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="flex h-6 w-6 items-center justify-center rounded bg-blue-100 text-xs text-blue-700">
-      {children}
-    </div>
-  );
-}
-
-function CheckIcon() {
-  return (
-    <svg
-      className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={2}
-      viewBox="0 0 24 24"
-    >
-      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5 0a9 9 0 1 1-9-9 9 9 0 0 1 9 9z" />
-    </svg>
-  );
-}
-
-/* ── main component ────────────────────────────────────────────── */
+import Image from "next/image";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { ArrowRight, BadgeCheck, BookOpenText, CalendarDays, Check, CircleCheck, ExternalLink, Handshake, Landmark, LockKeyhole, MonitorPlay, Rocket, Search, ShieldCheck, UnlockKeyhole, UsersRound, X } from "lucide-react";
+import { getCourseById, getStoredCourses, getStoredUser } from "@/src/lib/storage";
+import { AcademicCourse } from "@/src/types/course";
 
 export function DetailKelas() {
-  const [univ, setUniv] = useState("");
-  const [nim, setNim] = useState("");
-  const [email, setEmail] = useState("");
+  const searchParams = useSearchParams();
+  const courseId = searchParams.get("id");
+
+  const [course, setCourse] = useState<AcademicCourse | null>(null);
+  const [user, setUser] = useState(getStoredUser());
+  const [isRegistered, setIsRegistered] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    const allCourses = getStoredCourses();
+    if (courseId) {
+      const found = getCourseById(courseId);
+      if (found) {
+        setCourse(found);
+        return;
+      }
+    }
+    // Fallback to first course
+    if (allCourses.length > 0) {
+      setCourse(allCourses[0]);
+    }
+  }, [courseId]);
+
+  if (!course) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center p-6">
+        <div className="text-center">
+          <p className="text-sm text-slate-500">Memuat detail kelas...</p>
+        </div>
+      </div>
+    );
+  }
+
+  const isBootcamp = course.type === "BOOTCAMP";
+  const isFree = course.pricingModel === "FREE";
+
+  const handleRegister = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsRegistered(true);
+    setShowModal(false);
+  };
 
   return (
-    <div className="min-h-screen bg-background">
-
-      {/* ── breadcrumb bar ────────────────────────────────────── */}
-      <div className="border-b border-slate-100 bg-white">
-        <div className="mx-auto flex max-w-5xl items-center gap-2 px-6 py-3 text-xs text-slate-500">
-          <Link href="/cari-kelas" className="flex items-center gap-1 text-blue-600 hover:underline">
-            <span>🔍</span> Cari Kelas
+    <div className="min-h-screen bg-background pb-20">
+      {/* ── Breadcrumb Bar ────────────────────────────────────── */}
+      <div className="border-b border-slate-200/80 bg-white">
+        <div className="mx-auto flex max-w-6xl items-center gap-2 px-6 py-3.5 text-xs text-slate-500">
+          <Link href="/cari-kelas" className="flex items-center gap-1 font-semibold text-blue-600 hover:underline">
+            <Search className="h-3.5 w-3.5" aria-hidden="true" /> Katalog Kelas
           </Link>
           <span className="text-slate-300">/</span>
-          <span className="text-slate-700">Bootcamp Nicholas</span>
+          <span className="text-slate-400">{course.subjectCategory}</span>
+          <span className="text-slate-300">/</span>
+          <span className="font-bold text-slate-800 truncate max-w-xs">{course.title}</span>
         </div>
       </div>
 
-      <div className="mx-auto max-w-5xl px-6 py-8">
-
-        {/* ── header card ─────────────────────────────────────── */}
-        <div className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm">
-          <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
-            <div>
-              <div className="flex items-center gap-3">
-                <span className="rounded-full bg-blue-50 px-3 py-1 text-[11px] font-semibold tracking-wide text-blue-700">
-                  🏛 BINUS UNIVERSITY – COMPUTER SCIENCE
+      <div className="mx-auto max-w-6xl px-6 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+          
+          {/* ── LEFT & CENTER: Course Info & Centralized Access Hub ─ */}
+          <div className="lg:col-span-2 space-y-6">
+            
+            {/* Header Card */}
+            <div className="rounded-3xl border border-slate-200/80 bg-white p-6 sm:p-8 shadow-sm">
+              <div className="flex flex-wrap items-center gap-2.5">
+                <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-bold text-blue-700 ring-1 ring-blue-100 uppercase tracking-wide">
+                  <Landmark className="mr-1 inline h-3.5 w-3.5" aria-hidden="true" /> {course.university} – {course.subjectCategory}
                 </span>
-                <span className="rounded-full bg-emerald-50 px-3 py-1 text-[11px] font-medium text-emerald-700">
-                  ✓ Verifikasi Resmi Kampus
+                {isBootcamp ? (
+                  <span className="rounded-full bg-cyan-50 px-3 py-1 text-xs font-bold text-cyan-700 ring-1 ring-cyan-200">
+                    <Rocket className="mr-1 inline h-3.5 w-3.5" aria-hidden="true" /> Bootcamp Organisasi
+                  </span>
+                ) : (
+                  <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-700 ring-1 ring-slate-200">
+                    <Handshake className="mr-1 inline h-3.5 w-3.5" aria-hidden="true" /> Peer-Tutoring Mahasiswa
+                  </span>
+                )}
+                <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
+                  <BadgeCheck className="mr-1 inline h-3.5 w-3.5" aria-hidden="true" /> Kurikulum Terverifikasi
                 </span>
               </div>
-              <h1 className="mt-4 text-3xl font-bold text-slate-900">
-                Booster Bootcamp
+
+              <h1 className="mt-4 text-2xl sm:text-3xl font-extrabold text-slate-900 leading-snug">
+                {course.title}
               </h1>
-              <p className="mt-1 text-sm text-slate-500">Untuk semester 1 – 4</p>
-            </div>
-          </div>
-
-          {/* stat row */}
-          <div className="mt-6 grid grid-cols-3 gap-3">
-            <div className="rounded-xl bg-slate-50 p-3">
-              <div className="text-[10px] font-semibold tracking-wider text-slate-400">
-                DURASI
-              </div>
-              <div className="mt-1 flex items-center gap-2 text-sm font-medium text-slate-800">
-                <span>📅</span> Selamanya
-              </div>
-            </div>
-            <div className="rounded-xl bg-slate-50 p-3">
-              <div className="text-[10px] font-semibold tracking-wider text-slate-400">
-                METODE
-              </div>
-              <div className="mt-1 flex items-center gap-2 text-sm font-medium text-slate-800">
-                <span>📓</span> Notion
-              </div>
-            </div>
-            <div className="rounded-xl bg-slate-50 p-3">
-              <div className="text-[10px] font-semibold tracking-wider text-slate-400">
-                TINGKAT
-              </div>
-              <div className="mt-1 flex items-center gap-2 text-sm font-medium text-slate-800">
-                <span>📊</span> Semester 1 – 4
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* ── main content: two columns ────────────────────────── */}
-        <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_320px]">
-
-          {/* ── LEFT COLUMN ───────────────────────────────────── */}
-          <div className="space-y-8">
-
-            {/* Tentang Bootcamp */}
-            <section className="rounded-2xl border border-blue-100 bg-blue-50/50 p-6">
-              <div className="flex items-center gap-3">
-                <span className="flex h-7 w-7 items-center justify-center rounded bg-blue-600 text-sm text-white">
-                  📄
-                </span>
-                <h2 className="text-base font-bold text-slate-900">
-                  Tentang Bootcamp
-                </h2>
-              </div>
-              <p className="mt-4 text-sm leading-relaxed text-slate-700">
-                Program bimbingan intensif yang dirancang khusus untuk membantu kamu
-                menguasai materi perkuliahan secara terstruktur. Dilengkapi dengan
-                Akses Catatan Rapi via Notion (Notion Study Hub) yang mencakup
-                rangkuman materi, pembahasan latihan soal, hingga persiapan ujian.
+              <p className="mt-2 text-sm text-slate-600 leading-relaxed">
+                {course.shortDescription}
               </p>
-            </section>
 
-            {/* Yang akan anda pelajari */}
-            <section>
-              <h2 className="text-base font-bold text-slate-900">
-                📚 Yang akan anda pelajari
-              </h2>
-              <div className="mt-4 space-y-4">
-                {[
-                  {
-                    bold: "Algorithm and Programming",
-                    rest: ": Fondasi logika pemrograman, struktur kontrol, dan sintaks dasar.",
-                  },
-                  {
-                    bold: "Algorithm Design and Analysis",
-                    rest: ": Analisis kompleksitas (Big-O), efisiensi algoritma, dan strategi pemecahan masalah.",
-                  },
-                  {
-                    bold: "Software Engineering",
-                    rest: ": Prinsip rekayasa perangkat lunak, metodologi pengembangan, dan arsitektur sistem.",
-                  },
-                  {
-                    bold: "Computational Physics",
-                    rest: ": Pemodelan dan pemecahan masalah fisika menggunakan pendekatan komputasi.",
-                  },
-                ].map((item) => (
-                  <div key={item.bold} className="flex gap-3">
-                    <CheckIcon />
-                    <p className="text-sm leading-relaxed text-slate-700">
-                      <span className="font-semibold text-slate-900">{item.bold}</span>
-                      {item.rest}
-                    </p>
+              {/* Stat row */}
+              <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <div className="rounded-2xl border border-slate-100 bg-slate-50 p-3.5">
+                  <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                    Jadwal
+                  </div>
+                  <div className="mt-1 flex items-center gap-1.5 text-xs font-bold text-slate-800">
+                    <CalendarDays className="h-3.5 w-3.5" aria-hidden="true" /> {course.scheduleDate}
+                  </div>
+                </div>
+
+                <div className="rounded-2xl border border-slate-100 bg-slate-50 p-3.5">
+                  <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                    Metode &amp; Sesi
+                  </div>
+                  <div className="mt-1 flex items-center gap-1.5 text-xs font-bold text-slate-800">
+                    <MonitorPlay className="h-3.5 w-3.5" aria-hidden="true" /> {course.meetingPlatform}
+                  </div>
+                </div>
+
+                <div className="rounded-2xl border border-slate-100 bg-slate-50 p-3.5">
+                  <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                    Akses Materi
+                  </div>
+                  <div className="mt-1 flex items-center gap-1.5 text-xs font-bold text-slate-800">
+                    <BookOpenText className="h-3.5 w-3.5" aria-hidden="true" /> {course.accessDuration}
+                  </div>
+                </div>
+
+                <div className="rounded-2xl border border-slate-100 bg-slate-50 p-3.5">
+                  <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                    Sisa Kuota
+                  </div>
+                  <div className="mt-1 flex items-center gap-1.5 text-xs font-bold text-blue-600">
+                    <UsersRound className="h-3.5 w-3.5" aria-hidden="true" /> {course.availableSeats} Kursi
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* ── Centralized Access Hub Links ──────────────────── */}
+            <div className="rounded-3xl border border-blue-200/80 bg-gradient-to-br from-blue-50/50 via-white to-indigo-50/30 p-6 sm:p-8 shadow-sm">
+              <div className="flex items-center justify-between">
+                <div>
+                  <span className="text-xs font-bold tracking-wider text-blue-600 uppercase">
+                    Centralized Access Hub
+                  </span>
+                  <h2 className="text-xl font-bold text-slate-900 mt-1">
+                    Ruang Kelas &amp; Notion Study Hub
+                  </h2>
+                </div>
+                <span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-bold text-blue-800">
+                  {isRegistered ? <><UnlockKeyhole className="mr-1 inline h-3.5 w-3.5" aria-hidden="true" /> Akses Aktif</> : <><LockKeyhole className="mr-1 inline h-3.5 w-3.5" aria-hidden="true" /> Khusus Peserta</>}
+                </span>
+              </div>
+
+              <p className="mt-2 text-xs text-slate-600">
+                Semua bahan kuliah, latihan ujian, dan link sesi langsung terpusat di sini.
+              </p>
+
+              <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {/* Notion Card */}
+                <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-xs">
+                  <div className="flex items-center gap-3">
+                    <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100 text-xl">
+                      <BookOpenText className="h-5 w-5 text-slate-600" aria-hidden="true" />
+                    </span>
+                    <div>
+                      <h3 className="text-sm font-bold text-slate-900">Notion Study Hub</h3>
+                      <p className="text-[11px] text-slate-500">Catatan rapi, bank soal &amp; silabus</p>
+                    </div>
+                  </div>
+                  <div className="mt-4">
+                    <a
+                      href={course.materialUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-slate-900 py-2.5 text-xs font-bold text-white hover:bg-slate-800 transition-colors"
+                    >
+                      Buka Catatan di Notion <ExternalLink className="ml-1 inline h-3.5 w-3.5" aria-hidden="true" />
+                    </a>
+                  </div>
+                </div>
+
+                {/* Meeting Card */}
+                <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-xs">
+                  <div className="flex items-center gap-3">
+                    <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-xl text-blue-600">
+                      <MonitorPlay className="h-5 w-5 text-blue-600" aria-hidden="true" />
+                    </span>
+                    <div>
+                      <h3 className="text-sm font-bold text-slate-900">
+                        {course.meetingPlatform} Room
+                      </h3>
+                      <p className="text-[11px] text-slate-500">Ruang sesi tatap muka interaktif</p>
+                    </div>
+                  </div>
+                  <div className="mt-4">
+                    <a
+                      href={course.meetingUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 py-2.5 text-xs font-bold text-white hover:bg-blue-700 transition-colors"
+                    >
+                      Masuk Link {course.meetingPlatform} <ExternalLink className="ml-1 inline h-3.5 w-3.5" aria-hidden="true" />
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Description & Syllabus */}
+            <div className="rounded-3xl border border-slate-200/80 bg-white p-6 sm:p-8 shadow-sm">
+              <h2 className="text-lg font-bold text-slate-900">Tentang Program Pembelajaran</h2>
+              <p className="mt-3 text-sm leading-relaxed text-slate-600 whitespace-pre-line">
+                {course.fullDescription}
+              </p>
+
+              <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-slate-800">
+                    Syarat &amp; Prasyarat
+                  </h3>
+                  <ul className="mt-3 space-y-2">
+                    {course.requirements.map((req, i) => (
+                      <li key={i} className="flex items-start gap-2 text-xs text-slate-600">
+                        <span className="text-blue-500 font-bold">•</span>
+                        <span>{req}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div>
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-slate-800">
+                    Fasilitas Peserta
+                  </h3>
+                  <ul className="mt-3 space-y-2">
+                    {course.facilities.map((fac, i) => (
+                      <li key={i} className="flex items-start gap-2 text-xs text-emerald-700 font-medium">
+                        <Check className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+                        <span>{fac}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            {/* ── Tutors Section (Single vs Multi-tutor) ───────── */}
+            <div className="rounded-3xl border border-slate-200/80 bg-white p-6 sm:p-8 shadow-sm">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-lg font-bold text-slate-900">
+                  {isBootcamp ? `Tim Pengajar (${course.tutors.length} Tutor)` : "Profil Tutor Mahasiswa"}
+                </h2>
+                <span className="text-xs text-blue-600 font-semibold">
+                  Diselenggarakan oleh {course.organizerName}
+                </span>
+              </div>
+
+              <div className="grid gap-4 sm:grid-cols-2">
+                {course.tutors.map((t) => (
+                  <div key={t.id} className="flex items-center gap-3.5 rounded-2xl border border-slate-100 bg-slate-50/70 p-4">
+                    <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full ring-2 ring-blue-500/20">
+                      <Image
+                        src={t.avatarUrl || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=256&q=80"}
+                        alt={t.name}
+                        fill
+                        sizes="48px"
+                        className="object-cover"
+                      />
+                    </div>
+                    <div className="min-w-0">
+                      <h3 className="text-sm font-bold text-slate-900 truncate">{t.name}</h3>
+                      <p className="text-xs font-medium text-slate-500 truncate">{t.role}</p>
+                      <span className="mt-1 inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-600">
+                        <BadgeCheck className="h-3.5 w-3.5" aria-hidden="true" /> Verifikasi Kampus BINUS
+                      </span>
+                    </div>
                   </div>
                 ))}
               </div>
-            </section>
-
-            {/* Syarat & Prasyarat */}
-            <section>
-              <h2 className="text-base font-bold text-slate-900">
-                📋 Syarat &amp; Prasyarat
-              </h2>
-              <div className="mt-4 flex gap-3">
-                <CheckIcon />
-                <p className="text-sm leading-relaxed text-slate-700">
-                  <span className="font-semibold text-slate-900">
-                    Status Mahasiswa Aktif:
-                  </span>{" "}
-                  Mahasiswa semester 1–4 aktif di Universitas Bina Nusantara
-                  Sejabodetabek dan sedang menjalankan mata kuliah yang akan
-                  dipejam dari bootcamp ini.
-                </p>
-              </div>
-            </section>
-
-            {/* Fasilitas & Metode Belajar */}
-            <section>
-              <h2 className="text-base font-bold text-slate-900">
-                🛠 Fasilitas &amp; Metode Belajar:
-              </h2>
-              <div className="mt-4 space-y-4">
-                {[
-                  {
-                    bold: "Notion Academic Hub",
-                    rest: ": Akses catatan kuliah yang rapi, cheatsheet, serta rangkuman formula/konsep penting.",
-                  },
-                  {
-                    bold: "Pembahasan Soal & Studi Kasus",
-                    rest: ": Latihan soal UTS/UAS dan bedah studi kasus yang sering keluar dalam perkuliahan.",
-                  },
-                  {
-                    bold: "Persiapan Praktikum & Tugas",
-                    rest: ": Bimbingan pemahaman logika dasar untuk menyelesaikan tugas perkuliahan.",
-                  },
-                ].map((item) => (
-                  <div key={item.bold} className="flex gap-3">
-                    <CheckIcon />
-                    <p className="text-sm leading-relaxed text-slate-700">
-                      <span className="font-semibold text-slate-900">{item.bold}</span>
-                      {item.rest}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </section>
+            </div>
 
           </div>
 
-          {/* ── RIGHT COLUMN: registration card ──────────────── */}
-          <aside className="lg:sticky lg:top-24">
-            <div className="rounded-2xl border border-slate-100 bg-white p-5 shadow-sm">
-
-              {/* Deadline */}
-              <div className="flex items-center justify-between rounded-xl bg-red-50 px-4 py-3">
-                <div>
-                  <div className="text-[10px] font-semibold tracking-wider text-red-500">
-                    BATAS PENDAFTARAN
-                  </div>
-                  <div className="mt-0.5 text-sm font-semibold text-slate-900">
-                    25 Nov 2024
-                  </div>
-                </div>
-                <div className="text-right">
-                  <div className="text-[11px] text-slate-500">Kuota Tersis</div>
-                  <div className="text-sm font-bold text-slate-900">
-                    240 / 300 Mahasiswa
-                  </div>
-                </div>
+          {/* ── RIGHT: Registration & Price Sidebar ───────────── */}
+          <div className="space-y-6 lg:sticky lg:top-24">
+            <div className="rounded-3xl border border-slate-200/80 bg-white p-6 shadow-lg">
+              <div className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                Biaya Pendaftaran
               </div>
-
-              {/* Progress bar */}
-              <div className="mt-3">
-                <div className="h-1.5 overflow-hidden rounded-full bg-slate-100">
-                  <div
-                    className="h-full rounded-full bg-blue-600"
-                    style={{ width: "80%" }}
-                  />
-                </div>
-                <div className="mt-1 flex items-center justify-between text-[11px] text-slate-400">
-                  <span>Kuota Tersisa</span>
-                  <span>240 / 300</span>
-                </div>
-              </div>
-
-              {/* Biaya */}
-              <div className="mt-5 rounded-xl bg-slate-50 p-4">
-                <div className="text-[10px] font-semibold tracking-wider text-slate-400">
-                  BIAYA PROGRAM
-                </div>
-                <div className="mt-1 flex items-center gap-2">
-                  <span className="text-xl font-bold text-slate-900">GRATIS</span>
-                  <span className="text-sm text-slate-400 line-through">
-                    Rp 45.000
-                  </span>
-                  <span className="ml-auto flex h-7 w-7 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">
-                    ✓
-                  </span>
-                </div>
-                <p className="mt-2 text-[11px] italic leading-relaxed text-slate-400">
-                  *Didana penuh melalui insiatif riset kolaboratif Binus Computer
-                  Science dengan Fakultas UI.
-                </p>
-
-                <div className="mt-4 text-[11px] font-semibold tracking-wider text-slate-400">
-                  BENEFIT TERMASUK:
-                </div>
-                <div className="mt-2 flex gap-2 text-sm text-slate-700">
-                  <span className="text-emerald-600">✓</span>
-                  Akses Notion Selamanya
-                </div>
-              </div>
-
-              {/* Form */}
-              <div className="mt-5 space-y-4">
-                <div>
-                  <label className="mb-1.5 block text-xs font-medium text-slate-700">
-                    Universitas
-                  </label>
-                  <div className="relative">
-                    <select
-                      value={univ}
-                      onChange={(e) => setUniv(e.target.value)}
-                      className="w-full appearance-none rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-800 outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
-                    >
-                      <option value="">Pilih Perguruan Tinggi Aida…</option>
-                      <option value="binus">Binus University</option>
-                      <option value="ui">Universitas Indonesia</option>
-                      <option value="ugm">UGM</option>
-                      <option value="itb">ITB</option>
-                    </select>
-                    <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-slate-400">
-                      ˅
+              <div className="mt-2 flex items-baseline gap-2">
+                {isFree ? (
+                  <span className="text-3xl font-black text-emerald-600">GRATIS</span>
+                ) : (
+                  <>
+                    <span className="text-3xl font-black text-slate-900">
+                      Rp {course.priceAmount?.toLocaleString("id-ID")}
                     </span>
-                  </div>
-                </div>
+                    <span className="text-xs text-slate-400">/ semester</span>
+                  </>
+                )}
+              </div>
 
-                <div>
-                  <label className="mb-1.5 block text-xs font-medium text-slate-700">
-                    Nomor Induk Mahasiswa (NIM){" "}
-                    <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    value={nim}
-                    onChange={(e) => setNim(e.target.value)}
-                    placeholder="Contoh: 2166728192"
-                    className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-800 placeholder:text-slate-400 outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
-                  />
+              {isRegistered ? (
+                <div className="mt-6 rounded-2xl bg-emerald-50 border border-emerald-200 p-4 text-center">
+                  <p className="text-sm font-bold text-emerald-800">
+                    <CircleCheck className="mr-1 inline h-4 w-4" aria-hidden="true" /> Kamu Sudah Terdaftar!
+                  </p>
+                  <p className="mt-1 text-xs text-emerald-600">
+                    Akses tautan Notion Study Hub dan ruang video di sebelah kiri.
+                  </p>
                 </div>
-
-                <div>
-                  <label className="mb-1.5 block text-xs font-medium text-slate-700">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Email pribadi Anda…"
-                    className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-800 placeholder:text-slate-400 outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
-                  />
-                </div>
-
-                {/* CTA buttons */}
+              ) : (
                 <button
                   type="button"
-                  className="flex w-full items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-3 text-sm font-semibold text-white hover:bg-blue-700"
+                  onClick={() => setShowModal(true)}
+                  className="mt-6 w-full rounded-2xl bg-blue-600 py-3.5 text-sm font-bold text-white shadow-lg shadow-blue-500/25 hover:bg-blue-700 transition-all hover:scale-[1.02]"
                 >
-                  <span>👤</span> Daftar Sekarang (Gratis)
+                  Daftar Kelas Sekarang <ArrowRight className="ml-1 inline h-4 w-4" aria-hidden="true" />
                 </button>
-                <button
-                  type="button"
-                  className="flex w-full items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50"
-                >
-                  <span>📌</span> Simpan ke Wishlist
-                </button>
+              )}
 
-                {/* Footer links */}
-                <div className="flex items-center justify-between pt-2 text-[11px] text-slate-400">
-                  <span>Ada Pertanyaan?</span>
-                  <span className="flex items-center gap-1 font-medium text-blue-600">
-                    <span>📞</span> PIC Mahasiswa
-                  </span>
-                  <span className="flex items-center gap-1 text-slate-500">
-                    <span>💬</span> Discord Komunitas
-                  </span>
+              <div className="mt-6 space-y-3 border-t border-slate-100 pt-5 text-xs text-slate-600">
+                <div className="flex items-center justify-between">
+                  <span className="text-slate-400">Penyelenggara:</span>
+                  <span className="font-bold text-slate-800">{course.organizerName}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-slate-400">Universitas:</span>
+                  <span className="font-semibold text-slate-800">{course.university}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-slate-400">Format:</span>
+                  <span className="font-semibold text-slate-800">Online ({course.meetingPlatform})</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-slate-400">Akses Catatan:</span>
+                  <span className="font-semibold text-slate-800">Notion Study Hub</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-slate-400">Kuota Tersisa:</span>
+                  <span className="font-bold text-blue-600">{course.availableSeats} Mahasiswa</span>
                 </div>
               </div>
 
+              <div className="mt-6 rounded-2xl bg-slate-50 p-3.5 text-[11px] text-slate-500 text-center">
+                <ShieldCheck className="mr-1 inline h-4 w-4" aria-hidden="true" /> Jaminan Bimbingan Berintegritas &amp; Sesuai Silabus UTS/UAS
+              </div>
             </div>
-          </aside>
+          </div>
 
         </div>
       </div>
+
+      {/* ── Registration Modal ───────────────────────────────── */}
+      {showModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-xs p-4">
+          <div className="w-full max-w-md rounded-3xl bg-white p-6 sm:p-8 shadow-2xl ring-1 ring-slate-200">
+            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+              <h3 className="text-base font-bold text-slate-900">Konfirmasi Pendaftaran</h3>
+              <button
+                type="button"
+                onClick={() => setShowModal(false)}
+                className="text-slate-400 hover:text-slate-600 font-bold"
+              >
+                  <X className="h-4 w-4" aria-hidden="true" />
+              </button>
+            </div>
+
+            <form onSubmit={handleRegister} className="mt-4 space-y-4">
+              <div>
+                <p className="text-xs text-slate-500">Mata Kuliah:</p>
+                <p className="text-sm font-bold text-slate-900">{course.title}</p>
+              </div>
+
+              <div>
+                <label className="text-xs font-bold text-slate-700 block mb-1">Nama Mahasiswa</label>
+                <input
+                  type="text"
+                  defaultValue={user.fullName}
+                  required
+                  className="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-xs text-slate-800 outline-none focus:border-blue-500"
+                />
+              </div>
+
+              <div>
+                <label className="text-xs font-bold text-slate-700 block mb-1">Email Mahasiswa</label>
+                <input
+                  type="email"
+                  defaultValue={user.email}
+                  required
+                  className="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-xs text-slate-800 outline-none focus:border-blue-500"
+                />
+              </div>
+
+              <div>
+                <label className="text-xs font-bold text-slate-700 block mb-1">Kampus &amp; Jurusan</label>
+                <input
+                  type="text"
+                  defaultValue={`${user.campus} - ${user.major}`}
+                  disabled
+                  className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-xs text-slate-500"
+                />
+              </div>
+
+              <div className="rounded-xl bg-blue-50 p-3 text-[11px] text-blue-800">
+                Setelah pendaftaran, tautan Notion Study Hub dan link {course.meetingPlatform} akan langsung terbuka.
+              </div>
+
+              <div className="flex gap-2 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setShowModal(false)}
+                  className="flex-1 rounded-xl border border-slate-200 py-2.5 text-xs font-bold text-slate-700 hover:bg-slate-50"
+                >
+                  Batal
+                </button>
+                <button
+                  type="submit"
+                  className="flex-1 rounded-xl bg-blue-600 py-2.5 text-xs font-bold text-white hover:bg-blue-700"
+                >
+                  Konfirmasi &amp; Daftar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

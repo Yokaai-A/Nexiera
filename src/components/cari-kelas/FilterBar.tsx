@@ -1,17 +1,22 @@
+import { BookOpenText, Building2, ChevronDown, RotateCcw, Search } from "lucide-react";
+
 const SELECTS = [
-  { label: "Semua Kampus", icon: "🏛" },
-  { label: "Semua Bidang Keahlian", icon: "📚" },
+  { label: "Semua Kampus", icon: Building2 },
+  { label: "Semua Bidang Keahlian", icon: BookOpenText },
 ];
 
 const DROPDOWNS = ["Baya: Semua Model", "Format: Semua Format", "Tipe: Bootcamp & Peer-Tutoring"];
 
 export function FilterBar() {
+  const CampusIcon = SELECTS[0].icon;
+  const SubjectIcon = SELECTS[1].icon;
+
   return (
     <section className="mx-auto w-full px-45">
       <div className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100">
         <div className="flex flex-col gap-3 lg:flex-row">
           <div className="flex flex-1 items-center gap-2 rounded-lg bg-slate-50 px-3 py-2.5">
-            <span className="text-slate-400">🔍</span>
+            <Search className="h-4 w-4 text-slate-400" aria-hidden="true" />
             <input
               type="text"
               placeholder="Cari Subjek: Web Programming, AI, Machine Learning, UI/UX..."
@@ -20,14 +25,14 @@ export function FilterBar() {
           </div>
           <div className="flex flex-1 items-center gap-3">
             <div className="flex flex-1 items-center gap-2 rounded-lg bg-slate-50 px-3 py-2.5">
-              <span>{SELECTS[0].icon}</span>
+              <CampusIcon className="h-4 w-4 text-slate-400" aria-hidden="true" />
               <span className="flex-1 text-sm text-slate-600">{SELECTS[0].label}</span>
-              <span className="text-xs text-slate-400">˅</span>
+              <ChevronDown className="h-4 w-4 text-slate-400" aria-hidden="true" />
             </div>
             <div className="flex flex-1 items-center gap-2 rounded-lg bg-slate-50 px-3 py-2.5">
-              <span>{SELECTS[1].icon}</span>
+              <SubjectIcon className="h-4 w-4 text-slate-400" aria-hidden="true" />
               <span className="flex-1 text-sm text-slate-600">{SELECTS[1].label}</span>
-              <span className="text-xs text-slate-400">˅</span>
+              <ChevronDown className="h-4 w-4 text-slate-400" aria-hidden="true" />
             </div>
           </div>
         </div>
@@ -40,14 +45,14 @@ export function FilterBar() {
                 type="button"
                 className="rounded-md border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-50"
               >
-                {d} ˅
+                {d} <ChevronDown className="ml-1 inline h-3.5 w-3.5" aria-hidden="true" />
               </button>
             ))}
             <button
               type="button"
               className="inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-semibold text-blue-600 hover:bg-blue-50"
             >
-              ↻ RESET FILTER
+              <RotateCcw className="h-3.5 w-3.5" aria-hidden="true" /> RESET FILTER
             </button>
           </div>
 

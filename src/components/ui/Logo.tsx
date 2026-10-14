@@ -6,9 +6,9 @@ export function Logo({ className = "" }: { className?: string }) {
       <Image
         src="/logo.png"
         alt="Nexiera"
-        width={32}
-        height={32}
-        className="object-contain"
+        width={56}
+        height={56}
+        className="h-14 w-14 object-contain"
       />
       <span className="text-xl font-bold tracking-tight text-slate-900">
         NEXIERA

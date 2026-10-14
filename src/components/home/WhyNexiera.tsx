@@ -1,24 +1,24 @@
 import Link from "next/link";
-import Image from "next/image";
+import { ArrowRight, BadgeCheck, Presentation, Search } from "lucide-react";
 
 const FEATURES = [
   {
     title: "Temukan Kelas",
     desc: "Cari pembelajaran sesuai kebutuhan spesifik, bidang keahlian kampus, jadwal fleksibel tanpa kantong mahasiswa.",
-    cta: "Filter Kebutuhan Studi →",
-    icon: "/icons-HomePage/kelas.png",
+    cta: "Filter Kebutuhan Studi",
+    icon: Search,
   },
   {
     title: "Belajar dari Tutor",
     desc: "Temukan tutor sebaya prestatif, asisten laboratorium, alumni berpengalaman, dan pencyelengga kredibel yang terverifikasi identitas kampusnya.",
-    cta: "Verifikasi ID Kampus →",
-    icon: "/icons-HomePage/BelajarDariTutor.png",
+    cta: "Verifikasi ID Kampus",
+    icon: BadgeCheck,
   },
   {
     title: "Bagikan Keahlian",
     desc: "Buka kelas sendiri, bangun reputasi akademik, perkuat portofolio kepemimpinan, dan dapatkan penghasilan tambahan semester ini bersama teman sebaya.",
-    cta: "Mulai Jadi Tutor →",
-    icon: "/icons-HomePage/ahli.png",
+    cta: "Mulai Jadi Tutor",
+    icon: Presentation,
   },
 ];
 
@@ -44,13 +44,7 @@ export function WhyNexiera() {
               className="rounded-2xl bg-white p-6 text-left shadow-sm ring-1 ring-slate-100"
             >
               <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-50">
-                <Image
-                  src={f.icon}
-                  alt={f.title}
-                  width={28}
-                  height={28}
-                  className="object-contain"
-                />
+                <f.icon className="h-5 w-5 text-blue-600" strokeWidth={1.8} aria-hidden="true" />
               </div>
               <h3 className="mt-4 text-base font-semibold text-slate-900">
                 {f.title}
@@ -66,9 +60,9 @@ export function WhyNexiera() {
                       ? "/cari-kelas"
                       : "/register"
                 }
-                className="mt-4 inline-block text-sm font-medium text-blue-600 hover:underline"
+                className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-blue-600 hover:underline"
               >
-                {f.cta}
+                {f.cta} <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
               </Link>
             </div>
           ))}
