@@ -1,22 +1,18 @@
-// src/lib/storage.ts
 import { AcademicCourse, UserProfile } from "@/src/types/course";
 import { INITIAL_COURSES, INITIAL_USER } from "./mockData";
 
 const STORAGE_KEYS = {
-  COURSES: "nexiera_academic_courses",
+  COURSES: "nexiera_academic_courses_v2",
   USER: "nexiera_current_user",
+  REGISTERED: "nexiera_registered_courses",
 };
 
-// Dispatch custom event for cross-component reactivity
 function dispatchCustomEvent(name: string) {
   if (typeof window !== "undefined") {
     window.dispatchEvent(new Event(name));
   }
 }
 
-/**
- * Get all courses, merging mock data with newly added courses from localStorage
- */
 export function getStoredCourses(): AcademicCourse[] {
   if (typeof window === "undefined") {
     return INITIAL_COURSES;
@@ -30,6 +26,10 @@ export function getStoredCourses(): AcademicCourse[] {
     }
     const parsed = JSON.parse(raw);
     if (Array.isArray(parsed) && parsed.length > 0) {
+      if (!parsed[0].mainCategory) {
+        localStorage.setItem(STORAGE_KEYS.COURSES, JSON.stringify(INITIAL_COURSES));
+        return INITIAL_COURSES;
+      }
       return parsed;
     }
     return INITIAL_COURSES;
@@ -39,17 +39,12 @@ export function getStoredCourses(): AcademicCourse[] {
   }
 }
 
-/**
- * Add a new course to localStorage
- */
 export function saveNewCourse(course: Omit<AcademicCourse, "id" | "createdAt">): AcademicCourse {
   const currentCourses = getStoredCourses();
   const newCourse: AcademicCourse = {
     ...course,
     id: `course-${Date.now()}`,
     createdAt: new Date().toISOString(),
-    rating: 5.0,
-    reviewCount: 1,
   };
 
   const updatedCourses = [newCourse, ...currentCourses];
@@ -66,17 +61,52 @@ export function saveNewCourse(course: Omit<AcademicCourse, "id" | "createdAt">):
   return newCourse;
 }
 
-/**
- * Get single course by ID
- */
 export function getCourseById(id: string): AcademicCourse | undefined {
   const courses = getStoredCourses();
   return courses.find((c) => c.id === id);
 }
 
-/**
- * Get current user profile
- */
+export function getRegisteredCourseIds(): string[] {
+  if (typeof window === "undefined") {
+    return [];
+  }
+  try {
+    const raw = localStorage.getItem(STORAGE_KEYS.REGISTERED);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (error) {
+    console.error("Error reading registered courses:", error);
+    return [];
+  }
+}
+
+export function isCourseRegistered(courseId: string): boolean {
+  const list = getRegisteredCourseIds();
+  return list.includes(courseId);
+}
+
+export function registerCourse(courseId: string): void {
+  const current = getRegisteredCourseIds();
+  if (!current.includes(courseId)) {
+    const updated = [courseId, ...current];
+    if (typeof window !== "undefined") {
+      try {
+        localStorage.setItem(STORAGE_KEYS.REGISTERED, JSON.stringify(updated));
+        dispatchCustomEvent("nexiera_registration_update");
+      } catch (error) {
+        console.error("Error saving registered course:", error);
+      }
+    }
+  }
+}
+
+export function getRegisteredCourses(): AcademicCourse[] {
+  const ids = getRegisteredCourseIds();
+  const allCourses = getStoredCourses();
+  return allCourses.filter((course) => ids.includes(course.id));
+}
+
 export function getStoredUser(): UserProfile {
   if (typeof window === "undefined") {
     return INITIAL_USER;
@@ -95,9 +125,6 @@ export function getStoredUser(): UserProfile {
   }
 }
 
-/**
- * Update user profile or login status
- */
 export function saveStoredUser(user: Partial<UserProfile>): UserProfile {
   const current = getStoredUser();
   const updated: UserProfile = { ...current, ...user };
@@ -114,17 +141,11 @@ export function saveStoredUser(user: Partial<UserProfile>): UserProfile {
   return updated;
 }
 
-/**
- * Logout current user
- */
 export function logoutUser(): void {
   const user = getStoredUser();
   saveStoredUser({ ...user, isLoggedIn: false });
 }
 
-/**
- * Login user
- */
 export function loginUser(email?: string, fullName?: string): UserProfile {
   const user = getStoredUser();
   return saveStoredUser({

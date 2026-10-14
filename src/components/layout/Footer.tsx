@@ -4,21 +4,21 @@ import { Logo } from "@/src/components/ui/Logo";
 
 const COLUMNS = [
   {
-    title: "KATEGORI MATKUL",
+    title: "KATEGORI UTAMA",
     links: [
       { label: "Sains & Teknologi", href: "/cari-kelas?category=Sains%20%26%20Teknologi" },
-      { label: "Computer Science", href: "/cari-kelas?category=Computer%20Science" },
       { label: "Ekonomi & Bisnis", href: "/cari-kelas?category=Ekonomi%20%26%20Bisnis" },
-      { label: "Sosial Humaniora", href: "/cari-kelas?category=Sosial%20%26%20Hukum" },
+      { label: "Sosial & Hukum", href: "/cari-kelas?category=Sosial%20%26%20Hukum" },
       { label: "Kesehatan & Kedokteran", href: "/cari-kelas?category=Kesehatan%20%26%20Kedokteran" },
+      { label: "Seni & Desain", href: "/cari-kelas?category=Seni%20%26%20Desain" },
     ],
   },
   {
     title: "MAHASISWA & STUDI",
     links: [
       { label: "Cari Kelas Kuliah", href: "/cari-kelas" },
-      { label: "Notion Study Hub", href: "/cari-kelas" },
-      { label: "Persiapan UTS / UAS", href: "/cari-kelas" },
+      { label: "Catatan Belajar Mahasiswa", href: "/cari-kelas" },
+      { label: "Dashboard Kelas Saya", href: "/kelas-saya" },
       { label: "Tutor Sebaya Terverifikasi", href: "/cari-kelas" },
       { label: "Panduan Mahasiswa Baru", href: "/tentang-kami" },
     ],

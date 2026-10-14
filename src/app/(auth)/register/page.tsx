@@ -23,7 +23,6 @@ export default function RegisterPage() {
 
     setIsLoading(true);
 
-    // Save initial user and redirect to onboarding to pick Campus and Major
     saveStoredUser({
       fullName: fullName || "Mahasiswa BINUS",
       email: email || "student@binus.ac.id",

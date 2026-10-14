@@ -4,8 +4,23 @@ import { useEffect, useState, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import { AcademicCourse, CourseType, PricingModel } from "@/src/types/course";
 import { getStoredCourses } from "@/src/lib/storage";
+import { CATEGORIES_DATA } from "@/src/lib/mockData";
 import { ClassCard } from "./ClassCard";
-import { BadgeCheck, BookOpenText, Building2, Check, ChevronDown, ChevronLeft, ChevronRight, CreditCard, RotateCcw, Search, X, Rocket, Handshake } from "lucide-react";
+import {
+  BookOpen,
+  Check,
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  CreditCard,
+  GraduationCap,
+  Layers,
+  RotateCcw,
+  Search,
+  X,
+  Rocket,
+  Handshake,
+} from "lucide-react";
 
 export function CourseCatalog() {
   const searchParams = useSearchParams();
@@ -13,15 +28,16 @@ export function CourseCatalog() {
 
   const [courses, setCourses] = useState<AcademicCourse[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [campusFilter, setCampusFilter] = useState("ALL");
-  const [categoryFilter, setCategoryFilter] = useState(initialCategory);
+
+  const [mainCategoryFilter, setMainCategoryFilter] = useState(initialCategory);
+  const [majorFilter, setMajorFilter] = useState("ALL");
+  const [subjectFilter, setSubjectFilter] = useState("ALL");
+
   const [typeFilter, setTypeFilter] = useState<"ALL" | CourseType>("ALL");
   const [pricingFilter, setPricingFilter] = useState<"ALL" | PricingModel>("ALL");
-  const [verifiedOnly, setVerifiedOnly] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
 
-  // Load courses and subscribe to new course additions from BuatKelasForm
   useEffect(() => {
     setCourses(getStoredCourses());
 
@@ -35,65 +51,103 @@ export function CourseCatalog() {
     };
   }, []);
 
-  // Update category filter if URL search param changes
   useEffect(() => {
     const cat = searchParams.get("category");
     if (cat) {
-      setCategoryFilter(cat);
+      setMainCategoryFilter(cat);
+      setMajorFilter("ALL");
+      setSubjectFilter("ALL");
     }
   }, [searchParams]);
 
+  const availableMajors = useMemo(() => {
+    if (mainCategoryFilter !== "ALL" && CATEGORIES_DATA[mainCategoryFilter]) {
+      return Object.keys(CATEGORIES_DATA[mainCategoryFilter]);
+    }
+    const allMajors = new Set<string>();
+    Object.values(CATEGORIES_DATA).forEach((majorsObj) => {
+      Object.keys(majorsObj).forEach((m) => allMajors.add(m));
+    });
+    return Array.from(allMajors);
+  }, [mainCategoryFilter]);
+
+  const availableSubjects = useMemo(() => {
+    if (mainCategoryFilter !== "ALL" && majorFilter !== "ALL") {
+      return CATEGORIES_DATA[mainCategoryFilter]?.[majorFilter] || [];
+    }
+    if (majorFilter !== "ALL") {
+      for (const cat of Object.keys(CATEGORIES_DATA)) {
+        if (CATEGORIES_DATA[cat][majorFilter]) {
+          return CATEGORIES_DATA[cat][majorFilter];
+        }
+      }
+    }
+    if (mainCategoryFilter !== "ALL" && CATEGORIES_DATA[mainCategoryFilter]) {
+      const subjects: string[] = [];
+      Object.values(CATEGORIES_DATA[mainCategoryFilter]).forEach((list) => {
+        subjects.push(...list);
+      });
+      return Array.from(new Set(subjects));
+    }
+    return Array.from(new Set(courses.map((c) => c.title)));
+  }, [mainCategoryFilter, majorFilter, courses]);
+
   const handleResetFilter = () => {
     setSearchQuery("");
-    setCampusFilter("ALL");
-    setCategoryFilter("ALL");
+    setMainCategoryFilter("ALL");
+    setMajorFilter("ALL");
+    setSubjectFilter("ALL");
     setTypeFilter("ALL");
     setPricingFilter("ALL");
-    setVerifiedOnly(false);
     setCurrentPage(1);
   };
 
-  // Filtered courses
   const filteredCourses = useMemo(() => {
     return courses.filter((course) => {
-      // Search query (title, description, tags, organizer)
       if (searchQuery.trim()) {
         const query = searchQuery.toLowerCase();
         const matchesTitle = course.title.toLowerCase().includes(query);
-        const matchesDesc = course.shortDescription.toLowerCase().includes(query) || course.fullDescription.toLowerCase().includes(query);
-        const matchesCategory = course.subjectCategory.toLowerCase().includes(query);
+        const matchesDesc =
+          course.shortDescription?.toLowerCase().includes(query) ||
+          course.fullDescription?.toLowerCase().includes(query);
         const matchesOrganizer = course.organizerName.toLowerCase().includes(query);
-        const matchesTags = course.tags?.some((t) => t.toLowerCase().includes(query));
-        if (!matchesTitle && !matchesDesc && !matchesCategory && !matchesOrganizer && !matchesTags) {
+        if (!matchesTitle && !matchesDesc && !matchesOrganizer) {
           return false;
         }
       }
 
-      // Campus filter
-      if (campusFilter !== "ALL" && course.university !== campusFilter) {
-        return false;
+      if (mainCategoryFilter !== "ALL") {
+        const courseCategory = course.mainCategory || course.subjectCategory || "";
+        if (courseCategory.toLowerCase() !== mainCategoryFilter.toLowerCase()) {
+          return false;
+        }
       }
 
-      // Category filter
-      if (categoryFilter !== "ALL" && !course.subjectCategory.toLowerCase().includes(categoryFilter.toLowerCase())) {
-        return false;
+      if (majorFilter !== "ALL") {
+        const courseMajor = course.major || "";
+        if (courseMajor.toLowerCase() !== majorFilter.toLowerCase()) {
+          return false;
+        }
       }
 
-      // Type filter
+      if (subjectFilter !== "ALL") {
+        if (!course.title.toLowerCase().includes(subjectFilter.toLowerCase())) {
+          return false;
+        }
+      }
+
       if (typeFilter !== "ALL" && course.type !== typeFilter) {
         return false;
       }
 
-      // Pricing model filter
       if (pricingFilter !== "ALL" && course.pricingModel !== pricingFilter) {
         return false;
       }
 
       return true;
     });
-  }, [courses, searchQuery, campusFilter, categoryFilter, typeFilter, pricingFilter]);
+  }, [courses, searchQuery, mainCategoryFilter, majorFilter, subjectFilter, typeFilter, pricingFilter]);
 
-  // Pagination
   const totalPages = Math.ceil(filteredCourses.length / itemsPerPage) || 1;
   const paginatedCourses = filteredCourses.slice(
     (currentPage - 1) * itemsPerPage,
@@ -102,10 +156,9 @@ export function CourseCatalog() {
 
   return (
     <div className="mx-auto max-w-7xl px-6 py-6">
-      {/* ── Filter Bar ────────────────────────────────────────── */}
-      <div className="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-sm">
-        <div className="flex flex-col gap-3 lg:flex-row">
-          {/* Keyword Search */}
+      <div className="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-xs">
+
+        <div className="flex flex-col gap-3">
           <div className="flex flex-1 items-center gap-2.5 rounded-xl border border-slate-200 bg-slate-50/70 px-3.5 py-2.5 focus-within:border-blue-400 focus-within:bg-white focus-within:ring-2 focus-within:ring-blue-100 transition-all">
             <Search className="h-4 w-4 text-slate-400" aria-hidden="true" />
             <input
@@ -115,8 +168,8 @@ export function CourseCatalog() {
                 setSearchQuery(e.target.value);
                 setCurrentPage(1);
               }}
-              placeholder="Cari Mata Kuliah: Algorithm, Software Engineering, Kalkulus, Database..."
-              className="w-full bg-transparent text-sm text-slate-800 outline-none placeholder:text-slate-400"
+              placeholder="Cari Mata Kuliah: Algorithm, Software Engineering, Database, Manajemen Keuangan..."
+              className="w-full bg-transparent text-xs sm:text-sm text-slate-800 outline-none placeholder:text-slate-400"
             />
             {searchQuery && (
               <button
@@ -129,58 +182,95 @@ export function CourseCatalog() {
             )}
           </div>
 
-          {/* Campus & Category Select */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:w-[480px]">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             <div className="relative">
-              <Building2 className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" aria-hidden="true" />
-              <select
-                value={campusFilter}
-                onChange={(e) => {
-                  setCampusFilter(e.target.value);
-                  setCurrentPage(1);
-                }}
-                className="w-full appearance-none rounded-xl border border-slate-200 bg-slate-50/70 py-2.5 pl-9 pr-8 text-xs font-semibold text-slate-700 outline-none focus:border-blue-400 focus:bg-white"
-              >
-                <option value="ALL">Semua Kampus</option>
-                <option value="BINUS University">BINUS University</option>
-                <option value="Universitas Indonesia">Universitas Indonesia (UI)</option>
-                <option value="Institut Teknologi Bandung">ITB Bandung</option>
-              </select>
-              <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" aria-hidden="true" />
+              <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1 block">
+                1. Kategori Utama
+              </label>
+              <div className="relative">
+                <Layers className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" aria-hidden="true" />
+                <select
+                  value={mainCategoryFilter}
+                  onChange={(e) => {
+                    setMainCategoryFilter(e.target.value);
+                    setMajorFilter("ALL");
+                    setSubjectFilter("ALL");
+                    setCurrentPage(1);
+                  }}
+                  className="w-full appearance-none rounded-xl border border-slate-200 bg-slate-50/80 py-2.5 pl-9 pr-8 text-xs font-semibold text-slate-700 outline-none focus:border-blue-400 focus:bg-white transition-all"
+                >
+                  <option value="ALL">Semua Kategori Utama</option>
+                  {Object.keys(CATEGORIES_DATA).map((cat) => (
+                    <option key={cat} value={cat}>
+                      {cat}
+                    </option>
+                  ))}
+                </select>
+                <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" aria-hidden="true" />
+              </div>
             </div>
 
             <div className="relative">
-              <BookOpenText className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" aria-hidden="true" />
-              <select
-                value={categoryFilter}
-                onChange={(e) => {
-                  setCategoryFilter(e.target.value);
-                  setCurrentPage(1);
-                }}
-                className="w-full appearance-none rounded-xl border border-slate-200 bg-slate-50/70 py-2.5 pl-9 pr-8 text-xs font-semibold text-slate-700 outline-none focus:border-blue-400 focus:bg-white"
-              >
-                <option value="ALL">Semua Bidang Keahlian</option>
-                <option value="Computer Science">Computer Science</option>
-                <option value="Sains & Teknologi">Sains &amp; Teknologi</option>
-                <option value="Ekonomi & Bisnis">Ekonomi &amp; Bisnis</option>
-                <option value="Sosial & Hukum">Sosial &amp; Hukum</option>
-                <option value="Kesehatan & Kedokteran">Kesehatan &amp; Kedokteran</option>
-              </select>
-              <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" aria-hidden="true" />
+              <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1 block">
+                2. Jurusan
+              </label>
+              <div className="relative">
+                <GraduationCap className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" aria-hidden="true" />
+                <select
+                  value={majorFilter}
+                  onChange={(e) => {
+                    setMajorFilter(e.target.value);
+                    setSubjectFilter("ALL");
+                    setCurrentPage(1);
+                  }}
+                  className="w-full appearance-none rounded-xl border border-slate-200 bg-slate-50/80 py-2.5 pl-9 pr-8 text-xs font-semibold text-slate-700 outline-none focus:border-blue-400 focus:bg-white transition-all"
+                >
+                  <option value="ALL">Semua Jurusan</option>
+                  {availableMajors.map((m) => (
+                    <option key={m} value={m}>
+                      {m}
+                    </option>
+                  ))}
+                </select>
+                <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" aria-hidden="true" />
+              </div>
+            </div>
+
+            <div className="relative">
+              <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1 block">
+                3. Mata Kuliah
+              </label>
+              <div className="relative">
+                <BookOpen className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" aria-hidden="true" />
+                <select
+                  value={subjectFilter}
+                  onChange={(e) => {
+                    setSubjectFilter(e.target.value);
+                    setCurrentPage(1);
+                  }}
+                  className="w-full appearance-none rounded-xl border border-slate-200 bg-slate-50/80 py-2.5 pl-9 pr-8 text-xs font-semibold text-slate-700 outline-none focus:border-blue-400 focus:bg-white transition-all"
+                >
+                  <option value="ALL">Semua Mata Kuliah</option>
+                  {availableSubjects.map((sub) => (
+                    <option key={sub} value={sub}>
+                      {sub}
+                    </option>
+                  ))}
+                </select>
+                <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" aria-hidden="true" />
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Sub Filters: Tipe Kelas & Model Biaya & Reset */}
-        <div className="mt-4 flex flex-col gap-3 border-t border-slate-100 pt-3 md:flex-row md:items-center md:justify-between">
+        <div className="mt-4 flex flex-col gap-3 border-t border-slate-100 pt-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex flex-wrap items-center gap-2">
-            {/* Tipe Filter Buttons */}
             <div className="inline-flex rounded-lg border border-slate-200 bg-slate-50 p-0.5">
               <button
                 type="button"
                 onClick={() => setTypeFilter("ALL")}
                 className={`rounded-md px-3 py-1.5 text-xs font-semibold transition-colors ${
-                  typeFilter === "ALL" ? "bg-white text-blue-600 shadow-sm" : "text-slate-600 hover:text-slate-900"
+                  typeFilter === "ALL" ? "bg-white text-blue-600 shadow-xs" : "text-slate-600 hover:text-slate-900"
                 }`}
               >
                 Semua Tipe
@@ -189,29 +279,28 @@ export function CourseCatalog() {
                 type="button"
                 onClick={() => setTypeFilter("BOOTCAMP")}
                 className={`rounded-md px-3 py-1.5 text-xs font-semibold transition-colors ${
-                  typeFilter === "BOOTCAMP" ? "bg-cyan-600 text-white shadow-sm" : "text-slate-600 hover:text-slate-900"
+                  typeFilter === "BOOTCAMP" ? "bg-cyan-600 text-white shadow-xs" : "text-slate-600 hover:text-slate-900"
                 }`}
               >
-                <Rocket className="mr-1 inline h-3.5 w-3.5" aria-hidden="true" /> Bootcamp
+                <Rocket className="mr-1 inline h-3 w-3" aria-hidden="true" /> Bootcamp
               </button>
               <button
                 type="button"
                 onClick={() => setTypeFilter("PEER_TUTORING")}
                 className={`rounded-md px-3 py-1.5 text-xs font-semibold transition-colors ${
-                  typeFilter === "PEER_TUTORING" ? "bg-blue-600 text-white shadow-sm" : "text-slate-600 hover:text-slate-900"
+                  typeFilter === "PEER_TUTORING" ? "bg-blue-600 text-white shadow-xs" : "text-slate-600 hover:text-slate-900"
                 }`}
               >
-                <Handshake className="mr-1 inline h-3.5 w-3.5" aria-hidden="true" /> Peer-Tutoring
+                <Handshake className="mr-1 inline h-3 w-3" aria-hidden="true" /> Peer-Tutoring
               </button>
             </div>
 
-            {/* Pricing Filter Buttons */}
             <div className="inline-flex rounded-lg border border-slate-200 bg-slate-50 p-0.5">
               <button
                 type="button"
                 onClick={() => setPricingFilter("ALL")}
                 className={`rounded-md px-3 py-1.5 text-xs font-semibold transition-colors ${
-                  pricingFilter === "ALL" ? "bg-white text-blue-600 shadow-sm" : "text-slate-600 hover:text-slate-900"
+                  pricingFilter === "ALL" ? "bg-white text-blue-600 shadow-xs" : "text-slate-600 hover:text-slate-900"
                 }`}
               >
                 Semua Biaya
@@ -220,19 +309,19 @@ export function CourseCatalog() {
                 type="button"
                 onClick={() => setPricingFilter("FREE")}
                 className={`rounded-md px-3 py-1.5 text-xs font-semibold transition-colors ${
-                  pricingFilter === "FREE" ? "bg-emerald-600 text-white shadow-sm" : "text-slate-600 hover:text-slate-900"
+                  pricingFilter === "FREE" ? "bg-emerald-600 text-white shadow-xs" : "text-slate-600 hover:text-slate-900"
                 }`}
               >
-                <Check className="mr-1 inline h-3.5 w-3.5" aria-hidden="true" /> Gratis
+                <Check className="mr-1 inline h-3 w-3" aria-hidden="true" /> Gratis
               </button>
               <button
                 type="button"
                 onClick={() => setPricingFilter("PAID")}
                 className={`rounded-md px-3 py-1.5 text-xs font-semibold transition-colors ${
-                  pricingFilter === "PAID" ? "bg-slate-800 text-white shadow-sm" : "text-slate-600 hover:text-slate-900"
+                  pricingFilter === "PAID" ? "bg-slate-800 text-white shadow-xs" : "text-slate-600 hover:text-slate-900"
                 }`}
               >
-                <CreditCard className="mr-1 inline h-3.5 w-3.5" aria-hidden="true" /> Berbayar
+                <CreditCard className="mr-1 inline h-3 w-3" aria-hidden="true" /> Berbayar
               </button>
             </div>
 
@@ -245,104 +334,70 @@ export function CourseCatalog() {
             </button>
           </div>
 
-          <label className="flex cursor-pointer items-center gap-2 text-xs font-semibold text-slate-700">
-            <input
-              type="checkbox"
-              checked={verifiedOnly}
-              onChange={(e) => setVerifiedOnly(e.target.checked)}
-              className="h-4 w-4 rounded border-slate-300 text-blue-600 accent-blue-600 cursor-pointer"
-            />
-            <span className="inline-flex items-center gap-1"><BadgeCheck className="h-4 w-4 text-blue-600" aria-hidden="true" /> Sertifikasi &amp; Terverifikasi Resmi Kampus</span>
-          </label>
-        </div>
-      </div>
-
-      {/* ── Results Header ───────────────────────────────────── */}
-      <div className="mt-8 flex items-center justify-between">
-        <div>
-          <span className="text-xs font-bold tracking-wider text-blue-600 uppercase">
-            Kurikulum Terverifikasi
-          </span>
-          <h2 className="mt-1 text-2xl font-black text-slate-900">
-            Katalog Kelas Akademik &amp; UTS/UAS
-          </h2>
-          <p className="mt-0.5 text-xs text-slate-500">
-            Bimbingan terstruktur 100% mata kuliah kampus untuk persiapan ujian dan praktikum semester.
-          </p>
-        </div>
-
-        <div className="text-right">
-          <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-bold text-blue-700">
-            {filteredCourses.length} Kelas Tersedia
+          <span className="text-xs text-slate-500 font-medium">
+            Menampilkan <strong className="text-slate-800">{filteredCourses.length}</strong> kelas akademik
           </span>
         </div>
       </div>
 
-      {/* ── Courses Grid ─────────────────────────────────────── */}
-      {paginatedCourses.length > 0 ? (
-        <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {paginatedCourses.map((course) => (
-            <ClassCard key={course.id} item={course} />
-          ))}
-        </div>
-      ) : (
-        <div className="mt-10 rounded-2xl border border-dashed border-slate-300 bg-white p-12 text-center">
-          <Search className="mx-auto h-10 w-10 text-slate-300" strokeWidth={1.5} aria-hidden="true" />
-          <h3 className="mt-3 text-lg font-bold text-slate-900">Tidak ada kelas yang cocok</h3>
-          <p className="mt-1 text-xs text-slate-500">
-            Coba ubah kata kunci pencarian atau reset filter untuk melihat semua kelas yang tersedia.
-          </p>
-          <button
-            type="button"
-            onClick={handleResetFilter}
-            className="mt-4 rounded-xl bg-blue-600 px-5 py-2 text-xs font-bold text-white hover:bg-blue-700"
-          >
-            Reset Semua Filter
-          </button>
-        </div>
-      )}
-
-      {/* ── Pagination ────────────────────────────────────────── */}
-      {totalPages > 1 && (
-        <div className="mt-10 flex flex-col items-center justify-between gap-4 rounded-2xl border border-slate-200/80 bg-white p-4 sm:flex-row shadow-sm">
-          <p className="text-xs text-slate-600">
-            Menampilkan{" "}
-            <span className="font-bold text-slate-900">
-              {(currentPage - 1) * itemsPerPage + 1} -{" "}
-              {Math.min(currentPage * itemsPerPage, filteredCourses.length)}
-            </span>{" "}
-            dari <span className="font-bold text-slate-900">{filteredCourses.length}</span> Kelas
-          </p>
-
-          <div className="flex items-center gap-1.5">
+      <div className="mt-8">
+        {filteredCourses.length === 0 ? (
+          <div className="rounded-3xl border border-slate-200 bg-white p-12 text-center shadow-xs">
+            <h3 className="text-base font-bold text-slate-800">Tidak ada kelas yang cocok</h3>
+            <p className="mt-1 text-xs text-slate-500">
+              Coba sesuaikan kombinasi Kategori Utama, Jurusan, atau kata kunci pencarian kamu.
+            </p>
             <button
-              disabled={currentPage === 1}
-              onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
-              className="flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 text-xs font-bold text-slate-600 disabled:opacity-40 hover:bg-slate-50"
+              type="button"
+              onClick={handleResetFilter}
+              className="mt-4 rounded-xl bg-blue-600 px-4 py-2 text-xs font-bold text-white hover:bg-blue-700"
             >
-              <ChevronLeft className="h-4 w-4" aria-hidden="true" />
-            </button>
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-              <button
-                key={page}
-                onClick={() => setCurrentPage(page)}
-                className={`h-8 w-8 rounded-lg text-xs font-bold transition-colors ${
-                  currentPage === page
-                    ? "bg-blue-600 text-white shadow-sm"
-                    : "border border-slate-200 text-slate-600 hover:bg-slate-50"
-                }`}
-              >
-                {page}
-              </button>
-            ))}
-            <button
-              disabled={currentPage === totalPages}
-              onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
-              className="flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 text-xs font-bold text-slate-600 disabled:opacity-40 hover:bg-slate-50"
-            >
-              <ChevronRight className="h-4 w-4" aria-hidden="true" />
+              Reset Semua Filter
             </button>
           </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {paginatedCourses.map((course) => (
+              <ClassCard key={course.id} item={course} />
+            ))}
+          </div>
+        )}
+      </div>
+
+      {totalPages > 1 && (
+        <div className="mt-10 flex items-center justify-center gap-2">
+          <button
+            type="button"
+            disabled={currentPage === 1}
+            onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+            className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 disabled:opacity-40"
+          >
+            <ChevronLeft className="h-4 w-4" aria-hidden="true" />
+          </button>
+
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+            <button
+              key={page}
+              type="button"
+              onClick={() => setCurrentPage(page)}
+              className={`flex h-9 w-9 items-center justify-center rounded-xl text-xs font-bold transition-all ${
+                currentPage === page
+                  ? "bg-blue-600 text-white shadow-xs"
+                  : "border border-slate-200 bg-white text-slate-700 hover:bg-slate-50"
+              }`}
+            >
+              {page}
+            </button>
+          ))}
+
+          <button
+            type="button"
+            disabled={currentPage === totalPages}
+            onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+            className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 disabled:opacity-40"
+          >
+            <ChevronRight className="h-4 w-4" aria-hidden="true" />
+          </button>
         </div>
       )}
     </div>

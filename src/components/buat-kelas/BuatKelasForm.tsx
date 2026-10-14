@@ -1,16 +1,26 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowRight, BookOpenText, Check, CircleCheck, CreditCard, Handshake, MonitorPlay, Rocket, X } from "lucide-react";
+import {
+  BookOpenText,
+  Check,
+  CircleCheck,
+  CreditCard,
+  Handshake,
+  MonitorPlay,
+  Rocket,
+  Video,
+  X,
+} from "lucide-react";
 import { saveNewCourse, getStoredUser } from "@/src/lib/storage";
+import { CATEGORIES_DATA } from "@/src/lib/mockData";
 import { CourseType, MaterialPlatform, MeetingPlatform, PricingModel, Tutor } from "@/src/types/course";
 
-/* ── Section Title ────────────────────────────────────────────── */
 function SectionTitle({ num, label }: { num: string; label: string }) {
   return (
     <div className="mb-4 flex items-center gap-3">
-      <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-blue-600 text-xs font-black text-white shadow-sm shadow-blue-500/20">
+      <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-blue-600 text-xs font-black text-white shadow-xs">
         {num}
       </span>
       <h2 className="text-base font-bold text-slate-900">{label}</h2>
@@ -45,23 +55,27 @@ function Field({
 }
 
 const inputCls =
-  "w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-800 placeholder:text-slate-400 outline-none transition-all focus:border-blue-500 focus:ring-2 focus:ring-blue-100";
+  "w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-xs sm:text-sm text-slate-800 placeholder:text-slate-400 outline-none transition-all focus:border-blue-500 focus:ring-2 focus:ring-blue-100";
 
 export function BuatKelasForm() {
   const router = useRouter();
   const currentUser = getStoredUser();
 
-  // Form State
-  const [category, setCategory] = useState("Computer Science");
-  const [university, setUniversity] = useState(currentUser.campus || "BINUS University");
+  const [mainCategory, setMainCategory] = useState("Sains & Teknologi");
+  const [major, setMajor] = useState("Computer Science");
   const [title, setTitle] = useState("");
+  const [university, setUniversity] = useState(currentUser.campus || "BINUS University");
   const [shortDesc, setShortDesc] = useState("");
   const [fullDesc, setFullDesc] = useState("");
+
+  const availableMajors = useMemo(() => {
+    return CATEGORIES_DATA[mainCategory] ? Object.keys(CATEGORIES_DATA[mainCategory]) : [];
+  }, [mainCategory]);
+
   const [type, setType] = useState<CourseType>("BOOTCAMP");
   const [pricingModel, setPricingModel] = useState<PricingModel>("FREE");
   const [priceAmount, setPriceAmount] = useState<number>(50000);
 
-  // Requirements & Facilities list
   const [requirements, setRequirements] = useState<string[]>([
     "Mahasiswa aktif jurusan terkait",
     "Membawa laptop & software perkuliahan terpasang",
@@ -69,22 +83,22 @@ export function BuatKelasForm() {
   const [newReq, setNewReq] = useState("");
 
   const [facilities, setFacilities] = useState<string[]>([
-    "Catatan Rapi Notion Study Hub (Rangkuman Lengkap)",
+    "Catatan Belajar Lengkap",
     "Bank Soal UTS & UAS beserta Solusi",
-    "Rekaman Tatap Muka HD & Source Code",
+    "Sesi Diskusi Interaktif",
   ]);
   const [newFac, setNewFac] = useState("");
 
-  // Metadata
   const [scheduleDate, setScheduleDate] = useState("10 Februari 2026");
   const [accessDuration, setAccessDuration] = useState("Selamanya (Lifetime Access)");
   const [maxQuota, setMaxQuota] = useState(25);
+
   const [meetingPlatform, setMeetingPlatform] = useState<MeetingPlatform>("ZOOM");
   const [meetingUrl, setMeetingUrl] = useState("https://zoom.us/j/1234567890");
   const [materialPlatform, setMaterialPlatform] = useState<MaterialPlatform>("NOTION");
-  const [materialUrl, setMaterialUrl] = useState("https://notion.so/nexiera/study-hub-materi");
+  const [materialUrl, setMaterialUrl] = useState(""); // Opsional
+  const [recordingUrl, setRecordingUrl] = useState(""); // Opsional
 
-  // Organizer & Multi-Tutors (Section 4 Blueprint)
   const [organizerName, setOrganizerName] = useState(
     type === "BOOTCAMP" ? "Booster Academy" : currentUser.fullName || "Nicholas Aryan"
   );
@@ -97,34 +111,37 @@ export function BuatKelasForm() {
     },
   ]);
 
-  // Handlers for Requirements
-  const handleAddRequirement = () => {
-    if (newReq.trim()) {
-      setRequirements([...requirements, newReq.trim()]);
-      setNewReq("");
+  const handleCategoryChange = (newCat: string) => {
+    setMainCategory(newCat);
+    const majors = CATEGORIES_DATA[newCat] ? Object.keys(CATEGORIES_DATA[newCat]) : [];
+    if (majors.length > 0) {
+      setMajor(majors[0]);
     }
   };
-  const handleRemoveRequirement = (idx: number) => {
-    setRequirements(requirements.filter((_, i) => i !== idx));
-  };
 
-  // Handlers for Facilities
-  const handleAddFacility = () => {
-    if (newFac.trim()) {
-      setFacilities([...facilities, newFac.trim()]);
-      setNewFac("");
+  const handleTypeChange = (newType: CourseType) => {
+    setType(newType);
+    if (newType === "BOOTCAMP") {
+      setOrganizerName("Booster Academy");
+    } else {
+      setOrganizerName(currentUser.fullName || "Nicholas Aryan");
+      setTutors([
+        {
+          id: "tutor-main",
+          name: currentUser.fullName || "Nicholas Aryan",
+          role: `Mahasiswa ${major || "Computer Science"} ${currentUser.campus || "BINUS"}`,
+          avatarUrl: currentUser.avatarUrl || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=256&q=80",
+        },
+      ]);
     }
   };
-  const handleRemoveFacility = (idx: number) => {
-    setFacilities(facilities.filter((_, i) => i !== idx));
-  };
 
-  // Handlers for Multi-Tutor
   const handleAddTutor = () => {
+    if (type !== "BOOTCAMP") return;
     const newTutor: Tutor = {
       id: `tutor-${Date.now()}`,
       name: "",
-      role: "Teaching Assistant / Co-Mentor",
+      role: `Mahasiswa ${major} ${university}`,
       avatarUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=256&q=80",
     };
     setTutors([...tutors, newTutor]);
@@ -142,14 +159,26 @@ export function BuatKelasForm() {
     }
   };
 
-  // Switch type and synchronize organizer defaults
-  const handleTypeChange = (newType: CourseType) => {
-    setType(newType);
-    if (newType === "BOOTCAMP") {
-      setOrganizerName("Booster Academy");
-    } else {
-      setOrganizerName(currentUser.fullName || "Nicholas Aryan");
+  const handleAddRequirement = () => {
+    if (newReq.trim()) {
+      setRequirements([...requirements, newReq.trim()]);
+      setNewReq("");
     }
+  };
+
+  const handleRemoveRequirement = (idx: number) => {
+    setRequirements(requirements.filter((_, i) => i !== idx));
+  };
+
+  const handleAddFacility = () => {
+    if (newFac.trim()) {
+      setFacilities([...facilities, newFac.trim()]);
+      setNewFac("");
+    }
+  };
+
+  const handleRemoveFacility = (idx: number) => {
+    setFacilities(facilities.filter((_, i) => i !== idx));
   };
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -158,15 +187,21 @@ export function BuatKelasForm() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!title.trim() || !shortDesc.trim()) {
-      alert("Mohon lengkapi nama kelas dan deskripsi singkat.");
+      alert("Mohon lengkapi nama mata kuliah dan deskripsi singkat.");
+      return;
+    }
+    if (!meetingUrl.trim()) {
+      alert("Mohon sertakan Link Sesi Live.");
       return;
     }
 
     setIsSubmitting(true);
 
     const newCourseData = {
-      title,
-      subjectCategory: category,
+      title: title.trim(),
+      mainCategory,
+      major,
+      subjectCategory: mainCategory,
       university,
       shortDescription: shortDesc,
       fullDescription: fullDesc || shortDesc,
@@ -177,16 +212,16 @@ export function BuatKelasForm() {
       organizerLogo: type === "BOOTCAMP" ? "/logo.png" : undefined,
       tutors: tutors.filter((t) => t.name.trim() !== ""),
       meetingPlatform,
-      meetingUrl,
-      materialPlatform,
-      materialUrl,
+      meetingUrl: meetingUrl.trim(),
+      materialPlatform: materialUrl.trim() ? materialPlatform : undefined,
+      materialUrl: materialUrl.trim() || undefined,
+      recordingUrl: recordingUrl.trim() || undefined,
       scheduleDate,
       accessDuration,
       maxQuota: Number(maxQuota),
       availableSeats: Number(maxQuota),
       requirements: requirements.length > 0 ? requirements : ["Mahasiswa aktif"],
-      facilities: facilities.length > 0 ? facilities : ["Catatan Rapi Notion"],
-      tags: [category.replace(/\s+/g, ""), type === "BOOTCAMP" ? "Bootcamp" : "PeerTutoring"],
+      facilities: facilities.length > 0 ? facilities : ["Catatan Belajar"],
     };
 
     saveNewCourse(newCourseData);
@@ -198,32 +233,62 @@ export function BuatKelasForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-8 rounded-3xl border border-slate-200/80 bg-white p-6 shadow-sm md:p-10">
+    <form onSubmit={handleSubmit} className="space-y-8 rounded-3xl border border-slate-200/80 bg-white p-6 shadow-xs md:p-10">
       {successMsg && (
         <div className="rounded-2xl bg-emerald-50 border border-emerald-200 p-4 text-center">
-          <p className="flex items-center justify-center gap-2 text-sm font-bold text-emerald-800"><CircleCheck className="h-4 w-4" aria-hidden="true" /> {successMsg}</p>
+          <p className="flex items-center justify-center gap-2 text-sm font-bold text-emerald-800">
+            <CircleCheck className="h-4 w-4" aria-hidden="true" /> {successMsg}
+          </p>
         </div>
       )}
 
-      {/* ── 1. Program & Kategori Header ──────────────────────── */}
       <section>
-        <SectionTitle num="1" label="Program & Kategori Header" />
+        <SectionTitle num="1" label="Kategori & Akademik" />
         <div className="grid gap-5 md:grid-cols-2">
-          <Field label="Kategori Bidang / Jurusan" required>
-            <div className="relative">
-              <select
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-                className={inputCls}
-              >
-                <option value="Computer Science">Computer Science</option>
-                <option value="Sains & Teknologi">Sains &amp; Teknologi</option>
-                <option value="Ekonomi & Bisnis">Ekonomi &amp; Bisnis</option>
-                <option value="Sosial & Hukum">Sosial &amp; Hukum</option>
-                <option value="Kesehatan & Kedokteran">Kesehatan &amp; Kedokteran</option>
-                <option value="Seni Desain & Arsitektur">Seni Desain &amp; Arsitektur</option>
-              </select>
-            </div>
+          <Field label="Kategori Utama" required>
+            <select
+              value={mainCategory}
+              onChange={(e) => handleCategoryChange(e.target.value)}
+              className={inputCls}
+              required
+            >
+              {Object.keys(CATEGORIES_DATA).map((cat) => (
+                <option key={cat} value={cat}>
+                  {cat}
+                </option>
+              ))}
+            </select>
+          </Field>
+
+          <Field label="Jurusan" required>
+            <select
+              value={major}
+              onChange={(e) => setMajor(e.target.value)}
+              className={inputCls}
+              required
+            >
+              {availableMajors.map((m) => (
+                <option key={m} value={m}>
+                  {m}
+                </option>
+              ))}
+            </select>
+          </Field>
+
+          <Field
+            label="Nama Mata Kuliah"
+            required
+            hint="Tanpa kode matkul internal"
+            className="md:col-span-2"
+          >
+            <input
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="Contoh: Algorithm and Programming"
+              className={inputCls}
+              required
+            />
           </Field>
 
           <Field label="Institusi / Universitas" required>
@@ -233,15 +298,16 @@ export function BuatKelasForm() {
               onChange={(e) => setUniversity(e.target.value)}
               placeholder="BINUS University"
               className={inputCls}
+              required
             />
           </Field>
 
-          <Field label="Nama Kelas / Mata Kuliah" required hint="Maksimal 90 karakter" className="md:col-span-2">
+          <Field label="Tanggal Pelaksanaan" required>
             <input
               type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="Contoh: Algoritma & Pemrograman (COMP6047) - Bedah Soal UTS"
+              value={scheduleDate}
+              onChange={(e) => setScheduleDate(e.target.value)}
+              placeholder="10 Februari 2026"
               className={inputCls}
               required
             />
@@ -252,23 +318,22 @@ export function BuatKelasForm() {
               rows={2}
               value={shortDesc}
               onChange={(e) => setShortDesc(e.target.value)}
-              placeholder="Ringkasan fokus materi semester 1-4, pembahasan pointer, struct, dan latihan SOCS..."
+              placeholder="Ringkasan materi perkuliahan, pembahasan latihan soal, dan persiapan menghadapi ujian..."
               className={inputCls + " resize-none"}
               required
             />
           </Field>
 
-          <Field label="Tentang Kelas & Kurikulum Lengkap" required hint="Penjelasan komprehensif" className="md:col-span-2">
+          <Field label="Tentang Kelas & Kurikulum Lengkap" hint="Penjelasan komprehensif" className="md:col-span-2">
             <textarea
               rows={4}
               value={fullDesc}
               onChange={(e) => setFullDesc(e.target.value)}
-              placeholder="Program bimbingan intensif yang dirancang khusus untuk membantu kamu menguasai materi perkuliahan secara terstruktur. Dilengkapi dengan Akses Catatan Rapi for Notion (Notion Study Hub) yang mencakup rangkuman materi, pembahasan latihan soal, hingga persiapan ujian."
+              placeholder="Program bimbingan terarah yang dirancang untuk membantu mahasiswa menguasai konsep dasar hingga studi kasus ujian perkuliahan secara sistematis."
               className={inputCls + " resize-none"}
             />
           </Field>
 
-          {/* Interactive Requirements */}
           <div className="md:col-span-2">
             <Field label="Syarat & Prasyarat Mahasiswa">
               <div className="space-y-2">
@@ -304,9 +369,8 @@ export function BuatKelasForm() {
             </Field>
           </div>
 
-          {/* Interactive Facilities */}
           <div className="md:col-span-2">
-            <Field label="Fasilitas & Metode Belajar">
+            <Field label="Fasilitas Belajar">
               <div className="space-y-2">
                 {facilities.map((fac, i) => (
                   <div key={i} className="flex items-center justify-between rounded-lg bg-blue-50/60 px-3 py-2 text-xs text-blue-900 font-medium">
@@ -342,21 +406,14 @@ export function BuatKelasForm() {
         </div>
       </section>
 
-      {/* ── 2. Detail & Spesifikasi Event ─────────────────────── */}
       <section className="border-t border-slate-100 pt-6">
-        <SectionTitle num="2" label="Detail & Spesifikasi Event (Metadata Kartu)" />
-        <div className="grid gap-5 md:grid-cols-2">
-          <Field label="Tanggal Pelaksanaan" required>
-            <input
-              type="text"
-              value={scheduleDate}
-              onChange={(e) => setScheduleDate(e.target.value)}
-              placeholder="10 Februari 2026"
-              className={inputCls}
-            />
-          </Field>
+        <SectionTitle num="2" label="Link Akses Pembelajaran" />
+        <p className="mb-4 text-xs text-slate-500">
+          Tautan aktif akan diakses peserta melalui Dashboard Peserta (Kelas Saya). Tautan opsional yang dikosongkan tidak akan di-render sama sekali.
+        </p>
 
-          <Field label="Platform Tatap Muka Online" required>
+        <div className="grid gap-5 md:grid-cols-2">
+          <Field label="Platform Sesi Live" required>
             <select
               value={meetingPlatform}
               onChange={(e) => setMeetingPlatform(e.target.value as MeetingPlatform)}
@@ -368,74 +425,60 @@ export function BuatKelasForm() {
             </select>
           </Field>
 
-          <Field label="Masa Akses Materi" required>
-            <select
-              value={accessDuration}
-              onChange={(e) => setAccessDuration(e.target.value)}
-              className={inputCls}
-            >
-              <option value="Selamanya (Lifetime Access)">Selamanya (Lifetime Access)</option>
-              <option value="1 Semester Aktif">1 Semester Aktif</option>
-              <option value="Hingga Pekan UAS Selesai">Hingga Pekan UAS Selesai</option>
-            </select>
+          <Field label="Link Sesi Live (Zoom / Google Meet / Discord)" required>
+            <div className="relative">
+              <input
+                type="url"
+                value={meetingUrl}
+                onChange={(e) => setMeetingUrl(e.target.value)}
+                placeholder="https://zoom.us/j/... atau https://meet.google.com/..."
+                className={inputCls}
+                required
+              />
+              <MonitorPlay className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" aria-hidden="true" />
+            </div>
           </Field>
 
-          <Field label="Batas Kuota Peserta" required>
-            <input
-              type="number"
-              value={maxQuota}
-              min={1}
-              max={200}
-              onChange={(e) => setMaxQuota(Number(e.target.value))}
-              className={inputCls}
-            />
-            <p className="mt-1 text-[11px] text-blue-600 font-medium">
-              Akan ditampilkan di badge kartu: <b>Sisa {maxQuota} Kuota</b>
-            </p>
-          </Field>
-        </div>
-      </section>
-
-      {/* ── 3. Centralized Access Hub Links ───────────────────── */}
-      <section className="border-t border-slate-100 pt-6">
-        <SectionTitle num="3" label="Centralized Access Hub (Notion & Ruang Kelas)" />
-        <p className="mb-4 text-xs text-slate-500">
-          Peserta yang mendaftar akan mendapatkan akses otomatis ke link Notion Study Hub dan ruang video conference.
-        </p>
-        <div className="grid gap-5 md:grid-cols-2">
-          <Field label="Link Catatan Notion Study Hub" required>
+          <Field
+            label="Link Catatan / Materi"
+            hint="Opsional — Kosongkan jika tidak ada"
+            className="md:col-span-2"
+          >
             <div className="relative">
               <input
                 type="url"
                 value={materialUrl}
                 onChange={(e) => setMaterialUrl(e.target.value)}
-                placeholder="https://notion.so/..."
+                placeholder="https://... (Link dokumen catatan / materi belajar)"
                 className={inputCls}
               />
               <BookOpenText className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" aria-hidden="true" />
             </div>
           </Field>
 
-          <Field label="Link Ruang Video Meeting" required>
+          <Field
+            label="Link Penyimpanan / Rekaman Sesi"
+            hint="Opsional — Untuk peserta yang berhalangan hadir"
+            className="md:col-span-2"
+          >
             <div className="relative">
               <input
                 type="url"
-                value={meetingUrl}
-                onChange={(e) => setMeetingUrl(e.target.value)}
-                placeholder="https://zoom.us/j/... atau meet.google.com/..."
+                value={recordingUrl}
+                onChange={(e) => setRecordingUrl(e.target.value)}
+                placeholder="https://drive.google.com/... (Link Google Drive / Cloud rekaman video)"
                 className={inputCls}
               />
-              <MonitorPlay className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" aria-hidden="true" />
+              <Video className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" aria-hidden="true" />
             </div>
           </Field>
         </div>
       </section>
 
-      {/* ── 4. Tipe Kelas & Penyelenggara (Section 4 Blueprint) ─ */}
       <section className="border-t border-slate-100 pt-6">
-        <SectionTitle num="4" label="Tipe Struktur Kelas & Penyelenggara" />
-        <Field label="Pilih Tipe Struktur Kelas" required>
-          <div className="grid grid-cols-2 gap-4">
+        <SectionTitle num="3" label="Penyelenggara & Multi-Tutor" />
+        <Field label="Tipe Struktur Kelas" required>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <button
               type="button"
               onClick={() => handleTypeChange("BOOTCAMP")}
@@ -446,11 +489,15 @@ export function BuatKelasForm() {
               }`}
             >
               <div className="flex items-center justify-between">
-                <span className="inline-flex items-center gap-1.5 text-sm font-bold"><Rocket className="h-4 w-4" aria-hidden="true" /> Bootcamp</span>
-                <span className="text-xs font-semibold text-cyan-700 bg-cyan-100/80 px-2 py-0.5 rounded-full">Mitra / Organisasi</span>
+                <span className="inline-flex items-center gap-1.5 text-sm font-bold">
+                  <Rocket className="h-4 w-4" aria-hidden="true" /> Bootcamp
+                </span>
+                <span className="text-xs font-semibold text-cyan-700 bg-cyan-100/80 px-2 py-0.5 rounded-full">
+                  Multi-Tutor
+                </span>
               </div>
               <p className="mt-1 text-xs text-slate-500">
-                Diselenggarakan oleh organisasi (misal: Booster Academy) dengan dukungan <b>Multi-Tutor</b>.
+                Diselenggarakan oleh organisasi / tim dengan dukungan <b>Multi-Tutor</b>.
               </p>
             </button>
 
@@ -464,33 +511,36 @@ export function BuatKelasForm() {
               }`}
             >
               <div className="flex items-center justify-between">
-                <span className="inline-flex items-center gap-1.5 text-sm font-bold"><Handshake className="h-4 w-4" aria-hidden="true" /> Peer-Tutoring</span>
-                <span className="text-xs font-semibold text-blue-700 bg-blue-100/80 px-2 py-0.5 rounded-full">Individu</span>
+                <span className="inline-flex items-center gap-1.5 text-sm font-bold">
+                  <Handshake className="h-4 w-4" aria-hidden="true" /> Peer-Tutoring
+                </span>
+                <span className="text-xs font-semibold text-blue-700 bg-blue-100/80 px-2 py-0.5 rounded-full">
+                  Terkunci 1 Tutor
+                </span>
               </div>
               <p className="mt-1 text-xs text-slate-500">
-                Diselenggarakan oleh <b>1 Orang Tutor Mahasiswa</b> peraih nilai A atau Asisten Lab.
+                Diselenggarakan oleh <b>1 Orang Tutor Mahasiswa</b>.
               </p>
             </button>
           </div>
         </Field>
 
-        {/* Organizer details based on type */}
         <div className="mt-5 rounded-2xl border border-slate-200 bg-slate-50/50 p-5">
-          <Field label={type === "BOOTCAMP" ? "Nama Mitra / Organisasi" : "Nama Tutor Mahasiswa"} required>
+          <Field label={type === "BOOTCAMP" ? "Nama Organisasi / Komunitas" : "Nama Tutor Mahasiswa"} required>
             <input
               type="text"
               value={organizerName}
               onChange={(e) => setOrganizerName(e.target.value)}
-              placeholder={type === "BOOTCAMP" ? "Booster Academy" : "Nama Lengkap Anda"}
+              placeholder={type === "BOOTCAMP" ? "Booster Academy" : currentUser.fullName || "Nama Mahasiswa"}
               className={inputCls}
+              required
             />
           </Field>
 
-          {/* Multi-Tutor Section for Bootcamp */}
           <div className="mt-5">
             <div className="flex items-center justify-between mb-3">
               <label className="text-xs font-bold text-slate-800">
-                {type === "BOOTCAMP" ? "Daftar Pengajar (Multi-Tutor)" : "Profil Pengajar"}
+                {type === "BOOTCAMP" ? "Daftar Tim Pengajar (Multi-Tutor)" : "Profil Pengajar"}
               </label>
               {type === "BOOTCAMP" && (
                 <button
@@ -512,18 +562,19 @@ export function BuatKelasForm() {
                       type="text"
                       value={tutor.name}
                       onChange={(e) => handleUpdateTutor(idx, "name", e.target.value)}
-                      placeholder="Nama Tutor"
+                      placeholder="Nama murni tanpa gelar formal"
                       className={inputCls}
+                      required
                     />
                   </div>
                   <div className="flex items-end gap-2">
                     <div className="flex-1">
-                      <label className="text-[10px] font-semibold text-slate-500">Peran / Jabatan Akademik</label>
+                      <label className="text-[10px] font-semibold text-slate-500">Peran Mahasiswa</label>
                       <input
                         type="text"
                         value={tutor.role}
                         onChange={(e) => handleUpdateTutor(idx, "role", e.target.value)}
-                        placeholder="Contoh: Asisten Lab AlgoProg BINUS"
+                        placeholder={`Mahasiswa ${major} BINUS`}
                         className={inputCls}
                       />
                     </div>
@@ -533,7 +584,7 @@ export function BuatKelasForm() {
                         onClick={() => handleRemoveTutor(idx)}
                         className="rounded-lg border border-red-200 bg-red-50 p-2 text-xs font-bold text-red-600 hover:bg-red-100"
                       >
-                      <X className="h-4 w-4" aria-hidden="true" />
+                        <X className="h-4 w-4" aria-hidden="true" />
                       </button>
                     )}
                   </div>
@@ -544,72 +595,93 @@ export function BuatKelasForm() {
         </div>
       </section>
 
-      {/* ── 5. Kapasitas & Biaya Pendaftaran ───────────────────── */}
       <section className="border-t border-slate-100 pt-6">
-        <SectionTitle num="5" label="Model Biaya Pendaftaran" />
-        <Field label="Pilih Model Pembiayaan" required>
-          <div className="grid grid-cols-2 gap-4">
-            <button
-              type="button"
-              onClick={() => setPricingModel("FREE")}
-              className={`rounded-2xl border p-4 text-center font-bold transition-all ${
-                pricingModel === "FREE"
-                  ? "border-emerald-500 bg-emerald-50 text-emerald-800 ring-2 ring-emerald-200"
-                  : "border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
-              }`}
+        <SectionTitle num="4" label="Kapasitas Kuota & Biaya" />
+        <div className="grid gap-5 md:grid-cols-2">
+          <Field label="Masa Akses Pembelajaran" required>
+            <select
+              value={accessDuration}
+              onChange={(e) => setAccessDuration(e.target.value)}
+              className={inputCls}
             >
-              <Check className="mr-1 inline h-4 w-4" aria-hidden="true" /> Gratis (Akses Terbuka Mahasiswa)
-            </button>
-            <button
-              type="button"
-              onClick={() => setPricingModel("PAID")}
-              className={`rounded-2xl border p-4 text-center font-bold transition-all ${
-                pricingModel === "PAID"
-                  ? "border-blue-500 bg-blue-50 text-blue-800 ring-2 ring-blue-200"
-                  : "border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
-              }`}
-            >
-              <CreditCard className="mr-1 inline h-4 w-4" aria-hidden="true" /> Berbayar (Nominal Terjangkau)
-            </button>
-          </div>
+              <option value="Selamanya (Lifetime Access)">Selamanya (Lifetime Access)</option>
+              <option value="1 Semester Aktif">1 Semester Aktif</option>
+              <option value="Hingga Pekan UAS Selesai">Hingga Pekan UAS Selesai</option>
+            </select>
+          </Field>
+
+          <Field label="Batas Kuota Peserta" required>
+            <input
+              type="number"
+              value={maxQuota}
+              min={1}
+              max={200}
+              onChange={(e) => setMaxQuota(Number(e.target.value))}
+              className={inputCls}
+              required
+            />
+          </Field>
+        </div>
+
+        <div className="mt-5">
+          <Field label="Model Pembiayaan" required>
+            <div className="grid grid-cols-2 gap-4">
+              <button
+                type="button"
+                onClick={() => setPricingModel("FREE")}
+                className={`rounded-2xl border p-4 text-left transition-all ${
+                  pricingModel === "FREE"
+                    ? "border-emerald-500 bg-emerald-50/70 text-emerald-900 ring-2 ring-emerald-200"
+                    : "border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
+                }`}
+              >
+                <span className="text-sm font-bold text-emerald-700">GRATIS</span>
+                <p className="mt-1 text-xs text-slate-500">
+                  Terbuka bebas bagi seluruh mahasiswa.
+                </p>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setPricingModel("PAID")}
+                className={`rounded-2xl border p-4 text-left transition-all ${
+                  pricingModel === "PAID"
+                    ? "border-blue-500 bg-blue-50/70 text-blue-900 ring-2 ring-blue-200"
+                    : "border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
+                }`}
+              >
+                <span className="text-sm font-bold text-slate-900">BERBAYAR</span>
+                <p className="mt-1 text-xs text-slate-500">
+                  Biaya partisipasi terjangkau.
+                </p>
+              </button>
+            </div>
+          </Field>
 
           {pricingModel === "PAID" && (
             <div className="mt-4">
-              <Field label="Nominal Biaya (Rp)" required hint="Contoh: 45000">
-                <div className="relative">
-                  <span className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-sm font-bold text-slate-400">Rp</span>
-                  <input
-                    type="number"
-                    value={priceAmount}
-                    onChange={(e) => setPriceAmount(Number(e.target.value))}
-                    min={5000}
-                    step={5000}
-                    placeholder="45000"
-                    className={inputCls + " pl-10"}
-                    required
-                  />
-                </div>
+              <Field label="Nominal Biaya (Rp)" required>
+                <input
+                  type="number"
+                  value={priceAmount}
+                  onChange={(e) => setPriceAmount(Number(e.target.value))}
+                  min={5000}
+                  step={5000}
+                  className={inputCls}
+                />
               </Field>
             </div>
           )}
-        </Field>
+        </div>
       </section>
 
-      {/* ── Submit Actions ────────────────────────────────────── */}
-      <div className="flex flex-col items-center justify-between gap-4 border-t border-slate-100 pt-6 sm:flex-row">
-        <button
-          type="button"
-          onClick={() => router.push("/cari-kelas")}
-          className="w-full sm:w-auto rounded-xl border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-700 hover:bg-slate-50 transition-colors"
-        >
-          Batal &amp; Kembali
-        </button>
+      <div className="pt-4 border-t border-slate-100 flex justify-end">
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-8 py-3.5 text-sm font-bold text-white shadow-lg shadow-blue-500/25 hover:bg-blue-700 transition-all hover:scale-[1.02] disabled:opacity-50"
+          className="rounded-xl bg-blue-600 px-8 py-3.5 text-sm font-bold text-white shadow-md hover:bg-blue-700 transition-all disabled:opacity-50"
         >
-          {isSubmitting ? "Mempublikasikan..." : <>Publikasikan Kelas Sekarang <ArrowRight className="ml-1 inline h-4 w-4" aria-hidden="true" /></>}
+          {isSubmitting ? "Menerbitkan Kelas..." : "Publikasikan Kelas"}
         </button>
       </div>
     </form>

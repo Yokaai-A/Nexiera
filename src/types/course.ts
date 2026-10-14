@@ -1,4 +1,3 @@
-// src/types/course.ts
 
 export type CourseType = "PEER_TUTORING" | "BOOTCAMP";
 export type PricingModel = "FREE" | "PAID";
@@ -7,33 +6,34 @@ export type MaterialPlatform = "NOTION" | "DRIVE" | "PDF" | "GITHUB";
 
 export interface Tutor {
   id: string;
-  name: string;
+  name: string; // Nama murni tanpa gelar formal
   role: string; // Contoh: "Mahasiswa Computer Science BINUS"
   avatarUrl: string;
 }
 
 export interface AcademicCourse {
   id: string;
-  title: string; // Contoh: "Algoritma & Pemrograman"
-  subjectCategory: string; // Contoh: "Computer Science"
+  title: string; // Nama mata kuliah murni (tanpa kode matkul)
+  mainCategory: string; // Contoh: "Sains & Teknologi", "Ekonomi & Bisnis"
+  major: string; // Contoh: "Computer Science", "Information Systems"
+  subjectCategory?: string; // Kompatibilitas mundur
   university: string; // Default: "BINUS University"
   shortDescription: string;
   fullDescription: string;
 
   type: CourseType; // "PEER_TUTORING" | "BOOTCAMP"
   pricingModel: PricingModel; // "FREE" | "PAID"
-  priceAmount?: number; // Input angka nominal Rp (jika berbayar)
+  priceAmount?: number;
 
-  // Penyelenggara & Multi-Tutor
-  organizerName: string; // Nama Tutor atau Nama Mitra (Booster Academy)
+  organizerName: string;
   organizerLogo?: string;
   tutors: Tutor[]; // 1 orang jika Peer-Tutoring, Multi-tutor jika Bootcamp
 
-  // Centralized Access Hub Links
   meetingPlatform: MeetingPlatform;
-  meetingUrl: string; // Link Zoom / GMeet
-  materialPlatform: MaterialPlatform;
-  materialUrl: string; // Link Catatan Notion
+  meetingUrl: string; // Link Sesi Live (Zoom / GMeet / Discord)
+  materialPlatform?: MaterialPlatform;
+  materialUrl?: string; // Link Catatan / Materi (Opsional - Invisible jika kosong)
+  recordingUrl?: string; // Link Penyimpanan / Rekaman Sesi (Opsional - Invisible jika kosong)
 
   scheduleDate: string;
   accessDuration: string; // Contoh: "Lifetime Access"
@@ -43,7 +43,6 @@ export interface AcademicCourse {
   facilities: string[];
   createdAt: string;
 
-  // Metadata tambahan untuk UI
   tags?: string[];
   rating?: number;
   reviewCount?: number;
@@ -64,7 +63,9 @@ export interface UserProfile {
 export interface FilterState {
   searchQuery: string;
   campus: string;
-  subjectCategory: string;
+  mainCategory: string;
+  major: string;
+  courseSubject: string;
   courseType: "ALL" | CourseType;
   pricingModel: "ALL" | PricingModel;
   campusVerifiedOnly: boolean;

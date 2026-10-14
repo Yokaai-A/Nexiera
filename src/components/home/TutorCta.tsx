@@ -6,7 +6,7 @@ export function TutorCta() {
     <section className="mx-auto max-w-7xl px-6 py-14">
       <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-blue-700 via-blue-600 to-indigo-700 px-8 py-12 text-white shadow-xl shadow-blue-500/10 md:px-12">
         <div className="absolute right-0 top-0 -mr-16 -mt-16 h-64 w-64 rounded-full bg-white/10 blur-2xl pointer-events-none" />
-        
+
         <div className="relative flex flex-col items-start justify-between gap-8 md:flex-row md:items-center">
           <div>
             <span className="inline-block rounded-full bg-white/20 px-3.5 py-1 text-xs font-semibold tracking-wide uppercase backdrop-blur-sm">

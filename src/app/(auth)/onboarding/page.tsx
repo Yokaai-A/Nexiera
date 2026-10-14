@@ -73,7 +73,6 @@ export default function OnboardingPage() {
         </div>
 
         <form onSubmit={handleFinish} className="mt-8 space-y-5">
-          {/* Campus selection */}
           <div>
             <label className="mb-1.5 block text-xs font-bold text-slate-700">
               Kampus Asal <span className="text-red-500">*</span>
@@ -97,7 +96,6 @@ export default function OnboardingPage() {
             </p>
           </div>
 
-          {/* Major selection */}
           <div>
             <label className="mb-1.5 block text-xs font-bold text-slate-700">
               Program Studi / Jurusan <span className="text-red-500">*</span>
@@ -118,7 +116,6 @@ export default function OnboardingPage() {
             </div>
           </div>
 
-          {/* Semester & Student ID simulation */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="mb-1.5 block text-xs font-bold text-slate-700">

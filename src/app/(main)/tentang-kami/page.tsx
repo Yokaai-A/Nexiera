@@ -23,15 +23,15 @@ const FOUNDERS = [
   },
   {
     name: "Clarissa Wijaya",
-    role: "Head of Academic Curriculum & Notion Study Hub",
+    role: "Head of Academic Curriculum & Learning Notes",
     major: "Computer Science, BINUS University",
-    bio: "Mantan asisten laboratorium AlgoProg yang merancang standardisasi catatan kuliah Notion Study Hub dan bank soal persiapan UTS/UAS.",
+    bio: "Merancang standardisasi catatan kuliah terstruktur dan bank soal persiapan UTS/UAS bagi mahasiswa.",
   },
   {
     name: "Kevin Sanjaya",
     role: "Director of Tutor Community & Partner Network",
     major: "Computer Science, BINUS University",
-    bio: "Menghubungkan mitra organisasi seperti Booster Academy dan membina ratusan tutor mahasiswa berprestasi lintas kampus.",
+    bio: "Menghubungkan mitra organisasi seperti Booster Academy dan membina tutor mahasiswa berprestasi lintas kampus.",
   },
   {
     name: "Rizky Pratama",
@@ -49,8 +49,8 @@ const VALUES = [
   },
   {
     icon: BookOpenText,
-    title: "Catatan Notion Study Hub",
-    desc: "Catatan yang tersusun baik membuat waktu belajar lebih bermakna. Melalui Notion Study Hub, silabus, rangkuman, dan pembahasan latihan dapat dikumpulkan dalam format yang lebih rapi sehingga mahasiswa bisa kembali ke materi penting tanpa harus mencarinya dari awal.",
+    title: "Catatan Belajar Terstruktur",
+    desc: "Catatan yang tersusun baik membuat waktu belajar lebih bermakna. Melalui tautan catatan belajar, silabus, rangkuman, dan pembahasan latihan dapat dikumpulkan dalam format yang rapi sehingga mahasiswa bisa kembali ke materi penting tanpa harus mencarinya dari awal.",
   },
   {
     icon: UsersRound,
@@ -62,7 +62,6 @@ const VALUES = [
 export default function TentangKamiPage() {
   return (
     <div className="bg-background min-h-screen pb-20">
-      {/* ── Hero Section ────────────────────────────────────── */}
       <section className="relative flex min-h-[calc(100svh-74px)] items-center justify-center overflow-hidden bg-gradient-to-b from-blue-50/80 via-white to-background py-20">
         <div className="mx-auto max-w-5xl px-6 text-center">
           <div className="inline-flex items-center gap-2 rounded-full bg-blue-100/70 px-4 py-1 text-xs font-bold text-blue-700 ring-1 ring-blue-200">
@@ -82,7 +81,6 @@ export default function TentangKamiPage() {
         </div>
       </section>
 
-      {/* ── Mission & Story ─────────────────────────────────── */}
       <section className="mx-auto max-w-5xl px-6 py-10">
         <div className="grid gap-8 md:grid-cols-2 items-center rounded-3xl border border-slate-200/80 bg-white p-8 md:p-12 shadow-sm">
           <div>
@@ -125,17 +123,16 @@ export default function TentangKamiPage() {
                 <Check className="h-3.5 w-3.5" aria-hidden="true" /> Verifikasi Status Mahasiswa Resmi
               </div>
               <div className="flex items-center gap-2">
-                <Check className="h-3.5 w-3.5" aria-hidden="true" /> Review Kurikulum oleh Asisten Laboratorium
+                <Check className="h-3.5 w-3.5" aria-hidden="true" /> Review Kurikulum Selaras Silabus Perkuliahan
               </div>
               <div className="flex items-center gap-2">
-                <Check className="h-3.5 w-3.5" aria-hidden="true" /> Transparansi Materi via Notion Study Hub
+                <Check className="h-3.5 w-3.5" aria-hidden="true" /> Transparansi Materi Belajar &amp; Tautan Akses
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── Key Values ───────────────────────────────────────── */}
       <section className="mx-auto max-w-5xl px-6 py-10">
         <div className="text-center mb-8">
           <span className="text-xs font-bold tracking-wider text-blue-600 uppercase">
@@ -162,7 +159,6 @@ export default function TentangKamiPage() {
         </div>
       </section>
 
-      {/* ── 5 Founders BINUS Section (Blueprint 3.2 & 5 [5]) ── */}
       <section className="mx-auto max-w-6xl px-6 py-12">
         <div className="text-center mb-10">
           <span className="rounded-full bg-blue-50 px-3.5 py-1 text-xs font-bold text-blue-700 ring-1 ring-blue-100 uppercase tracking-wide">
@@ -213,7 +209,6 @@ export default function TentangKamiPage() {
         </div>
       </section>
 
-      {/* ── Call To Action ───────────────────────────────────── */}
       <section className="mx-auto max-w-5xl px-6 pt-6">
         <div className="rounded-3xl bg-slate-900 p-8 sm:p-12 text-center text-white shadow-xl">
           <h2 className="text-2xl sm:text-3xl font-extrabold">

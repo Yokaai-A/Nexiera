@@ -58,7 +58,6 @@ export function PromoSlider() {
             </div>
           ))}
 
-          {/* Navigation Arrows */}
           <button
             type="button"
             aria-label="Slide sebelumnya"
@@ -76,7 +75,6 @@ export function PromoSlider() {
             ›
           </button>
 
-          {/* Dots */}
           <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 rounded-full bg-black/30 backdrop-blur-sm px-3 py-1.5">
             {SLIDES.map((_, i) => (
               <button

@@ -3,9 +3,9 @@ import type { Metadata } from "next";
 import { DetailKelas } from "@/src/components/detail-kelas/DetailKelas";
 
 export const metadata: Metadata = {
-  title: "Detail Kelas Akademik & Notion Study Hub — Nexiera",
+  title: "Detail Kelas Akademik & Catatan Belajar — Nexiera",
   description:
-    "Detail bimbingan mata kuliah, tautan Notion Study Hub, dan jadwal tatap muka interaktif.",
+    "Detail bimbingan mata kuliah, tautan catatan belajar, dan jadwal tatap muka interaktif.",
 };
 
 export default function DetailKelasPage() {

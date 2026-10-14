@@ -42,13 +42,11 @@ export function AuthLayout({ children }: { children: React.ReactNode }) {
       }}
     >
       <div className="grid w-full max-w-4xl overflow-hidden rounded-3xl bg-white/95 backdrop-blur-md shadow-2xl ring-1 ring-slate-200/80 md:grid-cols-2">
-        {/* LEFT — form panel */}
         <div className="flex flex-col p-8 sm:p-10">
           <TabToggle />
           <div className="mt-6 flex-1 flex flex-col justify-center">{children}</div>
         </div>
 
-        {/* RIGHT — welcome panel */}
         <div
           className="hidden flex-col items-center justify-center p-10 md:flex relative overflow-hidden"
           style={{

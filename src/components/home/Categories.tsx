@@ -4,68 +4,56 @@ import { ArrowRight, Atom, BriefcaseBusiness, HeartPulse, Palette, Scale, Sprout
 const CATEGORIES = [
   {
     name: "Sains & Teknologi",
-    slug: "Sains & Teknologi",
-    desc: "Kalkulus, Fisika Dasar, Kimia Organik, Pemrograman Dasar, Matematika Diskrit, Struktur Data...",
-    count: "120+ Kelas",
+    desc: "Computer Science, Information Systems, Mobile App, Cyber Security, Kalkulus, Fisika Dasar...",
     icon: Atom,
   },
   {
     name: "Ekonomi & Bisnis",
-    slug: "Ekonomi & Bisnis",
-    desc: "Pengantar Akuntansi, Ekonomi Mikro/Makro, Manajemen Keuangan, Statistika Bisnis...",
-    count: "98+ Kelas",
+    desc: "Akuntansi, Manajemen Keuangan, Ekonomi Mikro/Makro, Statistika Bisnis...",
     icon: BriefcaseBusiness,
   },
   {
     name: "Sosial & Hukum",
-    slug: "Sosial & Hukum",
-    desc: "Hukum Perdata/Pidana, Analisis Data Sosial, Komunikasi Massa, Hubungan Internasional...",
-    count: "85+ Kelas",
+    desc: "Hukum Bisnis, Hukum Perdata, Komunikasi Massa, Hubungan Internasional...",
     icon: Scale,
   },
   {
     name: "Kesehatan & Kedokteran",
-    slug: "Kesehatan & Kedokteran",
-    desc: "Anatomi, Farmakologi, Fisiologi, Biokimia Klinis, Keperawatan Medikal Bedah...",
-    count: "140+ Kelas",
+    desc: "Anatomi, Farmakologi Dasar, Fisiologi, Biokimia Klinis...",
     icon: HeartPulse,
   },
   {
-    name: "Seni, Desain & Arsitektur",
-    slug: "Seni Desain & Arsitektur",
-    desc: "Gambar Teknik, Estetika Bentuk, Studio Perancangan Arsitektur, Mekanika Bahan...",
-    count: "64+ Kelas",
+    name: "Seni & Desain",
+    desc: "Desain Komunikasi Visual, Tipografi, Gambar Teknik Arsitektur, Desain Interior...",
     icon: Palette,
   },
   {
     name: "Pertanian & Peternakan",
-    slug: "Pertanian & Peternakan",
-    desc: "Agroteknologi, Agronomi, Ilmu Tanah, Genetika Tanaman & Ternak, Nutrisi Pakan...",
-    count: "210+ Tutor",
+    desc: "Agroteknologi, Dasar Agronomi, Ilmu Tanah, Nutrisi Ternak...",
     icon: Sprout,
   },
 ];
 
 export function Categories() {
   return (
-    <section className="mx-auto max-w-7xl px-6 py-14">
+    <section className="mx-auto max-w-7xl px-6 py-12">
       <div className="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
         <div>
-          <span className="text-xs font-semibold tracking-wider text-blue-600 uppercase">
+          <span className="text-xs font-bold tracking-wider text-blue-600 uppercase">
             Eksplorasi Kurikulum Kampus
           </span>
-          <h2 className="mt-1 text-3xl font-bold text-slate-900">
-            Kategori Kelas Paling Diminati
+          <h2 className="mt-1 text-2xl sm:text-3xl font-bold text-slate-900">
+            Kategori Rumpun Keilmuan
           </h2>
-          <p className="mt-1 text-sm text-slate-500">
+          <p className="mt-1 text-xs text-slate-500">
             Pilih rumpun keilmuan yang ingin kamu tingkatkan pemahamannya semester ini.
           </p>
         </div>
         <Link
           href="/cari-kelas"
-          className="text-sm font-semibold text-blue-600 hover:text-blue-700 hover:underline flex items-center gap-1"
+          className="text-xs font-semibold text-blue-600 hover:text-blue-700 hover:underline flex items-center gap-1"
         >
-          Lihat Semua Katalog <ArrowRight className="h-4 w-4" aria-hidden="true" />
+          Lihat Semua Katalog <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
         </Link>
       </div>
 
@@ -73,25 +61,22 @@ export function Categories() {
         {CATEGORIES.map((c) => (
           <Link
             key={c.name}
-            href={`/cari-kelas?category=${encodeURIComponent(c.slug)}`}
-            className="group relative rounded-2xl border border-slate-100 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-blue-200 hover:shadow-md"
+            href={`/cari-kelas?category=${encodeURIComponent(c.name)}`}
+            className="group relative rounded-2xl border border-slate-100 bg-white p-6 shadow-xs transition-all duration-300 hover:-translate-y-1 hover:border-blue-200 hover:shadow-md"
           >
-            <span className="absolute right-5 top-5 rounded-full bg-slate-50 px-2.5 py-1 text-xs font-medium text-slate-500">
-              {c.count}
-            </span>
             <div className="flex items-start gap-4">
               <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-blue-50/80 group-hover:bg-blue-100 transition-colors">
                 <c.icon className="h-5 w-5 text-blue-600" strokeWidth={1.8} aria-hidden="true" />
               </div>
-              <h3 className="text-base font-bold text-slate-900 group-hover:text-blue-600 transition-colors pr-14">
+              <h3 className="text-base font-bold text-slate-900 group-hover:text-blue-600 transition-colors">
                 {c.name}
               </h3>
             </div>
-            <p className="mt-4 text-xs leading-relaxed text-slate-500 line-clamp-3">
+            <p className="mt-3 text-xs leading-relaxed text-slate-500 line-clamp-2">
               {c.desc}
             </p>
             <div className="mt-4 flex items-center gap-1 text-xs font-semibold text-blue-600 group-hover:translate-x-1 transition-transform">
-              Jelajahi Mata Kuliah <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+              Jelajahi Kelas <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
             </div>
           </Link>
         ))}
