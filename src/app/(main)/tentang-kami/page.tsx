@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, BadgeCheck, BookOpenText, Check, Landmark, Target, UsersRound } from "lucide-react";
+import { ArrowRight, BookOpenText, Check, Landmark, Target, UsersRound } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Tentang Kami — NEXIERA",
@@ -11,33 +11,33 @@ export const metadata: Metadata = {
 const FOUNDERS = [
   {
     name: "Muhammad Abyan Hanif",
-    role: "Chief Executive & Lead System Architect",
+    role: "Chief Executive Officer (CEO)",
     major: "Computer Science, BINUS University",
-    bio: "Penggagas visi marketplace bimbingan matkul terpusat. Berfokus pada arsitektur sistem performa tinggi dan skalabilitas ekosistem kampus.",
+    bio: "Memimpin arah strategis platform, arsitektur produk bimbingan akademik, serta perancangan ekosistem belajar terarah bagi mahasiswa.",
   },
   {
-    name: "Nicholas Aryan",
-    role: "Head of Product & Platform Experience",
+    name: "Nicholas Carlen",
+    role: "Chief Finance Officer (CFO)",
     major: "Computer Science, BINUS University",
-    bio: "Mengorkestrasi desain kurikulum dan pengalaman belajar interaktif yang mempermudah mahasiswa menemukan tutor sebaya terbaik.",
+    bio: "Bertanggung jawab atas tata kelola keuangan, struktur biaya pembelajaran, dan keberlanjutan model operasional platform NEXIERA.",
   },
   {
-    name: "Clarissa Wijaya",
-    role: "Head of Academic Curriculum & Learning Notes",
+    name: "Cornelia Jovita Putri Pramesti",
+    role: "Chief Marketing Officer (CMO)",
     major: "Computer Science, BINUS University",
-    bio: "Merancang standardisasi catatan kuliah terstruktur dan bank soal persiapan UTS/UAS bagi mahasiswa.",
+    bio: "Mengelola strategi komunikasi, engagement komunitas mahasiswa, serta memperluas jangkauan bimbingan belajar antarkampus.",
   },
   {
-    name: "Kevin Sanjaya",
-    role: "Director of Tutor Community & Partner Network",
+    name: "Muhammad Afif Syauqi",
+    role: "Chief Technology Officer (CTO)",
     major: "Computer Science, BINUS University",
-    bio: "Menghubungkan mitra organisasi seperti Booster Academy dan membina tutor mahasiswa berprestasi lintas kampus.",
+    bio: "Mengembangkan infrastruktur aplikasi, stabilitas sistem bimbingan, serta menjamin keandalan dan keamanan akses pembelajaran.",
   },
   {
-    name: "Rizky Pratama",
-    role: "Lead Platform Engineer & Security",
+    name: "Alexander Vian Hardjowibowo",
+    role: "Chief Operational Officer (COO)",
     major: "Computer Science, BINUS University",
-    bio: "Menjaga keandalan platform, integrasi verifikasi mahasiswa, dan keamanan data peserta bimbingan akademik.",
+    bio: "Mengorkestrasi operasional harian, standarisasi alur bimbingan tutor, serta koordinasi kelancaran program belajar mahasiswa.",
   },
 ];
 
@@ -177,32 +177,25 @@ export default function TentangKamiPage() {
             <div
               key={f.name}
               className={`rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md ${
-                i === 0 ? "sm:col-span-2 lg:col-span-1 border-blue-200 ring-2 ring-blue-100" : ""
+                i === 0 ? "sm:col-span-2 lg:col-span-1 border-blue-200" : ""
               }`}
             >
-              <div className="min-h-20">
-                  <h3 className="text-base font-bold text-slate-900">
-                    {f.name}
-                  </h3>
-                  <p className="text-xs font-bold text-blue-600">
-                    {f.role}
-                  </p>
-                  <p className="text-[11px] font-medium text-slate-400">
-                    {f.major}
-                  </p>
+              <div>
+                <h3 className="text-base font-bold text-slate-900">
+                  {f.name}
+                </h3>
+                <p className="text-xs font-bold text-blue-600 mt-0.5">
+                  {f.role}
+                </p>
+                <p className="text-[11px] font-medium text-slate-500 mt-0.5">
+                  {f.major}
+                </p>
               </div>
 
               <div className="mt-4 border-t border-slate-100 pt-3">
                 <p className="text-xs leading-relaxed text-slate-600">
                   {f.bio}
                 </p>
-              </div>
-
-              <div className="mt-4 flex items-center justify-between text-[11px] text-slate-400">
-                <span className="inline-flex items-center gap-1 font-semibold text-emerald-600">
-                  <BadgeCheck className="h-3.5 w-3.5" aria-hidden="true" /> Verified BINUS CS
-                </span>
-                <span>Founding Team 2026</span>
               </div>
             </div>
           ))}

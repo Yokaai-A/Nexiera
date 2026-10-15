@@ -64,7 +64,7 @@ export function Categories() {
             href={`/cari-kelas?category=${encodeURIComponent(c.name)}`}
             className="group relative rounded-2xl border border-slate-100 bg-white p-6 shadow-xs transition-all duration-300 hover:-translate-y-1 hover:border-blue-200 hover:shadow-md"
           >
-            <div className="flex items-start gap-4">
+            <div className="flex items-center gap-4">
               <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-blue-50/80 group-hover:bg-blue-100 transition-colors">
                 <c.icon className="h-5 w-5 text-blue-600" strokeWidth={1.8} aria-hidden="true" />
               </div>

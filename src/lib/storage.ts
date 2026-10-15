@@ -2,7 +2,7 @@ import { AcademicCourse, UserProfile } from "@/src/types/course";
 import { INITIAL_COURSES, INITIAL_USER } from "./mockData";
 
 const STORAGE_KEYS = {
-  COURSES: "nexiera_academic_courses_v2",
+  COURSES: "nexiera_academic_courses_v3",
   USER: "nexiera_current_user",
   REGISTERED: "nexiera_registered_courses",
 };

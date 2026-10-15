@@ -10,7 +10,7 @@ const SLIDES = [
     tag: "FEATURED BOOTCAMP",
     title: "BOOTCAMP TERBAIK DARI BOOSTER ACADEMY PRESENTS",
     subtitle: "Kupas Tuntas Seluruh Materi CS Semester 1 - 4 & Bank Soal UTS/UAS Terlengkap",
-    ctaLink: "/detail-kelas?id=course-cs-01",
+    ctaLink: "/organizers/booster-academy",
   },
   {
     image: "/banner-cari-kelas.png",

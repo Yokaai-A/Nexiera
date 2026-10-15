@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import {
-  BadgeCheck,
   ChevronDown,
   GraduationCap,
   LayoutDashboard,
@@ -176,9 +175,6 @@ export function Navbar() {
                     <p className="text-xs text-blue-600 font-medium mt-0.5">
                       {user.campus} • {user.major}
                     </p>
-                    <span className="mt-1.5 inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-semibold text-emerald-700">
-                      <BadgeCheck className="h-3 w-3" aria-hidden="true" /> Terverifikasi Mahasiswa BINUS
-                    </span>
                   </div>
 
                   <div className="mt-2 space-y-1">

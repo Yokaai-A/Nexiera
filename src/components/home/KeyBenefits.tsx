@@ -2,23 +2,20 @@ import { BookOpenText, GraduationCap, Target } from "lucide-react";
 
 const BENEFITS = [
   {
-    title: "Catatan Belajar Lengkap",
-    tagline: "Rangkuman Silabus Terpadu",
-    desc: "Akses rangkuman rumus penting, peta konsep perkuliahan, dan bank soal UTS/UAS langsung melalui tautan catatan belajar.",
+    title: "Pemahaman Silabus Terarah",
+    desc: "Bimbingan terstruktur yang dirancang khusus mengikuti alur silabus mata kuliah semester berjalan di kampusmu, membantu menguasai konsep sulit dengan lebih cepat.",
     icon: BookOpenText,
     border: "border-blue-100",
   },
   {
     title: "Tutor Sebaya Terpilih",
-    tagline: "Mahasiswa Berprestasi",
-    desc: "Diajar langsung oleh mahasiswa peraih nilai A dan mahasiswa tingkat atas yang memahami karakter ujian di kampusmu.",
+    desc: "Belajar langsung dengan sesama mahasiswa tingkat atas yang sudah lulus mata kuliah terkait dengan nilai memuaskan dan paham karakter perkuliahan di kampusmu.",
     icon: GraduationCap,
     border: "border-cyan-100",
   },
   {
-    title: "Fokus Persiapan Ujian",
-    tagline: "Target Pemahaman Maksimal",
-    desc: "Bimbingan terstruktur 100% selaras dengan silabus mata kuliah semester berjalan. Praktis, terarah, dan siap hadapi pekan ujian.",
+    title: "Kesiapan UTS & UAS",
+    desc: "Latihan pembahasan soal dan pembedahan materi krusial secara intensif untuk memaksimalkan kesiapan menghadapi pekan ujian dan meningkatkan pencapaian IPK.",
     icon: Target,
     border: "border-emerald-100",
   },
@@ -40,9 +37,6 @@ export function KeyBenefits() {
             <h3 className="mt-5 text-lg font-bold text-slate-900 group-hover:text-blue-600 transition-colors">
               {b.title}
             </h3>
-            <p className="text-xs font-semibold uppercase tracking-wider text-slate-400 mt-1">
-              {b.tagline}
-            </p>
             <p className="mt-3 text-sm leading-relaxed text-slate-600">
               {b.desc}
             </p>

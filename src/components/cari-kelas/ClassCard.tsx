@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, BookOpenText, Building2, CalendarDays, Handshake, MonitorPlay, Rocket, UsersRound, UserRound, UserRoundCheck } from "lucide-react";
 import { AcademicCourse } from "@/src/types/course";
+import { slugify } from "@/src/lib/slug";
 
 export type ClassItem = AcademicCourse;
 
@@ -12,13 +13,17 @@ export function ClassCard({ item }: { item: AcademicCourse }) {
   const categoryName = item.mainCategory || item.subjectCategory || "Sains & Teknologi";
   const majorName = item.major || item.subjectCategory || "Computer Science";
 
+  const profileHref = isBootcamp
+    ? `/organizers/${slugify(item.organizerName)}`
+    : `/tutors/${slugify(item.tutors[0]?.name || item.organizerName)}`;
+
   return (
     <div className="group flex h-full flex-col rounded-2xl border border-slate-200/80 bg-white p-5 shadow-xs transition-all duration-300 hover:-translate-y-1 hover:border-blue-300 hover:shadow-md">
       <div>
         <div className="flex items-start justify-between gap-3">
-          <div className="flex items-center gap-2.5">
+          <Link href={profileHref} className="flex items-center gap-2.5 group/org">
             {isBootcamp ? (
-              <div className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-blue-50 ring-1 ring-blue-100 overflow-hidden">
+              <div className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-blue-50 ring-1 ring-blue-100 overflow-hidden group-hover/org:ring-blue-300 transition-all">
                 {item.organizerLogo ? (
                   <Image
                     src={item.organizerLogo}
@@ -32,7 +37,7 @@ export function ClassCard({ item }: { item: AcademicCourse }) {
                 )}
               </div>
             ) : (
-              <div className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-slate-100 ring-2 ring-blue-100 overflow-hidden">
+              <div className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-slate-100 ring-2 ring-blue-100 overflow-hidden group-hover/org:ring-blue-300 transition-all">
                 {item.organizerLogo || (item.tutors.length > 0 && item.tutors[0].avatarUrl) ? (
                   <Image
                     src={item.organizerLogo || item.tutors[0].avatarUrl}
@@ -48,14 +53,14 @@ export function ClassCard({ item }: { item: AcademicCourse }) {
             )}
 
             <div className="min-w-0">
-              <div className="truncate text-xs font-bold text-slate-800">
+              <div className="truncate text-xs font-bold text-slate-800 group-hover/org:text-blue-600 transition-colors">
                 {item.organizerName}
               </div>
               <div className="truncate text-[11px] text-slate-400">
                 {item.university}
               </div>
             </div>
-          </div>
+          </Link>
 
           {isBootcamp ? (
             <span className="shrink-0 rounded-md bg-cyan-50 px-2 py-0.5 text-[11px] font-semibold text-cyan-700 ring-1 ring-cyan-200/60">
@@ -90,12 +95,27 @@ export function ClassCard({ item }: { item: AcademicCourse }) {
             {isBootcamp ? (
               <span>
                 <strong className="text-slate-800">{item.tutors.length} Pengajar:</strong>{" "}
-                {item.tutors.map((t) => t.name).join(", ")}
+                {item.tutors.map((t, idx) => (
+                  <span key={t.id || t.name}>
+                    <Link
+                      href={`/tutors/${slugify(t.name)}`}
+                      className="hover:text-blue-600 hover:underline"
+                    >
+                      {t.name}
+                    </Link>
+                    {idx < item.tutors.length - 1 ? ", " : ""}
+                  </span>
+                ))}
               </span>
             ) : (
               <span>
                 <strong className="text-slate-800">Tutor:</strong>{" "}
-                {item.tutors[0]?.name || item.organizerName}
+                <Link
+                  href={`/tutors/${slugify(item.tutors[0]?.name || item.organizerName)}`}
+                  className="hover:text-blue-600 hover:underline"
+                >
+                  {item.tutors[0]?.name || item.organizerName}
+                </Link>
               </span>
             )}
           </div>

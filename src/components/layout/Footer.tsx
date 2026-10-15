@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { BadgeCheck } from "lucide-react";
 import { Logo } from "@/src/components/ui/Logo";
 
 const COLUMNS = [
@@ -54,11 +53,8 @@ export function Footer() {
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-slate-500">
             Platform edukasi akademik &amp; marketplace bimbingan mata kuliah kampus.
             Didirikan tahun <b>2026</b> oleh 5 mahasiswa <b>Universitas Bina Nusantara (BINUS)</b> untuk
-            mempersatukan materi studi dan tutor sebaya terverifikasi.
+            mempersatukan materi studi dan tutor sebaya.
           </p>
-          <div className="mt-4 inline-flex items-center gap-2 rounded-full bg-blue-50 px-3 py-1.5 text-xs font-semibold text-blue-700 ring-1 ring-blue-100">
-            <BadgeCheck className="h-4 w-4" aria-hidden="true" /> Terverifikasi Mahasiswa BINUS &amp; Kampus Nasional
-          </div>
         </div>
 
         {COLUMNS.map((col) => (
@@ -83,29 +79,20 @@ export function Footer() {
       </div>
 
       <div className="border-t border-slate-100 bg-slate-50/50">
-        <div className="mx-auto flex max-w-7xl flex-col gap-3 px-6 py-5 text-xs text-slate-500 md:flex-row md:items-center md:justify-between">
-          <div className="flex items-center gap-2">
-            <span className="font-bold text-slate-700">JARINGAN MITRA KAMPUS:</span>
-            <div className="flex flex-wrap gap-3 text-slate-600 font-medium">
-              <span>BINUS University</span>
-              <span>•</span>
-              <span>UI</span>
-              <span>•</span>
-              <span>ITB</span>
-              <span>•</span>
-              <span>UGM</span>
-              <span>•</span>
-              <span>ITS</span>
-            </div>
-          </div>
+        <div className="mx-auto flex max-w-7xl flex-col gap-3 px-6 py-5 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-slate-500">
+            © 2026 NEXIERA. Hak Cipta Dilindungi.
+          </p>
 
-          <div className="flex flex-wrap gap-4 text-[11px] text-slate-400">
-            <span>© 2026 NEXIERA. Hak Cipta Dilindungi.</span>
-            <Link href="/tentang-kami" className="hover:text-blue-600">
+          <div className="flex flex-wrap gap-4 text-xs text-slate-500">
+            <Link href="/tentang-kami" className="hover:text-blue-600 transition-colors">
               Integritas Akademik
             </Link>
-            <Link href="/tentang-kami" className="hover:text-blue-600">
+            <Link href="/tentang-kami" className="hover:text-blue-600 transition-colors">
               Syarat &amp; Ketentuan
+            </Link>
+            <Link href="mailto:support@nexiera.id" className="hover:text-blue-600 transition-colors">
+              Bantuan
             </Link>
           </div>
         </div>
