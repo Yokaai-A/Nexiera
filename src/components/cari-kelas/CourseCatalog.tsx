@@ -155,12 +155,12 @@ export function CourseCatalog() {
   );
 
   return (
-    <div className="mx-auto max-w-7xl px-6 py-6">
-      <div className="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-xs">
+    <div className="mx-auto max-w-[1180px] px-4 sm:px-6 lg:px-8 py-6">
+      <div className="rounded-[6px] border border-[#D9DEE7] bg-white p-5">
 
         <div className="flex flex-col gap-3">
-          <div className="flex flex-1 items-center gap-2.5 rounded-xl border border-slate-200 bg-slate-50/70 px-3.5 py-2.5 focus-within:border-blue-400 focus-within:bg-white focus-within:ring-2 focus-within:ring-blue-100 transition-all">
-            <Search className="h-4 w-4 text-slate-400" aria-hidden="true" />
+          <div className="flex flex-1 items-center gap-2.5 rounded-[4px] border border-[#D9DEE7] bg-white px-3.5 py-2.5 focus-within:border-[#2457C5] transition-colors">
+            <Search className="h-4 w-4 text-[#626B78]" aria-hidden="true" />
             <input
               type="text"
               value={searchQuery}
@@ -169,13 +169,13 @@ export function CourseCatalog() {
                 setCurrentPage(1);
               }}
               placeholder="Cari Mata Kuliah: Algorithm, Software Engineering, Database, Manajemen Keuangan..."
-              className="w-full bg-transparent text-xs sm:text-sm text-slate-800 outline-none placeholder:text-slate-400"
+              className="w-full bg-transparent text-xs sm:text-sm text-[#20232B] outline-none placeholder:text-[#626B78]"
             />
             {searchQuery && (
               <button
                 type="button"
                 onClick={() => setSearchQuery("")}
-                className="text-xs text-slate-400 hover:text-slate-600"
+                className="text-xs text-[#626B78] hover:text-[#20232B]"
               >
                 <X className="h-4 w-4" aria-hidden="true" />
               </button>
@@ -184,11 +184,11 @@ export function CourseCatalog() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             <div className="relative">
-              <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1 block">
+              <label className="text-[10px] font-semibold uppercase tracking-wider text-[#626B78] mb-1 block">
                 1. Kategori Utama
               </label>
               <div className="relative">
-                <Layers className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" aria-hidden="true" />
+                <Layers className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#626B78]" aria-hidden="true" />
                 <select
                   value={mainCategoryFilter}
                   onChange={(e) => {
@@ -197,7 +197,7 @@ export function CourseCatalog() {
                     setSubjectFilter("ALL");
                     setCurrentPage(1);
                   }}
-                  className="w-full appearance-none rounded-xl border border-slate-200 bg-slate-50/80 py-2.5 pl-9 pr-8 text-xs font-semibold text-slate-700 outline-none focus:border-blue-400 focus:bg-white transition-all"
+                  className="w-full appearance-none rounded-[4px] border border-[#D9DEE7] bg-white py-2.5 pl-9 pr-8 text-xs font-medium text-[#20232B] outline-none focus:border-[#2457C5] transition-colors"
                 >
                   <option value="ALL">Semua Kategori Utama</option>
                   {Object.keys(CATEGORIES_DATA).map((cat) => (
@@ -206,16 +206,16 @@ export function CourseCatalog() {
                     </option>
                   ))}
                 </select>
-                <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" aria-hidden="true" />
+                <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#626B78]" aria-hidden="true" />
               </div>
             </div>
 
             <div className="relative">
-              <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1 block">
+              <label className="text-[10px] font-semibold uppercase tracking-wider text-[#626B78] mb-1 block">
                 2. Jurusan
               </label>
               <div className="relative">
-                <GraduationCap className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" aria-hidden="true" />
+                <GraduationCap className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#626B78]" aria-hidden="true" />
                 <select
                   value={majorFilter}
                   onChange={(e) => {
@@ -223,7 +223,7 @@ export function CourseCatalog() {
                     setSubjectFilter("ALL");
                     setCurrentPage(1);
                   }}
-                  className="w-full appearance-none rounded-xl border border-slate-200 bg-slate-50/80 py-2.5 pl-9 pr-8 text-xs font-semibold text-slate-700 outline-none focus:border-blue-400 focus:bg-white transition-all"
+                  className="w-full appearance-none rounded-[4px] border border-[#D9DEE7] bg-white py-2.5 pl-9 pr-8 text-xs font-medium text-[#20232B] outline-none focus:border-[#2457C5] transition-colors"
                 >
                   <option value="ALL">Semua Jurusan</option>
                   {availableMajors.map((m) => (
@@ -232,23 +232,23 @@ export function CourseCatalog() {
                     </option>
                   ))}
                 </select>
-                <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" aria-hidden="true" />
+                <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#626B78]" aria-hidden="true" />
               </div>
             </div>
 
             <div className="relative">
-              <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1 block">
+              <label className="text-[10px] font-semibold uppercase tracking-wider text-[#626B78] mb-1 block">
                 3. Mata Kuliah
               </label>
               <div className="relative">
-                <BookOpen className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" aria-hidden="true" />
+                <BookOpen className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#626B78]" aria-hidden="true" />
                 <select
                   value={subjectFilter}
                   onChange={(e) => {
                     setSubjectFilter(e.target.value);
                     setCurrentPage(1);
                   }}
-                  className="w-full appearance-none rounded-xl border border-slate-200 bg-slate-50/80 py-2.5 pl-9 pr-8 text-xs font-semibold text-slate-700 outline-none focus:border-blue-400 focus:bg-white transition-all"
+                  className="w-full appearance-none rounded-[4px] border border-[#D9DEE7] bg-white py-2.5 pl-9 pr-8 text-xs font-medium text-[#20232B] outline-none focus:border-[#2457C5] transition-colors"
                 >
                   <option value="ALL">Semua Mata Kuliah</option>
                   {availableSubjects.map((sub) => (
@@ -257,20 +257,20 @@ export function CourseCatalog() {
                     </option>
                   ))}
                 </select>
-                <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" aria-hidden="true" />
+                <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#626B78]" aria-hidden="true" />
               </div>
             </div>
           </div>
         </div>
 
-        <div className="mt-4 flex flex-col gap-3 border-t border-slate-100 pt-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-4 flex flex-col gap-3 border-t border-[#D9DEE7] pt-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex flex-wrap items-center gap-2">
-            <div className="inline-flex rounded-lg border border-slate-200 bg-slate-50 p-0.5">
+            <div className="inline-flex rounded-[4px] border border-[#D9DEE7] bg-white p-0.5">
               <button
                 type="button"
                 onClick={() => setTypeFilter("ALL")}
-                className={`rounded-md px-3 py-1.5 text-xs font-semibold transition-colors ${
-                  typeFilter === "ALL" ? "bg-white text-blue-600 shadow-xs" : "text-slate-600 hover:text-slate-900"
+                className={`rounded-[4px] px-3 py-1.5 text-xs font-medium transition-colors ${
+                  typeFilter === "ALL" ? "bg-[#2457C5] text-white" : "text-[#20232B] hover:bg-[#E5E9F0]"
                 }`}
               >
                 Semua Tipe
@@ -278,8 +278,8 @@ export function CourseCatalog() {
               <button
                 type="button"
                 onClick={() => setTypeFilter("BOOTCAMP")}
-                className={`rounded-md px-3 py-1.5 text-xs font-semibold transition-colors ${
-                  typeFilter === "BOOTCAMP" ? "bg-cyan-600 text-white shadow-xs" : "text-slate-600 hover:text-slate-900"
+                className={`rounded-[4px] px-3 py-1.5 text-xs font-medium transition-colors ${
+                  typeFilter === "BOOTCAMP" ? "bg-[#2457C5] text-white" : "text-[#20232B] hover:bg-[#E5E9F0]"
                 }`}
               >
                 <Rocket className="mr-1 inline h-3 w-3" aria-hidden="true" /> Bootcamp
@@ -287,20 +287,20 @@ export function CourseCatalog() {
               <button
                 type="button"
                 onClick={() => setTypeFilter("PEER_TUTORING")}
-                className={`rounded-md px-3 py-1.5 text-xs font-semibold transition-colors ${
-                  typeFilter === "PEER_TUTORING" ? "bg-blue-600 text-white shadow-xs" : "text-slate-600 hover:text-slate-900"
+                className={`rounded-[4px] px-3 py-1.5 text-xs font-medium transition-colors ${
+                  typeFilter === "PEER_TUTORING" ? "bg-[#2457C5] text-white" : "text-[#20232B] hover:bg-[#E5E9F0]"
                 }`}
               >
                 <Handshake className="mr-1 inline h-3 w-3" aria-hidden="true" /> Peer-Tutoring
               </button>
             </div>
 
-            <div className="inline-flex rounded-lg border border-slate-200 bg-slate-50 p-0.5">
+            <div className="inline-flex rounded-[4px] border border-[#D9DEE7] bg-white p-0.5">
               <button
                 type="button"
                 onClick={() => setPricingFilter("ALL")}
-                className={`rounded-md px-3 py-1.5 text-xs font-semibold transition-colors ${
-                  pricingFilter === "ALL" ? "bg-white text-blue-600 shadow-xs" : "text-slate-600 hover:text-slate-900"
+                className={`rounded-[4px] px-3 py-1.5 text-xs font-medium transition-colors ${
+                  pricingFilter === "ALL" ? "bg-[#2457C5] text-white" : "text-[#20232B] hover:bg-[#E5E9F0]"
                 }`}
               >
                 Semua Biaya
@@ -308,8 +308,8 @@ export function CourseCatalog() {
               <button
                 type="button"
                 onClick={() => setPricingFilter("FREE")}
-                className={`rounded-md px-3 py-1.5 text-xs font-semibold transition-colors ${
-                  pricingFilter === "FREE" ? "bg-emerald-600 text-white shadow-xs" : "text-slate-600 hover:text-slate-900"
+                className={`rounded-[4px] px-3 py-1.5 text-xs font-medium transition-colors ${
+                  pricingFilter === "FREE" ? "bg-[#2457C5] text-white" : "text-[#20232B] hover:bg-[#E5E9F0]"
                 }`}
               >
                 <Check className="mr-1 inline h-3 w-3" aria-hidden="true" /> Gratis
@@ -317,8 +317,8 @@ export function CourseCatalog() {
               <button
                 type="button"
                 onClick={() => setPricingFilter("PAID")}
-                className={`rounded-md px-3 py-1.5 text-xs font-semibold transition-colors ${
-                  pricingFilter === "PAID" ? "bg-slate-800 text-white shadow-xs" : "text-slate-600 hover:text-slate-900"
+                className={`rounded-[4px] px-3 py-1.5 text-xs font-medium transition-colors ${
+                  pricingFilter === "PAID" ? "bg-[#2457C5] text-white" : "text-[#20232B] hover:bg-[#E5E9F0]"
                 }`}
               >
                 <CreditCard className="mr-1 inline h-3 w-3" aria-hidden="true" /> Berbayar
@@ -328,29 +328,29 @@ export function CourseCatalog() {
             <button
               type="button"
               onClick={handleResetFilter}
-              className="inline-flex items-center gap-1 rounded-lg px-3 py-1.5 text-xs font-bold text-blue-600 hover:bg-blue-50 transition-colors"
+              className="inline-flex items-center gap-1 rounded-[4px] px-3 py-1.5 text-xs font-medium text-[#2457C5] hover:underline transition-colors"
             >
-              <RotateCcw className="h-3.5 w-3.5" aria-hidden="true" /> RESET FILTER
+              <RotateCcw className="h-3.5 w-3.5" aria-hidden="true" /> Reset Filter
             </button>
           </div>
 
-          <span className="text-xs text-slate-500 font-medium">
-            Menampilkan <strong className="text-slate-800">{filteredCourses.length}</strong> kelas akademik
+          <span className="text-xs text-[#626B78] font-medium">
+            Menampilkan <strong className="text-[#20232B] font-semibold">{filteredCourses.length}</strong> kelas akademik
           </span>
         </div>
       </div>
 
       <div className="mt-8">
         {filteredCourses.length === 0 ? (
-          <div className="rounded-3xl border border-slate-200 bg-white p-12 text-center shadow-xs">
-            <h3 className="text-base font-bold text-slate-800">Tidak ada kelas yang cocok</h3>
-            <p className="mt-1 text-xs text-slate-500">
+          <div className="rounded-[6px] border border-[#D9DEE7] bg-white p-12 text-center">
+            <h3 className="text-base font-semibold text-[#20232B]">Tidak ada kelas yang cocok</h3>
+            <p className="mt-1 text-xs text-[#626B78]">
               Coba sesuaikan kombinasi Kategori Utama, Jurusan, atau kata kunci pencarian kamu.
             </p>
             <button
               type="button"
               onClick={handleResetFilter}
-              className="mt-4 rounded-xl bg-blue-600 px-4 py-2 text-xs font-bold text-white hover:bg-blue-700"
+              className="mt-4 btn-primary"
             >
               Reset Semua Filter
             </button>
@@ -370,7 +370,7 @@ export function CourseCatalog() {
             type="button"
             disabled={currentPage === 1}
             onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-            className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 disabled:opacity-40"
+            className="flex h-8 w-8 items-center justify-center rounded-[4px] border border-[#D9DEE7] bg-white text-[#626B78] hover:bg-[#E5E9F0] disabled:opacity-40"
           >
             <ChevronLeft className="h-4 w-4" aria-hidden="true" />
           </button>
@@ -380,10 +380,10 @@ export function CourseCatalog() {
               key={page}
               type="button"
               onClick={() => setCurrentPage(page)}
-              className={`flex h-9 w-9 items-center justify-center rounded-xl text-xs font-bold transition-all ${
+              className={`flex h-8 w-8 items-center justify-center rounded-[4px] text-xs font-medium transition-colors ${
                 currentPage === page
-                  ? "bg-blue-600 text-white shadow-xs"
-                  : "border border-slate-200 bg-white text-slate-700 hover:bg-slate-50"
+                  ? "bg-[#2457C5] text-white border border-[#2457C5]"
+                  : "border border-[#D9DEE7] bg-white text-[#20232B] hover:bg-[#E5E9F0]"
               }`}
             >
               {page}
@@ -394,7 +394,7 @@ export function CourseCatalog() {
             type="button"
             disabled={currentPage === totalPages}
             onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-            className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 disabled:opacity-40"
+            className="flex h-8 w-8 items-center justify-center rounded-[4px] border border-[#D9DEE7] bg-white text-[#626B78] hover:bg-[#E5E9F0] disabled:opacity-40"
           >
             <ChevronRight className="h-4 w-4" aria-hidden="true" />
           </button>
@@ -403,3 +403,4 @@ export function CourseCatalog() {
     </div>
   );
 }
+

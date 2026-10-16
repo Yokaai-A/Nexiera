@@ -24,12 +24,12 @@ const FEATURES = [
 
 export function WhyNexiera() {
   return (
-    <section className="bg-background py-14">
-      <div className="mx-auto max-w-7xl px-6 text-center">
-        <h2 className="text-3xl sm:text-4xl font-bold text-slate-900">
+    <section className="bg-white py-14 border-t border-[#D9DEE7]">
+      <div className="mx-auto max-w-[1180px] px-4 sm:px-6 lg:px-8 text-center">
+        <h2 className="text-2xl sm:text-3xl font-semibold text-[#20232B]">
           Mengapa Memilih NEXIERA?
         </h2>
-        <p className="mx-auto mt-3 max-w-xl text-sm text-slate-500">
+        <p className="mx-auto mt-2 max-w-xl text-sm text-[#626B78]">
           Platform pembelajaran terarah yang dirancang untuk mendukung mahasiswa menghadapi ujian dan tugas perkuliahan.
         </p>
 
@@ -37,15 +37,15 @@ export function WhyNexiera() {
           {FEATURES.map((f) => (
             <div
               key={f.title}
-              className="rounded-2xl bg-white p-6 text-left shadow-xs ring-1 ring-slate-100"
+              className="nx-card p-6 text-left"
             >
-              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-50">
-                <f.icon className="h-5 w-5 text-blue-600" strokeWidth={1.8} aria-hidden="true" />
+              <div className="flex h-10 w-10 items-center justify-center rounded-[4px] bg-[#E5E9F0] text-[#20232B]">
+                <f.icon className="h-4 w-4" strokeWidth={1.8} aria-hidden="true" />
               </div>
-              <h3 className="mt-4 text-base font-semibold text-slate-900">
+              <h3 className="mt-4 text-base font-semibold text-[#20232B]">
                 {f.title}
               </h3>
-              <p className="mt-2 text-xs leading-relaxed text-slate-500">
+              <p className="mt-2 text-sm leading-relaxed text-[#626B78]">
                 {f.desc}
               </p>
               <Link
@@ -56,7 +56,7 @@ export function WhyNexiera() {
                       ? "/cari-kelas"
                       : "/buat-kelas"
                 }
-                className="mt-4 inline-flex items-center gap-1 text-xs font-semibold text-blue-600 hover:underline"
+                className="mt-4 inline-flex items-center gap-1.5 text-xs font-medium text-[#2457C5] hover:underline"
               >
                 {f.cta} <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
               </Link>

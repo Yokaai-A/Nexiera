@@ -44,13 +44,13 @@ const COLUMNS = [
 
 export function Footer() {
   return (
-    <footer className="mt-20 border-t border-slate-200/80 bg-white">
-      <div className="mx-auto grid max-w-7xl grid-cols-2 gap-10 px-6 py-14 md:grid-cols-6">
+    <footer className="mt-20 border-t border-[#D9DEE7] bg-white">
+      <div className="mx-auto grid max-w-[1180px] grid-cols-2 gap-10 px-4 sm:px-6 lg:px-8 py-14 md:grid-cols-6">
         <div className="col-span-2">
           <Link href="/">
             <Logo />
           </Link>
-          <p className="mt-4 max-w-xs text-sm leading-relaxed text-slate-500">
+          <p className="mt-4 max-w-xs text-sm leading-relaxed text-[#626B78]">
             Platform edukasi akademik &amp; marketplace bimbingan mata kuliah kampus.
             Didirikan tahun <b>2026</b> oleh 5 mahasiswa <b>Universitas Bina Nusantara (BINUS)</b> untuk
             mempersatukan materi studi dan tutor sebaya.
@@ -59,7 +59,7 @@ export function Footer() {
 
         {COLUMNS.map((col) => (
           <div key={col.title}>
-            <h3 className="text-xs font-bold tracking-wider text-slate-900 uppercase">
+            <h3 className="text-xs font-semibold tracking-wider text-[#20232B] uppercase">
               {col.title}
             </h3>
             <ul className="mt-4 space-y-2.5">
@@ -67,7 +67,7 @@ export function Footer() {
                 <li key={link.label}>
                   <Link
                     href={link.href}
-                    className="text-xs font-medium text-slate-500 hover:text-blue-600 transition-colors"
+                    className="text-xs font-medium text-[#626B78] hover:text-[#2457C5] transition-colors"
                   >
                     {link.label}
                   </Link>
@@ -78,20 +78,20 @@ export function Footer() {
         ))}
       </div>
 
-      <div className="border-t border-slate-100 bg-slate-50/50">
-        <div className="mx-auto flex max-w-7xl flex-col gap-3 px-6 py-5 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-slate-500">
+      <div className="border-t border-[#D9DEE7] bg-white">
+        <div className="mx-auto flex max-w-[1180px] flex-col gap-3 px-4 sm:px-6 lg:px-8 py-5 text-xs text-[#626B78] sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-[#626B78]">
             © 2026 NEXIERA. Hak Cipta Dilindungi.
           </p>
 
-          <div className="flex flex-wrap gap-4 text-xs text-slate-500">
-            <Link href="/tentang-kami" className="hover:text-blue-600 transition-colors">
+          <div className="flex flex-wrap gap-4 text-xs text-[#626B78]">
+            <Link href="/tentang-kami" className="hover:text-[#2457C5] transition-colors">
               Integritas Akademik
             </Link>
-            <Link href="/tentang-kami" className="hover:text-blue-600 transition-colors">
+            <Link href="/tentang-kami" className="hover:text-[#2457C5] transition-colors">
               Syarat &amp; Ketentuan
             </Link>
-            <Link href="mailto:support@nexiera.id" className="hover:text-blue-600 transition-colors">
+            <Link href="mailto:support@nexiera.id" className="hover:text-[#2457C5] transition-colors">
               Bantuan
             </Link>
           </div>

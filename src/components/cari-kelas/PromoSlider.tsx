@@ -36,13 +36,13 @@ export function PromoSlider() {
   }, [next]);
 
   return (
-    <section className="relative w-full bg-background pt-6 pb-4">
-      <div className="mx-auto max-w-7xl px-6">
-        <div className="relative w-full overflow-hidden rounded-3xl shadow-sm ring-1 ring-slate-200/80 bg-slate-900">
+    <section className="relative w-full bg-white pt-6 pb-2">
+      <div className="mx-auto max-w-[1180px] px-4 sm:px-6 lg:px-8">
+        <div className="relative w-full overflow-hidden rounded-[6px] border border-[#D9DEE7] bg-[#20232B]">
           {SLIDES.map((slide, i) => (
             <div
               key={i}
-              className={`transition-opacity duration-700 ${
+              className={`transition-opacity duration-500 ${
                 i === index ? "relative opacity-100" : "absolute inset-0 opacity-0 pointer-events-none"
               }`}
             >
@@ -52,7 +52,7 @@ export function PromoSlider() {
                   alt={slide.title}
                   fill
                   priority={i === 0}
-                  className="object-cover object-center brightness-95 hover:scale-[1.01] transition-transform duration-500"
+                  className="object-cover object-center brightness-95"
                 />
               </Link>
             </div>
@@ -62,7 +62,7 @@ export function PromoSlider() {
             type="button"
             aria-label="Slide sebelumnya"
             onClick={prev}
-            className="absolute left-3 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/80 backdrop-blur-sm text-slate-800 shadow-md hover:bg-white transition-all"
+            className="absolute left-3 top-1/2 z-20 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-[4px] bg-white border border-[#D9DEE7] text-[#20232B] hover:bg-[#E5E9F0] transition-colors"
           >
             ‹
           </button>
@@ -70,20 +70,20 @@ export function PromoSlider() {
             type="button"
             aria-label="Slide berikutnya"
             onClick={next}
-            className="absolute right-3 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/80 backdrop-blur-sm text-slate-800 shadow-md hover:bg-white transition-all"
+            className="absolute right-3 top-1/2 z-20 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-[4px] bg-white border border-[#D9DEE7] text-[#20232B] hover:bg-[#E5E9F0] transition-colors"
           >
             ›
           </button>
 
-          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 rounded-full bg-black/30 backdrop-blur-sm px-3 py-1.5">
+          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1.5 rounded-[4px] bg-[#20232B]/80 px-2.5 py-1">
             {SLIDES.map((_, i) => (
               <button
                 key={i}
                 type="button"
                 aria-label={`Slide ${i + 1}`}
                 onClick={() => setIndex(i)}
-                className={`h-2 rounded-full transition-all ${
-                  i === index ? "w-6 bg-white" : "w-2 bg-white/50"
+                className={`h-1.5 rounded-[2px] transition-all ${
+                  i === index ? "w-5 bg-white" : "w-2 bg-white/50"
                 }`}
               />
             ))}

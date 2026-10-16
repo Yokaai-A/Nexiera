@@ -61,17 +61,16 @@ const VALUES = [
 
 export default function TentangKamiPage() {
   return (
-    <div className="bg-background min-h-screen pb-20">
-      <section className="relative flex min-h-[calc(100svh-74px)] items-center justify-center overflow-hidden bg-gradient-to-b from-blue-50/80 via-white to-background py-20">
-        <div className="mx-auto max-w-5xl px-6 text-center">
-          <div className="inline-flex items-center gap-2 rounded-full bg-blue-100/70 px-4 py-1 text-xs font-bold text-blue-700 ring-1 ring-blue-200">
-            <Landmark className="h-3.5 w-3.5" aria-hidden="true" /> Didirikan Tahun 2026 di Universitas Bina Nusantara
+    <div className="bg-white min-h-screen pb-20">
+      <section className="border-b border-[#D9DEE7] bg-white py-16">
+        <div className="mx-auto max-w-[1180px] px-4 sm:px-6 lg:px-8 text-center">
+          <div className="inline-flex items-center gap-2 rounded-[4px] border border-[#D9DEE7] bg-[#E5E9F0]/60 px-3 py-1 text-xs font-medium text-[#20232B]">
+            <Landmark className="h-3.5 w-3.5 text-[#2457C5]" aria-hidden="true" /> Didirikan Tahun 2026 di Universitas Bina Nusantara
           </div>
-          <h1 className="mt-6 text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-tight">
-            “Dibuat oleh Mahasiswa, <br />
-            <span className="text-blue-600">untuk Mahasiswa.”</span>
+          <h1 className="mt-6 text-3xl sm:text-4xl lg:text-5xl font-bold text-[#20232B] tracking-tight leading-tight">
+            “Dibuat oleh Mahasiswa, untuk Mahasiswa.”
           </h1>
-          <p className="mx-auto mt-6 max-w-xl text-base leading-8 text-slate-600">
+          <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-[#626B78]">
             NEXIERA berangkat dari pengalaman yang akrab bagi banyak mahasiswa <b>BINUS University</b>.
             Mencari tutor yang tepat, memahami materi yang terasa rumit, dan merapikan begitu banyak
             sumber belajar sering kali sama melelahkannya dengan menghadapi kuliah itu sendiri. Kami
@@ -81,64 +80,66 @@ export default function TentangKamiPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-5xl px-6 py-10">
-        <div className="grid gap-8 md:grid-cols-2 items-center rounded-3xl border border-slate-200/80 bg-white p-8 md:p-12 shadow-sm">
+      <section className="mx-auto max-w-[1180px] px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid gap-8 md:grid-cols-2 items-stretch rounded-[6px] border border-[#D9DEE7] bg-white p-8 md:p-10">
           <div>
-            <span className="text-xs font-bold tracking-wider text-blue-600 uppercase">
+            <span className="text-xs font-semibold tracking-wider text-[#2457C5] uppercase">
               Latar Belakang &amp; Visi
             </span>
-            <h2 className="mt-2 text-2xl sm:text-3xl font-extrabold text-slate-900 leading-snug">
+            <h2 className="mt-2 text-2xl sm:text-3xl font-semibold text-[#20232B] leading-snug">
               Menyatukan Papan Pengumuman Akademik ke Satu Platform Digital Terpadu
             </h2>
-            <p className="mt-4 text-sm leading-relaxed text-slate-600">
+            <p className="mt-4 text-sm leading-relaxed text-[#626B78]">
               Di tengah padatnya jadwal kuliah, menemukan bantuan belajar yang relevan sering terasa seperti pekerjaan tambahan. Informasi kelas tersebar, catatan tersimpan di banyak tempat, sementara penjelasan yang dibutuhkan bisa jadi sulit ditemukan tepat saat diperlukan. NEXIERA ingin membuat proses itu lebih sederhana dan terarah.
             </p>
-            <p className="mt-3 text-sm leading-relaxed text-slate-600">
-              Karena itu, NEXIERA mempertemukan mahasiswa yang ingin belajar lebih terstruktur dengan tutor sebaya dan penyedia kelas dalam satu platform. Mahasiswa dapat menjelajahi kelas yang sesuai kebutuhan, sementara tutor memiliki ruang untuk membagikan cara belajar, pengalaman, dan pemahaman materi yang mereka kuasai. Kami percaya proses belajar yang baik dimulai dari akses yang lebih mudah dan penjelasan yang terasa dekat.
+            <p className="mt-3 text-sm leading-relaxed text-[#626B78]">
+              Karena itu, NEXIERA mempertemukan mahasiswa yang ingin belajar lebih terstruktur dengan tutor sebaya dan penyedia kelas dalam satu platform. Mahasiswa dapat menjelajahi kelas yang sesuai kebutuhan, sementara tutor memiliki ruang untuk membagikan cara belajar, pengalaman, dan pemahaman materi yang mereka kuasai.
             </p>
 
             <div className="mt-6 flex flex-wrap gap-3">
               <Link
                 href="/cari-kelas"
-                className="rounded-xl bg-blue-600 px-5 py-2.5 text-xs font-bold text-white shadow-sm hover:bg-blue-700 transition-colors"
+                className="btn-primary"
               >
-                Jelajahi Kelas Kuliah <ArrowRight className="ml-1 inline h-3.5 w-3.5" aria-hidden="true" />
+                Cari kelas <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </Link>
               <Link
                 href="/buat-kelas"
-                className="rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-xs font-bold text-slate-700 hover:bg-slate-50 transition-colors"
+                className="btn-secondary"
               >
-                Menjadi Tutor Sebaya
+                Buat kelas
               </Link>
             </div>
           </div>
 
-          <div className="rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-700 p-8 text-white shadow-lg">
-            <h3 className="text-xl font-bold">Komitmen Integritas Akademik</h3>
-            <p className="mt-3 text-xs leading-relaxed text-blue-100">
-              Bagi kami, keberhasilan belajar berarti memahami konsep dan mampu menggunakannya secara mandiri. NEXIERA mendukung diskusi, latihan, rangkuman, dan panduan praktikum sebagai bekal belajar; setiap dukungan akademik harus tetap menghormati proses dan integritas mahasiswa.
-            </p>
-            <div className="mt-6 space-y-3 border-t border-white/20 pt-4 text-xs font-medium text-blue-50">
+          <div className="flex flex-col justify-between rounded-[6px] border border-[#D9DEE7] bg-[#E5E9F0]/40 p-6 sm:p-8">
+            <div>
+              <h3 className="text-lg font-semibold text-[#20232B]">Komitmen Integritas Akademik</h3>
+              <p className="mt-2.5 text-sm leading-relaxed text-[#626B78]">
+                Bagi kami, keberhasilan belajar berarti memahami konsep dan mampu menggunakannya secara mandiri. NEXIERA mendukung diskusi, latihan, rangkuman, dan panduan praktikum sebagai bekal belajar; setiap dukungan akademik harus tetap menghormati proses dan integritas mahasiswa.
+              </p>
+            </div>
+            <div className="mt-6 space-y-3 border-t border-[#D9DEE7] pt-4 text-xs font-medium text-[#20232B]">
               <div className="flex items-center gap-2">
-                <Check className="h-3.5 w-3.5" aria-hidden="true" /> Verifikasi Status Mahasiswa Resmi
+                <Check className="h-4 w-4 text-[#2457C5]" aria-hidden="true" /> Verifikasi Status Mahasiswa Resmi
               </div>
               <div className="flex items-center gap-2">
-                <Check className="h-3.5 w-3.5" aria-hidden="true" /> Review Kurikulum Selaras Silabus Perkuliahan
+                <Check className="h-4 w-4 text-[#2457C5]" aria-hidden="true" /> Review Kurikulum Selaras Silabus Perkuliahan
               </div>
               <div className="flex items-center gap-2">
-                <Check className="h-3.5 w-3.5" aria-hidden="true" /> Transparansi Materi Belajar &amp; Tautan Akses
+                <Check className="h-4 w-4 text-[#2457C5]" aria-hidden="true" /> Transparansi Materi Belajar &amp; Tautan Akses
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-5xl px-6 py-10">
+      <section className="mx-auto max-w-[1180px] px-4 sm:px-6 lg:px-8 py-10 border-t border-[#D9DEE7]">
         <div className="text-center mb-8">
-          <span className="text-xs font-bold tracking-wider text-blue-600 uppercase">
+          <span className="text-xs font-semibold tracking-wider text-[#2457C5] uppercase">
             Pilar Pembelajaran
           </span>
-          <h2 className="mt-1 text-3xl font-extrabold text-slate-900">
+          <h2 className="mt-1 text-2xl sm:text-3xl font-semibold text-[#20232B]">
             Mengapa NEXIERA Berbeda?
           </h2>
         </div>
@@ -147,53 +148,51 @@ export default function TentangKamiPage() {
           {VALUES.map((v) => (
             <div
               key={v.title}
-              className="rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm hover:border-blue-300 transition-all"
+              className="nx-card p-6"
             >
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
-                <v.icon className="h-5 w-5" strokeWidth={1.8} aria-hidden="true" />
+              <div className="flex h-10 w-10 items-center justify-center rounded-[4px] bg-[#E5E9F0] text-[#20232B]">
+                <v.icon className="h-4 w-4" strokeWidth={1.8} aria-hidden="true" />
               </div>
-              <h3 className="mt-4 text-base font-bold text-slate-900">{v.title}</h3>
-              <p className="mt-2 text-xs leading-relaxed text-slate-500">{v.desc}</p>
+              <h3 className="mt-4 text-base font-semibold text-[#20232B]">{v.title}</h3>
+              <p className="mt-2.5 text-sm leading-relaxed text-[#626B78]">{v.desc}</p>
             </div>
           ))}
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-6 py-12">
+      <section className="mx-auto max-w-[1180px] px-4 sm:px-6 lg:px-8 py-12 border-t border-[#D9DEE7]">
         <div className="text-center mb-10">
-          <span className="rounded-full bg-blue-50 px-3.5 py-1 text-xs font-bold text-blue-700 ring-1 ring-blue-100 uppercase tracking-wide">
-            The Team Behind NEXIERA
+          <span className="text-xs font-semibold tracking-wider text-[#2457C5] uppercase">
+            Tim Pendiri NEXIERA
           </span>
-          <h2 className="mt-3 text-3xl sm:text-4xl font-black text-slate-900">
+          <h2 className="mt-2 text-2xl sm:text-3xl font-semibold text-[#20232B]">
             5 Founders Mahasiswa BINUS University
           </h2>
-          <p className="mx-auto mt-2 max-w-xl text-sm text-slate-500">
-            Berawal dari pengalaman sebagai mahasiswa School of Computer Science BINUS University, tim pendiri NEXIERA merancang platform ini dengan satu tujuan. Kami ingin membuat dukungan belajar yang relevan lebih mudah dijangkau, dimulai dari lingkungan kampus sendiri.
+          <p className="mx-auto mt-2 max-w-xl text-sm text-[#626B78]">
+            Berawal dari pengalaman sebagai mahasiswa School of Computer Science BINUS University, tim pendiri NEXIERA merancang platform ini untuk membuat dukungan belajar yang relevan lebih mudah dijangkau.
           </p>
         </div>
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {FOUNDERS.map((f, i) => (
+          {FOUNDERS.map((f) => (
             <div
               key={f.name}
-              className={`rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md ${
-                i === 0 ? "sm:col-span-2 lg:col-span-1 border-blue-200" : ""
-              }`}
+              className="nx-card p-6 flex flex-col justify-between"
             >
               <div>
-                <h3 className="text-base font-bold text-slate-900">
+                <h3 className="text-base font-semibold text-[#20232B]">
                   {f.name}
                 </h3>
-                <p className="text-xs font-bold text-blue-600 mt-0.5">
+                <p className="text-xs font-medium text-[#2457C5] mt-0.5">
                   {f.role}
                 </p>
-                <p className="text-[11px] font-medium text-slate-500 mt-0.5">
+                <p className="text-xs text-[#626B78] mt-0.5">
                   {f.major}
                 </p>
               </div>
 
-              <div className="mt-4 border-t border-slate-100 pt-3">
-                <p className="text-xs leading-relaxed text-slate-600">
+              <div className="mt-4 border-t border-[#D9DEE7] pt-3">
+                <p className="text-xs leading-relaxed text-[#626B78]">
                   {f.bio}
                 </p>
               </div>
@@ -202,26 +201,26 @@ export default function TentangKamiPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-5xl px-6 pt-6">
-        <div className="rounded-3xl bg-slate-900 p-8 sm:p-12 text-center text-white shadow-xl">
-          <h2 className="text-2xl sm:text-3xl font-extrabold">
+      <section className="mx-auto max-w-[1180px] px-4 sm:px-6 lg:px-8 pt-8">
+        <div className="rounded-[6px] border border-[#D9DEE7] bg-white p-8 sm:p-12 text-center">
+          <h2 className="text-2xl sm:text-3xl font-semibold text-[#20232B]">
             Siap Mengamankan Nilai Akademik Semester Ini?
           </h2>
-          <p className="mx-auto mt-3 max-w-lg text-sm text-slate-400 leading-relaxed">
-            Temukan kelas yang sesuai dengan kebutuhanmu, belajar bersama tutor sebaya, dan susun langkah berikutnya dengan lebih percaya diri. NEXIERA hadir untuk mendampingi proses belajarmu, satu materi dan satu kemajuan pada satu waktu.
+          <p className="mx-auto mt-2.5 max-w-lg text-sm text-[#626B78] leading-relaxed">
+            Temukan kelas yang sesuai dengan kebutuhanmu, belajar bersama tutor sebaya, dan susun persiapan ujian dengan lebih terarah.
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
             <Link
               href="/cari-kelas"
-              className="rounded-xl bg-blue-600 px-6 py-3 text-sm font-bold text-white hover:bg-blue-700 transition-colors"
+              className="btn-primary"
             >
-              Cari Kelas Sekarang <ArrowRight className="ml-1 inline h-4 w-4" aria-hidden="true" />
+              Cari kelas <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>
             <Link
               href="/register"
-              className="rounded-xl border border-slate-700 bg-slate-800 px-6 py-3 text-sm font-bold text-white hover:bg-slate-700 transition-colors"
+              className="btn-secondary"
             >
-              Daftar Akun Mahasiswa
+              Daftar Akun
             </Link>
           </div>
         </div>

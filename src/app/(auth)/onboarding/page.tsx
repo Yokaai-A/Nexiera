@@ -54,34 +54,31 @@ export default function OnboardingPage() {
 
   return (
     <div
-      className="min-h-[calc(100vh-74px)] flex items-center justify-center p-4 sm:p-6 bg-cover bg-center bg-no-repeat"
-      style={{
-        backgroundImage: "url('/bg-auth.png')",
-      }}
+      className="min-h-[calc(100vh-74px)] flex items-center justify-center p-4 sm:p-6 bg-white"
     >
-      <div className="w-full max-w-xl overflow-hidden rounded-3xl bg-white/95 backdrop-blur-md p-8 sm:p-10 shadow-2xl ring-1 ring-slate-200/80">
+      <div className="w-full max-w-xl rounded-[6px] border border-[#D9DEE7] bg-white p-8 sm:p-10">
         <div className="text-center">
-          <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-100 text-blue-700 shadow-inner">
+          <div className="inline-flex h-12 w-12 items-center justify-center rounded-[4px] border border-[#D9DEE7] bg-[#E5E9F0] text-[#2457C5]">
             <GraduationCap className="h-6 w-6" strokeWidth={1.8} aria-hidden="true" />
           </div>
-          <h1 className="mt-4 text-2xl sm:text-3xl font-extrabold text-slate-900">
+          <h1 className="mt-4 text-2xl sm:text-3xl font-bold tracking-tight text-[#20232B]">
             Lengkapi Profil Akademik
           </h1>
-          <p className="mt-1 text-xs text-slate-500 max-w-md mx-auto">
+          <p className="mt-2 text-sm text-[#626B78] max-w-md mx-auto">
             Pilih kampus dan jurusan asalmu agar NEXIERA dapat merekomendasikan mata kuliah dan tutor sebaya yang relevan dengan kurikulum semestermu.
           </p>
         </div>
 
         <form onSubmit={handleFinish} className="mt-8 space-y-5">
           <div>
-            <label className="mb-1.5 block text-xs font-bold text-slate-700">
-              Kampus Asal <span className="text-red-500">*</span>
+            <label className="mb-1.5 block text-xs font-semibold text-[#20232B]">
+              Kampus Asal <span className="text-[#2457C5]">*</span>
             </label>
             <div className="relative">
               <select
                 value={campus}
                 onChange={(e) => setCampus(e.target.value)}
-                className="w-full appearance-none rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-800 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                className="w-full appearance-none rounded-[4px] border border-[#D9DEE7] bg-white px-3.5 py-2.5 text-sm font-normal text-[#20232B] outline-none focus:border-[#2457C5]"
               >
                 {CAMPUSES.map((c) => (
                   <option key={c} value={c}>
@@ -89,22 +86,22 @@ export default function OnboardingPage() {
                   </option>
                 ))}
               </select>
-              <ChevronDown className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" aria-hidden="true" />
+              <ChevronDown className="pointer-events-none absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[#626B78]" aria-hidden="true" />
             </div>
-            <p className="mt-1 text-[11px] text-blue-600 font-medium">
-              <Check className="mr-1 inline h-3.5 w-3.5" aria-hidden="true" /> Didukung penuh integrasi modul kurikulum BINUS University
+            <p className="mt-1 text-xs text-[#2457C5] font-medium flex items-center gap-1">
+              <Check className="h-3.5 w-3.5 shrink-0" aria-hidden="true" /> Didukung penuh integrasi modul kurikulum BINUS University
             </p>
           </div>
 
           <div>
-            <label className="mb-1.5 block text-xs font-bold text-slate-700">
-              Program Studi / Jurusan <span className="text-red-500">*</span>
+            <label className="mb-1.5 block text-xs font-semibold text-[#20232B]">
+              Program Studi / Jurusan <span className="text-[#2457C5]">*</span>
             </label>
             <div className="relative">
               <select
                 value={major}
                 onChange={(e) => setMajor(e.target.value)}
-                className="w-full appearance-none rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-800 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                className="w-full appearance-none rounded-[4px] border border-[#D9DEE7] bg-white px-3.5 py-2.5 text-sm font-normal text-[#20232B] outline-none focus:border-[#2457C5]"
               >
                 {MAJORS.map((m) => (
                   <option key={m} value={m}>
@@ -112,19 +109,19 @@ export default function OnboardingPage() {
                   </option>
                 ))}
               </select>
-              <ChevronDown className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" aria-hidden="true" />
+              <ChevronDown className="pointer-events-none absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[#626B78]" aria-hidden="true" />
             </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="mb-1.5 block text-xs font-bold text-slate-700">
+              <label className="mb-1.5 block text-xs font-semibold text-[#20232B]">
                 Tingkat Semester
               </label>
               <select
                 value={semester}
                 onChange={(e) => setSemester(e.target.value)}
-                className="w-full appearance-none rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-xs font-semibold text-slate-800 outline-none focus:border-blue-500"
+                className="w-full appearance-none rounded-[4px] border border-[#D9DEE7] bg-white px-3 py-2 text-xs font-normal text-[#20232B] outline-none focus:border-[#2457C5]"
               >
                 <option value="Semester 1">Semester 1 (Freshman)</option>
                 <option value="Semester 2">Semester 2</option>
@@ -137,7 +134,7 @@ export default function OnboardingPage() {
             </div>
 
             <div>
-              <label className="mb-1.5 block text-xs font-bold text-slate-700">
+              <label className="mb-1.5 block text-xs font-semibold text-[#20232B]">
                 NIM / ID Mahasiswa (Simulasi Verifikasi)
               </label>
               <input
@@ -145,26 +142,26 @@ export default function OnboardingPage() {
                 value={nim}
                 onChange={(e) => setNim(e.target.value)}
                 placeholder="2601987654"
-                className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-xs text-slate-800 outline-none focus:border-blue-500"
+                className="w-full rounded-[4px] border border-[#D9DEE7] bg-white px-3 py-2 text-xs text-[#20232B] outline-none focus:border-[#2457C5]"
               />
             </div>
           </div>
 
-          <div className="rounded-2xl border border-emerald-100 bg-emerald-50/80 p-3.5 text-xs text-emerald-800">
-            <div className="flex items-center gap-2 font-bold mb-0.5">
-              <BadgeCheck className="h-4 w-4" aria-hidden="true" /> Verifikasi Status Mahasiswa Kampus
+          <div className="rounded-[6px] border border-[#D9DEE7] bg-[#E5E9F0]/30 p-3.5 text-xs text-[#20232B]">
+            <div className="flex items-center gap-1.5 font-semibold text-[#20232B] mb-1">
+              <BadgeCheck className="h-4 w-4 text-[#2457C5]" aria-hidden="true" /> Verifikasi Status Mahasiswa Kampus
             </div>
-            <p className="text-[11px] text-emerald-700/90">
-              Dengan melengkapi profil, akunmu otomatis mendapatkan badge <b>Terverifikasi Mahasiswa BINUS</b> di navbar dan kartu profil tutor.
+            <p className="text-xs text-[#626B78]">
+              Dengan melengkapi profil, akunmu otomatis mendapatkan status <b>Terverifikasi Mahasiswa BINUS</b> di navbar dan kartu profil tutor.
             </p>
           </div>
 
           <button
             type="submit"
             disabled={isVerifying}
-            className="w-full rounded-xl bg-blue-600 py-3.5 text-sm font-bold text-white shadow-lg shadow-blue-500/25 hover:bg-blue-700 transition-all hover:scale-[1.01] disabled:opacity-50"
+            className="w-full btn-primary py-3 text-sm flex items-center justify-center gap-1.5 disabled:opacity-50"
           >
-            {isVerifying ? "Menyimpan & Memverifikasi..." : <>Simpan Profil &amp; Masuk ke Dashboard <ArrowRight className="ml-1 inline h-4 w-4" aria-hidden="true" /></>}
+            {isVerifying ? "Menyimpan & Memverifikasi..." : <>Simpan Profil &amp; Masuk ke Dashboard <ArrowRight className="h-4 w-4" aria-hidden="true" /></>}
           </button>
         </form>
       </div>

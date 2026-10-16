@@ -27,7 +27,7 @@ export default function LoginPage() {
           <div>
             <label
               htmlFor="login-username"
-              className="mb-1.5 block text-xs font-bold text-slate-700"
+              className="mb-1.5 block text-xs font-semibold text-[#20232B]"
             >
               Email Kampus / Username
             </label>
@@ -38,14 +38,14 @@ export default function LoginPage() {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="nama@binus.ac.id"
               required
-              className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-800 placeholder:text-slate-400 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all"
+              className="nx-input"
             />
           </div>
 
           <div>
             <label
               htmlFor="login-password"
-              className="mb-1.5 block text-xs font-bold text-slate-700"
+              className="mb-1.5 block text-xs font-semibold text-[#20232B]"
             >
               Password
             </label>
@@ -56,20 +56,20 @@ export default function LoginPage() {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Kata sandi akun"
               required
-              className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-800 placeholder:text-slate-400 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all"
+              className="nx-input"
             />
           </div>
 
           <div className="flex items-center justify-between text-xs">
-            <label className="flex items-center gap-2 text-slate-600 cursor-pointer">
+            <label className="flex items-center gap-2 text-[#626B78] cursor-pointer">
               <input
                 type="checkbox"
                 defaultChecked
-                className="h-4 w-4 rounded border-slate-300 text-blue-600 accent-blue-600 cursor-pointer"
+                className="h-4 w-4 rounded-[2px] border-[#D9DEE7] text-[#2457C5] accent-[#2457C5] cursor-pointer"
               />
               Ingat saya
             </label>
-            <span className="font-semibold text-blue-600 hover:underline cursor-pointer">
+            <span className="font-medium text-[#2457C5] hover:underline cursor-pointer">
               Lupa password?
             </span>
           </div>
@@ -78,12 +78,12 @@ export default function LoginPage() {
         <button
           type="submit"
           disabled={isLoading}
-          className="mt-8 w-full rounded-xl bg-blue-600 py-3 text-sm font-bold text-white shadow-md shadow-blue-500/20 hover:bg-blue-700 transition-all hover:scale-[1.01] disabled:opacity-50"
+          className="btn-primary w-full mt-6 py-2.5 disabled:opacity-50"
         >
           {isLoading ? "Memproses..." : "Masuk ke Akun"}
         </button>
 
-        <p className="mt-4 text-center text-xs text-slate-400">
+        <p className="mt-4 text-center text-xs text-[#626B78]">
           Demo akun: gunakan email BINUS untuk verifikasi otomatis
         </p>
       </form>

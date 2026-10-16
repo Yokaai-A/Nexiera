@@ -64,9 +64,9 @@ export function Navbar() {
   };
 
   return (
-    <header className="sticky top-0 z-50 border-b border-slate-100 bg-white/95 backdrop-blur-md">
-      <nav className="mx-auto flex h-[70px] max-w-7xl items-center justify-between px-6">
-        <Link href="/" className="transition-transform hover:scale-105">
+    <header className="sticky top-0 z-50 border-b border-[#D9DEE7] bg-white">
+      <nav className="mx-auto flex h-[68px] max-w-[1180px] items-center justify-between px-4 sm:px-6 lg:px-8">
+        <Link href="/" className="inline-flex items-center">
           <Logo />
         </Link>
 
@@ -77,10 +77,10 @@ export function Navbar() {
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className={`text-sm font-medium transition-all ${
+                  className={`text-sm font-medium transition-colors ${
                     active
-                      ? "font-semibold text-blue-600 underline decoration-blue-600 decoration-2 underline-offset-8"
-                      : "text-slate-600 hover:text-slate-900"
+                      ? "text-[#2457C5] font-semibold"
+                      : "text-[#626B78] hover:text-[#20232B]"
                   }`}
                 >
                   {link.label}
@@ -106,29 +106,29 @@ export function Navbar() {
             </button>
 
             {notificationOpen && (
-              <div className="absolute right-0 mt-2 w-80 rounded-2xl border border-slate-100 bg-white p-4 shadow-xl ring-1 ring-black/5 z-50">
-                <div className="flex items-center justify-between border-b border-slate-100 pb-2">
-                  <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider">
+              <div className="absolute right-0 mt-2 w-80 rounded-[6px] border border-[#D9DEE7] bg-white p-4 z-50">
+                <div className="flex items-center justify-between border-b border-[#D9DEE7] pb-2">
+                  <h4 className="text-xs font-semibold text-[#20232B] uppercase tracking-wider">
                     Notifikasi Terkini
                   </h4>
-                  <span className="text-[10px] text-blue-600 font-semibold cursor-pointer">
+                  <span className="text-[11px] text-[#2457C5] font-medium cursor-pointer hover:underline">
                     Tandai dibaca
                   </span>
                 </div>
-                <div className="mt-3 space-y-3">
-                  <div className="rounded-lg bg-blue-50/60 p-2.5 text-xs text-slate-700">
-                    <p className="font-semibold text-blue-700">
+                <div className="mt-3 space-y-2.5">
+                  <div className="rounded-[4px] border border-[#D9DEE7] bg-[#E5E9F0]/40 p-2.5 text-xs text-[#20232B]">
+                    <p className="font-semibold text-[#2457C5]">
                       <Rocket className="mr-1 inline h-3.5 w-3.5" aria-hidden="true" /> Booster Academy UTS Prep
                     </p>
-                    <p className="mt-1 text-slate-500">
+                    <p className="mt-1 text-[#626B78]">
                       Sesi perdana Algorithm and Programming dibuka hari Sabtu ini via Zoom.
                     </p>
                   </div>
-                  <div className="rounded-lg bg-slate-50 p-2.5 text-xs text-slate-700">
-                    <p className="font-semibold text-slate-800">
+                  <div className="rounded-[4px] border border-[#D9DEE7] bg-white p-2.5 text-xs text-[#20232B]">
+                    <p className="font-semibold text-[#20232B]">
                       <Handshake className="mr-1 inline h-3.5 w-3.5" aria-hidden="true" /> Peer-Tutoring ADA
                     </p>
-                    <p className="mt-1 text-slate-500">
+                    <p className="mt-1 text-[#626B78]">
                       Rizky Pratama menambahkan materi pembelajaran baru.
                     </p>
                   </div>
@@ -145,34 +145,34 @@ export function Navbar() {
                   setMenuOpen(!menuOpen);
                   setNotificationOpen(false);
                 }}
-                className="flex items-center gap-1.5 rounded-full p-0.5 hover:ring-2 hover:ring-blue-400 transition-all focus:outline-none"
+                className="flex items-center gap-1.5 rounded-[4px] p-0.5 hover:bg-[#E5E9F0] transition-colors focus:outline-none"
                 aria-label="Menu Profil"
               >
                 {user.avatarUrl ? (
-                  <div className="relative h-9 w-9 overflow-hidden rounded-full ring-2 ring-blue-500">
+                  <div className="relative h-8 w-8 overflow-hidden rounded-[4px] border border-[#D9DEE7]">
                     <Image
                       src={user.avatarUrl}
                       alt={user.fullName}
                       fill
-                      sizes="36px"
+                      sizes="32px"
                       className="object-cover"
                     />
                   </div>
                 ) : (
-                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-blue-600 text-xs font-bold text-white ring-2 ring-blue-500">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-[4px] bg-[#2457C5] text-xs font-medium text-white">
                     {user.fullName.slice(0, 2).toUpperCase()}
                   </div>
                 )}
-                <ChevronDown className="h-3.5 w-3.5 text-slate-500" aria-hidden="true" />
+                <ChevronDown className="h-3.5 w-3.5 text-[#626B78]" aria-hidden="true" />
               </button>
 
               {menuOpen && (
-                <div className="absolute right-0 mt-2 w-64 rounded-2xl border border-slate-100 bg-white p-3 shadow-xl ring-1 ring-black/5 z-50">
-                  <div className="border-b border-slate-100 pb-3 px-2">
-                    <p className="text-xs text-slate-400">Masuk sebagai</p>
-                    <p className="text-sm font-bold text-slate-900">{user.fullName}</p>
-                    <p className="text-xs text-slate-500 truncate">{user.email}</p>
-                    <p className="text-xs text-blue-600 font-medium mt-0.5">
+                <div className="absolute right-0 mt-2 w-64 rounded-[6px] border border-[#D9DEE7] bg-white p-3 z-50">
+                  <div className="border-b border-[#D9DEE7] pb-3 px-2">
+                    <p className="text-xs text-[#626B78]">Masuk sebagai</p>
+                    <p className="text-sm font-semibold text-[#20232B]">{user.fullName}</p>
+                    <p className="text-xs text-[#626B78] truncate">{user.email}</p>
+                    <p className="text-xs text-[#2457C5] font-medium mt-0.5">
                       {user.campus} • {user.major}
                     </p>
                   </div>
@@ -181,28 +181,28 @@ export function Navbar() {
                     <Link
                       href="/kelas-saya"
                       onClick={() => setMenuOpen(false)}
-                      className="flex items-center gap-2 rounded-lg px-2.5 py-2 text-xs font-medium text-slate-700 hover:bg-slate-50 transition-colors"
+                      className="flex items-center gap-2 rounded-[4px] px-2.5 py-2 text-xs font-medium text-[#20232B] hover:bg-[#E5E9F0] transition-colors"
                     >
-                      <LayoutDashboard className="h-4 w-4 text-blue-600" aria-hidden="true" /> Dashboard Kelas Saya
+                      <LayoutDashboard className="h-4 w-4 text-[#2457C5]" aria-hidden="true" /> Dashboard Kelas Saya
                     </Link>
                     <Link
                       href="/buat-kelas"
                       onClick={() => setMenuOpen(false)}
-                      className="flex items-center gap-2 rounded-lg px-2.5 py-2 text-xs font-medium text-slate-700 hover:bg-slate-50 transition-colors"
+                      className="flex items-center gap-2 rounded-[4px] px-2.5 py-2 text-xs font-medium text-[#20232B] hover:bg-[#E5E9F0] transition-colors"
                     >
-                      <SquarePen className="h-4 w-4 text-slate-500" aria-hidden="true" /> Buat Kelas Baru
+                      <SquarePen className="h-4 w-4 text-[#626B78]" aria-hidden="true" /> Buat Kelas Baru
                     </Link>
                     <Link
                       href="/onboarding"
                       onClick={() => setMenuOpen(false)}
-                      className="flex items-center gap-2 rounded-lg px-2.5 py-2 text-xs font-medium text-slate-700 hover:bg-slate-50 transition-colors"
+                      className="flex items-center gap-2 rounded-[4px] px-2.5 py-2 text-xs font-medium text-[#20232B] hover:bg-[#E5E9F0] transition-colors"
                     >
-                      <GraduationCap className="h-4 w-4 text-slate-500" aria-hidden="true" /> Perbarui Kampus &amp; Jurusan
+                      <GraduationCap className="h-4 w-4 text-[#626B78]" aria-hidden="true" /> Perbarui Kampus &amp; Jurusan
                     </Link>
                     <button
                       type="button"
                       onClick={handleLogout}
-                      className="flex w-full items-center gap-2 rounded-lg px-2.5 py-2 text-xs font-medium text-red-600 hover:bg-red-50 transition-colors"
+                      className="flex w-full items-center gap-2 rounded-[4px] px-2.5 py-2 text-xs font-medium text-red-600 hover:bg-red-50 transition-colors"
                     >
                       <LogOut className="h-4 w-4" aria-hidden="true" /> Keluar (Logout)
                     </button>
@@ -214,13 +214,13 @@ export function Navbar() {
             <div className="flex items-center gap-2">
               <Link
                 href="/login"
-                className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-colors"
+                className="btn-secondary"
               >
                 Login
               </Link>
               <Link
                 href="/register"
-                className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 transition-colors"
+                className="btn-primary"
               >
                 Register
               </Link>

@@ -4,49 +4,47 @@ import { Search, SquarePen } from "lucide-react";
 
 export function Hero() {
   return (
-    <section className="bg-background pt-10 pb-16">
-      <div className="mx-auto grid max-w-7xl items-center gap-8 px-6 lg:grid-cols-2">
+    <section className="bg-white pt-12 pb-16 border-b border-[#D9DEE7]">
+      <div className="mx-auto grid max-w-[1180px] items-center gap-10 px-4 sm:px-6 lg:px-8 lg:grid-cols-2">
         <div className="min-w-0">
-          <p className="text-xs font-bold tracking-wider text-blue-600 uppercase">
-            Platform Edukasi &amp; Persiapan Ujian Kampus
+          <p className="text-xs font-semibold tracking-wider text-[#2457C5] uppercase">
+            Bimbingan Akademik &amp; Persiapan Ujian Kampus
           </p>
 
-          <h1 className="mt-3 text-4xl sm:text-5xl font-extrabold leading-tight tracking-tight text-slate-900">
-            Tingkatkan Prestasi Kuliah Bersama{" "}
-            <span className="text-blue-600">Tutor Sebaya</span>{" "}
-            Terverifikasi
+          <h1 className="mt-3 text-4xl sm:text-5xl lg:text-[52px] font-bold leading-[1.15] tracking-tight text-[#20232B]">
+            Tingkatkan Pemahaman Kuliah Bersama Tutor Sebaya
           </h1>
 
-          <p className="mt-5 max-w-lg text-base leading-relaxed text-slate-600">
-            Temukan bimbingan mata kuliah, peer-tutoring intensif, dan bootcamp terstruktur
-            bersama tutor sebaya dari kampusmu untuk mengamankan nilai UTS/UAS dan pemahaman materi yang mendalam.
+          <p className="mt-5 max-w-lg text-base leading-relaxed text-[#626B78]">
+            Temukan bimbingan mata kuliah, peer-tutoring intensif, dan materi terstruktur
+            bersama tutor sebaya dari kampusmu untuk menghadapi pekan ujian UTS dan UAS.
           </p>
 
-          <div className="mt-8 flex flex-wrap gap-3.5">
+          <div className="mt-8 flex flex-wrap gap-3">
             <Link
               href="/cari-kelas"
-              className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-blue-500/20 hover:bg-blue-700 transition-all hover:scale-[1.02]"
+              className="btn-primary"
             >
-              <Search className="h-4 w-4" aria-hidden="true" /> Cari Kelas Kuliah
+              <Search className="h-4 w-4" aria-hidden="true" /> Cari kelas
             </Link>
             <Link
               href="/buat-kelas"
-              className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-6 py-3.5 text-sm font-semibold text-slate-700 shadow-xs hover:bg-slate-50 transition-all hover:scale-[1.02]"
+              className="btn-secondary"
             >
-              <SquarePen className="h-4 w-4" aria-hidden="true" /> Buat Kelas Tutor
+              <SquarePen className="h-4 w-4" aria-hidden="true" /> Buat kelas
             </Link>
           </div>
         </div>
 
-        <div className="relative flex min-w-0 items-center justify-center">
-          <div className="relative flex w-full max-w-md items-center justify-center overflow-hidden rounded-3xl bg-gradient-to-b from-blue-50 to-blue-100/70 p-6 shadow-md ring-1 ring-blue-100">
+        <div className="flex min-w-0 items-center justify-center lg:justify-end">
+          <div className="flex w-full max-w-md items-center justify-center overflow-hidden rounded-[6px] border border-[#D9DEE7] bg-white p-6">
             <Image
               src="/landing-main.png"
-              alt="Ilustrasi Belajar Nexiera"
+              alt="Ilustrasi Pembelajaran Nexiera"
               width={400}
               height={400}
               priority
-              className="max-h-[400px] w-auto object-contain drop-shadow-sm"
+              className="max-h-[380px] w-auto object-contain"
             />
           </div>
         </div>

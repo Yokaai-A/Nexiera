@@ -41,7 +41,7 @@ export default function RegisterPage() {
           <div>
             <label
               htmlFor="reg-fullname"
-              className="mb-1 block text-xs font-bold text-slate-700"
+              className="mb-1 block text-xs font-semibold text-[#20232B]"
             >
               Nama Lengkap
             </label>
@@ -52,14 +52,14 @@ export default function RegisterPage() {
               onChange={(e) => setFullName(e.target.value)}
               placeholder="Contoh: Muhammad Abyan"
               required
-              className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-800 placeholder:text-slate-400 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all"
+              className="nx-input"
             />
           </div>
 
           <div>
             <label
               htmlFor="reg-email"
-              className="mb-1 block text-xs font-bold text-slate-700"
+              className="mb-1 block text-xs font-semibold text-[#20232B]"
             >
               Email Kampus / Mahasiswa
             </label>
@@ -70,14 +70,14 @@ export default function RegisterPage() {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="nama@binus.ac.id"
               required
-              className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-800 placeholder:text-slate-400 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all"
+              className="nx-input"
             />
           </div>
 
           <div>
             <label
               htmlFor="reg-password"
-              className="mb-1 block text-xs font-bold text-slate-700"
+              className="mb-1 block text-xs font-semibold text-[#20232B]"
             >
               Password
             </label>
@@ -88,14 +88,14 @@ export default function RegisterPage() {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Minimal 8 karakter"
               required
-              className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-800 placeholder:text-slate-400 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all"
+              className="nx-input"
             />
           </div>
 
           <div>
             <label
               htmlFor="reg-confirm"
-              className="mb-1 block text-xs font-bold text-slate-700"
+              className="mb-1 block text-xs font-semibold text-[#20232B]"
             >
               Konfirmasi Password
             </label>
@@ -106,7 +106,7 @@ export default function RegisterPage() {
               onChange={(e) => setConfirmPassword(e.target.value)}
               placeholder="Ulangi password"
               required
-              className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-800 placeholder:text-slate-400 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all"
+              className="nx-input"
             />
           </div>
         </div>
@@ -114,12 +114,12 @@ export default function RegisterPage() {
         <button
           type="submit"
           disabled={isLoading}
-          className="mt-6 w-full rounded-xl bg-blue-600 py-3 text-sm font-bold text-white shadow-md shadow-blue-500/20 hover:bg-blue-700 transition-all hover:scale-[1.01] disabled:opacity-50"
+          className="btn-primary w-full mt-6 py-2.5 disabled:opacity-50"
         >
           {isLoading ? "Menyiapkan Onboarding..." : <>Lanjut ke Pemilihan Kampus <ArrowRight className="ml-1 inline h-4 w-4" aria-hidden="true" /></>}
         </button>
 
-        <p className="mt-3 text-center text-xs text-slate-400">
+        <p className="mt-3 text-center text-xs text-[#626B78]">
           Langkah berikutnya: Memilih Kampus &amp; Jurusan Akademik
         </p>
       </form>

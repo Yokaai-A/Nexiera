@@ -121,8 +121,8 @@ export function DetailKelas() {
   return (
     <div className="min-h-screen bg-background pb-20">
       {toastMessage && (
-        <div className="fixed top-20 right-6 z-50 flex items-center gap-2 rounded-2xl bg-emerald-600 px-4 py-3 text-xs font-bold text-white shadow-xl animate-in fade-in slide-in-from-top-4 duration-300">
-          <CircleCheck className="h-4 w-4" aria-hidden="true" />
+        <div className="fixed top-20 right-6 z-50 flex items-center gap-2 rounded-[4px] bg-[#20232B] border border-[#D9DEE7] px-4 py-3 text-xs font-semibold text-white animate-in fade-in slide-in-from-top-4 duration-200">
+          <CircleCheck className="h-4 w-4 text-[#2457C5]" aria-hidden="true" />
           <span>{toastMessage}</span>
           <button
             type="button"
@@ -134,105 +134,105 @@ export function DetailKelas() {
         </div>
       )}
 
-      <div className="border-b border-slate-200/80 bg-white">
-        <div className="mx-auto flex max-w-6xl items-center gap-2 px-6 py-3.5 text-xs text-slate-500">
-          <Link href="/cari-kelas" className="flex items-center gap-1 font-semibold text-blue-600 hover:underline">
+      <div className="border-b border-[#D9DEE7] bg-white">
+        <div className="mx-auto flex max-w-[1180px] items-center gap-2 px-4 sm:px-6 lg:px-8 py-3.5 text-xs text-[#626B78]">
+          <Link href="/cari-kelas" className="flex items-center gap-1 font-medium text-[#2457C5] hover:underline">
             <Search className="h-3.5 w-3.5" aria-hidden="true" /> Katalog Kelas
           </Link>
-          <span className="text-slate-300">/</span>
-          <span className="text-slate-500">{categoryName}</span>
-          <span className="text-slate-300">/</span>
-          <span className="text-slate-500">{majorName}</span>
-          <span className="text-slate-300">/</span>
-          <span className="font-bold text-slate-800 truncate max-w-xs">{course.title}</span>
+          <span className="text-[#D9DEE7]">/</span>
+          <span className="text-[#626B78]">{categoryName}</span>
+          <span className="text-[#D9DEE7]">/</span>
+          <span className="text-[#626B78]">{majorName}</span>
+          <span className="text-[#D9DEE7]">/</span>
+          <span className="font-semibold text-[#20232B] truncate max-w-xs">{course.title}</span>
         </div>
       </div>
 
-      <div className="mx-auto max-w-6xl px-6 py-8">
+      <div className="mx-auto max-w-[1180px] px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
 
           <div className="lg:col-span-2 space-y-6">
 
-            <div className="rounded-3xl border border-slate-200/80 bg-white p-6 sm:p-8 shadow-xs">
+            <div className="nx-card p-6 sm:p-8">
               <div className="flex flex-wrap items-center gap-2">
-                <span className="rounded-md bg-blue-50 px-2.5 py-1 text-[11px] font-bold text-blue-700 ring-1 ring-blue-100 uppercase tracking-wide">
+                <span className="rounded-[4px] border border-[#D9DEE7] bg-[#E5E9F0]/60 px-2.5 py-1 text-[11px] font-semibold text-[#2457C5] uppercase tracking-wide">
                   <Layers className="mr-1 inline h-3.5 w-3.5" aria-hidden="true" /> {categoryName}
                 </span>
-                <span className="rounded-md bg-slate-100 px-2.5 py-1 text-[11px] font-semibold text-slate-700">
-                  <GraduationCap className="mr-1 inline h-3.5 w-3.5" aria-hidden="true" /> {majorName}
+                <span className="rounded-[4px] border border-[#D9DEE7] bg-white px-2.5 py-1 text-[11px] font-medium text-[#20232B]">
+                  <GraduationCap className="mr-1 inline h-3.5 w-3.5 text-[#626B78]" aria-hidden="true" /> {majorName}
                 </span>
                 {isBootcamp ? (
-                  <span className="rounded-md bg-cyan-50 px-2.5 py-1 text-[11px] font-bold text-cyan-700 ring-1 ring-cyan-200">
-                    <Rocket className="mr-1 inline h-3.5 w-3.5" aria-hidden="true" /> Bootcamp
+                  <span className="rounded-[4px] border border-[#D9DEE7] bg-[#E5E9F0]/60 px-2.5 py-1 text-[11px] font-medium text-[#20232B]">
+                    <Rocket className="mr-1 inline h-3.5 w-3.5 text-[#2457C5]" aria-hidden="true" /> Bootcamp
                   </span>
                 ) : (
-                  <span className="rounded-md bg-slate-100 px-2.5 py-1 text-[11px] font-bold text-slate-700 ring-1 ring-slate-200">
-                    <Handshake className="mr-1 inline h-3.5 w-3.5" aria-hidden="true" /> Peer-Tutoring
+                  <span className="rounded-[4px] border border-[#D9DEE7] bg-[#E5E9F0]/60 px-2.5 py-1 text-[11px] font-medium text-[#20232B]">
+                    <Handshake className="mr-1 inline h-3.5 w-3.5 text-[#2457C5]" aria-hidden="true" /> Peer-Tutoring
                   </span>
                 )}
               </div>
 
-              <h1 className="mt-4 text-2xl sm:text-3xl font-extrabold text-slate-900 leading-snug">
+              <h1 className="mt-4 text-2xl sm:text-3xl font-semibold text-[#20232B] leading-snug">
                 {course.title}
               </h1>
-              <p className="mt-2.5 text-xs sm:text-sm text-slate-600 leading-relaxed">
+              <p className="mt-2.5 text-sm text-[#626B78] leading-relaxed">
                 {course.shortDescription}
               </p>
 
               <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-3">
-                <div className="rounded-2xl border border-slate-100 bg-slate-50/70 p-3.5">
-                  <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                <div className="rounded-[4px] border border-[#D9DEE7] bg-[#E5E9F0]/30 p-3">
+                  <div className="text-[10px] font-semibold uppercase tracking-wider text-[#626B78]">
                     Jadwal
                   </div>
-                  <div className="mt-1 flex items-center gap-1.5 text-xs font-bold text-slate-800">
-                    <CalendarDays className="h-3.5 w-3.5 text-slate-400" aria-hidden="true" /> {course.scheduleDate}
+                  <div className="mt-1 flex items-center gap-1.5 text-xs font-semibold text-[#20232B]">
+                    <CalendarDays className="h-3.5 w-3.5 text-[#626B78]" aria-hidden="true" /> {course.scheduleDate}
                   </div>
                 </div>
 
-                <div className="rounded-2xl border border-slate-100 bg-slate-50/70 p-3.5">
-                  <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                <div className="rounded-[4px] border border-[#D9DEE7] bg-[#E5E9F0]/30 p-3">
+                  <div className="text-[10px] font-semibold uppercase tracking-wider text-[#626B78]">
                     Sesi Tatap Muka
                   </div>
-                  <div className="mt-1 flex items-center gap-1.5 text-xs font-bold text-slate-800">
-                    <MonitorPlay className="h-3.5 w-3.5 text-slate-400" aria-hidden="true" /> {course.meetingPlatform}
+                  <div className="mt-1 flex items-center gap-1.5 text-xs font-semibold text-[#20232B]">
+                    <MonitorPlay className="h-3.5 w-3.5 text-[#626B78]" aria-hidden="true" /> {course.meetingPlatform}
                   </div>
                 </div>
 
-                <div className="rounded-2xl border border-slate-100 bg-slate-50/70 p-3.5">
-                  <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                <div className="rounded-[4px] border border-[#D9DEE7] bg-[#E5E9F0]/30 p-3">
+                  <div className="text-[10px] font-semibold uppercase tracking-wider text-[#626B78]">
                     Masa Akses
                   </div>
-                  <div className="mt-1 flex items-center gap-1.5 text-xs font-bold text-slate-800">
+                  <div className="mt-1 flex items-center gap-1.5 text-xs font-semibold text-[#20232B]">
                     {course.accessDuration}
                   </div>
                 </div>
 
-                <div className="rounded-2xl border border-slate-100 bg-slate-50/70 p-3.5">
-                  <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                <div className="rounded-[4px] border border-[#D9DEE7] bg-[#E5E9F0]/30 p-3">
+                  <div className="text-[10px] font-semibold uppercase tracking-wider text-[#626B78]">
                     Sisa Kuota
                   </div>
-                  <div className="mt-1 flex items-center gap-1.5 text-xs font-bold text-blue-600">
+                  <div className="mt-1 flex items-center gap-1.5 text-xs font-semibold text-[#2457C5]">
                     <UsersRound className="h-3.5 w-3.5" aria-hidden="true" /> {course.availableSeats} Kursi
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="rounded-3xl border border-slate-200/80 bg-white p-6 sm:p-8 shadow-xs">
-              <h2 className="text-base font-bold text-slate-900">Tentang Program Pembelajaran</h2>
-              <p className="mt-3 text-xs sm:text-sm leading-relaxed text-slate-600 whitespace-pre-line">
+            <div className="nx-card p-6 sm:p-8">
+              <h2 className="text-base font-semibold text-[#20232B]">Tentang Program Pembelajaran</h2>
+              <p className="mt-3 text-sm leading-relaxed text-[#626B78] whitespace-pre-line">
                 {course.fullDescription}
               </p>
 
               <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-slate-800">
+                  <h3 className="text-xs font-semibold uppercase tracking-wider text-[#20232B]">
                     Syarat &amp; Prasyarat
                   </h3>
                   <ul className="mt-3 space-y-2">
                     {course.requirements.map((req, i) => (
-                      <li key={i} className="flex items-start gap-2 text-xs text-slate-600">
-                        <span className="text-blue-500 font-bold">•</span>
+                      <li key={i} className="flex items-start gap-2 text-xs text-[#626B78]">
+                        <span className="text-[#2457C5] font-semibold">•</span>
                         <span>{req}</span>
                       </li>
                     ))}
@@ -240,13 +240,13 @@ export function DetailKelas() {
                 </div>
 
                 <div>
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-slate-800">
+                  <h3 className="text-xs font-semibold uppercase tracking-wider text-[#20232B]">
                     Fasilitas Pembelajaran
                   </h3>
                   <ul className="mt-3 space-y-2">
                     {course.facilities.map((fac, i) => (
-                      <li key={i} className="flex items-start gap-2 text-xs text-emerald-700 font-medium">
-                        <Check className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+                      <li key={i} className="flex items-start gap-2 text-xs text-[#20232B] font-medium">
+                        <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#2457C5]" aria-hidden="true" />
                         <span>{fac}</span>
                       </li>
                     ))}
@@ -255,33 +255,33 @@ export function DetailKelas() {
               </div>
             </div>
 
-            <div className="rounded-3xl border border-slate-200/80 bg-white p-6 sm:p-8 shadow-xs">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-base font-bold text-slate-900">
+            <div className="nx-card p-6 sm:p-8">
+              <div className="flex items-center justify-between mb-4 border-b border-[#D9DEE7] pb-3">
+                <h2 className="text-base font-semibold text-[#20232B]">
                   {isBootcamp ? `Tim Pengajar (${course.tutors.length} Tutor)` : "Profil Tutor Mahasiswa"}
                 </h2>
-                <span className="text-xs text-blue-600 font-semibold">
+                <span className="text-xs text-[#2457C5] font-medium">
                   Diselenggarakan oleh {course.organizerName}
                 </span>
               </div>
 
               <div className="grid gap-4 sm:grid-cols-2">
                 {course.tutors.map((t) => (
-                  <div key={t.id} className="flex items-center gap-3.5 rounded-2xl border border-slate-100 bg-slate-50/70 p-4">
-                    <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full ring-2 ring-blue-500/20">
+                  <div key={t.id} className="flex items-center gap-3.5 rounded-[4px] border border-[#D9DEE7] bg-white p-3.5">
+                    <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-[4px] border border-[#D9DEE7]">
                       <Image
                         src={t.avatarUrl || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=256&q=80"}
                         alt={t.name}
                         fill
-                        sizes="48px"
+                        sizes="44px"
                         className="object-cover"
                       />
                     </div>
                     <div className="min-w-0">
-                      <h3 className="text-sm font-bold text-slate-900 truncate">{t.name}</h3>
-                      <p className="text-xs font-medium text-slate-500 truncate">{t.role}</p>
-                      <span className="mt-1 inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-600">
-                        <BadgeCheck className="h-3 w-3" aria-hidden="true" /> Terverifikasi Kampus
+                      <h3 className="text-sm font-semibold text-[#20232B] truncate">{t.name}</h3>
+                      <p className="text-xs text-[#626B78] truncate">{t.role}</p>
+                      <span className="mt-1 inline-flex items-center gap-1 text-[11px] font-medium text-[#2457C5]">
+                        <BadgeCheck className="h-3 w-3" aria-hidden="true" /> Mahasiswa Terverifikasi
                       </span>
                     </div>
                   </div>
@@ -292,36 +292,36 @@ export function DetailKelas() {
           </div>
 
           <div className="space-y-6 lg:sticky lg:top-24">
-            <div className="rounded-3xl border border-slate-200/80 bg-white p-6 shadow-md">
-              <div className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+            <div className="nx-card p-6">
+              <div className="text-[11px] font-semibold uppercase tracking-wider text-[#626B78]">
                 Biaya Pendaftaran
               </div>
               <div className="mt-2 flex items-baseline gap-2">
                 {isFree ? (
-                  <span className="text-3xl font-black text-emerald-600">GRATIS</span>
+                  <span className="text-2xl font-bold text-emerald-700">GRATIS</span>
                 ) : (
                   <>
-                    <span className="text-3xl font-black text-slate-900">
+                    <span className="text-2xl font-bold text-[#20232B]">
                       Rp {course.priceAmount?.toLocaleString("id-ID")}
                     </span>
-                    <span className="text-xs text-slate-400">/ semester</span>
+                    <span className="text-xs text-[#626B78]">/ semester</span>
                   </>
                 )}
               </div>
 
               {isRegistered ? (
                 <div className="mt-6 space-y-3">
-                  <div className="rounded-2xl bg-emerald-50 border border-emerald-200 p-3.5 text-center">
-                    <p className="text-xs font-bold text-emerald-800">
-                      <CircleCheck className="mr-1 inline h-4 w-4" aria-hidden="true" /> Kamu Sudah Terdaftar!
+                  <div className="rounded-[4px] border border-emerald-200 bg-emerald-50/60 p-3 text-center">
+                    <p className="text-xs font-semibold text-emerald-800">
+                      <CircleCheck className="mr-1 inline h-4 w-4" aria-hidden="true" /> Kamu Sudah Terdaftar
                     </p>
-                    <p className="mt-1 text-[11px] text-emerald-600">
-                      Semua tautan pembelajaran dapat diakses melalui Dashboard Peserta.
+                    <p className="mt-1 text-[11px] text-emerald-700">
+                      Tautan pembelajaran dapat diakses melalui Dashboard Peserta.
                     </p>
                   </div>
                   <Link
                     href="/kelas-saya"
-                    className="flex w-full items-center justify-center gap-2 rounded-2xl bg-blue-600 py-3.5 text-xs sm:text-sm font-bold text-white shadow-md hover:bg-blue-700 transition-all hover:scale-[1.02]"
+                    className="btn-primary w-full"
                   >
                     Lihat di Kelas Saya <ArrowRight className="h-4 w-4" aria-hidden="true" />
                   </Link>
@@ -330,33 +330,33 @@ export function DetailKelas() {
                 <button
                   type="button"
                   onClick={handleCtaClick}
-                  className="mt-6 flex w-full items-center justify-center gap-2 rounded-2xl bg-blue-600 py-3.5 text-xs sm:text-sm font-bold text-white shadow-md hover:bg-blue-700 transition-all hover:scale-[1.02]"
+                  className="btn-primary w-full mt-6"
                 >
                   Daftar Kelas <ArrowRight className="h-4 w-4" aria-hidden="true" />
                 </button>
               )}
 
-              <div className="mt-6 space-y-2.5 border-t border-slate-100 pt-5 text-xs text-slate-600">
+              <div className="mt-6 space-y-2.5 border-t border-[#D9DEE7] pt-5 text-xs text-[#626B78]">
                 <div className="flex items-center justify-between">
-                  <span className="text-slate-400">Penyelenggara:</span>
-                  <span className="font-bold text-slate-800">{course.organizerName}</span>
+                  <span className="text-[#626B78]">Penyelenggara:</span>
+                  <span className="font-semibold text-[#20232B]">{course.organizerName}</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-slate-400">Universitas:</span>
-                  <span className="font-semibold text-slate-800">{course.university}</span>
+                  <span className="text-[#626B78]">Universitas:</span>
+                  <span className="font-semibold text-[#20232B]">{course.university}</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-slate-400">Format:</span>
-                  <span className="font-semibold text-slate-800">Online ({course.meetingPlatform})</span>
+                  <span className="text-[#626B78]">Format:</span>
+                  <span className="font-semibold text-[#20232B]">Online ({course.meetingPlatform})</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-slate-400">Sisa Kuota:</span>
-                  <span className="font-bold text-blue-600">{course.availableSeats} Mahasiswa</span>
+                  <span className="text-[#626B78]">Sisa Kuota:</span>
+                  <span className="font-semibold text-[#2457C5]">{course.availableSeats} Mahasiswa</span>
                 </div>
               </div>
 
-              <div className="mt-6 rounded-2xl bg-slate-50 p-3 text-[11px] text-slate-500 text-center">
-                <ShieldCheck className="mr-1 inline h-3.5 w-3.5" aria-hidden="true" /> Jaminan Bimbingan Berintegritas &amp; Sesuai Silabus Ujian
+              <div className="mt-6 rounded-[4px] border border-[#D9DEE7] bg-[#E5E9F0]/40 p-3 text-[11px] text-[#626B78] text-center">
+                <ShieldCheck className="mr-1 inline h-3.5 w-3.5 text-[#2457C5]" aria-hidden="true" /> Bimbingan Terarah Sesuai Silabus Ujian
               </div>
             </div>
           </div>
@@ -365,24 +365,24 @@ export function DetailKelas() {
       </div>
 
       {showAuthModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-xs p-4">
-          <div className="w-full max-w-md rounded-3xl bg-white p-6 sm:p-8 shadow-2xl ring-1 ring-slate-200">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-              <h3 className="text-sm font-bold text-slate-900">Masuk untuk Mendaftar</h3>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+          <div className="w-full max-w-md rounded-[6px] border border-[#D9DEE7] bg-white p-6 sm:p-8">
+            <div className="flex items-center justify-between border-b border-[#D9DEE7] pb-3">
+              <h3 className="text-sm font-semibold text-[#20232B]">Masuk untuk Mendaftar</h3>
               <button
                 type="button"
                 onClick={() => setShowAuthModal(false)}
-                className="text-slate-400 hover:text-slate-600 font-bold"
+                className="text-[#626B78] hover:text-[#20232B]"
               >
                 <X className="h-4 w-4" aria-hidden="true" />
               </button>
             </div>
 
             <div className="mt-4 text-center">
-              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-blue-600">
-                <Lock className="h-6 w-6" aria-hidden="true" />
+              <div className="mx-auto flex h-11 w-11 items-center justify-center rounded-[4px] bg-[#E5E9F0] text-[#2457C5]">
+                <Lock className="h-5 w-5" aria-hidden="true" />
               </div>
-              <p className="mt-3 text-xs text-slate-600 leading-relaxed">
+              <p className="mt-3 text-xs text-[#626B78] leading-relaxed">
                 Kamu perlu masuk terlebih dahulu untuk mendaftar kelas <b>{course.title}</b>.
               </p>
             </div>
@@ -391,20 +391,20 @@ export function DetailKelas() {
               <button
                 type="button"
                 onClick={handleGuestLogin}
-                className="w-full rounded-xl bg-blue-600 py-3 text-xs font-bold text-white hover:bg-blue-700 transition-colors"
+                className="btn-primary w-full"
               >
                 Masuk Cepat (Akun Mahasiswa BINUS)
               </button>
               <div className="flex gap-2">
                 <Link
                   href="/login"
-                  className="flex-1 rounded-xl border border-slate-200 py-2.5 text-center text-xs font-bold text-slate-700 hover:bg-slate-50"
+                  className="btn-secondary flex-1 text-center"
                 >
-                  Halaman Login
+                  Login
                 </Link>
                 <Link
                   href="/register"
-                  className="flex-1 rounded-xl border border-slate-200 py-2.5 text-center text-xs font-bold text-slate-700 hover:bg-slate-50"
+                  className="btn-secondary flex-1 text-center"
                 >
                   Registrasi
                 </Link>
@@ -415,61 +415,61 @@ export function DetailKelas() {
       )}
 
       {showConfirmModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-xs p-4">
-          <div className="w-full max-w-md rounded-3xl bg-white p-6 sm:p-8 shadow-2xl ring-1 ring-slate-200">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-              <h3 className="text-sm font-bold text-slate-900">Konfirmasi Pendaftaran Kelas</h3>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+          <div className="w-full max-w-md rounded-[6px] border border-[#D9DEE7] bg-white p-6 sm:p-8">
+            <div className="flex items-center justify-between border-b border-[#D9DEE7] pb-3">
+              <h3 className="text-sm font-semibold text-[#20232B]">Konfirmasi Pendaftaran Kelas</h3>
               <button
                 type="button"
                 onClick={() => setShowConfirmModal(false)}
-                className="text-slate-400 hover:text-slate-600 font-bold"
+                className="text-[#626B78] hover:text-[#20232B]"
               >
                 <X className="h-4 w-4" aria-hidden="true" />
               </button>
             </div>
 
             <form onSubmit={handleConfirmRegistration} className="mt-4 space-y-3.5">
-              <div className="rounded-2xl bg-slate-50 p-3.5">
-                <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Mata Kuliah</p>
-                <p className="text-xs sm:text-sm font-bold text-slate-900 mt-0.5">{course.title}</p>
-                <p className="text-[11px] text-blue-600 font-semibold">{course.university} • {majorName}</p>
+              <div className="rounded-[4px] border border-[#D9DEE7] bg-[#E5E9F0]/30 p-3.5">
+                <p className="text-[10px] font-semibold uppercase tracking-wider text-[#626B78]">Mata Kuliah</p>
+                <p className="text-sm font-semibold text-[#20232B] mt-0.5">{course.title}</p>
+                <p className="text-xs text-[#2457C5] font-medium">{course.university} • {majorName}</p>
               </div>
 
               <div>
-                <label className="text-xs font-bold text-slate-700 block mb-1">Nama Mahasiswa</label>
+                <label className="text-xs font-semibold text-[#20232B] block mb-1">Nama Mahasiswa</label>
                 <input
                   type="text"
                   defaultValue={user.fullName}
                   required
-                  className="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-xs text-slate-800 outline-none focus:border-blue-500"
+                  className="nx-input text-xs"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-bold text-slate-700 block mb-1">Email Mahasiswa</label>
+                <label className="text-xs font-semibold text-[#20232B] block mb-1">Email Mahasiswa</label>
                 <input
                   type="email"
                   defaultValue={user.email}
                   required
-                  className="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-xs text-slate-800 outline-none focus:border-blue-500"
+                  className="nx-input text-xs"
                 />
               </div>
 
-              <div className="rounded-xl bg-blue-50 p-3 text-[11px] text-blue-800">
-                Setelah pendaftaran dikonfirmasi, tautan sesi live dan seluruh materi belajar akan otomatis tersedia di menu <b>Kelas Saya</b>.
+              <div className="rounded-[4px] border border-[#D9DEE7] bg-[#E5E9F0]/40 p-3 text-[11px] text-[#20232B]">
+                Setelah pendaftaran dikonfirmasi, tautan sesi live dan materi belajar akan otomatis tersedia di menu <b>Kelas Saya</b>.
               </div>
 
               <div className="flex gap-2 pt-2">
                 <button
                   type="button"
                   onClick={() => setShowConfirmModal(false)}
-                  className="flex-1 rounded-xl border border-slate-200 py-2.5 text-xs font-bold text-slate-700 hover:bg-slate-50"
+                  className="btn-secondary flex-1"
                 >
                   Batal
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 rounded-xl bg-blue-600 py-2.5 text-xs font-bold text-white hover:bg-blue-700 transition-colors"
+                  className="btn-primary flex-1"
                 >
                   Konfirmasi &amp; Daftar
                 </button>

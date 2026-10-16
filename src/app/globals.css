@@ -1,57 +1,172 @@
 @import "tailwindcss";
 
-:root {
-  --background: #F8FAFC;
-  --foreground: #0F172A;
+@theme {
+  --font-sans: var(--font-sans), "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  --color-white: #FFFFFF;
+  --color-cobalt: #2457C5;
+  --color-cobalt-hover: #1C48A5;
+  --color-ink: #20232B;
+  --color-mist: #E5E9F0;
+  --color-muted: #626B78;
+  --color-border: #D9DEE7;
+
+  /* Align Tailwind utility colors directly with Design.md palette */
+  --color-blue-600: #2457C5;
+  --color-blue-700: #1C48A5;
+  --color-blue-50: #F0F4FC;
+  --color-slate-900: #20232B;
+  --color-slate-800: #20232B;
+  --color-slate-700: #383D48;
+  --color-slate-600: #626B78;
+  --color-slate-500: #626B78;
+  --color-slate-400: #8892A0;
+  --color-slate-200: #D9DEE7;
+  --color-slate-100: #E5E9F0;
+  --color-slate-50: #F9FAFB;
+
+  --radius-control: 4px;
+  --radius-card: 6px;
 }
 
-@theme {
-  --color-nexiera-navy: #0F172A;
-  --color-nexiera-navy-light: #1E293B;
-  --color-nexiera-navy-dark: #080D1A;
+:root {
+  --color-white: #FFFFFF;
+  --color-cobalt: #2457C5;
+  --color-cobalt-hover: #1C48A5;
+  --color-ink: #20232B;
+  --color-mist: #E5E9F0;
+  --color-muted: #626B78;
+  --color-border: #D9DEE7;
 
-  --color-nexiera-blue: #2563EB;
-  --color-nexiera-blue-hover: #1D4ED8;
-  --color-nexiera-blue-light: #EFF6FF;
+  --font-sans: var(--font-sans), "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
-  --color-nexiera-cyan: #06B6D4;
-  --color-nexiera-cyan-light: #67E8F9;
+  --radius-control: 4px;
+  --radius-card: 6px;
 
-  --color-nexiera-slate: #64748B;
-  --color-nexiera-slate-light: #F8FAFC;
-  --color-nexiera-slate-border: #E2E8F0;
+  --shadow-none: none;
 
-  --radius-card: 16px;
-  --radius-button: 8px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  --content-max: 1180px;
+
+  --background: #FFFFFF;
+  --foreground: #20232B;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-geist-sans), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: var(--color-white);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
 }
 
+/* Design.md Core Utility Styles */
+.nx-container {
+  max-width: var(--content-max);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+@media (min-width: 640px) {
+  .nx-container {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .nx-container {
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+}
+
+/* Primary and Secondary button presets */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: var(--color-cobalt);
+  color: var(--color-white);
+  border-radius: var(--radius-control);
+  font-size: 14px;
+  font-weight: 500;
+  padding: 10px 18px;
+  transition: background-color 150ms ease, opacity 150ms ease;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-cobalt-hover);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: var(--color-white);
+  color: var(--color-ink);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  font-size: 14px;
+  font-weight: 500;
+  padding: 10px 18px;
+  transition: background-color 150ms ease, border-color 150ms ease;
+  cursor: pointer;
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-mist);
+}
+
+.nx-card {
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  transition: border-color 150ms ease;
+}
+
+.nx-card:hover {
+  border-color: #BAC3D2;
+}
+
+.nx-input {
+  width: 100%;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  padding: 10px 12px;
+  font-size: 14px;
+  color: var(--color-ink);
+  outline: none;
+  transition: border-color 150ms ease;
+}
+
+.nx-input:focus {
+  border-color: var(--color-cobalt);
+}
+
+/* Interaction transitions per Design.md Section 8 (120-180ms) */
 a,
 button,
 [role="button"] {
-  transition-property: color, background-color, border-color, box-shadow, opacity, transform;
-  transition-duration: 160ms;
+  transition-property: color, background-color, border-color, opacity;
+  transition-duration: 150ms;
   transition-timing-function: ease;
-}
-
-.page-transition {
-  animation: page-enter 200ms ease-out both;
-}
-
-@keyframes page-enter {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -60,8 +175,5 @@ button,
   [role="button"] {
     transition-duration: 0.01ms;
   }
-
-  .page-transition {
-    animation: none;
-  }
 }
+

@@ -36,24 +36,24 @@ const CATEGORIES = [
 
 export function Categories() {
   return (
-    <section className="mx-auto max-w-7xl px-6 py-12">
+    <section className="mx-auto max-w-[1180px] px-4 sm:px-6 lg:px-8 py-12 border-t border-[#D9DEE7]">
       <div className="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
         <div>
-          <span className="text-xs font-bold tracking-wider text-blue-600 uppercase">
+          <span className="text-xs font-semibold tracking-wider text-[#2457C5] uppercase">
             Eksplorasi Kurikulum Kampus
           </span>
-          <h2 className="mt-1 text-2xl sm:text-3xl font-bold text-slate-900">
+          <h2 className="mt-1 text-2xl sm:text-3xl font-semibold text-[#20232B]">
             Kategori Rumpun Keilmuan
           </h2>
-          <p className="mt-1 text-xs text-slate-500">
+          <p className="mt-1.5 text-sm text-[#626B78]">
             Pilih rumpun keilmuan yang ingin kamu tingkatkan pemahamannya semester ini.
           </p>
         </div>
         <Link
           href="/cari-kelas"
-          className="text-xs font-semibold text-blue-600 hover:text-blue-700 hover:underline flex items-center gap-1"
+          className="text-sm font-medium text-[#2457C5] hover:underline flex items-center gap-1.5"
         >
-          Lihat Semua Katalog <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+          Lihat Semua Katalog <ArrowRight className="h-4 w-4" aria-hidden="true" />
         </Link>
       </div>
 
@@ -62,21 +62,21 @@ export function Categories() {
           <Link
             key={c.name}
             href={`/cari-kelas?category=${encodeURIComponent(c.name)}`}
-            className="group relative rounded-2xl border border-slate-100 bg-white p-6 shadow-xs transition-all duration-300 hover:-translate-y-1 hover:border-blue-200 hover:shadow-md"
+            className="nx-card p-5 block group"
           >
-            <div className="flex items-center gap-4">
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-blue-50/80 group-hover:bg-blue-100 transition-colors">
-                <c.icon className="h-5 w-5 text-blue-600" strokeWidth={1.8} aria-hidden="true" />
+            <div className="flex items-center gap-3.5">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[4px] bg-[#E5E9F0] text-[#20232B] group-hover:bg-[#2457C5] group-hover:text-white transition-colors">
+                <c.icon className="h-4 w-4" strokeWidth={1.8} aria-hidden="true" />
               </div>
-              <h3 className="text-base font-bold text-slate-900 group-hover:text-blue-600 transition-colors">
+              <h3 className="text-base font-semibold text-[#20232B] group-hover:text-[#2457C5] transition-colors">
                 {c.name}
               </h3>
             </div>
-            <p className="mt-3 text-xs leading-relaxed text-slate-500 line-clamp-2">
+            <p className="mt-3 text-xs leading-relaxed text-[#626B78] line-clamp-2">
               {c.desc}
             </p>
-            <div className="mt-4 flex items-center gap-1 text-xs font-semibold text-blue-600 group-hover:translate-x-1 transition-transform">
-              Jelajahi Kelas <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+            <div className="mt-4 flex items-center gap-1 text-xs font-medium text-[#2457C5]">
+              Jelajahi Kelas <ArrowRight className="h-3 w-3" aria-hidden="true" />
             </div>
           </Link>
         ))}

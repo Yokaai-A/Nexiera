@@ -20,10 +20,10 @@ import { CourseType, MaterialPlatform, MeetingPlatform, PricingModel, Tutor } fr
 function SectionTitle({ num, label }: { num: string; label: string }) {
   return (
     <div className="mb-4 flex items-center gap-3">
-      <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-blue-600 text-xs font-black text-white shadow-xs">
+      <span className="flex h-7 w-7 items-center justify-center rounded-[4px] bg-[#2457C5] text-xs font-semibold text-white">
         {num}
       </span>
-      <h2 className="text-base font-bold text-slate-900">{label}</h2>
+      <h2 className="text-base font-semibold text-[#20232B]">{label}</h2>
     </div>
   );
 }
@@ -44,10 +44,10 @@ function Field({
   return (
     <div className={className}>
       <div className="mb-1.5 flex items-center justify-between">
-        <label className="text-xs font-bold text-slate-700">
+        <label className="text-xs font-semibold text-[#20232B]">
           {label} {required && <span className="text-red-500">*</span>}
         </label>
-        {hint && <span className="text-[11px] text-slate-400">{hint}</span>}
+        {hint && <span className="text-[11px] text-[#626B78]">{hint}</span>}
       </div>
       {children}
     </div>
@@ -55,7 +55,7 @@ function Field({
 }
 
 const inputCls =
-  "w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-xs sm:text-sm text-slate-800 placeholder:text-slate-400 outline-none transition-all focus:border-blue-500 focus:ring-2 focus:ring-blue-100";
+  "w-full rounded-[4px] border border-[#D9DEE7] bg-white px-3.5 py-2.5 text-xs sm:text-sm text-[#20232B] placeholder:text-[#626B78] outline-none transition-colors focus:border-[#2457C5]";
 
 export function BuatKelasForm() {
   const router = useRouter();
@@ -233,10 +233,10 @@ export function BuatKelasForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-8 rounded-3xl border border-slate-200/80 bg-white p-6 shadow-xs md:p-10">
+    <form onSubmit={handleSubmit} className="space-y-8 nx-card p-6 md:p-10">
       {successMsg && (
-        <div className="rounded-2xl bg-emerald-50 border border-emerald-200 p-4 text-center">
-          <p className="flex items-center justify-center gap-2 text-sm font-bold text-emerald-800">
+        <div className="rounded-[4px] bg-emerald-50 border border-emerald-200 p-4 text-center">
+          <p className="flex items-center justify-center gap-2 text-sm font-semibold text-emerald-800">
             <CircleCheck className="h-4 w-4" aria-hidden="true" /> {successMsg}
           </p>
         </div>
@@ -482,21 +482,21 @@ export function BuatKelasForm() {
             <button
               type="button"
               onClick={() => handleTypeChange("BOOTCAMP")}
-              className={`rounded-2xl border p-4 text-left transition-all ${
+              className={`rounded-[4px] border p-4 text-left transition-colors ${
                 type === "BOOTCAMP"
-                  ? "border-cyan-500 bg-cyan-50/70 text-cyan-900 ring-2 ring-cyan-200"
-                  : "border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
+                  ? "border-[#2457C5] bg-[#E5E9F0]/50 text-[#20232B]"
+                  : "border-[#D9DEE7] bg-white text-[#20232B] hover:bg-[#E5E9F0]/30"
               }`}
             >
               <div className="flex items-center justify-between">
-                <span className="inline-flex items-center gap-1.5 text-sm font-bold">
-                  <Rocket className="h-4 w-4" aria-hidden="true" /> Bootcamp
+                <span className="inline-flex items-center gap-1.5 text-sm font-semibold">
+                  <Rocket className="h-4 w-4 text-[#2457C5]" aria-hidden="true" /> Bootcamp
                 </span>
-                <span className="text-xs font-semibold text-cyan-700 bg-cyan-100/80 px-2 py-0.5 rounded-full">
+                <span className="text-[11px] font-medium text-[#20232B] bg-white border border-[#D9DEE7] px-2 py-0.5 rounded-[4px]">
                   Multi-Tutor
                 </span>
               </div>
-              <p className="mt-1 text-xs text-slate-500">
+              <p className="mt-1 text-xs text-[#626B78]">
                 Diselenggarakan oleh organisasi / tim dengan dukungan <b>Multi-Tutor</b>.
               </p>
             </button>
@@ -504,28 +504,28 @@ export function BuatKelasForm() {
             <button
               type="button"
               onClick={() => handleTypeChange("PEER_TUTORING")}
-              className={`rounded-2xl border p-4 text-left transition-all ${
+              className={`rounded-[4px] border p-4 text-left transition-colors ${
                 type === "PEER_TUTORING"
-                  ? "border-blue-500 bg-blue-50/70 text-blue-900 ring-2 ring-blue-200"
-                  : "border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
+                  ? "border-[#2457C5] bg-[#E5E9F0]/50 text-[#20232B]"
+                  : "border-[#D9DEE7] bg-white text-[#20232B] hover:bg-[#E5E9F0]/30"
               }`}
             >
               <div className="flex items-center justify-between">
-                <span className="inline-flex items-center gap-1.5 text-sm font-bold">
-                  <Handshake className="h-4 w-4" aria-hidden="true" /> Peer-Tutoring
+                <span className="inline-flex items-center gap-1.5 text-sm font-semibold">
+                  <Handshake className="h-4 w-4 text-[#2457C5]" aria-hidden="true" /> Peer-Tutoring
                 </span>
-                <span className="text-xs font-semibold text-blue-700 bg-blue-100/80 px-2 py-0.5 rounded-full">
+                <span className="text-[11px] font-medium text-[#20232B] bg-white border border-[#D9DEE7] px-2 py-0.5 rounded-[4px]">
                   Terkunci 1 Tutor
                 </span>
               </div>
-              <p className="mt-1 text-xs text-slate-500">
+              <p className="mt-1 text-xs text-[#626B78]">
                 Diselenggarakan oleh <b>1 Orang Tutor Mahasiswa</b>.
               </p>
             </button>
           </div>
         </Field>
 
-        <div className="mt-5 rounded-2xl border border-slate-200 bg-slate-50/50 p-5">
+        <div className="mt-5 rounded-[4px] border border-[#D9DEE7] bg-[#E5E9F0]/30 p-5">
           <Field label={type === "BOOTCAMP" ? "Nama Organisasi / Komunitas" : "Nama Tutor Mahasiswa"} required>
             <input
               type="text"
@@ -555,7 +555,7 @@ export function BuatKelasForm() {
 
             <div className="space-y-3">
               {tutors.map((tutor, idx) => (
-                <div key={tutor.id} className="grid grid-cols-1 sm:grid-cols-2 gap-3 rounded-xl border border-slate-200 bg-white p-3 shadow-xs">
+                <div key={tutor.id} className="grid grid-cols-1 sm:grid-cols-2 gap-3 rounded-[4px] border border-[#D9DEE7] bg-white p-3">
                   <div>
                     <label className="text-[10px] font-semibold text-slate-500">Nama Tutor #{idx + 1}</label>
                     <input
@@ -629,14 +629,14 @@ export function BuatKelasForm() {
               <button
                 type="button"
                 onClick={() => setPricingModel("FREE")}
-                className={`rounded-2xl border p-4 text-left transition-all ${
+                className={`rounded-[4px] border p-4 text-left transition-colors ${
                   pricingModel === "FREE"
-                    ? "border-emerald-500 bg-emerald-50/70 text-emerald-900 ring-2 ring-emerald-200"
-                    : "border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
+                    ? "border-[#2457C5] bg-[#E5E9F0]/50 text-[#20232B]"
+                    : "border-[#D9DEE7] bg-white text-[#20232B] hover:bg-[#E5E9F0]/30"
                 }`}
               >
-                <span className="text-sm font-bold text-emerald-700">GRATIS</span>
-                <p className="mt-1 text-xs text-slate-500">
+                <span className="text-sm font-semibold text-emerald-700">GRATIS</span>
+                <p className="mt-1 text-xs text-[#626B78]">
                   Terbuka bebas bagi seluruh mahasiswa.
                 </p>
               </button>
@@ -644,14 +644,14 @@ export function BuatKelasForm() {
               <button
                 type="button"
                 onClick={() => setPricingModel("PAID")}
-                className={`rounded-2xl border p-4 text-left transition-all ${
+                className={`rounded-[4px] border p-4 text-left transition-colors ${
                   pricingModel === "PAID"
-                    ? "border-blue-500 bg-blue-50/70 text-blue-900 ring-2 ring-blue-200"
-                    : "border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
+                    ? "border-[#2457C5] bg-[#E5E9F0]/50 text-[#20232B]"
+                    : "border-[#D9DEE7] bg-white text-[#20232B] hover:bg-[#E5E9F0]/30"
                 }`}
               >
-                <span className="text-sm font-bold text-slate-900">BERBAYAR</span>
-                <p className="mt-1 text-xs text-slate-500">
+                <span className="text-sm font-semibold text-[#20232B]">BERBAYAR</span>
+                <p className="mt-1 text-xs text-[#626B78]">
                   Biaya partisipasi terjangkau.
                 </p>
               </button>
@@ -675,11 +675,11 @@ export function BuatKelasForm() {
         </div>
       </section>
 
-      <div className="pt-4 border-t border-slate-100 flex justify-end">
+      <div className="pt-4 border-t border-[#D9DEE7] flex justify-end">
         <button
           type="submit"
           disabled={isSubmitting}
-          className="rounded-xl bg-blue-600 px-8 py-3.5 text-sm font-bold text-white shadow-md hover:bg-blue-700 transition-all disabled:opacity-50"
+          className="btn-primary px-8 py-3.5 text-sm disabled:opacity-50"
         >
           {isSubmitting ? "Menerbitkan Kelas..." : "Publikasikan Kelas"}
         </button>
