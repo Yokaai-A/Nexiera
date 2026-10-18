@@ -9,13 +9,16 @@ import {
   GraduationCap,
   LayoutDashboard,
   LogOut,
+  Moon,
   Rocket,
   SquarePen,
+  Sun,
   Handshake,
 } from "lucide-react";
 import { Logo } from "@/src/components/ui/Logo";
 import { getStoredUser, logoutUser } from "@/src/lib/storage";
 import { UserProfile } from "@/src/types/course";
+import { applyTheme, getInitialTheme, Theme } from "@/src/lib/theme";
 
 const NAV_LINKS = [
   { label: "Home", href: "/" },
@@ -28,22 +31,39 @@ const NAV_LINKS = [
 export function Navbar() {
   const pathname = usePathname();
   const [user, setUser] = useState<UserProfile | null>(null);
+  const [theme, setTheme] = useState<Theme>("light");
   const [menuOpen, setMenuOpen] = useState(false);
   const [notificationOpen, setNotificationOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setUser(getStoredUser());
+    setTheme(getInitialTheme());
 
     const handleAuthChange = () => {
       setUser(getStoredUser());
     };
 
+    const handleThemeChange = (e: Event) => {
+      const custom = e as CustomEvent<{ theme: Theme }>;
+      if (custom.detail?.theme) {
+        setTheme(custom.detail.theme);
+      }
+    };
+
     window.addEventListener("nexiera_auth_update", handleAuthChange);
+    window.addEventListener("nexiera_theme_change", handleThemeChange);
     return () => {
       window.removeEventListener("nexiera_auth_update", handleAuthChange);
+      window.removeEventListener("nexiera_theme_change", handleThemeChange);
     };
   }, []);
+
+  const toggleTheme = () => {
+    const next = theme === "dark" ? "light" : "dark";
+    setTheme(next);
+    applyTheme(next);
+  };
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -72,14 +92,20 @@ export function Navbar() {
 
         <ul className="hidden items-center gap-7 md:flex">
           {NAV_LINKS.map((link) => {
-            const active = pathname === link.href;
+            const active =
+              pathname === link.href ||
+              (link.href === "/cari-kelas" &&
+                ["/detail-kelas", "/organizers", "/tutors", "/profil-penyelenggara"].some((path) =>
+                  pathname.startsWith(path),
+                ));
             return (
               <li key={link.href}>
                 <Link
                   href={link.href}
+                  aria-current={active ? "page" : undefined}
                   className={`text-sm font-medium transition-colors ${
                     active
-                      ? "text-[#2457C5] font-semibold"
+                      ? "font-semibold text-[#2457C5] underline decoration-2 underline-offset-8"
                       : "text-[#626B78] hover:text-[#20232B]"
                   }`}
                 >
@@ -199,6 +225,28 @@ export function Navbar() {
                     >
                       <GraduationCap className="h-4 w-4 text-[#626B78]" aria-hidden="true" /> Perbarui Kampus &amp; Jurusan
                     </Link>
+
+                    {/* Tombol Pengubah Mode Tema di dalam Dropdown Menu Profil */}
+                    <button
+                      type="button"
+                      onClick={toggleTheme}
+                      className="flex w-full items-center justify-between rounded-[4px] px-2.5 py-2 text-xs font-medium text-[#20232B] hover:bg-[#E5E9F0] transition-colors cursor-pointer"
+                    >
+                      <div className="flex items-center gap-2">
+                        {theme === "dark" ? (
+                          <Sun className="h-4 w-4 text-amber-400" aria-hidden="true" />
+                        ) : (
+                          <Moon className="h-4 w-4 text-[#2457C5]" aria-hidden="true" />
+                        )}
+                        <span>Mode Tampilan</span>
+                      </div>
+                      <span className="rounded-[4px] border border-[#D9DEE7] bg-[#E5E9F0]/60 px-2 py-0.5 text-[10px] font-semibold text-[#20232B]">
+                        {theme === "dark" ? "Gelap (Dark)" : "Terang (Light)"}
+                      </span>
+                    </button>
+
+                    <div className="my-1 border-t border-[#D9DEE7]" />
+
                     <button
                       type="button"
                       onClick={handleLogout}
@@ -212,6 +260,19 @@ export function Navbar() {
             </div>
           ) : (
             <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={toggleTheme}
+                aria-label="Ubah mode tema"
+                className="flex h-9 w-9 items-center justify-center rounded-[4px] border border-[#D9DEE7] bg-white text-[#20232B] hover:bg-[#E5E9F0] transition-colors cursor-pointer"
+                title={theme === "dark" ? "Ganti ke Mode Terang" : "Ganti ke Mode Gelap"}
+              >
+                {theme === "dark" ? (
+                  <Sun className="h-4 w-4 text-amber-400" aria-hidden="true" />
+                ) : (
+                  <Moon className="h-4 w-4 text-[#2457C5]" aria-hidden="true" />
+                )}
+              </button>
               <Link
                 href="/login"
                 className="btn-secondary"

@@ -43,19 +43,19 @@ const FOUNDERS = [
 
 const VALUES = [
   {
-    icon: Target,
+    icon: BookOpenText,
     title: "100% Khusus Matkul Kampus",
-    desc: "Kebutuhan kuliah punya konteks dan tantangannya sendiri. Karena itu, NEXIERA berfokus pada mata kuliah kampus—mulai dari AlgoProg, ADA, Kalkulus, Software Engineering, hingga Basis Data—agar mahasiswa lebih mudah menemukan kelas yang selaras dengan materi yang sedang mereka pelajari.",
+    desc: "Fokus penuh pada mata kuliah kurikulum akademik kampus agar mahasiswa menemukan bimbingan yang presisi dengan silabus perkuliahan mereka.",
   },
   {
-    icon: BookOpenText,
-    title: "Catatan Belajar Terstruktur",
-    desc: "Catatan yang tersusun baik membuat waktu belajar lebih bermakna. Melalui tautan catatan belajar, silabus, rangkuman, dan pembahasan latihan dapat dikumpulkan dalam format yang rapi sehingga mahasiswa bisa kembali ke materi penting tanpa harus mencarinya dari awal.",
+    icon: Target,
+    title: "Persiapan Ujian & Pemahaman Akademik",
+    desc: "Pendalaman konsep fundamental, pembedahan silabus perkuliahan, dan latihan soal terarah untuk persiapan UTS & UAS guna membantu peningkatan IPK dan rasa percaya diri akademis mahasiswa.",
   },
   {
     icon: UsersRound,
     title: "Tutor Sebaya yang Relevan",
-      desc: "Tutor sebaya memahami ritme dan tantangan perkuliahan dari pengalaman langsung. Kedekatan ini membuka ruang belajar yang lebih cair. Mahasiswa dapat bertanya dengan nyaman, membahas konsep langkah demi langkah, dan melihat materi dari sudut pandang yang lebih dekat dengan keseharian mereka.",
+    desc: "Bimbingan oleh mahasiswa tingkat atas berprestasi dan mitra pengajar yang memahami tantangan serta ritme perkuliahan dari pengalaman langsung.",
   },
 ];
 

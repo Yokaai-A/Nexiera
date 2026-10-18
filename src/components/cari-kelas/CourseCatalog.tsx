@@ -8,6 +8,7 @@ import { CATEGORIES_DATA } from "@/src/lib/mockData";
 import { ClassCard } from "./ClassCard";
 import {
   BookOpen,
+  Building2,
   Check,
   ChevronDown,
   ChevronLeft,
@@ -29,6 +30,7 @@ export function CourseCatalog() {
   const [courses, setCourses] = useState<AcademicCourse[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
 
+  const [campusFilter, setCampusFilter] = useState("ALL");
   const [mainCategoryFilter, setMainCategoryFilter] = useState(initialCategory);
   const [majorFilter, setMajorFilter] = useState("ALL");
   const [subjectFilter, setSubjectFilter] = useState("ALL");
@@ -59,6 +61,21 @@ export function CourseCatalog() {
       setSubjectFilter("ALL");
     }
   }, [searchParams]);
+
+  const availableCampuses = useMemo(() => {
+    const defaultCampuses = [
+      "BINUS University",
+      "Universitas Indonesia",
+      "Institut Teknologi Bandung",
+      "Universitas Gadjah Mada",
+      "Telkom University",
+      "Universitas Brawijaya",
+      "Universitas Airlangga",
+      "Institut Teknologi Sepuluh Nopember",
+    ];
+    const fromCourses = courses.map((c) => c.university).filter(Boolean);
+    return Array.from(new Set([...defaultCampuses, ...fromCourses]));
+  }, [courses]);
 
   const availableMajors = useMemo(() => {
     if (mainCategoryFilter !== "ALL" && CATEGORIES_DATA[mainCategoryFilter]) {
@@ -94,6 +111,7 @@ export function CourseCatalog() {
 
   const handleResetFilter = () => {
     setSearchQuery("");
+    setCampusFilter("ALL");
     setMainCategoryFilter("ALL");
     setMajorFilter("ALL");
     setSubjectFilter("ALL");
@@ -112,6 +130,12 @@ export function CourseCatalog() {
           course.fullDescription?.toLowerCase().includes(query);
         const matchesOrganizer = course.organizerName.toLowerCase().includes(query);
         if (!matchesTitle && !matchesDesc && !matchesOrganizer) {
+          return false;
+        }
+      }
+
+      if (campusFilter !== "ALL") {
+        if (course.university.toLowerCase() !== campusFilter.toLowerCase()) {
           return false;
         }
       }
@@ -146,7 +170,7 @@ export function CourseCatalog() {
 
       return true;
     });
-  }, [courses, searchQuery, mainCategoryFilter, majorFilter, subjectFilter, typeFilter, pricingFilter]);
+  }, [courses, searchQuery, campusFilter, mainCategoryFilter, majorFilter, subjectFilter, typeFilter, pricingFilter]);
 
   const totalPages = Math.ceil(filteredCourses.length / itemsPerPage) || 1;
   const paginatedCourses = filteredCourses.slice(
@@ -182,10 +206,38 @@ export function CourseCatalog() {
             )}
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+          {/* 4-Level Responsive Filter Dropdown Hierarchy */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            {/* Level 1: Kampus */}
             <div className="relative">
               <label className="text-[10px] font-semibold uppercase tracking-wider text-[#626B78] mb-1 block">
-                1. Kategori Utama
+                1. Kampus
+              </label>
+              <div className="relative">
+                <Building2 className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#626B78]" aria-hidden="true" />
+                <select
+                  value={campusFilter}
+                  onChange={(e) => {
+                    setCampusFilter(e.target.value);
+                    setCurrentPage(1);
+                  }}
+                  className="w-full appearance-none rounded-[4px] border border-[#D9DEE7] bg-white py-2.5 pl-9 pr-8 text-xs font-medium text-[#20232B] outline-none focus:border-[#2457C5] transition-colors"
+                >
+                  <option value="ALL">Semua Kampus</option>
+                  {availableCampuses.map((camp) => (
+                    <option key={camp} value={camp}>
+                      {camp}
+                    </option>
+                  ))}
+                </select>
+                <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#626B78]" aria-hidden="true" />
+              </div>
+            </div>
+
+            {/* Level 2: Kategori Utama */}
+            <div className="relative">
+              <label className="text-[10px] font-semibold uppercase tracking-wider text-[#626B78] mb-1 block">
+                2. Kategori Utama
               </label>
               <div className="relative">
                 <Layers className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#626B78]" aria-hidden="true" />
@@ -210,9 +262,10 @@ export function CourseCatalog() {
               </div>
             </div>
 
+            {/* Level 3: Jurusan */}
             <div className="relative">
               <label className="text-[10px] font-semibold uppercase tracking-wider text-[#626B78] mb-1 block">
-                2. Jurusan
+                3. Jurusan
               </label>
               <div className="relative">
                 <GraduationCap className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#626B78]" aria-hidden="true" />
@@ -236,9 +289,10 @@ export function CourseCatalog() {
               </div>
             </div>
 
+            {/* Level 4: Mata Kuliah */}
             <div className="relative">
               <label className="text-[10px] font-semibold uppercase tracking-wider text-[#626B78] mb-1 block">
-                3. Mata Kuliah
+                4. Mata Kuliah
               </label>
               <div className="relative">
                 <BookOpen className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#626B78]" aria-hidden="true" />

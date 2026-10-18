@@ -209,7 +209,7 @@ export function BuatKelasForm() {
       pricingModel,
       priceAmount: pricingModel === "PAID" ? Number(priceAmount) : undefined,
       organizerName,
-      organizerLogo: type === "BOOTCAMP" ? "/logo.png" : undefined,
+      organizerLogo: type === "BOOTCAMP" ? "/Logo_Dua.png" : undefined,
       tutors: tutors.filter((t) => t.name.trim() !== ""),
       meetingPlatform,
       meetingUrl: meetingUrl.trim(),

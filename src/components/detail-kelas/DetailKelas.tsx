@@ -31,6 +31,7 @@ import {
   registerCourse,
 } from "@/src/lib/storage";
 import { AcademicCourse, UserProfile } from "@/src/types/course";
+import { slugify } from "@/src/lib/slug";
 
 export function DetailKelas() {
   const searchParams = useSearchParams();
@@ -260,14 +261,21 @@ export function DetailKelas() {
                 <h2 className="text-base font-semibold text-[#20232B]">
                   {isBootcamp ? `Tim Pengajar (${course.tutors.length} Tutor)` : "Profil Tutor Mahasiswa"}
                 </h2>
-                <span className="text-xs text-[#2457C5] font-medium">
+                <Link
+                  href={isBootcamp ? `/organizers/${slugify(course.organizerName)}` : `/tutors/${slugify(course.tutors[0]?.name || course.organizerName)}`}
+                  className="text-xs text-[#2457C5] font-medium hover:underline"
+                >
                   Diselenggarakan oleh {course.organizerName}
-                </span>
+                </Link>
               </div>
 
               <div className="grid gap-4 sm:grid-cols-2">
                 {course.tutors.map((t) => (
-                  <div key={t.id} className="flex items-center gap-3.5 rounded-[4px] border border-[#D9DEE7] bg-white p-3.5">
+                  <Link
+                    key={t.id}
+                    href={`/tutors/${slugify(t.name)}`}
+                    className="group/tutor flex items-center gap-3.5 rounded-[4px] border border-[#D9DEE7] bg-white p-3.5 hover:border-[#2457C5] transition-all"
+                  >
                     <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-[4px] border border-[#D9DEE7]">
                       <Image
                         src={t.avatarUrl || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=256&q=80"}
@@ -278,13 +286,13 @@ export function DetailKelas() {
                       />
                     </div>
                     <div className="min-w-0">
-                      <h3 className="text-sm font-semibold text-[#20232B] truncate">{t.name}</h3>
+                      <h3 className="text-sm font-semibold text-[#20232B] group-hover/tutor:text-[#2457C5] transition-colors truncate">{t.name}</h3>
                       <p className="text-xs text-[#626B78] truncate">{t.role}</p>
                       <span className="mt-1 inline-flex items-center gap-1 text-[11px] font-medium text-[#2457C5]">
                         <BadgeCheck className="h-3 w-3" aria-hidden="true" /> Mahasiswa Terverifikasi
                       </span>
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
             </div>
@@ -339,7 +347,12 @@ export function DetailKelas() {
               <div className="mt-6 space-y-2.5 border-t border-[#D9DEE7] pt-5 text-xs text-[#626B78]">
                 <div className="flex items-center justify-between">
                   <span className="text-[#626B78]">Penyelenggara:</span>
-                  <span className="font-semibold text-[#20232B]">{course.organizerName}</span>
+                  <Link
+                    href={isBootcamp ? `/organizers/${slugify(course.organizerName)}` : `/tutors/${slugify(course.tutors[0]?.name || course.organizerName)}`}
+                    className="font-semibold text-[#20232B] hover:text-[#2457C5] transition-colors"
+                  >
+                    {course.organizerName}
+                  </Link>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-[#626B78]">Universitas:</span>

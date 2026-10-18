@@ -30,13 +30,21 @@
 }
 
 :root {
-  --color-white: #FFFFFF;
+  --color-bg: #FFFFFF;
+  --color-surface: #FFFFFF;
+  --color-surface-raised: #E5E9F0;
   --color-cobalt: #2457C5;
   --color-cobalt-hover: #1C48A5;
+  --color-cobalt-strong: #2457C5;
+  --color-text: #20232B;
+  --color-text-secondary: #626B78;
+  --color-border: #D9DEE7;
+  --color-disabled: #BAC3D2;
+
+  --color-white: #FFFFFF;
   --color-ink: #20232B;
   --color-mist: #E5E9F0;
   --color-muted: #626B78;
-  --color-border: #D9DEE7;
 
   --font-sans: var(--font-sans), "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
@@ -60,9 +68,33 @@
   --foreground: #20232B;
 }
 
+:root[data-theme="dark"],
+.dark {
+  color-scheme: dark;
+
+  --color-bg: #111318;
+  --color-surface: #191C23;
+  --color-surface-raised: #20242D;
+  --color-cobalt: #78A0FF;
+  --color-cobalt-hover: #98B8FF;
+  --color-cobalt-strong: #2457C5;
+  --color-text: #F3F4F6;
+  --color-text-secondary: #B1B7C3;
+  --color-border: #343945;
+  --color-disabled: #777F8D;
+
+  --color-white: #191C23;
+  --color-ink: #F3F4F6;
+  --color-mist: #20242D;
+  --color-muted: #B1B7C3;
+
+  --background: #111318;
+  --foreground: #F3F4F6;
+}
+
 body {
-  background-color: var(--color-white);
-  color: var(--color-ink);
+  background-color: var(--color-bg);
+  color: var(--color-text);
   font-family: var(--font-sans);
   font-size: 16px;
   line-height: 1.5;
@@ -98,8 +130,8 @@ body {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background-color: var(--color-cobalt);
-  color: var(--color-white);
+  background-color: var(--color-cobalt-strong);
+  color: #FFFFFF;
   border-radius: var(--radius-control);
   font-size: 14px;
   font-weight: 500;
@@ -118,8 +150,8 @@ body {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background-color: var(--color-white);
-  color: var(--color-ink);
+  background-color: var(--color-surface);
+  color: var(--color-text);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-control);
   font-size: 14px;
@@ -130,11 +162,11 @@ body {
 }
 
 .btn-secondary:hover {
-  background-color: var(--color-mist);
+  background-color: var(--color-surface-raised);
 }
 
 .nx-card {
-  background-color: var(--color-white);
+  background-color: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
   transition: border-color 150ms ease;
@@ -146,18 +178,174 @@ body {
 
 .nx-input {
   width: 100%;
-  background-color: var(--color-white);
+  background-color: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-control);
   padding: 10px 12px;
   font-size: 14px;
-  color: var(--color-ink);
+  color: var(--color-text);
   outline: none;
   transition: border-color 150ms ease;
 }
 
 .nx-input:focus {
   border-color: var(--color-cobalt);
+}
+
+/* Dark Mode Overrides per design-dark.md */
+:root[data-theme="dark"] body,
+.dark body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+:root[data-theme="dark"] header,
+.dark header,
+:root[data-theme="dark"] nav,
+.dark nav {
+  background-color: var(--color-surface) !important;
+  border-color: var(--color-border) !important;
+}
+
+:root[data-theme="dark"] footer,
+.dark footer {
+  background-color: var(--color-surface) !important;
+  border-color: var(--color-border) !important;
+}
+
+:root[data-theme="dark"] .bg-white,
+.dark .bg-white {
+  background-color: var(--color-surface) !important;
+}
+
+:root[data-theme="dark"] section.bg-white,
+.dark section.bg-white,
+:root[data-theme="dark"] div.min-h-screen.bg-white,
+.dark div.min-h-screen.bg-white,
+:root[data-theme="dark"] main,
+.dark main {
+  background-color: var(--color-bg) !important;
+}
+
+:root[data-theme="dark"] .bg-background,
+.dark .bg-background {
+  background-color: var(--color-bg) !important;
+}
+
+:root[data-theme="dark"] .border-\[\#D9DEE7\],
+.dark .border-\[\#D9DEE7\],
+:root[data-theme="dark"] .border-slate-200,
+.dark .border-slate-200,
+:root[data-theme="dark"] .border-slate-100,
+.dark .border-slate-100 {
+  border-color: var(--color-border) !important;
+}
+
+:root[data-theme="dark"] .text-\[\#20232B\],
+.dark .text-\[\#20232B\],
+:root[data-theme="dark"] .logo-wordmark,
+.dark .logo-wordmark,
+:root[data-theme="dark"] .text-slate-900,
+.dark .text-slate-900,
+:root[data-theme="dark"] .text-slate-800,
+.dark .text-slate-800 {
+  color: var(--color-text) !important;
+}
+
+:root[data-theme="dark"] .text-\[\#626B78\],
+.dark .text-\[\#626B78\],
+:root[data-theme="dark"] .text-slate-600,
+.dark .text-slate-600,
+:root[data-theme="dark"] .text-slate-500,
+.dark .text-slate-500 {
+  color: var(--color-text-secondary) !important;
+}
+
+:root[data-theme="dark"] .text-\[\#2457C5\],
+.dark .text-\[\#2457C5\],
+:root[data-theme="dark"] .text-blue-600,
+.dark .text-blue-600 {
+  color: var(--color-cobalt) !important;
+}
+
+:root[data-theme="dark"] .bg-\[\#E5E9F0\],
+.dark .bg-\[\#E5E9F0\],
+:root[data-theme="dark"] .bg-\[\#E5E9F0\]\/30,
+.dark .bg-\[\#E5E9F0\]\/30,
+:root[data-theme="dark"] .bg-\[\#E5E9F0\]\/40,
+.dark .bg-\[\#E5E9F0\]\/40,
+:root[data-theme="dark"] .bg-\[\#E5E9F0\]\/60,
+.dark .bg-\[\#E5E9F0\]\/60,
+:root[data-theme="dark"] .bg-slate-100,
+.dark .bg-slate-100,
+:root[data-theme="dark"] .bg-slate-50,
+.dark .bg-slate-50 {
+  background-color: var(--color-surface-raised) !important;
+}
+
+:root[data-theme="dark"] .btn-secondary,
+.dark .btn-secondary {
+  background-color: var(--color-surface) !important;
+  color: var(--color-text) !important;
+  border-color: var(--color-border) !important;
+}
+
+:root[data-theme="dark"] .btn-secondary:hover,
+.dark .btn-secondary:hover {
+  background-color: var(--color-surface-raised) !important;
+}
+
+:root[data-theme="dark"] .nx-card,
+.dark .nx-card {
+  background-color: var(--color-surface) !important;
+  border-color: var(--color-border) !important;
+}
+
+:root[data-theme="dark"] .nx-card:hover,
+.dark .nx-card:hover {
+  border-color: #4B5565 !important;
+}
+
+:root[data-theme="dark"] .nx-input,
+.dark .nx-input,
+:root[data-theme="dark"] input[type="text"],
+.dark input[type="text"],
+:root[data-theme="dark"] input[type="email"],
+.dark input[type="email"],
+:root[data-theme="dark"] input[type="password"],
+.dark input[type="password"],
+:root[data-theme="dark"] textarea,
+.dark textarea {
+  background-color: var(--color-surface) !important;
+  border-color: var(--color-border) !important;
+  color: var(--color-text) !important;
+}
+
+:root[data-theme="dark"] .nx-input:focus,
+.dark .nx-input:focus,
+:root[data-theme="dark"] input:focus,
+.dark input:focus,
+:root[data-theme="dark"] textarea:focus,
+.dark textarea:focus {
+  border-color: var(--color-cobalt) !important;
+}
+
+:root[data-theme="dark"] select,
+.dark select {
+  background-color: var(--color-surface) !important;
+  color: var(--color-text) !important;
+  border-color: var(--color-border) !important;
+}
+
+:root[data-theme="dark"] select option,
+.dark select option {
+  background-color: var(--color-surface) !important;
+  color: var(--color-text) !important;
+}
+
+:root[data-theme="dark"] select:focus,
+.dark select:focus {
+  border-color: var(--color-cobalt) !important;
 }
 
 /* Interaction transitions per Design.md Section 8 (120-180ms) */
@@ -176,4 +364,5 @@ button,
     transition-duration: 0.01ms;
   }
 }
+
 

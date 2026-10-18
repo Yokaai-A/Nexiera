@@ -18,7 +18,7 @@ const COLUMNS = [
       { label: "Cari Kelas Kuliah", href: "/cari-kelas" },
       { label: "Catatan Belajar Mahasiswa", href: "/cari-kelas" },
       { label: "Dashboard Kelas Saya", href: "/kelas-saya" },
-      { label: "Tutor Sebaya Terverifikasi", href: "/cari-kelas" },
+      { label: "Tutor Sebaya Kampus", href: "/cari-kelas" },
       { label: "Panduan Mahasiswa Baru", href: "/tentang-kami" },
     ],
   },

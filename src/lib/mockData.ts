@@ -102,7 +102,7 @@ export const INITIAL_COURSES: AcademicCourse[] = [
     type: "BOOTCAMP",
     pricingModel: "FREE",
     organizerName: "Booster Academy",
-    organizerLogo: "/logo.png",
+    organizerLogo: "/Logo_Dua.png",
     tutors: [
       {
         id: "tutor-01",
@@ -151,7 +151,7 @@ export const INITIAL_COURSES: AcademicCourse[] = [
     type: "BOOTCAMP",
     pricingModel: "FREE",
     organizerName: "Booster Academy",
-    organizerLogo: "/logo.png",
+    organizerLogo: "/Logo_Dua.png",
     tutors: [
       {
         id: "tutor-01",
@@ -198,7 +198,7 @@ export const INITIAL_COURSES: AcademicCourse[] = [
     type: "BOOTCAMP",
     pricingModel: "FREE",
     organizerName: "Booster Academy",
-    organizerLogo: "/logo.png",
+    organizerLogo: "/Logo_Dua.png",
     tutors: [
       {
         id: "tutor-01",

@@ -36,7 +36,7 @@ export const ORGANIZERS_DATA: Record<string, OrganizerProfileData> = {
     description:
       "Booster Academy adalah wadah bimbingan belajar akademik yang berfokus pada kurikulum perkuliahan teknik dan ilmu komputer. Dikelola oleh kolaborasi mahasiswa tingkat atas berprestasi untuk membantu pemahaman konsep fundamental, pembedahan materi silabus, dan pemantapan latihan ujian UTS & UAS.",
     campus: "BINUS University",
-    logo: "/logo.png",
+    logo: "/Logo_Dua.png",
     coverImage: "/banner-cari-kelas.png",
     establishedYear: "2026",
   },
@@ -114,3 +114,86 @@ export const TUTORS_DATA: Record<string, TutorProfileData> = {
       "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=256&q=80",
   },
 };
+
+import { AcademicCourse } from "@/src/types/course";
+
+export function getCoursesByOrganizer(slug: string, courses: AcademicCourse[]): AcademicCourse[] {
+  const normalizedSlug = slug.toLowerCase();
+  return courses.filter((c) => {
+    const orgSlug = slugify(c.organizerName);
+    if (orgSlug === normalizedSlug) return true;
+    if (normalizedSlug === "booster-academy" && c.organizerName.toLowerCase().includes("booster")) {
+      return true;
+    }
+    return false;
+  });
+}
+
+export function getCoursesByTutor(slug: string, courses: AcademicCourse[]): AcademicCourse[] {
+  const normalizedSlug = slug.toLowerCase();
+  return courses.filter((c) => {
+    const hasTutor = c.tutors.some((t) => slugify(t.name) === normalizedSlug);
+    if (hasTutor) return true;
+    if (c.type === "PEER_TUTORING" && slugify(c.organizerName) === normalizedSlug) {
+      return true;
+    }
+    return false;
+  });
+}
+
+export function getOrganizerData(slug: string, courses: AcademicCourse[] = []): OrganizerProfileData | null {
+  const normalizedSlug = slug.toLowerCase();
+  if (ORGANIZERS_DATA[normalizedSlug]) {
+    return ORGANIZERS_DATA[normalizedSlug];
+  }
+  const matchingCourse = courses.find(
+    (c) => slugify(c.organizerName) === normalizedSlug || (normalizedSlug === "booster-academy" && c.organizerName.toLowerCase().includes("booster"))
+  );
+  if (matchingCourse) {
+    return {
+      slug: normalizedSlug,
+      name: matchingCourse.organizerName,
+      tagline: `Penyelenggara Bootcamp & Bimbingan Kampus`,
+      description: `Wadah bimbingan terstruktur dan intensif untuk mendukung mahasiswa di ${matchingCourse.university} dalam memahami materi perkuliahan secara mendalam.`,
+      campus: matchingCourse.university,
+      logo: matchingCourse.organizerLogo || "/Logo_Dua.png",
+      coverImage: "/banner-cari-kelas.png",
+      establishedYear: "2026",
+    };
+  }
+  return null;
+}
+
+export function getTutorData(slug: string, courses: AcademicCourse[] = []): TutorProfileData | null {
+  const normalizedSlug = slug.toLowerCase();
+  if (TUTORS_DATA[normalizedSlug]) {
+    return TUTORS_DATA[normalizedSlug];
+  }
+  for (const c of courses) {
+    const tutor = c.tutors.find((t) => slugify(t.name) === normalizedSlug);
+    if (tutor) {
+      return {
+        slug: normalizedSlug,
+        name: tutor.name,
+        role: tutor.role || `Mahasiswa ${c.major || "Kampus"}`,
+        campus: c.university,
+        major: c.major || "Computer Science",
+        bio: `Tutor mahasiswa ${c.university} yang mendampingi bimbingan mata kuliah ${c.title}.`,
+        avatarUrl: tutor.avatarUrl || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=256&q=80",
+      };
+    }
+    if (c.type === "PEER_TUTORING" && slugify(c.organizerName) === normalizedSlug) {
+      return {
+        slug: normalizedSlug,
+        name: c.organizerName,
+        role: `Mahasiswa ${c.major || "Kampus"}`,
+        campus: c.university,
+        major: c.major || "Computer Science",
+        bio: `Tutor mahasiswa ${c.university} yang mendampingi bimbingan perkuliahan dan persiapan ujian.`,
+        avatarUrl: c.organizerLogo || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=256&q=80",
+      };
+    }
+  }
+  return null;
+}
+

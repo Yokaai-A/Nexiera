@@ -7,7 +7,7 @@ Dokumen ini berisi panduan spesifikasi teknis ketat, instruksi anti-improvisasi 
 ## 🚨 1. PANDUAN KETAT EKSEKUSI (FOR AI CODER)
 
 > **PRINSIP UTAMA: ZERO UNSOLICITED IMPROVISATION**  
-> AI Coder **DILARANG HARAM** menambahkan komponen, _section_, _badge_, _rating_, _social proof_, atau elemen visual baru yang tidak tertulis secara eksplisit dalam dokumen ini. Ikuti spesifikasi persis seperti yang diperintahkan. KECUALI IMPROVISASI YANG DILAKUKAN TIDAK ADA AI SLOP DIDALAMNYA.
+> AI Coder **DILARANG HARAM** menambahkan komponen, _section_, _badge_, _rating_, _social proof_, atau elemen visual baru yang tidak tertulis secara eksplisit dalam dokumen ini. Ikuti spesifikasi persis seperti yang diperintahkan. KECUALI IMPROVISASI YANG DILAKUKAN TIDAK ADA AI SLOP DIDALAMNYA SEPERTI KETERANGAN KETERANGAN DIBAWAH.
 
 ### 🛑 Checklist Larangan Keras (Anti-AI Slop)
 
