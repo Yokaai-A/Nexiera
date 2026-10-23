@@ -1,0 +1,272 @@
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap");
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  --color-white: #FFFFFF;
+  --color-cobalt: #2563EB;
+  --color-cobalt-hover: #1D4ED8;
+  --color-ink: #20232B;
+  --color-mist: #E5E9F0;
+  --color-muted: #626B78;
+  --color-border: #D9DEE7;
+
+  /* Align Tailwind utility colors directly with Design.md palette */
+  --color-blue-600: #2563EB;
+  --color-blue-700: #1D4ED8;
+  --color-blue-50: #F0F4FC;
+  --color-slate-900: #20232B;
+  --color-slate-800: #20232B;
+  --color-slate-700: #383D48;
+  --color-slate-600: #626B78;
+  --color-slate-500: #626B78;
+  --color-slate-400: #8892A0;
+  --color-slate-200: #D9DEE7;
+  --color-slate-100: #E5E9F0;
+  --color-slate-50: #F9FAFB;
+
+  --radius-control: 4px;
+  --radius-card: 6px;
+}
+
+:root {
+  --color-white: #FFFFFF;
+  --color-cobalt: #2563EB;
+  --color-cobalt-hover: #1D4ED8;
+  --color-ink: #20232B;
+  --color-mist: #E5E9F0;
+  --color-muted: #626B78;
+  --color-border: #D9DEE7;
+
+  --font-sans: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  --radius-control: 4px;
+  --radius-card: 6px;
+
+  --shadow-none: none;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  --content-max: 1180px;
+
+  --background: #FFFFFF;
+  --foreground: #20232B;
+}
+
+html, body, button, input, select, textarea {
+  font-family: var(--font-sans) !important;
+}
+
+body {
+  background-color: var(--color-white);
+  color: var(--color-ink);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Design.md Core Utility Styles */
+.nx-container {
+  max-width: var(--content-max);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+@media (min-width: 640px) {
+  .nx-container {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .nx-container {
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+}
+
+/* Primary and Secondary button presets */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: var(--color-cobalt);
+  color: var(--color-white);
+  border-radius: var(--radius-control);
+  font-size: 14px;
+  font-weight: 500;
+  padding: 10px 18px;
+  transition: background-color 150ms ease, opacity 150ms ease;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-cobalt-hover);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: var(--color-white);
+  color: var(--color-ink);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  font-size: 14px;
+  font-weight: 500;
+  padding: 10px 18px;
+  transition: background-color 150ms ease, border-color 150ms ease;
+  cursor: pointer;
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-mist);
+}
+
+.nx-card {
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  transition: border-color 150ms ease;
+}
+
+.nx-card:hover {
+  border-color: #BAC3D2;
+}
+
+.nx-input {
+  width: 100%;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  padding: 10px 12px;
+  font-size: 14px;
+  color: var(--color-ink);
+  outline: none;
+  transition: border-color 150ms ease;
+}
+
+.nx-input:focus {
+  border-color: var(--color-cobalt);
+}
+
+.dark {
+  color-scheme: dark;
+  --color-white: #0f172a;
+  --color-ink: #f1f5f9;
+  --color-mist: #1e293b;
+  --color-muted: #cbd5e1;
+  --color-border: #1e293b;
+  --color-slate-900: #0f172a;
+  --color-slate-800: #1e293b;
+  --color-slate-700: #334155;
+  --color-slate-600: #cbd5e1;
+  --color-slate-500: #cbd5e1;
+  --color-slate-400: #94a3b8;
+  --color-slate-200: #334155;
+  --color-slate-100: #1e293b;
+  --color-slate-50: #0b1220;
+}
+
+.dark body {
+  background-color: #0b1220;
+  color: #f1f5f9;
+}
+
+.dark .bg-white {
+  background-color: #0f172a !important;
+}
+
+.dark .border-\[\#D9DEE7\],
+.dark .border-slate-200,
+.dark .border-slate-100 {
+  border-color: #1e293b !important;
+}
+
+.dark .text-\[\#20232B\],
+.dark .text-slate-900,
+.dark .text-slate-800 {
+  color: #f1f5f9 !important;
+}
+
+.dark .text-\[\#626B78\],
+.dark .text-slate-600,
+.dark .text-slate-500 {
+  color: #cbd5e1 !important;
+}
+
+.dark .text-\[\#2457C5\],
+.dark .text-blue-600 {
+  color: #93c5fd !important;
+}
+
+.dark .bg-\[\#E5E9F0\],
+.dark .bg-\[\#E5E9F0\]\/20,
+.dark .bg-\[\#E5E9F0\]\/30,
+.dark .bg-\[\#E5E9F0\]\/40,
+.dark .bg-\[\#E5E9F0\]\/60,
+.dark .bg-slate-50,
+.dark .bg-slate-100 {
+  background-color: #1e293b !important;
+}
+
+.dark .btn-primary {
+  background-color: #2563eb;
+  color: #fff;
+}
+
+.dark .btn-primary:hover {
+  background-color: #1d4ed8;
+}
+
+.dark .btn-secondary,
+.dark .nx-card,
+.dark .nx-input,
+.dark input,
+.dark textarea,
+.dark select {
+  background-color: #0f172a !important;
+  border-color: #1e293b !important;
+  color: #f1f5f9 !important;
+}
+
+.dark .nx-input:focus,
+.dark input:focus,
+.dark textarea:focus,
+.dark select:focus {
+  border-color: #2563eb !important;
+}
+
+/* Interaction transitions per Design.md Section 8 (120-180ms) */
+a,
+button,
+[role="button"] {
+  transition-property: color, background-color, border-color, opacity;
+  transition-duration: 150ms;
+  transition-timing-function: ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  a,
+  button,
+  [role="button"] {
+    transition-duration: 0.01ms;
+  }
+}
+

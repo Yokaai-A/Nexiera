@@ -1,0 +1,22 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: nexiera-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: local_root_password
+      MYSQL_DATABASE: nexiera
+      MYSQL_USER: nexiera
+      MYSQL_PASSWORD: nexiera_local_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - nexiera_mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-plocal_root_password"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  nexiera_mysql_data:

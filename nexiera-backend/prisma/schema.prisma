@@ -1,0 +1,269 @@
+generator client {
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  moduleFormat = "esm"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+enum UserRole {
+  STUDENT
+  TUTOR
+  ADMIN
+}
+
+enum ClassStatus {
+  DRAFT
+  ACTIVE
+  CANCELLED
+}
+
+enum CourseType {
+  PEER_TUTORING
+  BOOTCAMP
+}
+
+enum TransactionStatus {
+  PENDING
+  PAID
+  REFUNDED
+}
+
+enum RefundStatus {
+  NOT_REQUESTED
+  PROCESSING
+  COMPLETED
+  FAILED
+  MANUAL_REQUIRED
+}
+
+enum PresenceStatus {
+  PRESENT
+  ABSENT
+  LATE
+}
+
+enum AdPlacement {
+  HOME_HERO
+  CLASS_CATALOG
+  DASHBOARD
+}
+
+enum AdStatus {
+  ACTIVE
+  PAUSED
+}
+
+enum ReportTargetType {
+  CLASS
+  ORGANIZER
+}
+
+enum TutorApplicationType {
+  PEER_TUTOR
+  BOOTCAMP_PARTNER
+}
+
+enum TutorApplicationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model User {
+  id          String   @id @default(cuid())
+  googleId    String?  @unique @db.VarChar(191)
+  email       String   @unique @db.VarChar(191)
+  password    String?  @db.VarChar(255)
+  name        String   @db.VarChar(191)
+  phoneNumber String   @db.VarChar(32)
+  role        UserRole @default(STUDENT)
+  university  String?  @db.VarChar(191)
+  major       String?  @db.VarChar(191)
+  studentNumber String? @db.VarChar(64)
+  semester    String?  @db.VarChar(64)
+  avatarUrl   String?  @db.Text
+  coverUrl    String?  @db.Text
+  bio         String?  @db.Text
+  headline    String?  @db.VarChar(191)
+  organizationName String? @db.VarChar(191)
+  organizationLogoUrl String? @db.Text
+  location    String?  @db.VarChar(191)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  classes      Class[]       @relation("TutorClasses")
+  transactions Transaction[]
+  presences    Presence[]
+  ads          Ad[]
+  reviews      ClassReview[]
+  reports      ClassReport[]
+  tutorApplication TutorApplication?
+
+  @@index([role])
+}
+
+model TutorApplication {
+  id                    String                 @id @default(cuid())
+  userId                String                 @unique
+  type                  TutorApplicationType
+  status                TutorApplicationStatus @default(PENDING)
+  organizationName      String?                @db.VarChar(191)
+  contactPerson         String?                @db.VarChar(191)
+  studentCardUrl        String?                @db.Text
+  transcriptUrl         String?                @db.Text
+  organizationProofUrl  String?                @db.Text
+  notes                 String?                @db.Text
+  reviewerId            String?
+  submittedAt           DateTime               @default(now())
+  reviewedAt            DateTime?
+  createdAt             DateTime               @default(now())
+  updatedAt             DateTime               @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([status, submittedAt])
+}
+
+model Class {
+  id          String      @id @default(cuid())
+  tutorId     String
+  title       String      @db.VarChar(191)
+  shortDescription String? @db.Text
+  description String      @db.Text
+  mainCategory String?    @db.VarChar(191)
+  major       String?     @db.VarChar(191)
+  university  String?     @db.VarChar(191)
+  courseType  CourseType @default(PEER_TUTORING)
+  organizerName String?   @db.VarChar(191)
+  organizerLogo String?   @db.Text
+  price       Decimal     @db.Decimal(12, 2)
+  currency    String      @default("IDR") @db.Char(3)
+  status      ClassStatus @default(DRAFT)
+  startsAt    DateTime?
+  accessDuration String?  @db.VarChar(191)
+  maxQuota    Int?
+  requirements Json?
+  facilities  Json?
+  meetingPlatform String? @db.VarChar(32)
+  meetingUrl  String?     @db.Text
+  materialPlatform String? @db.VarChar(32)
+  materialUrl String?     @db.Text
+  recordingUrl String?    @db.Text
+  driveUrl    String?     @db.Text
+  cancelledAt DateTime?
+  cancellationReason String? @db.Text
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  tutor        User          @relation("TutorClasses", fields: [tutorId], references: [id], onDelete: Restrict)
+  transactions Transaction[]
+  presences    Presence[]
+  reviews      ClassReview[]
+  reports      ClassReport[]
+
+  @@index([status, startsAt])
+  @@index([tutorId, status])
+}
+
+model Transaction {
+  id                     String            @id @default(cuid())
+  userId                 String
+  classId                String
+  midtransOrderId        String?           @unique @db.VarChar(64)
+  midtransTransactionId  String?           @unique @db.VarChar(64)
+  midtransRedirectUrl    String?           @db.Text
+  amount                 Decimal           @db.Decimal(12, 2)
+  currency               String            @default("IDR") @db.Char(3)
+  status                 TransactionStatus @default(PENDING)
+  refundStatus           RefundStatus       @default(NOT_REQUESTED)
+  refundProviderReference String?           @db.VarChar(191)
+  refundFailureReason    String?           @db.Text
+  paidAt                 DateTime?
+  refundRequestedAt      DateTime?
+  refundedAt             DateTime?
+  createdAt              DateTime          @default(now())
+  updatedAt              DateTime          @updatedAt
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Restrict)
+  class Class @relation(fields: [classId], references: [id], onDelete: Restrict)
+
+  @@index([classId, status])
+  @@unique([userId, classId, status])
+}
+
+model Presence {
+  id        String         @id @default(cuid())
+  userId    String
+  classId   String
+  status    PresenceStatus @default(ABSENT)
+  markedAt  DateTime?
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  class Class @relation(fields: [classId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, classId])
+  @@index([classId, status])
+}
+
+model Ad {
+  id          String      @id @default(cuid())
+  ownerId     String
+  title       String      @db.VarChar(191)
+  subtitle    String?     @db.Text
+  placement   AdPlacement
+  imageUrl    String      @db.Text
+  targetUrl   String      @db.Text
+  startsAt    DateTime
+  endsAt      DateTime
+  status      AdStatus    @default(ACTIVE)
+  impressions Int         @default(0)
+  clicks      Int         @default(0)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  owner User @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
+  @@index([placement, status, startsAt, endsAt])
+  @@index([ownerId, status])
+}
+
+model ClassReview {
+  id        String   @id @default(cuid())
+  userId    String
+  classId   String
+  rating    Int
+  comment   String   @db.Text
+  reply     String?  @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  class Class @relation(fields: [classId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, classId])
+  @@index([classId, createdAt])
+}
+
+model ClassReport {
+  id          String   @id @default(cuid())
+  reporterId  String
+  targetType  ReportTargetType
+  targetId    String   @db.VarChar(191)
+  classId     String?
+  category    String   @db.VarChar(64)
+  description String   @db.Text
+  status      String   @default("PENDING_REVIEW") @db.VarChar(32)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  reporter User  @relation(fields: [reporterId], references: [id], onDelete: Cascade)
+  class    Class? @relation(fields: [classId], references: [id], onDelete: SetNull)
+
+  @@index([targetType, targetId, status])
+  @@index([reporterId, createdAt])
+}
