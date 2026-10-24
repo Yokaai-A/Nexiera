@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import {
   BookOpenText,
@@ -13,9 +13,8 @@ import {
   Video,
   X,
 } from "lucide-react";
-import { getStoredUser } from "@/src/lib/storage";
 import { nexieraApi } from "@/src/lib/api";
-import { CATEGORIES_DATA } from "@/src/lib/mockData";
+import { UNIVERSITY_COURSES } from "@/src/lib/universityCourses";
 import { CourseType, MaterialPlatform, MeetingPlatform, PricingModel, Tutor } from "@/src/types/course";
 
 function SectionTitle({ num, label }: { num: string; label: string }) {
@@ -62,7 +61,6 @@ import { useUserStore } from "@/src/store/useUserStore";
 
 export function BuatKelasForm() {
   const router = useRouter();
-  const currentUser = getStoredUser();
   const user = useUserStore();
 
   const isBootcampUser =
@@ -73,24 +71,48 @@ export function BuatKelasForm() {
     user.activeRole === "tutor" || user.activeViewRole === "tutor";
 
   const defaultType: CourseType = isBootcampUser ? "BOOTCAMP" : "PEER_TUTORING";
+  const initialCourse = UNIVERSITY_COURSES.find((course) => course.type === defaultType)!;
   const defaultOrgName = isBootcampUser
-    ? user.organizationName || "Booster Academy"
-    : user.name || currentUser.fullName || "Kevin Sanjaya";
+    ? user.organizationName || user.name || ""
+    : user.name || user.fullName || "";
 
-  const [mainCategory, setMainCategory] = useState("Sains & Teknologi");
-  const [major, setMajor] = useState("Computer Science");
-  const [title, setTitle] = useState("");
-  const [university, setUniversity] = useState(user.university || currentUser.campus || "BINUS University");
+  const [mainCategory, setMainCategory] = useState<string>(initialCourse.category);
+  const [major, setMajor] = useState<string>(initialCourse.major);
+  const [title, setTitle] = useState<string>(initialCourse.title);
+  const [tutorGrade, setTutorGrade] = useState<"" | "A" | "A_MINUS" | "B_PLUS">("");
+  const [university, setUniversity] = useState<string>(initialCourse.campusTarget || "");
   const [shortDesc, setShortDesc] = useState("");
   const [fullDesc, setFullDesc] = useState("");
+  const [bannerUrl, setBannerUrl] = useState("");
+  const [uploadingBanner, setUploadingBanner] = useState(false);
+  const bannerInputRef = useRef<HTMLInputElement>(null);
 
-  const availableMajors = useMemo(() => {
-    return CATEGORIES_DATA[mainCategory] ? Object.keys(CATEGORIES_DATA[mainCategory]) : [];
-  }, [mainCategory]);
+  async function handleBannerUpload(event: React.ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    if (file.size > 5 * 1024 * 1024) {
+      alert("Ukuran banner maksimal 5 MB.");
+      return;
+    }
+    const allowed = ["image/png", "image/jpeg", "image/jpg", "image/webp"];
+    if (!allowed.includes(file.type)) {
+      alert("Format file banner harus PNG, JPEG, JPG, atau WebP.");
+      return;
+    }
+    setUploadingBanner(true);
+    try {
+      const res = await nexieraApi.uploadBanner(file);
+      setBannerUrl(res.url);
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "Gagal mengunggah banner.");
+    } finally {
+      setUploadingBanner(false);
+    }
+  }
 
   const [type, setType] = useState<CourseType>(defaultType);
-  const [pricingModel, setPricingModel] = useState<PricingModel>("FREE");
-  const [priceAmount, setPriceAmount] = useState<number>(50000);
+  const [pricingModel, setPricingModel] = useState<PricingModel>(initialCourse.price === 0 ? "FREE" : "PAID");
+  const [priceAmount, setPriceAmount] = useState<number>(initialCourse.price);
 
   const [requirements, setRequirements] = useState<string[]>([
     "Mahasiswa aktif jurusan terkait",
@@ -105,12 +127,12 @@ export function BuatKelasForm() {
   ]);
   const [newFac, setNewFac] = useState("");
 
-  const [scheduleDate, setScheduleDate] = useState("10 Februari 2026");
+  const [scheduleDate, setScheduleDate] = useState("");
   const [accessDuration, setAccessDuration] = useState("Selamanya (Lifetime Access)");
   const [maxQuota, setMaxQuota] = useState(25);
 
   const [meetingPlatform, setMeetingPlatform] = useState<MeetingPlatform>("ZOOM");
-  const [meetingUrl, setMeetingUrl] = useState("https://zoom.us/j/1234567890");
+  const [meetingUrl, setMeetingUrl] = useState("");
   const [materialPlatform, setMaterialPlatform] = useState<MaterialPlatform>("NOTION");
   const [materialUrl, setMaterialUrl] = useState(""); // Opsional
   const [recordingUrl, setRecordingUrl] = useState(""); // Opsional
@@ -119,28 +141,53 @@ export function BuatKelasForm() {
   const [tutors, setTutors] = useState<Tutor[]>([
     {
       id: "tutor-main",
-      name: user.name || currentUser.fullName || "Kevin Sanjaya",
-      role: `Mahasiswa ${user.major || currentUser.major || "Computer Science"} ${user.university || currentUser.campus || "BINUS"}`,
-      avatarUrl: user.avatarUrl || currentUser.avatarUrl || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=256&q=80",
+      name: user.name || user.fullName || "",
+      role: [user.major, user.university || user.campus].filter(Boolean).join(" · "),
+      avatarUrl: user.avatarUrl || "",
     },
   ]);
+  const initializedUserId = useRef("");
 
-  const handleCategoryChange = (newCat: string) => {
-    setMainCategory(newCat);
-    const majors = CATEGORIES_DATA[newCat] ? Object.keys(CATEGORIES_DATA[newCat]) : [];
-    if (majors.length > 0) {
-      setMajor(majors[0]);
-    }
+  useEffect(() => {
+    if (!user.isLoggedIn || !user.id || initializedUserId.current === user.id) return;
+    initializedUserId.current = user.id;
+    setOrganizerName(user.organizationName || user.name || user.fullName || "");
+    setTutors([{
+      id: "tutor-main",
+      name: user.name || user.fullName || "",
+      role: user.headline || [user.major, user.university || user.campus].filter(Boolean).join(" · "),
+      avatarUrl: user.activeRole === "bootcamp_partner"
+        ? user.organizationLogoUrl || user.avatarUrl || ""
+        : user.avatarUrl || "",
+    }]);
+  }, [user.isLoggedIn, user.id, user.university, user.campus, user.major, user.name, user.fullName, user.organizationName, user.headline, user.avatarUrl, user.activeRole, user.organizationLogoUrl]);
+
+  useEffect(() => {
+    setType(defaultType);
+  }, [defaultType]);
+
+  const selectAcademicCourse = (title: string, courseType = type) => {
+    const course = UNIVERSITY_COURSES.find((item) => item.title === title && item.type === courseType);
+    if (!course) return;
+    setTitle(course.title);
+    setTutorGrade("");
+    setMainCategory(course.category);
+    setMajor(course.major);
+    setUniversity(course.campusTarget || "");
+    setPricingModel(course.price === 0 ? "FREE" : "PAID");
+    setPriceAmount(course.price);
   };
 
   const handleTypeChange = (newType: CourseType) => {
     if (isBootcampUser && newType !== "BOOTCAMP") return;
     if (isTutorUser && newType !== "PEER_TUTORING") return;
     setType(newType);
+    const nextCourse = UNIVERSITY_COURSES.find((course) => course.type === newType);
+    if (nextCourse) selectAcademicCourse(nextCourse.title, newType);
     if (newType === "BOOTCAMP") {
-      setOrganizerName(user.organizationName || "Booster Academy");
+      setOrganizerName(user.organizationName || user.name || "");
     } else {
-      setOrganizerName(user.name || currentUser.fullName || "Kevin Sanjaya");
+      setOrganizerName(user.name || user.fullName || "");
     }
   };
 
@@ -149,8 +196,8 @@ export function BuatKelasForm() {
     const newTutor: Tutor = {
       id: `tutor-${Date.now()}`,
       name: "",
-      role: `Mahasiswa ${major} ${university}`,
-      avatarUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=256&q=80",
+      role: [major, university].filter(Boolean).join(" · "),
+      avatarUrl: "",
     };
     setTutors([...tutors, newTutor]);
   };
@@ -199,8 +246,21 @@ export function BuatKelasForm() {
       alert("Mohon lengkapi nama mata kuliah dan deskripsi singkat.");
       return;
     }
+    if (type === "PEER_TUTORING" && !tutorGrade) {
+      alert("Pilih nilai yang pernah Anda peroleh untuk mata kuliah ini.");
+      return;
+    }
     if (!meetingUrl.trim()) {
       alert("Mohon sertakan Link Sesi Live.");
+      return;
+    }
+    if (!bannerUrl) {
+      alert("Unggah banner sampul untuk kartu mata kuliah.");
+      return;
+    }
+    const scheduledAt = new Date(scheduleDate);
+    if (!scheduleDate || !Number.isFinite(scheduledAt.getTime()) || scheduledAt <= new Date()) {
+      alert("Pilih tanggal dan waktu pelaksanaan yang akan datang.");
       return;
     }
 
@@ -216,9 +276,11 @@ export function BuatKelasForm() {
         major,
         university,
         courseType: type,
+        tutorGrade: type === "PEER_TUTORING" ? tutorGrade : undefined,
         organizerName,
+        bannerUrl: bannerUrl || undefined,
         price: pricingModel === "PAID" ? Number(priceAmount) : 0,
-        startsAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+        startsAt: scheduledAt.toISOString(),
         accessDuration,
         maxQuota: Number(maxQuota),
         meetingPlatform,
@@ -258,70 +320,62 @@ export function BuatKelasForm() {
         <SectionTitle num="1" label="Kategori & Akademik" />
         <div className="grid gap-5 md:grid-cols-2">
           <Field label="Kategori Utama" required>
-            <select
-              value={mainCategory}
-              onChange={(e) => handleCategoryChange(e.target.value)}
-              className={inputCls}
-              required
-            >
-              {Object.keys(CATEGORIES_DATA).map((cat) => (
-                <option key={cat} value={cat}>
-                  {cat}
-                </option>
-              ))}
-            </select>
+            <input value={mainCategory} readOnly className={inputCls} />
           </Field>
 
           <Field label="Jurusan" required>
-            <select
-              value={major}
-              onChange={(e) => setMajor(e.target.value)}
-              className={inputCls}
-              required
-            >
-              {availableMajors.map((m) => (
-                <option key={m} value={m}>
-                  {m}
-                </option>
-              ))}
-            </select>
+            <input value={major} readOnly className={inputCls} />
           </Field>
 
           <Field
             label="Nama Mata Kuliah"
             required
-            hint="Tanpa kode matkul internal"
+            hint="Gunakan nama resmi mata kuliah di kampus"
             className="md:col-span-2"
           >
-            <input
-              type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="Contoh: Algorithm and Programming"
-              className={inputCls}
-              required
-            />
+            <select value={title} onChange={(e) => selectAcademicCourse(e.target.value)} className={inputCls} required>
+              {UNIVERSITY_COURSES.filter((course) => course.type === type).map((course) => (
+                <option key={`${course.title}-${course.category}-${course.campusTarget}`} value={course.title}>{course.title}</option>
+              ))}
+            </select>
           </Field>
 
-          <Field label="Institusi / Universitas" required>
-            <input
-              type="text"
-              value={university}
-              onChange={(e) => setUniversity(e.target.value)}
-              placeholder="BINUS University"
-              className={inputCls}
-              required
-            />
+          <Field label="Kampus (opsional)">
+            <input value={university} readOnly className={inputCls} placeholder="Kelas umum" />
           </Field>
 
-          <Field label="Tanggal Pelaksanaan" required>
+          {type === "PEER_TUTORING" && (
+            <Field
+              label="Nilai yang Pernah Diperoleh di Mata Kuliah Ini"
+              required
+              hint={`Kualifikasi untuk ${title}`}
+            >
+              <select
+                value={tutorGrade}
+                onChange={(event) => setTutorGrade(event.target.value as typeof tutorGrade)}
+                className={`${inputCls} cursor-pointer`}
+                required
+              >
+                <option value="" disabled>Pilih nilai</option>
+                <option value="A">A</option>
+                <option value="A_MINUS">A-</option>
+                <option value="B_PLUS">B+</option>
+              </select>
+            </Field>
+          )}
+
+          <Field label="Tanggal & Waktu Pelaksanaan" required>
             <input
-              type="text"
+              type="datetime-local"
               value={scheduleDate}
               onChange={(e) => setScheduleDate(e.target.value)}
-              placeholder="10 Februari 2026"
               className={inputCls}
               required
+              min={(() => {
+                const now = new Date();
+                now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+                return now.toISOString().slice(0, 16);
+              })()}
             />
           </Field>
 
@@ -345,6 +399,59 @@ export function BuatKelasForm() {
               className={inputCls + " resize-none"}
             />
           </Field>
+
+          <div className="md:col-span-2">
+            <Field label="Banner Sampul Kelas (Unggah Langsung)" required hint="Format PNG/JPEG/WebP, maks. 5 MB">
+              <div className="rounded-[4px] border border-dashed border-[#D9DEE7] p-4 bg-slate-50/50">
+                {bannerUrl ? (
+                  <div className="space-y-3">
+                    <div className="relative aspect-video w-full max-w-md overflow-hidden rounded-[4px] border border-[#D9DEE7]">
+                      <img
+                        src={bannerUrl.startsWith("/uploads") ? `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000"}${bannerUrl}` : bannerUrl}
+                        alt="Preview Banner Kelas"
+                        className="h-full w-full object-cover"
+                      />
+                    </div>
+                    <div className="flex gap-2">
+                      <button
+                        type="button"
+                        onClick={() => bannerInputRef.current?.click()}
+                        className="rounded-[4px] border border-[#D9DEE7] bg-white px-3 py-1.5 text-xs font-semibold text-[#20232B] hover:bg-slate-100"
+                      >
+                        Ganti Banner
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setBannerUrl("")}
+                        className="rounded-[4px] px-3 py-1.5 text-xs font-medium text-red-600 hover:bg-red-50"
+                      >
+                        Hapus Banner
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex flex-col items-center justify-center py-4 text-center">
+                    <p className="text-xs text-[#626B78] mb-2">Unggah gambar banner representatif untuk kartu kelas di katalog.</p>
+                    <button
+                      type="button"
+                      disabled={uploadingBanner}
+                      onClick={() => bannerInputRef.current?.click()}
+                      className="rounded-[4px] border border-[#D9DEE7] bg-white px-3.5 py-2 text-xs font-semibold text-[#20232B] hover:bg-slate-100"
+                    >
+                      {uploadingBanner ? "Mengunggah..." : "Pilih File Banner (Maks. 5 MB)"}
+                    </button>
+                  </div>
+                )}
+                <input
+                  type="file"
+                  ref={bannerInputRef}
+                  className="hidden"
+                  accept="image/png,image/jpeg,image/jpg,image/webp"
+                  onChange={handleBannerUpload}
+                />
+              </div>
+            </Field>
+          </div>
 
           <div className="md:col-span-2">
             <Field label="Syarat & Prasyarat Mahasiswa">
@@ -550,7 +657,7 @@ export function BuatKelasForm() {
               readOnly={isBootcampUser || isTutorUser}
               value={organizerName}
               onChange={(e) => setOrganizerName(e.target.value)}
-              placeholder={type === "BOOTCAMP" ? "Booster Academy" : user.name || currentUser.fullName || "Nama Mahasiswa"}
+              placeholder={type === "BOOTCAMP" ? user.organizationName || user.name || "Nama Organisasi" : user.name || "Nama Mahasiswa"}
               className={`${inputCls} ${
                 isBootcampUser || isTutorUser ? "cursor-not-allowed bg-slate-100 dark:bg-slate-800" : ""
               }`}
@@ -645,54 +752,13 @@ export function BuatKelasForm() {
         </div>
 
         <div className="mt-5">
-          <Field label="Model Pembiayaan" required>
-            <div className="grid grid-cols-2 gap-4">
-              <button
-                type="button"
-                onClick={() => setPricingModel("FREE")}
-                className={`rounded-[4px] border p-4 text-left transition-colors ${
-                  pricingModel === "FREE"
-                    ? "border-[#2457C5] bg-[#E5E9F0]/50 text-[#20232B]"
-                    : "border-[#D9DEE7] bg-white text-[#20232B] hover:bg-[#E5E9F0]/30"
-                }`}
-              >
-                <span className="text-sm font-semibold text-emerald-700">GRATIS</span>
-                <p className="mt-1 text-xs text-[#626B78]">
-                  Terbuka bebas bagi seluruh mahasiswa.
-                </p>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setPricingModel("PAID")}
-                className={`rounded-[4px] border p-4 text-left transition-colors ${
-                  pricingModel === "PAID"
-                    ? "border-[#2457C5] bg-[#E5E9F0]/50 text-[#20232B]"
-                    : "border-[#D9DEE7] bg-white text-[#20232B] hover:bg-[#E5E9F0]/30"
-                }`}
-              >
-                <span className="text-sm font-semibold text-[#20232B]">BERBAYAR</span>
-                <p className="mt-1 text-xs text-[#626B78]">
-                  Biaya partisipasi terjangkau.
-                </p>
-              </button>
-            </div>
+          <Field label="Biaya sesuai katalog mata kuliah" required>
+            <input
+              value={pricingModel === "FREE" ? "Gratis" : new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", maximumFractionDigits: 0 }).format(priceAmount)}
+              readOnly
+              className={inputCls}
+            />
           </Field>
-
-          {pricingModel === "PAID" && (
-            <div className="mt-4">
-              <Field label="Nominal Biaya (Rp)" required>
-                <input
-                  type="number"
-                  value={priceAmount}
-                  onChange={(e) => setPriceAmount(Number(e.target.value))}
-                  min={5000}
-                  step={5000}
-                  className={inputCls}
-                />
-              </Field>
-            </div>
-          )}
         </div>
       </section>
 

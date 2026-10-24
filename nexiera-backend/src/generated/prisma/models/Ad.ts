@@ -41,12 +41,12 @@ export type AdMinAggregateOutputType = {
   ownerId: string | null
   title: string | null
   subtitle: string | null
-  placement: $Enums.AdPlacement | null
+  placement: string | null
   imageUrl: string | null
   targetUrl: string | null
   startsAt: Date | null
   endsAt: Date | null
-  status: $Enums.AdStatus | null
+  status: string | null
   impressions: number | null
   clicks: number | null
   createdAt: Date | null
@@ -58,12 +58,12 @@ export type AdMaxAggregateOutputType = {
   ownerId: string | null
   title: string | null
   subtitle: string | null
-  placement: $Enums.AdPlacement | null
+  placement: string | null
   imageUrl: string | null
   targetUrl: string | null
   startsAt: Date | null
   endsAt: Date | null
-  status: $Enums.AdStatus | null
+  status: string | null
   impressions: number | null
   clicks: number | null
   createdAt: Date | null
@@ -242,12 +242,12 @@ export type AdGroupByOutputType = {
   ownerId: string
   title: string
   subtitle: string | null
-  placement: $Enums.AdPlacement
+  placement: string
   imageUrl: string
   targetUrl: string
   startsAt: Date
   endsAt: Date
-  status: $Enums.AdStatus
+  status: string
   impressions: number
   clicks: number
   createdAt: Date
@@ -282,12 +282,12 @@ export type AdWhereInput = {
   ownerId?: Prisma.StringFilter<"Ad"> | string
   title?: Prisma.StringFilter<"Ad"> | string
   subtitle?: Prisma.StringNullableFilter<"Ad"> | string | null
-  placement?: Prisma.EnumAdPlacementFilter<"Ad"> | $Enums.AdPlacement
+  placement?: Prisma.StringFilter<"Ad"> | string
   imageUrl?: Prisma.StringFilter<"Ad"> | string
   targetUrl?: Prisma.StringFilter<"Ad"> | string
   startsAt?: Prisma.DateTimeFilter<"Ad"> | Date | string
   endsAt?: Prisma.DateTimeFilter<"Ad"> | Date | string
-  status?: Prisma.EnumAdStatusFilter<"Ad"> | $Enums.AdStatus
+  status?: Prisma.StringFilter<"Ad"> | string
   impressions?: Prisma.IntFilter<"Ad"> | number
   clicks?: Prisma.IntFilter<"Ad"> | number
   createdAt?: Prisma.DateTimeFilter<"Ad"> | Date | string
@@ -322,12 +322,12 @@ export type AdWhereUniqueInput = Prisma.AtLeast<{
   ownerId?: Prisma.StringFilter<"Ad"> | string
   title?: Prisma.StringFilter<"Ad"> | string
   subtitle?: Prisma.StringNullableFilter<"Ad"> | string | null
-  placement?: Prisma.EnumAdPlacementFilter<"Ad"> | $Enums.AdPlacement
+  placement?: Prisma.StringFilter<"Ad"> | string
   imageUrl?: Prisma.StringFilter<"Ad"> | string
   targetUrl?: Prisma.StringFilter<"Ad"> | string
   startsAt?: Prisma.DateTimeFilter<"Ad"> | Date | string
   endsAt?: Prisma.DateTimeFilter<"Ad"> | Date | string
-  status?: Prisma.EnumAdStatusFilter<"Ad"> | $Enums.AdStatus
+  status?: Prisma.StringFilter<"Ad"> | string
   impressions?: Prisma.IntFilter<"Ad"> | number
   clicks?: Prisma.IntFilter<"Ad"> | number
   createdAt?: Prisma.DateTimeFilter<"Ad"> | Date | string
@@ -365,12 +365,12 @@ export type AdScalarWhereWithAggregatesInput = {
   ownerId?: Prisma.StringWithAggregatesFilter<"Ad"> | string
   title?: Prisma.StringWithAggregatesFilter<"Ad"> | string
   subtitle?: Prisma.StringNullableWithAggregatesFilter<"Ad"> | string | null
-  placement?: Prisma.EnumAdPlacementWithAggregatesFilter<"Ad"> | $Enums.AdPlacement
+  placement?: Prisma.StringWithAggregatesFilter<"Ad"> | string
   imageUrl?: Prisma.StringWithAggregatesFilter<"Ad"> | string
   targetUrl?: Prisma.StringWithAggregatesFilter<"Ad"> | string
   startsAt?: Prisma.DateTimeWithAggregatesFilter<"Ad"> | Date | string
   endsAt?: Prisma.DateTimeWithAggregatesFilter<"Ad"> | Date | string
-  status?: Prisma.EnumAdStatusWithAggregatesFilter<"Ad"> | $Enums.AdStatus
+  status?: Prisma.StringWithAggregatesFilter<"Ad"> | string
   impressions?: Prisma.IntWithAggregatesFilter<"Ad"> | number
   clicks?: Prisma.IntWithAggregatesFilter<"Ad"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Ad"> | Date | string
@@ -381,12 +381,12 @@ export type AdCreateInput = {
   id?: string
   title: string
   subtitle?: string | null
-  placement: $Enums.AdPlacement
+  placement?: string
   imageUrl: string
   targetUrl: string
-  startsAt: Date | string
+  startsAt?: Date | string
   endsAt: Date | string
-  status?: $Enums.AdStatus
+  status?: string
   impressions?: number
   clicks?: number
   createdAt?: Date | string
@@ -399,12 +399,12 @@ export type AdUncheckedCreateInput = {
   ownerId: string
   title: string
   subtitle?: string | null
-  placement: $Enums.AdPlacement
+  placement?: string
   imageUrl: string
   targetUrl: string
-  startsAt: Date | string
+  startsAt?: Date | string
   endsAt: Date | string
-  status?: $Enums.AdStatus
+  status?: string
   impressions?: number
   clicks?: number
   createdAt?: Date | string
@@ -415,12 +415,12 @@ export type AdUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   subtitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placement?: Prisma.EnumAdPlacementFieldUpdateOperationsInput | $Enums.AdPlacement
+  placement?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   targetUrl?: Prisma.StringFieldUpdateOperationsInput | string
   startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  status?: Prisma.EnumAdStatusFieldUpdateOperationsInput | $Enums.AdStatus
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   impressions?: Prisma.IntFieldUpdateOperationsInput | number
   clicks?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -433,12 +433,12 @@ export type AdUncheckedUpdateInput = {
   ownerId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   subtitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placement?: Prisma.EnumAdPlacementFieldUpdateOperationsInput | $Enums.AdPlacement
+  placement?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   targetUrl?: Prisma.StringFieldUpdateOperationsInput | string
   startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  status?: Prisma.EnumAdStatusFieldUpdateOperationsInput | $Enums.AdStatus
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   impressions?: Prisma.IntFieldUpdateOperationsInput | number
   clicks?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -450,12 +450,12 @@ export type AdCreateManyInput = {
   ownerId: string
   title: string
   subtitle?: string | null
-  placement: $Enums.AdPlacement
+  placement?: string
   imageUrl: string
   targetUrl: string
-  startsAt: Date | string
+  startsAt?: Date | string
   endsAt: Date | string
-  status?: $Enums.AdStatus
+  status?: string
   impressions?: number
   clicks?: number
   createdAt?: Date | string
@@ -466,12 +466,12 @@ export type AdUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   subtitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placement?: Prisma.EnumAdPlacementFieldUpdateOperationsInput | $Enums.AdPlacement
+  placement?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   targetUrl?: Prisma.StringFieldUpdateOperationsInput | string
   startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  status?: Prisma.EnumAdStatusFieldUpdateOperationsInput | $Enums.AdStatus
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   impressions?: Prisma.IntFieldUpdateOperationsInput | number
   clicks?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -483,12 +483,12 @@ export type AdUncheckedUpdateManyInput = {
   ownerId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   subtitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placement?: Prisma.EnumAdPlacementFieldUpdateOperationsInput | $Enums.AdPlacement
+  placement?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   targetUrl?: Prisma.StringFieldUpdateOperationsInput | string
   startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  status?: Prisma.EnumAdStatusFieldUpdateOperationsInput | $Enums.AdStatus
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   impressions?: Prisma.IntFieldUpdateOperationsInput | number
   clicks?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -614,32 +614,16 @@ export type AdUncheckedUpdateManyWithoutOwnerNestedInput = {
   deleteMany?: Prisma.AdScalarWhereInput | Prisma.AdScalarWhereInput[]
 }
 
-export type EnumAdPlacementFieldUpdateOperationsInput = {
-  set?: $Enums.AdPlacement
-}
-
-export type EnumAdStatusFieldUpdateOperationsInput = {
-  set?: $Enums.AdStatus
-}
-
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type AdCreateWithoutOwnerInput = {
   id?: string
   title: string
   subtitle?: string | null
-  placement: $Enums.AdPlacement
+  placement?: string
   imageUrl: string
   targetUrl: string
-  startsAt: Date | string
+  startsAt?: Date | string
   endsAt: Date | string
-  status?: $Enums.AdStatus
+  status?: string
   impressions?: number
   clicks?: number
   createdAt?: Date | string
@@ -650,12 +634,12 @@ export type AdUncheckedCreateWithoutOwnerInput = {
   id?: string
   title: string
   subtitle?: string | null
-  placement: $Enums.AdPlacement
+  placement?: string
   imageUrl: string
   targetUrl: string
-  startsAt: Date | string
+  startsAt?: Date | string
   endsAt: Date | string
-  status?: $Enums.AdStatus
+  status?: string
   impressions?: number
   clicks?: number
   createdAt?: Date | string
@@ -696,12 +680,12 @@ export type AdScalarWhereInput = {
   ownerId?: Prisma.StringFilter<"Ad"> | string
   title?: Prisma.StringFilter<"Ad"> | string
   subtitle?: Prisma.StringNullableFilter<"Ad"> | string | null
-  placement?: Prisma.EnumAdPlacementFilter<"Ad"> | $Enums.AdPlacement
+  placement?: Prisma.StringFilter<"Ad"> | string
   imageUrl?: Prisma.StringFilter<"Ad"> | string
   targetUrl?: Prisma.StringFilter<"Ad"> | string
   startsAt?: Prisma.DateTimeFilter<"Ad"> | Date | string
   endsAt?: Prisma.DateTimeFilter<"Ad"> | Date | string
-  status?: Prisma.EnumAdStatusFilter<"Ad"> | $Enums.AdStatus
+  status?: Prisma.StringFilter<"Ad"> | string
   impressions?: Prisma.IntFilter<"Ad"> | number
   clicks?: Prisma.IntFilter<"Ad"> | number
   createdAt?: Prisma.DateTimeFilter<"Ad"> | Date | string
@@ -712,12 +696,12 @@ export type AdCreateManyOwnerInput = {
   id?: string
   title: string
   subtitle?: string | null
-  placement: $Enums.AdPlacement
+  placement?: string
   imageUrl: string
   targetUrl: string
-  startsAt: Date | string
+  startsAt?: Date | string
   endsAt: Date | string
-  status?: $Enums.AdStatus
+  status?: string
   impressions?: number
   clicks?: number
   createdAt?: Date | string
@@ -728,12 +712,12 @@ export type AdUpdateWithoutOwnerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   subtitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placement?: Prisma.EnumAdPlacementFieldUpdateOperationsInput | $Enums.AdPlacement
+  placement?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   targetUrl?: Prisma.StringFieldUpdateOperationsInput | string
   startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  status?: Prisma.EnumAdStatusFieldUpdateOperationsInput | $Enums.AdStatus
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   impressions?: Prisma.IntFieldUpdateOperationsInput | number
   clicks?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -744,12 +728,12 @@ export type AdUncheckedUpdateWithoutOwnerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   subtitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placement?: Prisma.EnumAdPlacementFieldUpdateOperationsInput | $Enums.AdPlacement
+  placement?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   targetUrl?: Prisma.StringFieldUpdateOperationsInput | string
   startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  status?: Prisma.EnumAdStatusFieldUpdateOperationsInput | $Enums.AdStatus
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   impressions?: Prisma.IntFieldUpdateOperationsInput | number
   clicks?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -760,12 +744,12 @@ export type AdUncheckedUpdateManyWithoutOwnerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   subtitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placement?: Prisma.EnumAdPlacementFieldUpdateOperationsInput | $Enums.AdPlacement
+  placement?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   targetUrl?: Prisma.StringFieldUpdateOperationsInput | string
   startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  status?: Prisma.EnumAdStatusFieldUpdateOperationsInput | $Enums.AdStatus
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   impressions?: Prisma.IntFieldUpdateOperationsInput | number
   clicks?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -826,12 +810,12 @@ export type $AdPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
     ownerId: string
     title: string
     subtitle: string | null
-    placement: $Enums.AdPlacement
+    placement: string
     imageUrl: string
     targetUrl: string
     startsAt: Date
     endsAt: Date
-    status: $Enums.AdStatus
+    status: string
     impressions: number
     clicks: number
     createdAt: Date
@@ -1210,12 +1194,12 @@ export interface AdFieldRefs {
   readonly ownerId: Prisma.FieldRef<"Ad", 'String'>
   readonly title: Prisma.FieldRef<"Ad", 'String'>
   readonly subtitle: Prisma.FieldRef<"Ad", 'String'>
-  readonly placement: Prisma.FieldRef<"Ad", 'AdPlacement'>
+  readonly placement: Prisma.FieldRef<"Ad", 'String'>
   readonly imageUrl: Prisma.FieldRef<"Ad", 'String'>
   readonly targetUrl: Prisma.FieldRef<"Ad", 'String'>
   readonly startsAt: Prisma.FieldRef<"Ad", 'DateTime'>
   readonly endsAt: Prisma.FieldRef<"Ad", 'DateTime'>
-  readonly status: Prisma.FieldRef<"Ad", 'AdStatus'>
+  readonly status: Prisma.FieldRef<"Ad", 'String'>
   readonly impressions: Prisma.FieldRef<"Ad", 'Int'>
   readonly clicks: Prisma.FieldRef<"Ad", 'Int'>
   readonly createdAt: Prisma.FieldRef<"Ad", 'DateTime'>

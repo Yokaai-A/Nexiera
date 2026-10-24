@@ -14,15 +14,15 @@ const CAMPUSES = [
 ];
 
 const MAJORS = [
-  "Computer Science",
-  "Information Systems",
-  "Software Engineering",
-  "Data Science",
-  "Cyber Security",
-  "Game Application and Technology",
-  "Business Management",
-  "Accounting & Finance",
-  "Industrial Engineering",
+  "Teknik Informatika",
+  "Sistem Informasi",
+  "Rekayasa Perangkat Lunak",
+  "Sains Data",
+  "Keamanan Siber",
+  "Teknologi Permainan",
+  "Manajemen",
+  "Akuntansi",
+  "Teknik Industri",
 ];
 
 export default function OnboardingPage() {
@@ -30,7 +30,7 @@ export default function OnboardingPage() {
   const existingUser = getStoredUser();
 
   const [campus, setCampus] = useState(existingUser.campus || "BINUS University");
-  const [major, setMajor] = useState(existingUser.major || "Computer Science");
+  const [major, setMajor] = useState(existingUser.major || "Teknik Informatika");
   const [semester, setSemester] = useState(existingUser.semester || "Semester 3");
   const [nim, setNim] = useState("2601987654");
   const [isVerifying, setIsVerifying] = useState(false);

@@ -4,7 +4,9 @@ dotenv.config();
 
 import bcrypt from "bcryptjs";
 import { PrismaMariaDb } from "@prisma/adapter-mariadb";
-import { PrismaClient } from "../src/generated/prisma/client.js";
+import { PrismaClient, Role, ClassType } from "../src/generated/prisma/client.js";
+import { universityCourses } from "../src/classes/university-courses.js";
+export { universityCourses };
 
 const adapter = new PrismaMariaDb({
   host: process.env.DATABASE_HOST || "localhost",
@@ -13,269 +15,310 @@ const adapter = new PrismaMariaDb({
   password: process.env.DATABASE_PASSWORD || "nexiera_local_password",
   database: process.env.DATABASE_NAME || "nexiera",
   connectionLimit: 5,
+  allowPublicKeyRetrieval: true,
 });
 
 const prisma = new PrismaClient({ adapter });
 
 async function main() {
-  console.log("Seeding database with authentic academic classes...");
+  console.log("Seeding database with authentic NEXIERA academic classes...");
   const defaultPasswordHash = await bcrypt.hash("password123", 12);
 
-  // 1. Create Tutors & Students
+  // 1. Demo & Academic Users
+  // Evaluation demo accounts are pre-configured with all roles unlocked [MAHASISWA, PEER_TUTOR, MITRA_BOOTCAMP]
+  // Standard personal emails are used for login (NOT institutional domain emails)
   const tutorKevin = await prisma.user.upsert({
-    where: { email: "kevin.sanjaya@binus.ac.id" },
-    update: { password: defaultPasswordHash },
-    create: {
-      email: "kevin.sanjaya@binus.ac.id",
+    where: { email: "kevin@student.com" },
+    update: {
       password: defaultPasswordHash,
-      name: "Kevin Sanjaya",
+      emailVerifiedAt: new Date(),
+      fullName: "Kevin Sanjaya",
+      roles: [Role.MAHASISWA, Role.PEER_TUTOR, Role.MITRA_BOOTCAMP],
+      activeRole: Role.PEER_TUTOR,
+      campus: "BINUS University",
+      major: "Teknik Informatika",
+      contactEmail: "kevin.tutor@binus.ac.id",
+      headline: "Peer-Tutor Teknik Informatika BINUS",
+      bio: "Mahasiswa tingkat atas Teknik Informatika dengan fokus pada Algoritma, Struktur Data, dan Pemrograman C/C++. Berpengalaman membimbing puluhan mahasiswa dalam persiapan UTS & UAS.",
+    },
+    create: {
+      email: "kevin@student.com",
+      emailVerifiedAt: new Date(),
+      contactEmail: "kevin.tutor@binus.ac.id",
+      password: defaultPasswordHash,
+      fullName: "Kevin Sanjaya",
       phoneNumber: "081234567890",
-      role: "TUTOR",
-      university: "BINUS University",
-      major: "Computer Science",
-      studentNumber: "2602123456",
-      semester: "Semester 5",
-      headline: "Peer-Tutor Computer Science BINUS",
-      bio: "Mahasiswa tingkat atas Computer Science dengan fokus pada Algoritma, Struktur Data, dan Pemrograman C/C++. Berpengalaman membimbing puluhan mahasiswa dalam persiapan UTS & UAS.",
-      location: "Jakarta Barat",
+      roles: [Role.MAHASISWA, Role.PEER_TUTOR, Role.MITRA_BOOTCAMP],
+      activeRole: Role.PEER_TUTOR,
+      campus: "BINUS University",
+      major: "Teknik Informatika",
+      headline: "Peer-Tutor Teknik Informatika BINUS",
+      bio: "Mahasiswa tingkat atas Teknik Informatika dengan fokus pada Algoritma, Struktur Data, dan Pemrograman C/C++. Berpengalaman membimbing puluhan mahasiswa dalam persiapan UTS & UAS.",
+      avatarUrl: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80",
     },
   });
 
   const tutorAhmad = await prisma.user.upsert({
-    where: { email: "ahmad.dahlan@ui.ac.id" },
-    update: { password: defaultPasswordHash },
-    create: {
-      email: "ahmad.dahlan@ui.ac.id",
+    where: { email: "ahmad@student.com" },
+    update: {
       password: defaultPasswordHash,
-      name: "Ahmad Dahlan",
+      emailVerifiedAt: new Date(),
+      fullName: "Ahmad Dahlan",
+      roles: [Role.MAHASISWA, Role.PEER_TUTOR],
+      activeRole: Role.PEER_TUTOR,
+      campus: "Universitas Indonesia",
+      major: "Sistem Informasi",
+      contactEmail: "ahmad.dahlan@ui.ac.id",
+      headline: "Peer-Tutor Sistem Informasi UI",
+      bio: "Fokus pada Rekayasa Perangkat Lunak, Basis Data SQL, dan Pemodelan Sistem Berorientasi Objek.",
+    },
+    create: {
+      email: "ahmad@student.com",
+      emailVerifiedAt: new Date(),
+      contactEmail: "ahmad.dahlan@ui.ac.id",
+      password: defaultPasswordHash,
+      fullName: "Ahmad Dahlan",
       phoneNumber: "081298765432",
-      role: "TUTOR",
-      university: "Universitas Indonesia",
-      major: "Information Systems",
-      studentNumber: "2106123456",
-      semester: "Semester 7",
-      headline: "Peer-Tutor Information Systems UI",
-      bio: "Fokus pada Software Engineering, Basis Data, dan Pemodelan Sistem Berorientasi Objek.",
-      location: "Depok",
+      roles: [Role.MAHASISWA, Role.PEER_TUTOR],
+      activeRole: Role.PEER_TUTOR,
+      campus: "Universitas Indonesia",
+      major: "Sistem Informasi",
+      headline: "Peer-Tutor Sistem Informasi UI",
+      bio: "Fokus pada Rekayasa Perangkat Lunak, Basis Data SQL, dan Pemodelan Sistem Berorientasi Objek.",
+      avatarUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&fit=crop&q=80",
     },
   });
 
-  const boosterOrg = await prisma.user.upsert({
-    where: { email: "admin@boosteracademy.id" },
-    update: { password: defaultPasswordHash },
-    create: {
-      email: "admin@boosteracademy.id",
+  const boosterAcademy = await prisma.user.upsert({
+    where: { email: "rafi.pratama@student.ac.id" },
+    update: {
       password: defaultPasswordHash,
-      name: "Booster Academy",
-      phoneNumber: "081311223344",
-      role: "TUTOR",
-      university: "BINUS University",
-      major: "Computer Science",
+      emailVerifiedAt: new Date(),
+      fullName: "Rafi Pratama",
+      roles: [Role.MAHASISWA, Role.PEER_TUTOR, Role.MITRA_BOOTCAMP],
+      activeRole: Role.MITRA_BOOTCAMP,
+      campus: "BINUS University",
+      major: "Teknik Informatika",
       organizationName: "Booster Academy",
       organizationLogoUrl: "/Logo_Akhir.png",
-      headline: "Mitra Bootcamp Akademik & Persiapan Ujian",
-      bio: "Lembaga pelatihan intensif bimbingan mata kuliah kurikulum perguruan tinggi dengan mentor berpengalaman.",
-      location: "Jakarta",
+      contactEmail: "info@boosteracademy.id",
+      headline: "Mahasiswa Teknik Informatika & Pengelola Mitra Bootcamp",
+      bio: "Mahasiswa BINUS University yang mengelola program bimbingan akademik Booster Academy.",
+      avatarUrl: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&auto=format&fit=crop&q=80",
+    },
+    create: {
+      email: "rafi.pratama@student.ac.id",
+      emailVerifiedAt: new Date(),
+      contactEmail: "info@boosteracademy.id",
+      password: defaultPasswordHash,
+      fullName: "Rafi Pratama",
+      phoneNumber: "081311223344",
+      roles: [Role.MAHASISWA, Role.PEER_TUTOR, Role.MITRA_BOOTCAMP],
+      activeRole: Role.MITRA_BOOTCAMP,
+      campus: "BINUS University",
+      major: "Teknik Informatika",
+      organizationName: "Booster Academy",
+      organizationLogoUrl: "/Logo_Akhir.png",
+      headline: "Mahasiswa Teknik Informatika & Pengelola Mitra Bootcamp",
+      bio: "Mahasiswa BINUS University yang mengelola program bimbingan akademik Booster Academy.",
+      avatarUrl: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&auto=format&fit=crop&q=80",
     },
   });
 
   const studentBudi = await prisma.user.upsert({
-    where: { email: "budi.pratama@binus.ac.id" },
-    update: { password: defaultPasswordHash },
-    create: {
-      email: "budi.pratama@binus.ac.id",
+    where: { email: "budi@student.com" },
+    update: {
       password: defaultPasswordHash,
-      name: "Budi Pratama",
+      emailVerifiedAt: new Date(),
+      fullName: "Budi Pratama",
+      roles: [Role.MAHASISWA, Role.PEER_TUTOR, Role.MITRA_BOOTCAMP],
+      activeRole: Role.MAHASISWA,
+      campus: "BINUS University",
+      major: "Teknik Informatika",
+      contactEmail: "budi.pratama@gmail.com",
+      headline: "Mahasiswa Teknik Informatika BINUS (Akun Demo Evaluasi)",
+      bio: "Akun demo evaluasi dengan seluruh peran terbuka [MAHASISWA, PEER_TUTOR, MITRA_BOOTCAMP].",
+    },
+    create: {
+      email: "budi@student.com",
+      emailVerifiedAt: new Date(),
+      contactEmail: "budi.pratama@gmail.com",
+      password: defaultPasswordHash,
+      fullName: "Budi Pratama",
       phoneNumber: "081399887766",
-      role: "STUDENT",
-      university: "BINUS University",
-      major: "Computer Science",
-      studentNumber: "2702998877",
-      semester: "Semester 3",
-      headline: "Mahasiswa Computer Science BINUS",
-      bio: "Mahasiswa aktif angkatan 2024 yang sedang mempersiapkan diri menghadapi ujian semester.",
-      location: "Jakarta",
+      roles: [Role.MAHASISWA, Role.PEER_TUTOR, Role.MITRA_BOOTCAMP],
+      activeRole: Role.MAHASISWA,
+      campus: "BINUS University",
+      major: "Teknik Informatika",
+      headline: "Mahasiswa Teknik Informatika BINUS (Akun Demo Evaluasi)",
+      bio: "Akun demo evaluasi dengan seluruh peran terbuka [MAHASISWA, PEER_TUTOR, MITRA_BOOTCAMP].",
+      avatarUrl: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&auto=format&fit=crop&q=80",
     },
   });
 
-  // 2. Create Classes
-  const now = new Date();
-  const futureDate1 = new Date(now.getTime() + 5 * 24 * 60 * 60 * 1000);
-  const futureDate2 = new Date(now.getTime() + 8 * 24 * 60 * 60 * 1000);
-  const futureDate3 = new Date(now.getTime() + 12 * 24 * 60 * 60 * 1000);
-  const futureDate4 = new Date(now.getTime() + 15 * 24 * 60 * 60 * 1000);
-  const futureDate5 = new Date(now.getTime() + 20 * 24 * 60 * 60 * 1000);
+  // 2. Canonical university academic courses
+  async function upsertAcademicCourse(
+    course: (typeof universityCourses)[number],
+    creatorId: string,
+  ) {
+    const existing = await prisma.class.findUnique({ where: { slug: course.slug } });
+    // These schedules and links are deliberately demo-only and are only seeded
+    // for courses enrolled by Budi's evaluation account.
+    const demoSession = course.slug === "struktur-data-dan-algoritma"
+      ? {
+          startsAt: new Date("2026-10-29T19:00:00+07:00"),
+          meetingLink: "https://meet.jit.si/nexiera-demo-budi-struktur-data-2026",
+          materialLink: "https://visualgo.net/en",
+        }
+      : course.slug === "bootcamp-pemrograman-berorientasi-objek"
+        ? {
+            startsAt: new Date("2026-10-27T19:00:00+07:00"),
+            meetingLink: "https://meet.jit.si/nexiera-demo-budi-object-oriented-programming-2026",
+            materialLink: "https://docs.oracle.com/javase/tutorial/java/concepts/",
+          }
+        : null;
+    const data = {
+      title: course.title,
+      slug: course.slug,
+      description: course.description,
+      type: course.type as ClassType,
+      price: course.price,
+      category: course.category,
+      major: course.major,
+      campusTarget: course.campusTarget,
+      bannerUrl: course.bannerUrl,
+      startsAt: demoSession?.startsAt ?? null,
+      meetingLink: demoSession?.meetingLink ?? null,
+      materialLink: demoSession?.materialLink ?? null,
+      recordingLink: null,
+      creatorId,
+    };
+    const record = existing
+      ? await prisma.class.update({ where: { id: existing.id }, data })
+      : await prisma.class.create({ data });
 
-  const classAlgoProg = await prisma.class.upsert({
-    where: { id: "class-algoprog-binus" },
-    update: {},
-    create: {
-      id: "class-algoprog-binus",
-      tutorId: tutorKevin.id,
-      title: "Algorithm and Programming",
-      shortDescription: "Bimbingan intensif persiapan ujian mata kuliah Algorithm and Programming kurikulum Computer Science.",
-      description: "Pembedahan mendalam konsep dasar algoritma pemrograman, pointer, array, recursion, dynamic memory allocation, hingga struktur data dasar untuk persiapan ujian tengah semester (UTS). Sesi live interaktif dengan latihan soal dan live coding.",
-      mainCategory: "Sains & Teknologi",
-      major: "Computer Science",
-      university: "BINUS University",
-      courseType: "PEER_TUTORING",
-      organizerName: "Kevin Sanjaya",
-      price: 150000,
-      currency: "IDR",
-      status: "ACTIVE",
-      startsAt: futureDate1,
-      accessDuration: "Satu Semester Penuh",
-      maxQuota: 20,
-      meetingPlatform: "GMEET",
-      meetingUrl: "https://meet.google.com/nex-algo-prog",
-      materialPlatform: "DRIVE",
-      materialUrl: "https://drive.google.com/drive/folders/nexiera-algoprog",
-      recordingUrl: "https://drive.google.com/drive/folders/nexiera-recordings",
-      requirements: ["Memiliki laptop dengan compiler C/C++", "Telah mengambil matkul Algoritma"],
-      facilities: ["Sesi Live Google Meet", "Catatan Kuliah Terstruktur", "Rekaman Sesi Tersimpan", "Akses Tanya Jawab WhatsApp"],
-    },
+    await prisma.bootcampTutor.deleteMany({ where: { classId: record.id } });
+    if (course.type === "BOOTCAMP") {
+      await prisma.bootcampTutor.create({
+        data: {
+          classId: record.id,
+          name: "Kevin Sanjaya",
+          roleTitle: "Pengajar Mata Kuliah",
+          headline: "Pengajar program akademik",
+          avatarUrl: tutorKevin.avatarUrl,
+        },
+      });
+    }
+    return record;
+  }
+
+  const courseStructure = await upsertAcademicCourse(
+    universityCourses[0],
+    tutorKevin.id,
+  );
+  await upsertAcademicCourse(
+    universityCourses[1],
+    tutorKevin.id,
+  );
+  const courseDatabase = await upsertAcademicCourse(
+    universityCourses[2],
+    tutorAhmad.id,
+  );
+  await upsertAcademicCourse(
+    universityCourses[3],
+    tutorAhmad.id,
+  );
+  const courseObjectOriented = await upsertAcademicCourse(
+    universityCourses[4],
+    boosterAcademy.id,
+  );
+  // Keep the evaluation student's enrollment list focused on its intended
+  // demo classes. This removes any old/local test enrollment from this course.
+  await prisma.transaction.deleteMany({
+    where: { userId: studentBudi.id, classId: courseDatabase.id },
   });
-
-  const classDataStruct = await prisma.class.upsert({
-    where: { id: "class-datastruct-binus" },
-    update: {},
-    create: {
-      id: "class-datastruct-binus",
-      tutorId: tutorKevin.id,
-      title: "Data Structures",
-      shortDescription: "Kuasai materi struktur data dari linked list hingga balanced trees.",
-      description: "Pendalaman linked list (singly, doubly, circular), stack, queue, binary search tree (BST), AVL tree, dan heap beserta implementasi kode C/C++ dan analisis kompleksitas Big-O.",
-      mainCategory: "Sains & Teknologi",
-      major: "Computer Science",
-      university: "BINUS University",
-      courseType: "PEER_TUTORING",
-      organizerName: "Kevin Sanjaya",
-      price: 175000,
-      currency: "IDR",
-      status: "ACTIVE",
-      startsAt: futureDate2,
-      accessDuration: "Satu Semester Penuh",
-      maxQuota: 15,
-      meetingPlatform: "ZOOM",
-      meetingUrl: "https://zoom.us/j/9876543210",
-      materialPlatform: "DRIVE",
-      materialUrl: "https://drive.google.com/drive/folders/nexiera-datastruct",
-      recordingUrl: "https://drive.google.com/drive/folders/nexiera-datastruct-recordings",
-      requirements: ["Memahami dasar bahasa C/C++", "Telah lulus Algorithm and Programming"],
-      facilities: ["Live Session Zoom", "Slide Presentasi & Code Snippets", "Rekaman Setiap Pertemuan"],
-    },
-  });
-
-  const classSEBootcamp = await prisma.class.upsert({
-    where: { id: "class-se-bootcamp-booster" },
-    update: {},
-    create: {
-      id: "class-se-bootcamp-booster",
-      tutorId: boosterOrg.id,
-      title: "Software Engineering & System Modeling",
-      shortDescription: "Bootcamp perancangan perangkat lunak dan UML diagram untuk mahasiswa SI & CS.",
-      description: "Bootcamp intensif perancangan arsitektur perangkat lunak, UML diagram (Use Case, Class, Sequence, Activity), Design Patterns, dan metodologi Agile Scrum yang relevan dengan tugas besar dan silabus akademik.",
-      mainCategory: "Sains & Teknologi",
-      major: "Information Systems",
-      university: "BINUS University",
-      courseType: "BOOTCAMP",
-      organizerName: "Booster Academy",
-      organizerLogo: "/Logo_Akhir.png",
-      price: 350000,
-      currency: "IDR",
-      status: "ACTIVE",
-      startsAt: futureDate3,
-      accessDuration: "Akses Seumur Hidup",
-      maxQuota: 30,
-      meetingPlatform: "GMEET",
-      meetingUrl: "https://meet.google.com/nex-se-bootcamp",
-      materialPlatform: "DRIVE",
-      materialUrl: "https://drive.google.com/drive/folders/nexiera-se-bootcamp",
-      recordingUrl: "https://drive.google.com/drive/folders/nexiera-se-recordings",
-      requirements: ["Laptop untuk pemodelan UML", "Ketertarikan pada arsitektur sistem"],
-      facilities: ["Sesi Interaktif Bersama Mentor", "Template Dokumen Perancangan", "Sertifikat Penyelesaian", "Grup Diskusi Komunitas"],
-    },
-  });
-
-  const classKalkulus = await prisma.class.upsert({
-    where: { id: "class-kalkulus-itb" },
-    update: {},
-    create: {
-      id: "class-kalkulus-itb",
-      tutorId: tutorKevin.id,
-      title: "Calculus and Linear Algebra",
-      shortDescription: "Persiapan ujian kalkulus dan aljabar linier dengan latihan soal terarah.",
-      description: "Bimbingan pemahaman konsep limit, turunan, integral, matriks, sistem persamaan linear, dan nilai eigen dengan pembahasan soal-soal ujian terdahulu dan trik penyelesaian cepat.",
-      mainCategory: "Sains & Teknologi",
-      major: "Computer Science",
-      university: "Institut Teknologi Bandung",
-      courseType: "PEER_TUTORING",
-      organizerName: "Kevin Sanjaya",
-      price: 120000,
-      currency: "IDR",
-      status: "ACTIVE",
-      startsAt: futureDate4,
-      accessDuration: "Satu Semester Penuh",
-      maxQuota: 25,
-      meetingPlatform: "GMEET",
-      meetingUrl: "https://meet.google.com/nex-kalkulus",
-      materialPlatform: "DRIVE",
-      materialUrl: "https://drive.google.com/drive/folders/nexiera-kalkulus",
-      requirements: ["Kertas cakar & alat tulis"],
-      facilities: ["Bank Soal Ujian & Pembahasan", "Live Meeting Interaktif"],
-    },
-  });
-
-  const classAkuntansi = await prisma.class.upsert({
-    where: { id: "class-akuntansi-binus" },
-    update: {},
-    create: {
-      id: "class-akuntansi-binus",
-      tutorId: tutorAhmad.id,
-      title: "Introduction to Financial Accounting",
-      shortDescription: "Sesi bimbingan gratis dasar akuntansi dan penyusunan jurnal umum.",
-      description: "Sesi pengenalan persamaan dasar akuntansi, analisis transaksi, siklus akuntansi, jurnal umum, buku besar, neraca saldo, dan laporan keuangan dasar bagi mahasiswa tingkat awal.",
-      mainCategory: "Ekonomi & Bisnis",
-      major: "Akuntansi",
-      university: "BINUS University",
-      courseType: "PEER_TUTORING",
-      organizerName: "Ahmad Dahlan",
-      price: 0,
-      currency: "IDR",
-      status: "ACTIVE",
-      startsAt: futureDate5,
-      accessDuration: "Satu Semester Penuh",
-      maxQuota: 50,
-      meetingPlatform: "ZOOM",
-      meetingUrl: "https://zoom.us/j/1234567890",
-      materialPlatform: "DRIVE",
-      materialUrl: "https://drive.google.com/drive/folders/nexiera-akuntansi",
-      requirements: ["Kalkulator", "Alat tulis"],
-      facilities: ["Sesi Gratis untuk Pemula", "Worksheet Excel Latihan"],
-    },
-  });
-
-  // 3. Create Sample Paid Enrollment for Budi Pratama
-  await prisma.transaction.upsert({
+  await prisma.transaction.deleteMany({
     where: {
-      userId_classId_status: {
-        userId: studentBudi.id,
-        classId: classAlgoProg.id,
-        status: "PAID",
-      },
-    },
-    update: {},
-    create: {
       userId: studentBudi.id,
-      classId: classAlgoProg.id,
-      amount: 150000,
-      currency: "IDR",
+      classId: courseObjectOriented.id,
+      amount: 0,
+      orderId: { not: "NEX-SEED-ENROLL-1" },
+    },
+  });
+  // Seed demo enrollments against canonical academic course records.
+  await prisma.transaction.upsert({
+    where: { orderId: "NEX-SEED-ENROLL-1" },
+    update: {
       status: "PAID",
-      paidAt: new Date(),
+      refundStatus: "NOT_REQUESTED",
+      refundMethod: null,
+      refundAccountName: null,
+      refundAccountNumber: null,
+      refundRequestedAt: null,
+      refundedAt: null,
+      classId: courseObjectOriented.id,
+      amount: universityCourses[4].price,
+    },
+    create: {
+      orderId: "NEX-SEED-ENROLL-1",
+      userId: studentBudi.id,
+      classId: courseObjectOriented.id,
+      amount: universityCourses[4].price,
+      status: "PAID",
     },
   });
 
-  console.log("Seeding completed successfully!");
+  await prisma.transaction.upsert({
+    where: { orderId: "NEX-SEED-ENROLL-2" },
+    update: {
+      status: "PAID",
+      refundStatus: "NOT_REQUESTED",
+      refundMethod: null,
+      refundAccountName: null,
+      refundAccountNumber: null,
+      refundRequestedAt: null,
+      refundedAt: null,
+      classId: courseStructure.id,
+      amount: universityCourses[0].price,
+    },
+    create: {
+      orderId: "NEX-SEED-ENROLL-2",
+      userId: studentBudi.id,
+      classId: courseStructure.id,
+      amount: universityCourses[0].price,
+      status: "PAID",
+    },
+  });
+
+  // Seed data must not publish fabricated student reviews.
+  await prisma.review.deleteMany({
+    where: { userId: studentBudi.id, classId: courseStructure.id },
+  });
+
+  // Notifications
+  await prisma.notification.deleteMany({
+    where: { userId: studentBudi.id, type: "ENROLLMENT" },
+  });
+  await prisma.notification.createMany({
+    data: [
+      {
+        userId: studentBudi.id,
+        title: "Pendaftaran Kelas Berhasil",
+        message: `Anda terdaftar di kelas "${courseObjectOriented.title}". Jadwal dan tautan sesi tersedia di Kelas Saya.`,
+        type: "ENROLLMENT",
+        linkUrl: "/dashboard/kelas-saya",
+      },
+      {
+        userId: studentBudi.id,
+        title: "Pendaftaran Kelas Berhasil",
+        message: `Anda terdaftar di kelas "${courseStructure.title}". Jadwal dan tautan sesi tersedia di Kelas Saya.`,
+        type: "ENROLLMENT",
+        linkUrl: "/dashboard/kelas-saya",
+      },
+    ],
+  });
+
+  console.log("Database seeded successfully with authentic production-ready data!");
 }
 
 main()

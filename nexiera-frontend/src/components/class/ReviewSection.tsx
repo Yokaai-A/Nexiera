@@ -22,7 +22,8 @@ export function ReviewSection({ courseId, courseTitle, isRegistered }: {
   async function loadReviews() {
     setLoading(true);
     try {
-      setReviews(await nexieraApi.reviews(courseId));
+      const data = await nexieraApi.reviews(courseId);
+      setReviews(data.reviews ?? []);
       setError("");
     } catch (e) {
       setError(e instanceof Error ? e.message : "Ulasan gagal dimuat.");
@@ -81,7 +82,7 @@ export function ReviewSection({ courseId, courseTitle, isRegistered }: {
         const percentage = reviews.length ? Math.round(count / reviews.length * 100) : 0;
         return <div key={stars} className="flex items-center gap-3 text-xs"><span className="w-14 text-[#626B78]">{stars} bintang</span><div className="h-2 flex-1 overflow-hidden rounded bg-[#E5E9F0]"><div className="h-full bg-[#2457C5]" style={{ width: `${percentage}%` }} /></div><span className="w-8 text-right text-[#626B78]">{count}</span></div>;
       })}
-        {!loading && reviews.length === 0 && <p className="pt-3 text-xs text-[#626B78]">Belum ada ulasan untuk kelas ini.</p>}
+        {!loading && reviews.length === 0 && <p className="pt-3 text-xs text-[#626B78]">Belum ada ulasan untuk mata kuliah ini.</p>}
       </div>
     </div>
 

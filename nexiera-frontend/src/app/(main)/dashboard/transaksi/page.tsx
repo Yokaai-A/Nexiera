@@ -4,12 +4,17 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { ArrowLeft, ExternalLink, Receipt } from "lucide-react";
 import { nexieraApi, type ApiTransaction } from "@/src/lib/api";
+import { RefundRequestModal } from "@/src/components/transactions/RefundRequestModal";
 
-function refundLabel(status: ApiTransaction["refundStatus"]) {
+function refundLabel(status: ApiTransaction["refundStatus"] | undefined) {
+  if (!status) return null;
   return (
     {
       NOT_REQUESTED: "Tidak Diminta",
+      PENDING_REVIEW: "Menunggu Tinjauan",
       PROCESSING: "Sedang Diproses Midtrans",
+      REFUNDED: "Pengembalian Selesai",
+      REJECTED: "Pengajuan Ditolak",
       COMPLETED: "Pengembalian Selesai",
       FAILED: "Gagal (Hubungi Admin)",
       MANUAL_REQUIRED: "Perlu Transfer Manual Admin",
@@ -21,6 +26,7 @@ export default function DashboardTransaksiPage() {
   const [items, setItems] = useState<ApiTransaction[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [selectedRefund, setSelectedRefund] = useState<ApiTransaction | null>(null);
 
   useEffect(() => {
     let active = true;
@@ -46,7 +52,7 @@ export default function DashboardTransaksiPage() {
   return (
     <div className="space-y-5">
       {/* Header Halaman Transaksi */}
-      <header className="rounded-[6px] border border-[#D9DEE7] bg-white p-5 sm:p-6 dark:border-[#343945] dark:bg-[#191C23]">
+      <header className="rounded-[6px] border border-[#D9DEE7] bg-white p-4 dark:border-[#343945] dark:bg-[#191C23]">
         <Link
           href="/dashboard"
           className="inline-flex items-center gap-1.5 text-xs font-medium text-[#2457C5] hover:underline dark:text-[#78A0FF]"
@@ -57,10 +63,10 @@ export default function DashboardTransaksiPage() {
           <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-[#2457C5] dark:text-[#78A0FF]">
             <Receipt className="h-4 w-4" /> Riwayat Pembayaran &amp; Pengembalian Dana
           </span>
-          <h1 className="mt-1 text-lg sm:text-xl font-semibold text-[#20232B] dark:text-[#F3F4F6]">
+          <h1 className="mt-1 text-lg font-bold text-[#20232B] dark:text-[#F3F4F6]">
             Riwayat Transaksi &amp; Refund
           </h1>
-          <p className="mt-1 text-xs sm:text-sm text-[#626B78] dark:text-[#B1B7C3]">
+          <p className="mt-1 text-xs text-xs text-[#626B78] dark:text-[#B1B7C3]">
             Status pembayaran riil terverifikasi otomatis oleh Midtrans. Jika kelas dibatalkan pengajar, dana dikembalikan 100% secara otomatis.
           </p>
         </div>
@@ -76,18 +82,18 @@ export default function DashboardTransaksiPage() {
       )}
 
       {/* Tabel Transaksi */}
-      <section className="rounded-[6px] border border-[#D9DEE7] bg-white p-5 sm:p-6 dark:border-[#343945] dark:bg-[#191C23]">
+      <section className="rounded-[6px] border border-[#D9DEE7] bg-white p-4 dark:border-[#343945] dark:bg-[#191C23]">
         <h2 className="border-b border-[#D9DEE7] pb-3 text-sm font-semibold text-[#20232B] dark:border-[#343945] dark:text-[#F3F4F6]">
           Daftar Pendaftaran Bimbingan
         </h2>
 
         {loading ? (
-          <p className="py-8 text-xs text-[#626B78] dark:text-[#B1B7C3]">
+          <p className="py-6 text-xs text-[#626B78] dark:text-[#B1B7C3]">
             Memuat transaksi Anda...
           </p>
         ) : items.length === 0 ? (
-          <div className="py-12 text-center">
-            <p className="text-sm font-semibold text-[#20232B] dark:text-[#F3F4F6]">
+          <div className="py-6 text-center">
+            <p className="text-xs font-semibold text-[#20232B] dark:text-[#F3F4F6]">
               Belum ada riwayat transaksi
             </p>
             <p className="mt-1 text-xs text-[#626B78] dark:text-[#B1B7C3]">
@@ -109,13 +115,15 @@ export default function DashboardTransaksiPage() {
                   <th className="p-3">Tanggal</th>
                   <th className="p-3">Status Pembayaran</th>
                   <th className="p-3">Status Pengembalian (Refund)</th>
-                  <th className="p-3 text-right">Nominal</th>
+                  <th className="p-3 text-right">Nominal</th><th className="p-3 text-right">Aksi</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#D9DEE7] dark:divide-[#343945]">
                 {items.map((item) => {
                   const isPaid = item.status === "PAID";
                   const isRefunded = item.status === "REFUNDED";
+                  const isFailed = item.status === "FAILED";
+                  const paymentStatusLabel = ({ PENDING: "Menunggu Pembayaran", PAID: "PAID", FAILED: "Pembayaran Gagal", CANCELLED: "Dibatalkan", REFUNDED: "REFUNDED" } as const)[item.status];
 
                   return (
                     <tr
@@ -146,12 +154,12 @@ export default function DashboardTransaksiPage() {
                           className={`inline-block whitespace-nowrap rounded-[4px] px-2 py-0.5 text-[11px] font-semibold ${
                             isPaid
                               ? "bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800"
-                              : isRefunded
+                              : isRefunded || isFailed || item.status === "CANCELLED"
                                 ? "bg-red-50 text-red-800 border border-red-200 dark:bg-red-950/40 dark:text-red-300 dark:border-red-800"
                                 : "bg-amber-50 text-amber-800 border border-amber-200 dark:bg-amber-950/40 dark:text-amber-300 dark:border-amber-800"
                           }`}
                         >
-                          {item.status}
+                          {paymentStatusLabel}
                         </span>
                       </td>
                       <td className="p-3 text-[#626B78] dark:text-[#B1B7C3]">
@@ -170,6 +178,7 @@ export default function DashboardTransaksiPage() {
                           maximumFractionDigits: 0,
                         }).format(Number(item.amount))}
                       </td>
+                      <td className="p-3 text-right">{isPaid && Number(item.amount) > 0 && (!item.refundStatus || item.refundStatus === "NOT_REQUESTED") && <button type="button" onClick={() => setSelectedRefund(item)} className="inline-flex cursor-pointer whitespace-nowrap rounded-[4px] border border-[#2457C5] bg-[#2457C5]/5 px-2.5 py-1.5 text-[11px] font-semibold text-[#2457C5] transition-colors hover:bg-[#2457C5] hover:text-white dark:border-[#78A0FF] dark:bg-[#78A0FF]/10 dark:text-[#AFC4FF] dark:hover:bg-[#2457C5] dark:hover:text-white">Ajukan Refund</button>}</td>
                     </tr>
                   );
                 })}
@@ -178,6 +187,7 @@ export default function DashboardTransaksiPage() {
           </div>
         )}
       </section>
+      {selectedRefund && <RefundRequestModal transactionId={selectedRefund.id} className={selectedRefund.class.title} onClose={() => setSelectedRefund(null)} onSubmitted={() => setItems((old) => old.map((item) => item.id === selectedRefund.id ? { ...item, refundStatus: "PENDING_REVIEW" } : item))} />}
     </div>
   );
 }

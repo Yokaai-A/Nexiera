@@ -3,35 +3,73 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, BookOpen, GraduationCap, Handshake, Landmark, Search, UserRound } from "lucide-react";
-import { AcademicCourse } from "@/src/types/course";
-import { getStoredCourses } from "@/src/lib/storage";
-import { getCoursesByTutor, getTutorData, TutorProfileData } from "@/src/lib/slug";
+import { ArrowLeft, BookOpen, GraduationCap, Handshake, Landmark, Rocket, Search, UserRound } from "lucide-react";
+import { nexieraApi, type ApiClass } from "@/src/lib/api";
+import { slugify } from "@/src/lib/slug";
 import { ClassCard } from "@/src/components/cari-kelas/ClassCard";
 
 export function TutorProfile({ slug }: { slug: string }) {
-  const [courses, setCourses] = useState<AcademicCourse[]>([]);
-  const [tutor, setTutor] = useState<TutorProfileData | null>(null);
-  const [tutorCourses, setTutorCourses] = useState<AcademicCourse[]>([]);
+  const [tutor, setTutor] = useState<{ name: string; role: string; campus: string; major: string; bio: string; avatarUrl: string | null } | null>(null);
+  const [tutorCourses, setTutorCourses] = useState<ApiClass[]>([]);
   const [loaded, setLoaded] = useState(false);
+  const [loadError, setLoadError] = useState("");
 
   useEffect(() => {
-    const all = getStoredCourses();
-    setCourses(all);
-    const t = getTutorData(slug, all);
-    setTutor(t);
-    setTutorCourses(getCoursesByTutor(slug, all));
-    setLoaded(true);
+    let active = true;
+    const loadProfile = async () => {
+      try {
+        const all = await nexieraApi.classes();
+        if (!active) return;
 
-    const handleUpdate = () => {
-      const updatedAll = getStoredCourses();
-      setCourses(updatedAll);
-      setTutor(getTutorData(slug, updatedAll));
-      setTutorCourses(getCoursesByTutor(slug, updatedAll));
+        const matchingCourses = all.filter((course) => slugify(course.tutor?.name ?? "") === slugify(slug) || course.tutors?.some((person) => slugify(person.name) === slugify(slug)));
+        const firstCourse = matchingCourses[0];
+        const tutorRecord = firstCourse?.tutors?.find((person) => slugify(person.name) === slugify(slug));
+        const campuses = [...new Set(matchingCourses.map((course) => course.university).filter((value): value is string => Boolean(value)))];
+        const majors = [...new Set(matchingCourses.map((course) => course.major).filter((value): value is string => Boolean(value)))];
+        const titles = [...new Set(matchingCourses.map((course) => course.title))];
+        const hasBootcamp = matchingCourses.some((course) => course.courseType === "BOOTCAMP");
+        const hasPeerTutoring = matchingCourses.some((course) => course.courseType === "PEER_TUTORING");
+
+        const dynamicProfile = firstCourse
+          ? {
+              name: tutorRecord?.name ?? firstCourse.tutor?.name ?? "",
+              role: tutorRecord?.roleTitle?.trim() || firstCourse.tutor?.headline?.trim() || (hasBootcamp && hasPeerTutoring
+                ? "Pengajar Bootcamp & Tutor Sebaya"
+                : hasBootcamp
+                  ? `Pengajar Bootcamp${majors[0] ? ` ${majors[0]}` : ""}`
+                  : `Tutor Sebaya${majors[0] ? ` ${majors[0]}` : ""}`),
+              campus: firstCourse.tutor?.university?.trim() || (campuses.length === 1 ? campuses[0] : campuses.length > 1 ? "Beberapa kampus" : "Belum dicantumkan"),
+              major: firstCourse.tutor?.major?.trim() || (majors.length === 1 ? majors[0] : majors.length > 1 ? "Beberapa bidang" : "Belum dicantumkan"),
+              bio: [
+                tutorRecord?.headline?.trim(),
+                firstCourse.tutor?.bio?.trim(),
+                titles.length > 0 ? `Kelas yang sedang diampu: ${titles.join(", ")}.` : "",
+              ].filter(Boolean).join(" "),
+              avatarUrl: tutorRecord?.avatarUrl?.trim() || firstCourse.tutor?.avatarUrl?.trim() || null,
+            }
+          : null;
+
+        setTutor(dynamicProfile);
+        setTutorCourses(matchingCourses);
+        setLoadError("");
+      } catch (cause) {
+        if (!active) return;
+        setTutor(null);
+        setTutorCourses([]);
+        setLoadError(cause instanceof Error ? cause.message : "Profil pengajar gagal dimuat.");
+      } finally {
+        if (active) setLoaded(true);
+      }
     };
 
+    const handleUpdate = () => {
+      void loadProfile();
+    };
+
+    void loadProfile();
     window.addEventListener("nexiera_course_update", handleUpdate);
     return () => {
+      active = false;
       window.removeEventListener("nexiera_course_update", handleUpdate);
     };
   }, [slug]);
@@ -50,9 +88,9 @@ export function TutorProfile({ slug }: { slug: string }) {
         <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-[4px] bg-[#E5E9F0] text-[#2457C5] mb-4">
           <UserRound className="h-6 w-6" aria-hidden="true" />
         </div>
-        <h1 className="text-xl font-bold text-[#20232B]">Profil Tutor Tidak Ditemukan</h1>
+        <h1 className="text-xl font-bold text-[#20232B]">{loadError ? "Profil Pengajar Gagal Dimuat" : "Profil Tutor Tidak Ditemukan"}</h1>
         <p className="mt-2 text-xs text-[#626B78]">
-          Tutor dengan tautan ini tidak terdaftar atau belum memiliki kelas bimbingan aktif.
+          {loadError || "Pengajar dengan tautan ini tidak terdaftar atau belum memiliki kelas aktif di katalog."}
         </p>
         <div className="mt-6">
           <Link
@@ -65,6 +103,9 @@ export function TutorProfile({ slug }: { slug: string }) {
       </div>
     );
   }
+
+  const hasBootcamp = tutorCourses.some((course) => course.courseType === "BOOTCAMP");
+  const hasPeerTutoring = tutorCourses.some((course) => course.courseType === "PEER_TUTORING");
 
   return (
     <div className="min-h-screen bg-white pb-20">
@@ -92,14 +133,14 @@ export function TutorProfile({ slug }: { slug: string }) {
       <div className="mx-auto max-w-[1180px] px-4 sm:px-6 lg:px-8">
         {/* Avatar Box menumpang rapi di batas banner */}
         <div className="relative -mt-12 sm:-mt-14 mb-4">
-          <div className="relative h-24 w-24 sm:h-28 sm:w-28 shrink-0 rounded-full border-2 border-white ring-2 ring-[#D9DEE7] bg-white shadow-sm overflow-hidden">
-            <Image
+          <div className="relative flex h-24 w-24 sm:h-28 sm:w-28 shrink-0 items-center justify-center rounded-full border-2 border-white ring-2 ring-[#D9DEE7] bg-[#E5E9F0] text-xl font-semibold text-[#2457C5] shadow-sm overflow-hidden">
+            {tutor.avatarUrl ? <Image
               src={tutor.avatarUrl}
               alt={tutor.name}
               fill
               sizes="112px"
               className="object-cover"
-            />
+            /> : tutor.name.split(/\s+/).map((part) => part[0]).slice(0, 2).join("").toUpperCase()}
           </div>
         </div>
 
@@ -107,7 +148,8 @@ export function TutorProfile({ slug }: { slug: string }) {
         <div className="rounded-[6px] border border-[#D9DEE7] bg-white p-6 sm:p-8">
           <div>
             <div className="inline-flex items-center gap-1.5 rounded-[4px] border border-[#D9DEE7] bg-[#E5E9F0]/60 px-3 py-1 text-xs font-semibold text-[#20232B]">
-              <Handshake className="h-3.5 w-3.5 text-[#2457C5]" aria-hidden="true" /> Tutor Sebaya Mahasiswa
+              {hasBootcamp ? <Rocket className="h-3.5 w-3.5 text-[#2457C5]" aria-hidden="true" /> : <Handshake className="h-3.5 w-3.5 text-[#2457C5]" aria-hidden="true" />}
+              {hasBootcamp && hasPeerTutoring ? "Pengajar Bootcamp & Tutor Sebaya" : hasBootcamp ? "Pengajar Bootcamp" : "Tutor Sebaya Mahasiswa"}
             </div>
           </div>
 
@@ -128,7 +170,7 @@ export function TutorProfile({ slug }: { slug: string }) {
             </span>
             <span className="text-[#D9DEE7]">•</span>
             <span className="flex items-center gap-1.5 font-semibold text-[#2457C5]">
-              <BookOpen className="h-4 w-4" aria-hidden="true" /> {tutorCourses.length} Kelas Bimbingan
+              <BookOpen className="h-4 w-4" aria-hidden="true" /> {tutorCourses.length} Kelas Diampu
             </span>
           </div>
 
@@ -148,7 +190,7 @@ export function TutorProfile({ slug }: { slug: string }) {
             Tentang Tutor
           </h2>
           <p className="mt-2.5 text-sm leading-relaxed text-[#626B78]">
-            {tutor.bio}
+            {tutor.bio || "Belum ada informasi tambahan yang dicantumkan."}
           </p>
         </div>
 
@@ -158,7 +200,7 @@ export function TutorProfile({ slug }: { slug: string }) {
             <div className="flex items-center gap-2">
               <BookOpen className="h-4 w-4 text-[#2457C5]" aria-hidden="true" />
               <h2 className="text-base font-semibold text-[#20232B]">
-                Kelas &amp; Sesi Bimbingan yang Diampu
+                Kelas yang Diampu
               </h2>
             </div>
             <span className="text-xs font-medium text-[#626B78]">
@@ -168,9 +210,9 @@ export function TutorProfile({ slug }: { slug: string }) {
 
           {tutorCourses.length === 0 ? (
             <div className="rounded-[6px] border border-[#D9DEE7] bg-white p-12 text-center">
-              <h3 className="text-sm font-semibold text-[#20232B]">Belum Ada Kelas Bimbingan</h3>
+              <h3 className="text-sm font-semibold text-[#20232B]">Belum Ada Kelas Aktif</h3>
               <p className="mt-1 text-xs text-[#626B78]">
-                Tutor ini belum membuka sesi bimbingan untuk mata kuliah periode saat ini.
+                Kelas yang diampu akan tampil di sini setelah aktif dan tersedia di katalog.
               </p>
               <Link
                 href="/cari-kelas"

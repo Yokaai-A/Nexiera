@@ -4,7 +4,7 @@ import { ArrowRight, Atom, BriefcaseBusiness, HeartPulse, Palette, Scale, Sprout
 const CATEGORIES = [
   {
     name: "Sains & Teknologi",
-    desc: "Computer Science, Information Systems, Mobile App, Cyber Security, Kalkulus, Fisika Dasar...",
+    desc: "Teknik Informatika, Sistem Informasi, aplikasi seluler, keamanan siber, kalkulus, fisika dasar...",
     icon: Atom,
   },
   {

@@ -30,7 +30,14 @@ export function Navbar() {
   const [theme, setTheme] = useState<Theme>("light");
   const [menuOpen, setMenuOpen] = useState(false);
   const [notificationOpen, setNotificationOpen] = useState(false);
+  const [notifications, setNotifications] = useState<any[]>([]);
   const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (user.isLoggedIn) {
+      nexieraApi.notifications().then(setNotifications).catch(() => null);
+    }
+  }, [user.isLoggedIn]);
 
   useEffect(() => {
     const initialTheme = getInitialTheme();
@@ -116,37 +123,68 @@ export function Navbar() {
             {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </button>
 
-          {/* Notifikasi (Outlined & Same Size) */}
-          <div className="relative">
-            <button
-              type="button"
-              aria-label="Notifikasi"
-              onClick={() => {
-                setNotificationOpen(!notificationOpen);
-                setMenuOpen(false);
-              }}
-              className="relative flex h-8 w-8 items-center justify-center rounded-[4px] border border-[#D9DEE7] bg-white text-[#626B78] transition-colors hover:bg-[#E5E9F0] hover:text-[#20232B] dark:border-[#343945] dark:bg-[#191C23] dark:text-[#B1B7C3] dark:hover:bg-[#20242D] dark:hover:text-[#F3F4F6]"
-            >
-              <BellIcon className="h-4 w-4" />
-              <span className="absolute right-1 top-1 h-1.5 w-1.5 rounded-full bg-red-500 ring-1 ring-white dark:ring-[#111318]" />
-            </button>
+          {/* Notifikasi (Only rendered if authenticated) */}
+          {user.isLoggedIn && (
+            <div className="relative">
+              <button
+                type="button"
+                aria-label="Notifikasi"
+                onClick={() => {
+                  setNotificationOpen(!notificationOpen);
+                  setMenuOpen(false);
+                }}
+                className="relative flex h-8 w-8 items-center justify-center rounded-[4px] border border-[#D9DEE7] bg-white text-[#626B78] transition-colors hover:bg-[#E5E9F0] hover:text-[#20232B] dark:border-[#343945] dark:bg-[#191C23] dark:text-[#B1B7C3] dark:hover:bg-[#20242D] dark:hover:text-[#F3F4F6]"
+              >
+                <BellIcon className="h-4 w-4" />
+                {notifications.some((n) => !n.isRead) && (
+                  <span className="absolute right-1 top-1 h-1.5 w-1.5 rounded-full bg-red-500 ring-1 ring-white dark:ring-[#111318]" />
+                )}
+              </button>
 
-            {notificationOpen && (
-              <div className="absolute right-0 mt-2 w-80 rounded-[6px] border border-[#D9DEE7] bg-white p-4 z-50 dark:border-[#343945] dark:bg-[#191C23]">
-                <div className="flex items-center justify-between border-b border-[#D9DEE7] pb-2 dark:border-[#343945]">
-                  <h4 className="text-xs font-semibold text-[#20232B] dark:text-[#F3F4F6] uppercase tracking-wider">
-                    Notifikasi Terkini
-                  </h4>
-                  <span className="text-xs text-[#2457C5] dark:text-[#78A0FF] font-medium cursor-pointer hover:underline">
-                    Tandai dibaca
-                  </span>
+              {notificationOpen && (
+                <div className="absolute right-0 mt-2 w-80 rounded-[6px] border border-[#D9DEE7] bg-white p-4 z-50 dark:border-[#343945] dark:bg-[#191C23] shadow-lg">
+                  <div className="flex items-center justify-between border-b border-[#D9DEE7] pb-2 dark:border-[#343945]">
+                    <h4 className="text-xs font-semibold text-[#20232B] dark:text-[#F3F4F6] uppercase tracking-wider">
+                      Notifikasi Terkini
+                    </h4>
+                    <button
+                      type="button"
+                      onClick={async () => {
+                        await nexieraApi.markAllNotificationsRead().catch(() => null);
+                        setNotifications((prev) => prev.map((n) => ({ ...n, isRead: true })));
+                      }}
+                      className="text-xs text-[#2457C5] dark:text-[#78A0FF] font-medium cursor-pointer hover:underline"
+                    >
+                      Tandai dibaca
+                    </button>
+                  </div>
+                  <div className="max-h-72 overflow-y-auto divide-y divide-[#D9DEE7] dark:divide-[#343945]">
+                    {notifications.length > 0 ? (
+                      notifications.map((n) => (
+                        <div key={n.id} className={`py-2.5 text-xs ${n.isRead ? "opacity-75" : "font-medium"}`}>
+                          <p className="font-semibold text-[#20232B] dark:text-[#F3F4F6]">{n.title}</p>
+                          <p className="text-[#626B78] dark:text-[#B1B7C3] mt-0.5">{n.message}</p>
+                          {n.linkUrl && (
+                            <Link
+                              href={n.linkUrl}
+                              onClick={() => setNotificationOpen(false)}
+                              className="text-[11px] text-[#2457C5] dark:text-[#78A0FF] hover:underline mt-1 inline-block"
+                            >
+                              Buka tautan &rarr;
+                            </Link>
+                          )}
+                        </div>
+                      ))
+                    ) : (
+                      <p className="py-5 text-center text-xs text-[#626B78] dark:text-[#B1B7C3]">
+                        Belum ada notifikasi baru.
+                      </p>
+                    )}
+                  </div>
                 </div>
-                <p className="py-5 text-center text-xs text-[#626B78] dark:text-[#B1B7C3]">
-                  Belum ada notifikasi baru.
-                </p>
-              </div>
-            )}
-          </div>
+              )}
+            </div>
+          )}
 
           {/* Tombol Dashboard (Outlined & Compact) */}
           {user.isLoggedIn && (

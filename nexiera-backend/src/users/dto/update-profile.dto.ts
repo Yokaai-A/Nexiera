@@ -1,10 +1,24 @@
-import { IsOptional, IsString, IsUrl, MaxLength } from "class-validator";
+import { IsEmail, IsOptional, IsString, MaxLength } from "class-validator";
 
 export class UpdateProfileDto {
   @IsOptional()
   @IsString()
   @MaxLength(191)
+  fullName?: string;
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(191)
   name?: string;
+
+  @IsOptional()
+  @IsEmail()
+  contactEmail?: string;
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(191)
+  campus?: string;
 
   @IsOptional()
   @IsString()
@@ -27,11 +41,15 @@ export class UpdateProfileDto {
   semester?: string;
 
   @IsOptional()
-  @IsUrl({ require_protocol: true })
+  @IsString()
   avatarUrl?: string;
 
   @IsOptional()
-  @IsUrl({ require_protocol: true })
+  @IsString()
+  bannerUrl?: string;
+
+  @IsOptional()
+  @IsString()
   coverUrl?: string;
 
   @IsOptional()
@@ -46,15 +64,17 @@ export class UpdateProfileDto {
 
   @IsOptional()
   @IsString()
-  @MaxLength(191)
+  phoneNumber?: string;
+
+  @IsOptional()
+  @IsString()
   organizationName?: string;
 
   @IsOptional()
-  @IsUrl({ require_protocol: true })
+  @IsString()
   organizationLogoUrl?: string;
 
   @IsOptional()
   @IsString()
-  @MaxLength(191)
   location?: string;
 }

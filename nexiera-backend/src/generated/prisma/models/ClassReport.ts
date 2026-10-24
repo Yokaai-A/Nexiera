@@ -32,7 +32,9 @@ export type ClassReportMinAggregateOutputType = {
   classId: string | null
   category: string | null
   description: string | null
+  evidenceUrl: string | null
   status: string | null
+  adminNote: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -45,7 +47,9 @@ export type ClassReportMaxAggregateOutputType = {
   classId: string | null
   category: string | null
   description: string | null
+  evidenceUrl: string | null
   status: string | null
+  adminNote: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -58,7 +62,9 @@ export type ClassReportCountAggregateOutputType = {
   classId: number
   category: number
   description: number
+  evidenceUrl: number
   status: number
+  adminNote: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -73,7 +79,9 @@ export type ClassReportMinAggregateInputType = {
   classId?: true
   category?: true
   description?: true
+  evidenceUrl?: true
   status?: true
+  adminNote?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -86,7 +94,9 @@ export type ClassReportMaxAggregateInputType = {
   classId?: true
   category?: true
   description?: true
+  evidenceUrl?: true
   status?: true
+  adminNote?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -99,7 +109,9 @@ export type ClassReportCountAggregateInputType = {
   classId?: true
   category?: true
   description?: true
+  evidenceUrl?: true
   status?: true
+  adminNote?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -185,7 +197,9 @@ export type ClassReportGroupByOutputType = {
   classId: string | null
   category: string
   description: string
+  evidenceUrl: string | null
   status: string
+  adminNote: string | null
   createdAt: Date
   updatedAt: Date
   _count: ClassReportCountAggregateOutputType | null
@@ -219,7 +233,9 @@ export type ClassReportWhereInput = {
   classId?: Prisma.StringNullableFilter<"ClassReport"> | string | null
   category?: Prisma.StringFilter<"ClassReport"> | string
   description?: Prisma.StringFilter<"ClassReport"> | string
+  evidenceUrl?: Prisma.StringNullableFilter<"ClassReport"> | string | null
   status?: Prisma.StringFilter<"ClassReport"> | string
+  adminNote?: Prisma.StringNullableFilter<"ClassReport"> | string | null
   createdAt?: Prisma.DateTimeFilter<"ClassReport"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ClassReport"> | Date | string
   reporter?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -234,7 +250,9 @@ export type ClassReportOrderByWithRelationInput = {
   classId?: Prisma.SortOrderInput | Prisma.SortOrder
   category?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  evidenceUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
+  adminNote?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   reporter?: Prisma.UserOrderByWithRelationInput
@@ -253,7 +271,9 @@ export type ClassReportWhereUniqueInput = Prisma.AtLeast<{
   classId?: Prisma.StringNullableFilter<"ClassReport"> | string | null
   category?: Prisma.StringFilter<"ClassReport"> | string
   description?: Prisma.StringFilter<"ClassReport"> | string
+  evidenceUrl?: Prisma.StringNullableFilter<"ClassReport"> | string | null
   status?: Prisma.StringFilter<"ClassReport"> | string
+  adminNote?: Prisma.StringNullableFilter<"ClassReport"> | string | null
   createdAt?: Prisma.DateTimeFilter<"ClassReport"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ClassReport"> | Date | string
   reporter?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -268,7 +288,9 @@ export type ClassReportOrderByWithAggregationInput = {
   classId?: Prisma.SortOrderInput | Prisma.SortOrder
   category?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  evidenceUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
+  adminNote?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.ClassReportCountOrderByAggregateInput
@@ -287,7 +309,9 @@ export type ClassReportScalarWhereWithAggregatesInput = {
   classId?: Prisma.StringNullableWithAggregatesFilter<"ClassReport"> | string | null
   category?: Prisma.StringWithAggregatesFilter<"ClassReport"> | string
   description?: Prisma.StringWithAggregatesFilter<"ClassReport"> | string
+  evidenceUrl?: Prisma.StringNullableWithAggregatesFilter<"ClassReport"> | string | null
   status?: Prisma.StringWithAggregatesFilter<"ClassReport"> | string
+  adminNote?: Prisma.StringNullableWithAggregatesFilter<"ClassReport"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"ClassReport"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"ClassReport"> | Date | string
 }
@@ -298,7 +322,9 @@ export type ClassReportCreateInput = {
   targetId: string
   category: string
   description: string
+  evidenceUrl?: string | null
   status?: string
+  adminNote?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   reporter: Prisma.UserCreateNestedOneWithoutReportsInput
@@ -313,7 +339,9 @@ export type ClassReportUncheckedCreateInput = {
   classId?: string | null
   category: string
   description: string
+  evidenceUrl?: string | null
   status?: string
+  adminNote?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -324,7 +352,9 @@ export type ClassReportUpdateInput = {
   targetId?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  evidenceUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  adminNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   reporter?: Prisma.UserUpdateOneRequiredWithoutReportsNestedInput
@@ -339,7 +369,9 @@ export type ClassReportUncheckedUpdateInput = {
   classId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   category?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  evidenceUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  adminNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -352,7 +384,9 @@ export type ClassReportCreateManyInput = {
   classId?: string | null
   category: string
   description: string
+  evidenceUrl?: string | null
   status?: string
+  adminNote?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -363,7 +397,9 @@ export type ClassReportUpdateManyMutationInput = {
   targetId?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  evidenceUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  adminNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -376,7 +412,9 @@ export type ClassReportUncheckedUpdateManyInput = {
   classId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   category?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  evidenceUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  adminNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -405,7 +443,9 @@ export type ClassReportCountOrderByAggregateInput = {
   classId?: Prisma.SortOrder
   category?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  evidenceUrl?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  adminNote?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -418,7 +458,9 @@ export type ClassReportMaxOrderByAggregateInput = {
   classId?: Prisma.SortOrder
   category?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  evidenceUrl?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  adminNote?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -431,7 +473,9 @@ export type ClassReportMinOrderByAggregateInput = {
   classId?: Prisma.SortOrder
   category?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  evidenceUrl?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  adminNote?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -530,7 +574,9 @@ export type ClassReportCreateWithoutReporterInput = {
   targetId: string
   category: string
   description: string
+  evidenceUrl?: string | null
   status?: string
+  adminNote?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   class?: Prisma.ClassCreateNestedOneWithoutReportsInput
@@ -543,7 +589,9 @@ export type ClassReportUncheckedCreateWithoutReporterInput = {
   classId?: string | null
   category: string
   description: string
+  evidenceUrl?: string | null
   status?: string
+  adminNote?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -585,7 +633,9 @@ export type ClassReportScalarWhereInput = {
   classId?: Prisma.StringNullableFilter<"ClassReport"> | string | null
   category?: Prisma.StringFilter<"ClassReport"> | string
   description?: Prisma.StringFilter<"ClassReport"> | string
+  evidenceUrl?: Prisma.StringNullableFilter<"ClassReport"> | string | null
   status?: Prisma.StringFilter<"ClassReport"> | string
+  adminNote?: Prisma.StringNullableFilter<"ClassReport"> | string | null
   createdAt?: Prisma.DateTimeFilter<"ClassReport"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ClassReport"> | Date | string
 }
@@ -596,7 +646,9 @@ export type ClassReportCreateWithoutClassInput = {
   targetId: string
   category: string
   description: string
+  evidenceUrl?: string | null
   status?: string
+  adminNote?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   reporter: Prisma.UserCreateNestedOneWithoutReportsInput
@@ -609,7 +661,9 @@ export type ClassReportUncheckedCreateWithoutClassInput = {
   targetId: string
   category: string
   description: string
+  evidenceUrl?: string | null
   status?: string
+  adminNote?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -647,7 +701,9 @@ export type ClassReportCreateManyReporterInput = {
   classId?: string | null
   category: string
   description: string
+  evidenceUrl?: string | null
   status?: string
+  adminNote?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -658,7 +714,9 @@ export type ClassReportUpdateWithoutReporterInput = {
   targetId?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  evidenceUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  adminNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   class?: Prisma.ClassUpdateOneWithoutReportsNestedInput
@@ -671,7 +729,9 @@ export type ClassReportUncheckedUpdateWithoutReporterInput = {
   classId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   category?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  evidenceUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  adminNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -683,7 +743,9 @@ export type ClassReportUncheckedUpdateManyWithoutReporterInput = {
   classId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   category?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  evidenceUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  adminNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -695,7 +757,9 @@ export type ClassReportCreateManyClassInput = {
   targetId: string
   category: string
   description: string
+  evidenceUrl?: string | null
   status?: string
+  adminNote?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -706,7 +770,9 @@ export type ClassReportUpdateWithoutClassInput = {
   targetId?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  evidenceUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  adminNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   reporter?: Prisma.UserUpdateOneRequiredWithoutReportsNestedInput
@@ -719,7 +785,9 @@ export type ClassReportUncheckedUpdateWithoutClassInput = {
   targetId?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  evidenceUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  adminNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -731,7 +799,9 @@ export type ClassReportUncheckedUpdateManyWithoutClassInput = {
   targetId?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  evidenceUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  adminNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -746,7 +816,9 @@ export type ClassReportSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   classId?: boolean
   category?: boolean
   description?: boolean
+  evidenceUrl?: boolean
   status?: boolean
+  adminNote?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   reporter?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -763,12 +835,14 @@ export type ClassReportSelectScalar = {
   classId?: boolean
   category?: boolean
   description?: boolean
+  evidenceUrl?: boolean
   status?: boolean
+  adminNote?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type ClassReportOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "reporterId" | "targetType" | "targetId" | "classId" | "category" | "description" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["classReport"]>
+export type ClassReportOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "reporterId" | "targetType" | "targetId" | "classId" | "category" | "description" | "evidenceUrl" | "status" | "adminNote" | "createdAt" | "updatedAt", ExtArgs["result"]["classReport"]>
 export type ClassReportInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   reporter?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   class?: boolean | Prisma.ClassReport$classArgs<ExtArgs>
@@ -788,7 +862,9 @@ export type $ClassReportPayload<ExtArgs extends runtime.Types.Extensions.Interna
     classId: string | null
     category: string
     description: string
+    evidenceUrl: string | null
     status: string
+    adminNote: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["classReport"]>
@@ -1169,7 +1245,9 @@ export interface ClassReportFieldRefs {
   readonly classId: Prisma.FieldRef<"ClassReport", 'String'>
   readonly category: Prisma.FieldRef<"ClassReport", 'String'>
   readonly description: Prisma.FieldRef<"ClassReport", 'String'>
+  readonly evidenceUrl: Prisma.FieldRef<"ClassReport", 'String'>
   readonly status: Prisma.FieldRef<"ClassReport", 'String'>
+  readonly adminNote: Prisma.FieldRef<"ClassReport", 'String'>
   readonly createdAt: Prisma.FieldRef<"ClassReport", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"ClassReport", 'DateTime'>
 }

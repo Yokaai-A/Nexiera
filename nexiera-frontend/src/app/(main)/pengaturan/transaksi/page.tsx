@@ -4,12 +4,17 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { ArrowLeft, ExternalLink, Receipt } from "lucide-react";
 import { nexieraApi, type ApiTransaction } from "@/src/lib/api";
+import { RefundRequestModal } from "@/src/components/transactions/RefundRequestModal";
 
-function label(status: ApiTransaction["refundStatus"]) {
+function label(status: ApiTransaction["refundStatus"] | undefined) {
+  if (!status) return null;
   return (
     {
       NOT_REQUESTED: "Belum diminta",
+      PENDING_REVIEW: "Menunggu tinjauan",
       PROCESSING: "Diproses penyedia pembayaran",
+      REFUNDED: "Selesai",
+      REJECTED: "Pengajuan ditolak",
       COMPLETED: "Selesai",
       FAILED: "Gagal",
       MANUAL_REQUIRED: "Menunggu transfer manual",
@@ -21,6 +26,7 @@ export default function RiwayatTransaksiPage() {
   const [items, setItems] = useState<ApiTransaction[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [selectedRefund, setSelectedRefund] = useState<ApiTransaction | null>(null);
 
   useEffect(() => {
     let active = true;
@@ -104,7 +110,7 @@ export default function RiwayatTransaksiPage() {
                     <th className="p-3">Tanggal</th>
                     <th className="p-3">Pembayaran</th>
                     <th className="p-3">Refund</th>
-                    <th className="p-3 text-right">Jumlah</th>
+                    <th className="p-3 text-right">Jumlah</th><th className="p-3 text-right">Aksi</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-[#D9DEE7] dark:divide-[#343945]">
@@ -137,12 +143,12 @@ export default function RiwayatTransaksiPage() {
                           className={`inline-block whitespace-nowrap rounded-[4px] px-2 py-0.5 text-[11px] font-semibold ${
                             item.status === "PAID"
                               ? "bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800"
-                              : item.status === "REFUNDED"
+                              : item.status === "REFUNDED" || item.status === "FAILED" || item.status === "CANCELLED"
                                 ? "bg-red-50 text-red-800 border border-red-200 dark:bg-red-950/40 dark:text-red-300 dark:border-red-800"
                                 : "bg-amber-50 text-amber-800 border border-amber-200 dark:bg-amber-950/40 dark:text-amber-300 dark:border-amber-800"
                           }`}
                         >
-                          {item.status}
+                          {({ PENDING: "Menunggu Pembayaran", PAID: "PAID", FAILED: "Pembayaran Gagal", CANCELLED: "Dibatalkan", REFUNDED: "REFUNDED" } as const)[item.status]}
                         </span>
                       </td>
                       <td className="p-3 text-[#626B78] dark:text-[#B1B7C3]">
@@ -155,6 +161,7 @@ export default function RiwayatTransaksiPage() {
                           maximumFractionDigits: 0,
                         }).format(Number(item.amount))}
                       </td>
+                      <td className="p-3 text-right">{item.status === "PAID" && Number(item.amount) > 0 && (!item.refundStatus || item.refundStatus === "NOT_REQUESTED") && <button type="button" onClick={() => setSelectedRefund(item)} className="inline-flex cursor-pointer whitespace-nowrap rounded-[4px] border border-[#2457C5] bg-[#2457C5]/5 px-2.5 py-1.5 text-[11px] font-semibold text-[#2457C5] transition-colors hover:bg-[#2457C5] hover:text-white dark:border-[#78A0FF] dark:bg-[#78A0FF]/10 dark:text-[#AFC4FF] dark:hover:bg-[#2457C5] dark:hover:text-white">Ajukan Refund</button>}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -162,6 +169,7 @@ export default function RiwayatTransaksiPage() {
             </div>
           )}
         </section>
+        {selectedRefund && <RefundRequestModal transactionId={selectedRefund.id} className={selectedRefund.class.title} onClose={() => setSelectedRefund(null)} onSubmitted={() => setItems((old) => old.map((item) => item.id === selectedRefund.id ? { ...item, refundStatus: "PENDING_REVIEW" } : item))} />}
       </div>
     </main>
   );

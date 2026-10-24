@@ -4,18 +4,17 @@ import {
   Get,
   HttpCode,
   HttpStatus,
-  Param,
-  Patch,
   Post,
+  Patch,
+  Param,
   Req,
-  UnauthorizedException,
   UseGuards,
 } from "@nestjs/common";
 import type { Request } from "express";
 import { JwtAuthGuard } from "../auth/jwt-auth.guard.js";
-import { CompleteManualRefundDto } from "./dto/complete-manual-refund.dto.js";
+import { AdminGuard } from "../auth/admin.guard.js";
 import { CreateTransactionDto } from "./dto/create-transaction.dto.js";
-import { parseMidtransNotification } from "./dto/midtrans-notification.dto.js";
+import { RequestRefundDto, ReviewRefundDto } from "./dto/request-refund.dto.js";
 import { TransactionsService } from "./transactions.service.js";
 
 type AuthenticatedRequest = Request & { user: { userId: string } };
@@ -39,33 +38,27 @@ export class TransactionsController {
     return this.transactionsService.listMine(request.user.userId);
   }
 
+  @Post(":transactionId/refund")
+  @UseGuards(JwtAuthGuard)
+  requestRefund(@Req() request: AuthenticatedRequest, @Param("transactionId") id: string, @Body() body: RequestRefundDto) {
+    return this.transactionsService.requestRefund(request.user.userId, id, body);
+  }
+
+  @Patch(":transactionId/refund/review")
+  @UseGuards(JwtAuthGuard, AdminGuard)
+  reviewRefund(@Req() request: AuthenticatedRequest, @Param("transactionId") id: string, @Body() body: ReviewRefundDto) {
+    return this.transactionsService.reviewRefund(request.user.userId, id, body.decision, body.note, body.proofUrl);
+  }
+
+  @Get("admin/refunds")
+  @UseGuards(JwtAuthGuard, AdminGuard)
+  listPendingRefunds() {
+    return this.transactionsService.listPendingRefunds();
+  }
+
   @Post("webhook/midtrans")
   @HttpCode(HttpStatus.OK)
-  async handleMidtransWebhook(@Body() body: unknown) {
-    const notification = parseMidtransNotification(body);
-    if (!this.transactionsService.verifyNotificationSignature(notification)) {
-      throw new UnauthorizedException("Invalid Midtrans signature");
-    }
-    return this.transactionsService.handleMidtransNotification(notification);
-  }
-
-  @Get("refunds/manual-required")
-  @UseGuards(JwtAuthGuard)
-  listManualRefunds(@Req() request: AuthenticatedRequest) {
-    return this.transactionsService.listManualRefunds(request.user.userId);
-  }
-
-  @Patch(":transactionId/refund/manual-complete")
-  @UseGuards(JwtAuthGuard)
-  completeManualRefund(
-    @Param("transactionId") transactionId: string,
-    @Req() request: AuthenticatedRequest,
-    @Body() body: CompleteManualRefundDto,
-  ) {
-    return this.transactionsService.completeManualRefund(
-      transactionId,
-      request.user.userId,
-      body.transferReference,
-    );
+  handleMidtransWebhook(@Body() body: Record<string, unknown>) {
+    return this.transactionsService.handleMidtransWebhook(body);
   }
 }

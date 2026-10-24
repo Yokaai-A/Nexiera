@@ -19,79 +19,141 @@ function getBrowserApiBaseUrl() {
 
 export interface ApiUser {
   id: string;
-  name: string;
+  name?: string;
+  fullName: string;
   email: string;
-  phoneNumber: string;
-  role: "STUDENT" | "TUTOR" | "ADMIN";
-  university: string | null;
-  major: string | null;
-  studentNumber: string | null;
-  semester: string | null;
-  avatarUrl: string | null;
-  coverUrl: string | null;
-  bio: string | null;
-  headline: string | null;
-  organizationName: string | null;
-  organizationLogoUrl: string | null;
-  location: string | null;
+  contactEmail?: string | null;
+  phoneNumber?: string | null;
+  role?: "STUDENT" | "TUTOR" | "ADMIN" | "MAHASISWA" | "PEER_TUTOR" | "MITRA_BOOTCAMP";
+  roles?: string[];
+  activeRole?: string;
+  university?: string | null;
+  campus?: string | null;
+  major?: string | null;
+  studentNumber?: string | null;
+  semester?: string | null;
+  avatarUrl?: string | null;
+  coverUrl?: string | null;
+  bannerUrl?: string | null;
+  bio?: string | null;
+  headline?: string | null;
+  organizationName?: string | null;
+  organizationLogoUrl?: string | null;
+  organizationWebsiteUrl?: string | null;
+  location?: string | null;
 }
 
 export interface AuthResponse {
-  accessToken: string;
-  user: ApiUser;
+  accessToken?: string;
+  user?: ApiUser;
+  emailVerificationRequired?: boolean;
+  email?: string;
+  verificationUrl?: string;
+}
+
+export interface ApiBootcampTutor {
+  id: string;
+  name: string;
+  roleTitle: string;
+  avatarUrl?: string | null;
+  headline?: string | null;
+  linkedinUrl?: string | null;
 }
 
 export interface ApiClass {
   id: string;
   title: string;
-  shortDescription: string | null;
+  slug?: string;
+  shortDescription?: string | null;
   description: string;
-  mainCategory: string | null;
-  major: string | null;
-  university: string | null;
-  courseType: "PEER_TUTORING" | "BOOTCAMP";
-  organizerName: string | null;
-  organizerLogo: string | null;
+  mainCategory?: string | null;
+  category?: string;
+  major?: string | null;
+  university?: string | null;
+  campusTarget?: string | null;
+  courseType?: "PEER_TUTORING" | "BOOTCAMP";
+  type?: "PEER_TUTORING" | "BOOTCAMP";
+  organizerName?: string | null;
+  organizerLogo?: string | null;
+  bannerUrl?: string | null;
   price: string;
   currency: string;
   status?: "DRAFT" | "ACTIVE" | "CANCELLED";
-  startsAt: string | null;
+  startsAt?: string | null;
   accessDuration?: string | null;
-  maxQuota: number | null;
+  maxQuota?: number | null;
   availableSeats?: number | null;
   requirements?: string[] | null;
   facilities?: string[] | null;
   meetingPlatform?: string | null;
   meetingUrl?: string | null;
+  meetingLink?: string | null;
   materialPlatform?: string | null;
   materialUrl?: string | null;
+  materialLink?: string | null;
   recordingUrl?: string | null;
+  recordingLink?: string | null;
   driveUrl?: string | null;
   cancellationReason?: string | null;
-  tutor: { id: string; name: string; email?: string; phoneNumber?: string };
+  creator?: {
+    id: string;
+    name: string;
+    fullName?: string;
+    email?: string;
+    phoneNumber?: string;
+    campus?: string | null;
+    university?: string | null;
+    major?: string | null;
+    avatarUrl?: string | null;
+    bio?: string | null;
+    headline?: string | null;
+  };
+  tutor?: {
+    id: string;
+    name: string;
+    email?: string;
+    phoneNumber?: string;
+    campus?: string | null;
+    university?: string | null;
+    major?: string | null;
+    avatarUrl?: string | null;
+    bio?: string | null;
+    headline?: string | null;
+  };
+  tutors?: ApiBootcampTutor[];
   enrollmentId?: string;
   paymentStatus?: string;
   paidAt?: string | null;
   studentCount?: number;
+  totalReviews?: number;
+  averageRating?: number;
+  rating?: number;
+  createdAt?: string | null;
 }
 
 export interface ApiTransaction {
   id: string;
+  orderId?: string;
   amount: string;
   currency: string;
-  status: "PENDING" | "PAID" | "REFUNDED";
-  refundStatus: "NOT_REQUESTED" | "PROCESSING" | "COMPLETED" | "FAILED" | "MANUAL_REQUIRED";
+  status: "PENDING" | "PAID" | "FAILED" | "REFUNDED" | "CANCELLED";
+  refundStatus?: "NOT_REQUESTED" | "PENDING_REVIEW" | "PROCESSING" | "REFUNDED" | "REJECTED" | "COMPLETED" | "FAILED" | "MANUAL_REQUIRED";
+  refundMethod?: string | null;
+  refundAccountName?: string | null;
+  refundAccountNumber?: string | null;
+  refundProofUrl?: string | null;
+  refundRequestedAt?: string | null;
   createdAt: string;
   paidAt: string | null;
   class: Pick<ApiClass, "id" | "title" | "startsAt" | "status">;
-  user?: Pick<ApiUser, "id" | "name" | "email" | "phoneNumber">;
+  user?: Pick<ApiUser, "id" | "name" | "fullName" | "email" | "phoneNumber">;
 }
 
 export interface ApiAd {
   id: string;
   title: string;
   subtitle: string | null;
-  placement: "HOME_HERO" | "CLASS_CATALOG" | "DASHBOARD";
+  placement: "HOME_HERO" | "SIDE_MARGIN";
   imageUrl: string;
   targetUrl: string;
   startsAt: string;
@@ -102,11 +164,13 @@ export interface ApiAd {
 }
 
 export interface DashboardData {
-  role: ApiUser["role"];
+  role: string;
+  activeRole?: string;
   classes: ApiClass[];
   transactions: ApiTransaction[];
   attendedSessionsCount?: number;
   totalRevenue: number;
+  netBalance?: number;
   pendingBalance: number;
   completedClassRevenue: number;
   adMetrics: { impressions: number; clicks: number; ctr: number };
@@ -122,10 +186,34 @@ export interface DashboardData {
 export interface ApiReview {
   id: string;
   rating: number;
-  comment: string;
-  reply: string | null;
+  comment: string | null;
+  reply?: string | null;
   createdAt: string;
-  user: { id: string; name: string; university: string | null; major: string | null };
+  user: {
+    id: string;
+    name: string;
+    avatarUrl?: string | null;
+    campus?: string | null;
+    university?: string | null;
+    major?: string | null;
+  };
+}
+
+export interface ReviewsData {
+  averageRating: number;
+  totalReviews: number;
+  distribution: Record<number, number>;
+  reviews: ApiReview[];
+}
+
+export interface ApiNotification {
+  id: string;
+  title: string;
+  message: string;
+  type: string;
+  isRead: boolean;
+  linkUrl: string | null;
+  createdAt: string;
 }
 
 export interface ApiTutorApplication {
@@ -140,6 +228,23 @@ export interface ApiTutorApplication {
   notes: string | null;
   submittedAt: string;
   reviewedAt: string | null;
+}
+
+export interface ApiRoleApplication {
+  id: string;
+  type: "PEER_TUTOR" | "MITRA_BOOTCAMP";
+  status: "PENDING_VERIFICATION" | "APPROVED" | "REJECTED";
+  campus: string | null;
+  major: string | null;
+  studentProofUrl: string;
+  organizationName: string | null;
+  contactEmail: string | null;
+  logoUrl: string | null;
+  websiteUrl: string | null;
+  description: string | null;
+  reviewNote: string | null;
+  createdAt: string;
+  user?: Pick<ApiUser, "id" | "fullName" | "email" | "campus" | "major">;
 }
 
 export function getStoredToken(): string | null {
@@ -188,6 +293,14 @@ export function getApiBaseUrl() {
   return API_BASE_URL;
 }
 
+export function getPrivateFileUrl(path: string) {
+  return `${getBrowserApiBaseUrl()}${path}`;
+}
+
+export function getPublicUploadUrl(path: string) {
+  return `${getBrowserApiBaseUrl().replace(/\/api\/?$/, "")}${path}`;
+}
+
 export function getBrowserAuthUrl(path: string) {
   return `${getBrowserApiBaseUrl()}${path.startsWith("/") ? path : `/${path}`}`;
 }
@@ -198,14 +311,39 @@ export const nexieraApi = {
     if (res?.accessToken) setStoredToken(res.accessToken);
     return res;
   },
+  verifyEmail: (token: string) => apiFetch<{ success: boolean }>("/auth/verify-email", { method: "POST", body: JSON.stringify({ token }) }),
+  resendVerification: (email: string) => apiFetch<{ success: boolean; message: string; verificationUrl?: string }>("/auth/resend-verification", { method: "POST", body: JSON.stringify({ email }) }),
   login: async (payload: { email: string; password: string }) => {
     const res = await apiFetch<AuthResponse>("/auth/login", { method: "POST", body: JSON.stringify(payload) });
     if (res?.accessToken) setStoredToken(res.accessToken);
     return res;
   },
   me: () => apiFetch<ApiUser>("/users/me"),
-  updateProfile: (profile: Partial<Omit<ApiUser, "id" | "email" | "role">>) =>
+  updateProfile: (profile: Partial<ApiUser>) =>
     apiFetch<ApiUser>("/users/me", { method: "PATCH", body: JSON.stringify(profile) }),
+  switchRole: (role: string) =>
+    apiFetch<ApiUser>("/users/switch-role", { method: "PATCH", body: JSON.stringify({ role }) }),
+  applyTutor: (payload: {
+    campus?: string;
+    major?: string;
+    studentProofUrl: string;
+    notes?: string;
+  }) => apiFetch<ApiRoleApplication>("/users/apply-tutor", { method: "POST", body: JSON.stringify(payload) }),
+  applyBootcamp: (payload: {
+    organizationName: string;
+    contactEmail: string;
+    logoUrl?: string;
+    websiteUrl?: string;
+    studentProofUrl: string;
+    description?: string;
+  }) => apiFetch<ApiRoleApplication>("/users/apply-bootcamp", { method: "POST", body: JSON.stringify(payload) }),
+  myRoleApplications: () => apiFetch<ApiRoleApplication[]>("/users/me/role-applications"),
+  adminRoleApplications: () => apiFetch<ApiRoleApplication[]>("/users/admin/role-applications"),
+  reviewRoleApplication: (applicationId: string, payload: { decision: "APPROVE" | "REJECT"; note?: string }) =>
+    apiFetch<ApiRoleApplication>(`/users/admin/role-applications/${encodeURIComponent(applicationId)}/review`, { method: "PATCH", body: JSON.stringify(payload) }),
+  adminRefunds: () => apiFetch<ApiTransaction[]>("/transactions/admin/refunds"),
+  reviewRefund: (transactionId: string, payload: { decision: "APPROVE" | "REJECT"; note?: string; proofUrl?: string }) =>
+    apiFetch<{ id: string; status: string; refundStatus: string }>(`/transactions/${encodeURIComponent(transactionId)}/refund/review`, { method: "PATCH", body: JSON.stringify(payload) }),
   updatePhone: (phoneNumber: string) =>
     apiFetch<ApiUser>("/users/me/phone", { method: "PATCH", body: JSON.stringify({ phoneNumber }) }),
   tutorApplication: () => apiFetch<ApiTutorApplication | null>("/users/me/tutor-application"),
@@ -222,29 +360,57 @@ export const nexieraApi = {
     setStoredToken(null);
     return apiFetch<{ success: boolean }>("/auth/logout", { method: "POST" });
   },
+  uploadProfile: async (file: File) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    return apiFetch<{ url: string; filename: string }>("/uploads/profile", {
+      method: "POST",
+      body: formData,
+    });
+  },
+  uploadBootcampStudentProof: async (file: File) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    return apiFetch<{ url: string; filename: string; size: number; mimetype: string }>("/uploads/bootcamp-student-proof", {
+      method: "POST",
+      body: formData,
+    });
+  },
+  uploadRefundProof: async (file: File) => {
+    const form = new FormData();
+    form.append("file", file);
+    return apiFetch<{ url: string; filename: string }>("/uploads/refund-proof", { method: "POST", body: form });
+  },
+  uploadBanner: async (file: File) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    return apiFetch<{ url: string; filename: string }>("/uploads/banner", {
+      method: "POST",
+      body: formData,
+    });
+  },
   classes: () => apiFetch<ApiClass[]>("/classes"),
   classById: (id: string) => apiFetch<ApiClass>(`/classes/${encodeURIComponent(id)}`),
   managedClass: (id: string) => apiFetch<ApiClass>(`/classes/${encodeURIComponent(id)}/manage`),
   updateClass: (id: string, payload: Record<string, unknown>) =>
     apiFetch<ApiClass>(`/classes/${encodeURIComponent(id)}`, { method: "PATCH", body: JSON.stringify(payload) }),
-  myClasses: () => apiFetch<ApiClass[]>("/classes/mine"),
+  myClasses: () => apiFetch<{ created: ApiClass[]; enrolled: ApiClass[] }>("/classes/mine"),
   tutorParticipants: () => apiFetch<Array<{
     id: string;
     status: string;
-    refundStatus: string;
+    refundStatus?: string;
     paidAt: string | null;
     createdAt: string;
     user: Pick<ApiUser, "id" | "name" | "email" | "phoneNumber">;
     class: Pick<ApiClass, "id" | "title">;
-    presence: { status: string; markedAt: string | null } | null;
   }>>("/classes/tutor/participants"),
   createClass: (payload: Record<string, unknown>) =>
     apiFetch<ApiClass>("/classes", { method: "POST", body: JSON.stringify(payload) }),
   createPublishedClass: (payload: Record<string, unknown>) =>
     apiFetch<ApiClass>("/classes/publish", { method: "POST", body: JSON.stringify(payload) }),
   publishClass: (id: string) => apiFetch<ApiClass>(`/classes/${encodeURIComponent(id)}/publish`, { method: "PATCH" }),
-  cancelClass: (id: string, reason: string) =>
-    apiFetch<{ refunds: { eligible: number; requested: number; failed: number; manualRequired: number } }>(
+  cancelClass: (id: string, reason?: string) =>
+    apiFetch<{ success: boolean; refunds?: Array<{ id: string; amount: number; status: string }> }>(
       `/classes/${encodeURIComponent(id)}/cancel`,
       { method: "PATCH", body: JSON.stringify({ reason }) },
     ),
@@ -263,11 +429,21 @@ export const nexieraApi = {
     apiFetch<ApiAd>("/ads", { method: "POST", body: JSON.stringify(payload) }),
   trackAdImpression: (id: string) => apiFetch<{ tracked: boolean }>(`/ads/${encodeURIComponent(id)}/impression`, { method: "POST" }),
   trackAdClick: (id: string) => apiFetch<{ tracked: boolean; targetUrl: string }>(`/ads/${encodeURIComponent(id)}/click`, { method: "POST" }),
-  reviews: (classId: string) => apiFetch<ApiReview[]>(`/classes/${encodeURIComponent(classId)}/reviews`),
-  createReview: (classId: string, payload: { rating: number; comment: string }) =>
+  reviews: (classId: string) => apiFetch<ReviewsData>(`/classes/${encodeURIComponent(classId)}/reviews`),
+  createReview: (classId: string, payload: { rating: number; comment?: string }) =>
     apiFetch<ApiReview>(`/classes/${encodeURIComponent(classId)}/reviews`, { method: "POST", body: JSON.stringify(payload) }),
   replyToReview: (classId: string, reviewId: string, reply: string) =>
-    apiFetch<{ id: string; reply: string; updatedAt: string }>(`/classes/${encodeURIComponent(classId)}/reviews/${encodeURIComponent(reviewId)}/reply`, { method: "PATCH", body: JSON.stringify({ reply }) }),
-  createReport: (payload: { targetType: "CLASS" | "ORGANIZER"; targetId: string; category: string; description: string }) =>
+    apiFetch<ApiReview>(`/classes/${encodeURIComponent(classId)}/reviews/${encodeURIComponent(reviewId)}/reply`, { method: "PATCH", body: JSON.stringify({ reply }) }),
+  notifications: () => apiFetch<ApiNotification[]>("/notifications"),
+  markNotificationRead: (id: string) => apiFetch<ApiNotification>(`/notifications/${encodeURIComponent(id)}/read`, { method: "PATCH" }),
+  markAllNotificationsRead: () => apiFetch<{ success: boolean }>("/notifications/read-all", { method: "PATCH" }),
+  uploadReportEvidence: (file: File) => { const form = new FormData(); form.append("file", file); return apiFetch<{ url: string }>("/uploads/report-evidence", { method: "POST", body: form }); },
+  myReports: () => apiFetch<Array<{ id: string; targetType: string; targetId: string; classId: string | null; category: string; status: string; adminNote?: string | null; createdAt: string }>>("/classes/reports/mine"),
+  adminReports: () => apiFetch<Array<{ id: string; targetType: string; targetId: string; category: string; description: string; evidenceUrl?: string | null; status: string; reporter: { fullName: string; email: string }; class?: { title: string } | null }>>("/classes/reports/admin"),
+  reviewReport: (id: string, status: "RESOLVED" | "DISMISSED", note?: string) => apiFetch(`/classes/reports/${encodeURIComponent(id)}/status`, { method: "PATCH", body: JSON.stringify({ status, note }) }),
+  requestCourse: (payload: { title: string; campus?: string; major?: string; courseCode?: string; note?: string }) => apiFetch("/classes/course-requests", { method: "POST", body: JSON.stringify(payload) }),
+  createReport: (payload: { targetType: "CLASS" | "ORGANIZER"; targetId: string; category: string; description: string; evidenceUrl?: string; classId?: string }) =>
     apiFetch("/classes/reports", { method: "POST", body: JSON.stringify(payload) }),
+  requestRefund: (id: string, payload: { method: "BANK" | "EWALLET"; accountName: string; accountNumber: string }) =>
+    apiFetch(`/transactions/${encodeURIComponent(id)}/refund`, { method: "POST", body: JSON.stringify(payload) }),
 };

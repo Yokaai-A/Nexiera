@@ -1,53 +1,141 @@
-# [Nama Proyek Kamu]
+# 🎓 NEXIERA
 
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Next.js](https://img.shields.io/badge/Next.js-15-black)](https://nextjs.org/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4.0-38BDF8)](https://tailwindcss.com/)
-
-[Deskripsi singkat 1-2 kalimat tentang apa fungsi proyek ini dan masalah apa yang diselesaikannya. Contoh: Platform pembelajaran terpadu untuk mahasiswa Indonesia mencari tutor sebaya.]
+> **Platform Bimbingan Belajar & Peer-Tutoring Mahasiswa**  
+> NEXIERA menghubungkan mahasiswa dengan Peer-Tutor terverifikasi dan Mitra Bootcamp untuk pengalaman belajar mata kuliah kampus yang lebih terarah, aman, dan fleksibel.
 
 ---
 
-## 🚀 Demo / Live Link
+## 🚀 Fitur Utama
 
-- **Website / App**: [https://nama-proyek-kamu.vercel.app](https://nama-proyek-kamu.vercel.app)
-- **Dokumentasi**: [Link ke dokumentasi jika ada]
+### 👨‍🎓 Mahasiswa & Peserta
 
----
+- **Autentikasi Aman:** Pendaftaran manual dengan tautan verifikasi email sekali pakai serta opsi login via Google OAuth.
+- **Pencarian & Kelas Bimbingan:** Eksplorasi katalog mata kuliah kampus, pendaftaran bimbingan, dan akses ruang belajar.
+- **Pengajuan Mata Kuliah Baru:** Formulir khusus untuk mengusulkan mata kuliah yang belum tersedia di katalog statis.
+- **Sistem Pelaporan:** Melaporkan kendala kelas atau tutor dengan pembaruan status dan catatan transparan dari admin.
 
-## ✨ Fitur Utama
+### 👩‍🏫 Peer-Tutor & Mitra Bootcamp
 
-- **[Fitur 1]**: Pencarian kelas berdasarkan mata kuliah dan kampus.
-- **[Fitur 2]**: Verifikasi identitas tutor dan asisten laboratorium.
-- **[Fitur 3]**: Fitur pendaftaran tutor dan manajemen jadwal.
-- **[Fitur 4]**: Mode Gelap (*Dark Mode*) dan responsif di seluler.
+- **Verifikasi Berkas Strict:** Pendaftaran peran wajib mengunggah bukti mahasiswa aktif (KTM/SIAKAD/KRS).
+- **Status `PENDING_VERIFICATION`:** Akses peran pengajar baru aktif setelah berkas diverifikasi secara manual oleh admin.
+- **Manajemen Kelas:** Pengelolaan jadwal, materi bimbingan, dan peserta kelas.
 
----
+### 🛡️ Transaksi, Keamanan & Admin Operasional
 
-## 🛠️ Tech Stack
-
-### Frontend / Core
-- **Framework**: [Next.js / React / Vue]
-- **Language**: [TypeScript / JavaScript]
-- **Styling**: [Tailwind CSS]
-
-### Backend & Database (Optional)
-- **Database**: [PostgreSQL / Supabase / MongoDB]
-- **ORM**: [Prisma / Drizzle]
-- **Authentication**: [NextAuth / Auth.js / Clerk]
+- **Dashboard Admin Internal:** Antarmuka khusus bagi pemilik email `ADMIN_EMAILS` untuk meninjau berkas pendaftaran peran, memproses refund, dan menindaklanjuti laporan.
+- **Fail-Safe Midtrans:** Transaksi otomatis diubah ke status `FAILED` jika terjadi masalah pada gateway pembayaran, mencegah celah akses kelas gratis.
+- **Alur Refund Manual:** Persetujuan refund wajib melampirkan bukti transfer resmi sebelum status berubah ke `REFUNDED` dan hak akses kelas dicabut secara otomatis.
+- **Privasi Berkas (`private-uploads`):** Dokumen sensitif (KTM, KRS, bukti refund, dan bukti laporan) tersimpan di direktori privat yang dilindungi _middleware_ autentikasi (hanya diakses oleh pemilik & admin).
+- **Notifikasi Asinkron (Resend):** Sistem email _non-blocking_ untuk konfirmasi pembayaran, pembaruan refund, status laporan, dan verifikasi akun.
 
 ---
 
-## 💻 Cara Menjalankan Proyek di Lokal
+## 🛠️ Teknologi & Fitur MVP
 
-Ikuti langkah-langkah berikut untuk menjalankan proyek ini di komputer kamu:
+| Komponen            | Teknologi / Library                                             |
+| ------------------- | --------------------------------------------------------------- |
+| **Frontend**        | Next.js 16, React 19, TypeScript, Tailwind CSS 4                |
+| **Backend**         | NestJS 12, TypeScript, Prisma 7 (ORM)                           |
+| **Database**        | MySQL                                                           |
+| **Payment Gateway** | Midtrans (Sandbox / Production)                                 |
+| **Email Service**   | Resend API (Async / Non-blocking MailService)                   |
+| **Storage**         | Private Local Uploads (`/private-uploads`) dengan proteksi Auth |
 
-### 1. Prasyarat
-Pastikan kamu sudah menginstal:
-- [Node.js](https://nodejs.org/) (Versi 18.x atau terbaru)
-- Package Manager (`npm`, `yarn`, atau `pnpm`)
+---
 
-### 2. Kloning Repository
+## 📂 Struktur Repositori
+
+```text
+.
+├── nexiera-frontend/   # Aplikasi Web Client (Next.js 16)
+├── nexiera-backend/    # REST API, Prisma Schema, & Middleware (NestJS 12)
+├── .github/workflows/  # CI/CD GitHub Actions (Auto Build Check)
+└── DEPLOYMENT.md       # Panduan Deployment Staging (Vercel + Railway)
+```
+
+---
+
+## 💻 Cara Menjalankan Secara Lokal
+
+### Prasyarat
+
+- **Node.js** v22.22.3 atau versi lebih baru
+- **npm** v10+
+- **MySQL** (Bisa menggunakan instance lokal atau `docker-compose.yml` yang disediakan)
+
+---
+
+### 1. Konfigurasi & Jalankan Backend
+
 ```bash
-git clone [https://github.com/username-kamu/nama-proyek.git](https://github.com/username-kamu/nama-proyek.git)
-cd nama-proyek
+cd nexiera-backend
+npm ci
+```
+
+Salin file `.env.example` menjadi `.env`:
+
+```bash
+cp .env.example .env
+```
+
+Jalankan migrasi database dan server pengembangan:
+
+```bash
+npx prisma generate
+npx prisma migrate deploy
+npm run start:dev
+```
+
+> 📍 Backend berjalan di `http://localhost:4000` (Prefix API: `/api`).
+
+---
+
+### 2. Konfigurasi & Jalankan Frontend
+
+Buka terminal baru:
+
+```bash
+cd nexiera-frontend
+npm ci
+```
+
+Buat file `nexiera-frontend/.env.local`:
+
+```env
+NEXT_PUBLIC_API_BASE_URL=http://localhost:4000/api
+```
+
+Jalankan aplikasi frontend:
+
+```bash
+npm run dev
+```
+
+> 📍 Frontend berjalan di `http://localhost:3000`.
+
+---
+
+## ⚙️ Pengaturan Environment Variable (`nexiera-backend/.env`)
+
+| Variabel                 | Deskripsi                              | Keterangan                                         |
+| ------------------------ | -------------------------------------- | -------------------------------------------------- |
+| `DATABASE_URL`           | URL koneksi MySQL Prisma               | Contoh: `mysql://root:pass@localhost:3306/nexiera` |
+| `PORT`                   | Port server backend                    | Default: `4000`                                    |
+| `JWT_SECRET`             | Key rahasia token autentikasi          | Wajib diisi string acak & kuat                     |
+| `ADMIN_EMAILS`           | Email staf yang diberi hak akses Admin | Pisahkan dengan koma (misal: `admin@nexiera.id`)   |
+| `MIDTRANS_SERVER_KEY`    | Server key dari dashboard Midtrans     | Kosongkan jika belum menggunakan tes pembayaran    |
+| `MIDTRANS_IS_PRODUCTION` | Flag mode Midtrans (`true`/`false`)    | Set `false` untuk mode Sandbox                     |
+| `RESEND_API_KEY`         | API Key dari platform Resend           | Opsional (Email tetap non-blocking jika kosong)    |
+| `MAIL_FROM`              | Alamat email pengirim resmi            | Gunakan `onboarding@resend.dev` saat testing       |
+
+---
+
+## 🚀 Catatan Deployment & Staging
+
+- **Panduan Lengkap:** Tinjau berkas [`DEPLOYMENT.md`](DEPLOYMENT.md) untuk langkah-langkah penghubungan otomatis repositori monorepo ini ke **Vercel** (Frontend) dan **Railway** (Backend & Database).
+- **Auto-Migration:** Script `npm run start:prod` pada backend akan otomatis mengeksekusi `npx prisma migrate deploy` setiap kali deployment dilakukan.
+- **Penyimpanan Berkas:** Pada lingkungan produksi, disarankan mengintegrasikan cloud object storage privat (seperti AWS S3 / Cloudinary) untuk menggantikan direktori lokal `private-uploads`.
+
+---
+
+made with ❤️

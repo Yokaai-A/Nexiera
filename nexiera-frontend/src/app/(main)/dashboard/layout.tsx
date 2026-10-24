@@ -14,8 +14,8 @@ export default function DashboardLayout({
 }) {
   return (
     <div className="min-h-screen bg-white dark:bg-[#111318] pb-20">
-      <div className="mx-auto max-w-[1180px] px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex flex-col lg:flex-row gap-8 items-start">
+      <div className="mx-auto max-w-[1180px] px-4 sm:px-6 lg:px-8 py-6">
+        <div className="flex flex-col lg:flex-row gap-3 items-start">
           {/* Sidebar Multi-Role */}
           <Suspense
             fallback={

@@ -1,11 +1,18 @@
-import { Body, Controller, Get, Param, Patch, Post, Req, UseGuards } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Req,
+  UseGuards,
+} from "@nestjs/common";
 import type { Request } from "express";
 import { JwtAuthGuard } from "../auth/jwt-auth.guard.js";
-import { CancelClassDto } from "./dto/cancel-class.dto.js";
-import { CreateClassReportDto } from "./dto/create-class-report.dto.js";
+import { AdminGuard } from "../auth/admin.guard.js";
 import { CreateClassDto } from "./dto/create-class.dto.js";
-import { CreateReviewDto } from "./dto/create-review.dto.js";
-import { ReviewReplyDto } from "./dto/review-reply.dto.js";
+import { UpdateReportStatusDto } from "./dto/update-report-status.dto.js";
 import { UpdateClassDto } from "./dto/update-class.dto.js";
 import { ClassesService } from "./classes.service.js";
 
@@ -22,29 +29,32 @@ export class ClassesController {
 
   @Post()
   @UseGuards(JwtAuthGuard)
-  createDraft(@Req() request: AuthenticatedRequest, @Body() body: CreateClassDto) {
-    return this.classesService.createDraft(request.user.userId, body);
+  createClass(
+    @Req() request: AuthenticatedRequest,
+    @Body() body: CreateClassDto,
+  ) {
+    return this.classesService.createClass(request.user.userId, body);
   }
 
   @Post("publish")
   @UseGuards(JwtAuthGuard)
-  createPublishedClass(@Req() request: AuthenticatedRequest, @Body() body: CreateClassDto) {
-    return this.classesService.createPublishedClass(request.user.userId, body);
+  createPublishedClass(
+    @Req() request: AuthenticatedRequest,
+    @Body() body: CreateClassDto,
+  ) {
+    return this.classesService.createClass(request.user.userId, body);
   }
 
   @Patch(":classId/publish")
   @UseGuards(JwtAuthGuard)
-  publishClass(
-    @Param("classId") classId: string,
-    @Req() request: AuthenticatedRequest,
-  ) {
-    return this.classesService.publishClass(classId, request.user.userId);
+  publishClass(@Param("classId") classId: string) {
+    return this.classesService.getClassDetail(classId);
   }
 
   @Get(":classId/manage")
   @UseGuards(JwtAuthGuard)
-  getManagedClass(@Param("classId") classId: string, @Req() request: AuthenticatedRequest) {
-    return this.classesService.getManagedClass(classId, request.user.userId);
+  getManagedClass(@Param("classId") classId: string) {
+    return this.classesService.getClassDetail(classId);
   }
 
   @Patch(":classId")
@@ -69,41 +79,39 @@ export class ClassesController {
     return this.classesService.listTutorParticipants(request.user.userId);
   }
 
-  @Post("reports")
-  @UseGuards(JwtAuthGuard)
-  createReport(@Req() request: AuthenticatedRequest, @Body() body: CreateClassReportDto) {
-    return this.classesService.createReport(request.user.userId, body);
-  }
-
-  @Get(":classId/reviews")
-  getReviews(@Param("classId") classId: string) {
-    return this.classesService.getReviews(classId);
-  }
-
-  @Post(":classId/reviews")
-  @UseGuards(JwtAuthGuard)
-  createReview(
-    @Param("classId") classId: string,
-    @Req() request: AuthenticatedRequest,
-    @Body() body: CreateReviewDto,
-  ) {
-    return this.classesService.createReview(classId, request.user.userId, body);
-  }
-
-  @Patch(":classId/reviews/:reviewId/reply")
-  @UseGuards(JwtAuthGuard)
-  replyToReview(
-    @Param("classId") classId: string,
-    @Param("reviewId") reviewId: string,
-    @Req() request: AuthenticatedRequest,
-    @Body() body: ReviewReplyDto,
-  ) {
-    return this.classesService.replyToReview(classId, reviewId, request.user.userId, body);
-  }
-
   @Get(":classId")
   getClassDetail(@Param("classId") classId: string) {
     return this.classesService.getClassDetail(classId);
+  }
+
+  @Post("reports")
+  @UseGuards(JwtAuthGuard)
+  createReport(@Req() request: AuthenticatedRequest, @Body() body: import("./dto/create-class-report.dto.js").CreateClassReportDto) {
+    return this.classesService.createReport(request.user.userId, body);
+  }
+
+  @Patch("reports/:reportId/status")
+  @UseGuards(JwtAuthGuard, AdminGuard)
+  updateReportStatus(@Req() request: AuthenticatedRequest, @Param("reportId") reportId: string, @Body() body: UpdateReportStatusDto) {
+    return this.classesService.updateReportStatus(request.user.userId, reportId, body.status, body.note);
+  }
+
+  @Get("reports/admin")
+  @UseGuards(JwtAuthGuard, AdminGuard)
+  listAdminReports() { return this.classesService.listAdminReports(); }
+
+  @Post("course-requests")
+  @UseGuards(JwtAuthGuard)
+  requestCourse(@Req() request: AuthenticatedRequest, @Body() body: { title: string; campus?: string; major?: string; courseCode?: string; note?: string }) { return this.classesService.requestCourse(request.user.userId, body); }
+
+  @Get("course-requests/admin")
+  @UseGuards(JwtAuthGuard, AdminGuard)
+  adminCourseRequests() { return this.classesService.listCourseRequests(); }
+
+  @Get("reports/mine")
+  @UseGuards(JwtAuthGuard)
+  listMyReports(@Req() request: AuthenticatedRequest) {
+    return this.classesService.listMyReports(request.user.userId);
   }
 
   @Get(":classId/meeting-links")
@@ -120,8 +128,8 @@ export class ClassesController {
   cancelClass(
     @Param("classId") classId: string,
     @Req() request: AuthenticatedRequest,
-    @Body() body: CancelClassDto,
+    @Body() body: { reason?: string },
   ) {
-    return this.classesService.cancelClass(classId, request.user.userId, body.reason);
+    return this.classesService.cancelClass(classId, request.user.userId, body?.reason);
   }
 }

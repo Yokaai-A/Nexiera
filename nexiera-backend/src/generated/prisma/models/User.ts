@@ -20,148 +20,198 @@ export type UserModel = runtime.Types.Result.DefaultSelection<Prisma.$UserPayloa
 
 export type AggregateUser = {
   _count: UserCountAggregateOutputType | null
+  _avg: UserAvgAggregateOutputType | null
+  _sum: UserSumAggregateOutputType | null
   _min: UserMinAggregateOutputType | null
   _max: UserMaxAggregateOutputType | null
 }
 
+export type UserAvgAggregateOutputType = {
+  tutorGpa: runtime.Decimal | null
+}
+
+export type UserSumAggregateOutputType = {
+  tutorGpa: runtime.Decimal | null
+}
+
 export type UserMinAggregateOutputType = {
   id: string | null
-  googleId: string | null
   email: string | null
+  contactEmail: string | null
   password: string | null
-  name: string | null
-  phoneNumber: string | null
-  role: $Enums.UserRole | null
-  university: string | null
+  fullName: string | null
+  avatarUrl: string | null
+  bannerUrl: string | null
+  headline: string | null
+  bio: string | null
+  campus: string | null
   major: string | null
   studentNumber: string | null
   semester: string | null
-  avatarUrl: string | null
-  coverUrl: string | null
-  bio: string | null
-  headline: string | null
   organizationName: string | null
   organizationLogoUrl: string | null
+  organizationWebsiteUrl: string | null
+  bootcampStudentProofUrl: string | null
   location: string | null
+  tutorGpa: runtime.Decimal | null
+  tutorTranscriptUrl: string | null
+  activeRole: $Enums.Role | null
+  phoneNumber: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  emailVerifiedAt: Date | null
 }
 
 export type UserMaxAggregateOutputType = {
   id: string | null
-  googleId: string | null
   email: string | null
+  contactEmail: string | null
   password: string | null
-  name: string | null
-  phoneNumber: string | null
-  role: $Enums.UserRole | null
-  university: string | null
+  fullName: string | null
+  avatarUrl: string | null
+  bannerUrl: string | null
+  headline: string | null
+  bio: string | null
+  campus: string | null
   major: string | null
   studentNumber: string | null
   semester: string | null
-  avatarUrl: string | null
-  coverUrl: string | null
-  bio: string | null
-  headline: string | null
   organizationName: string | null
   organizationLogoUrl: string | null
+  organizationWebsiteUrl: string | null
+  bootcampStudentProofUrl: string | null
   location: string | null
+  tutorGpa: runtime.Decimal | null
+  tutorTranscriptUrl: string | null
+  activeRole: $Enums.Role | null
+  phoneNumber: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  emailVerifiedAt: Date | null
 }
 
 export type UserCountAggregateOutputType = {
   id: number
-  googleId: number
   email: number
+  contactEmail: number
   password: number
-  name: number
-  phoneNumber: number
-  role: number
-  university: number
+  fullName: number
+  avatarUrl: number
+  bannerUrl: number
+  headline: number
+  bio: number
+  campus: number
   major: number
   studentNumber: number
   semester: number
-  avatarUrl: number
-  coverUrl: number
-  bio: number
-  headline: number
   organizationName: number
   organizationLogoUrl: number
+  organizationWebsiteUrl: number
+  bootcampStudentProofUrl: number
   location: number
+  tutorGpa: number
+  tutorTranscriptUrl: number
+  roles: number
+  activeRole: number
+  phoneNumber: number
   createdAt: number
   updatedAt: number
+  emailVerifiedAt: number
   _all: number
 }
 
 
+export type UserAvgAggregateInputType = {
+  tutorGpa?: true
+}
+
+export type UserSumAggregateInputType = {
+  tutorGpa?: true
+}
+
 export type UserMinAggregateInputType = {
   id?: true
-  googleId?: true
   email?: true
+  contactEmail?: true
   password?: true
-  name?: true
-  phoneNumber?: true
-  role?: true
-  university?: true
+  fullName?: true
+  avatarUrl?: true
+  bannerUrl?: true
+  headline?: true
+  bio?: true
+  campus?: true
   major?: true
   studentNumber?: true
   semester?: true
-  avatarUrl?: true
-  coverUrl?: true
-  bio?: true
-  headline?: true
   organizationName?: true
   organizationLogoUrl?: true
+  organizationWebsiteUrl?: true
+  bootcampStudentProofUrl?: true
   location?: true
+  tutorGpa?: true
+  tutorTranscriptUrl?: true
+  activeRole?: true
+  phoneNumber?: true
   createdAt?: true
   updatedAt?: true
+  emailVerifiedAt?: true
 }
 
 export type UserMaxAggregateInputType = {
   id?: true
-  googleId?: true
   email?: true
+  contactEmail?: true
   password?: true
-  name?: true
-  phoneNumber?: true
-  role?: true
-  university?: true
+  fullName?: true
+  avatarUrl?: true
+  bannerUrl?: true
+  headline?: true
+  bio?: true
+  campus?: true
   major?: true
   studentNumber?: true
   semester?: true
-  avatarUrl?: true
-  coverUrl?: true
-  bio?: true
-  headline?: true
   organizationName?: true
   organizationLogoUrl?: true
+  organizationWebsiteUrl?: true
+  bootcampStudentProofUrl?: true
   location?: true
+  tutorGpa?: true
+  tutorTranscriptUrl?: true
+  activeRole?: true
+  phoneNumber?: true
   createdAt?: true
   updatedAt?: true
+  emailVerifiedAt?: true
 }
 
 export type UserCountAggregateInputType = {
   id?: true
-  googleId?: true
   email?: true
+  contactEmail?: true
   password?: true
-  name?: true
-  phoneNumber?: true
-  role?: true
-  university?: true
+  fullName?: true
+  avatarUrl?: true
+  bannerUrl?: true
+  headline?: true
+  bio?: true
+  campus?: true
   major?: true
   studentNumber?: true
   semester?: true
-  avatarUrl?: true
-  coverUrl?: true
-  bio?: true
-  headline?: true
   organizationName?: true
   organizationLogoUrl?: true
+  organizationWebsiteUrl?: true
+  bootcampStudentProofUrl?: true
   location?: true
+  tutorGpa?: true
+  tutorTranscriptUrl?: true
+  roles?: true
+  activeRole?: true
+  phoneNumber?: true
   createdAt?: true
   updatedAt?: true
+  emailVerifiedAt?: true
   _all?: true
 }
 
@@ -203,6 +253,18 @@ export type UserAggregateArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: UserAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: UserSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: UserMinAggregateInputType
@@ -233,32 +295,42 @@ export type UserGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
   take?: number
   skip?: number
   _count?: UserCountAggregateInputType | true
+  _avg?: UserAvgAggregateInputType
+  _sum?: UserSumAggregateInputType
   _min?: UserMinAggregateInputType
   _max?: UserMaxAggregateInputType
 }
 
 export type UserGroupByOutputType = {
   id: string
-  googleId: string | null
   email: string
+  contactEmail: string | null
   password: string | null
-  name: string
-  phoneNumber: string
-  role: $Enums.UserRole
-  university: string | null
+  fullName: string
+  avatarUrl: string | null
+  bannerUrl: string | null
+  headline: string | null
+  bio: string | null
+  campus: string | null
   major: string | null
   studentNumber: string | null
   semester: string | null
-  avatarUrl: string | null
-  coverUrl: string | null
-  bio: string | null
-  headline: string | null
   organizationName: string | null
   organizationLogoUrl: string | null
+  organizationWebsiteUrl: string | null
+  bootcampStudentProofUrl: string | null
   location: string | null
+  tutorGpa: runtime.Decimal | null
+  tutorTranscriptUrl: string | null
+  roles: runtime.JsonValue
+  activeRole: $Enums.Role
+  phoneNumber: string | null
   createdAt: Date
   updatedAt: Date
+  emailVerifiedAt: Date | null
   _count: UserCountAggregateOutputType | null
+  _avg: UserAvgAggregateOutputType | null
+  _sum: UserSumAggregateOutputType | null
   _min: UserMinAggregateOutputType | null
   _max: UserMaxAggregateOutputType | null
 }
@@ -283,122 +355,160 @@ export type UserWhereInput = {
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   id?: Prisma.StringFilter<"User"> | string
-  googleId?: Prisma.StringNullableFilter<"User"> | string | null
   email?: Prisma.StringFilter<"User"> | string
+  contactEmail?: Prisma.StringNullableFilter<"User"> | string | null
   password?: Prisma.StringNullableFilter<"User"> | string | null
-  name?: Prisma.StringFilter<"User"> | string
-  phoneNumber?: Prisma.StringFilter<"User"> | string
-  role?: Prisma.EnumUserRoleFilter<"User"> | $Enums.UserRole
-  university?: Prisma.StringNullableFilter<"User"> | string | null
+  fullName?: Prisma.StringFilter<"User"> | string
+  avatarUrl?: Prisma.StringNullableFilter<"User"> | string | null
+  bannerUrl?: Prisma.StringNullableFilter<"User"> | string | null
+  headline?: Prisma.StringNullableFilter<"User"> | string | null
+  bio?: Prisma.StringNullableFilter<"User"> | string | null
+  campus?: Prisma.StringNullableFilter<"User"> | string | null
   major?: Prisma.StringNullableFilter<"User"> | string | null
   studentNumber?: Prisma.StringNullableFilter<"User"> | string | null
   semester?: Prisma.StringNullableFilter<"User"> | string | null
-  avatarUrl?: Prisma.StringNullableFilter<"User"> | string | null
-  coverUrl?: Prisma.StringNullableFilter<"User"> | string | null
-  bio?: Prisma.StringNullableFilter<"User"> | string | null
-  headline?: Prisma.StringNullableFilter<"User"> | string | null
   organizationName?: Prisma.StringNullableFilter<"User"> | string | null
   organizationLogoUrl?: Prisma.StringNullableFilter<"User"> | string | null
+  organizationWebsiteUrl?: Prisma.StringNullableFilter<"User"> | string | null
+  bootcampStudentProofUrl?: Prisma.StringNullableFilter<"User"> | string | null
   location?: Prisma.StringNullableFilter<"User"> | string | null
+  tutorGpa?: Prisma.DecimalNullableFilter<"User"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tutorTranscriptUrl?: Prisma.StringNullableFilter<"User"> | string | null
+  roles?: Prisma.JsonFilter<"User">
+  activeRole?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
+  phoneNumber?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
-  classes?: Prisma.ClassListRelationFilter
+  emailVerifiedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  classesCreated?: Prisma.ClassListRelationFilter
   transactions?: Prisma.TransactionListRelationFilter
-  presences?: Prisma.PresenceListRelationFilter
-  ads?: Prisma.AdListRelationFilter
-  reviews?: Prisma.ClassReviewListRelationFilter
+  reviews?: Prisma.ReviewListRelationFilter
   reports?: Prisma.ClassReportListRelationFilter
-  tutorApplication?: Prisma.XOR<Prisma.TutorApplicationNullableScalarRelationFilter, Prisma.TutorApplicationWhereInput> | null
+  notifications?: Prisma.NotificationListRelationFilter
+  bootcampTutors?: Prisma.BootcampTutorListRelationFilter
+  ads?: Prisma.AdListRelationFilter
+  roleApplications?: Prisma.RoleApplicationListRelationFilter
+  privateUploads?: Prisma.PrivateUploadListRelationFilter
+  emailVerificationTokens?: Prisma.EmailVerificationTokenListRelationFilter
+  courseRequests?: Prisma.CourseRequestListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  googleId?: Prisma.SortOrderInput | Prisma.SortOrder
   email?: Prisma.SortOrder
+  contactEmail?: Prisma.SortOrderInput | Prisma.SortOrder
   password?: Prisma.SortOrderInput | Prisma.SortOrder
-  name?: Prisma.SortOrder
-  phoneNumber?: Prisma.SortOrder
-  role?: Prisma.SortOrder
-  university?: Prisma.SortOrderInput | Prisma.SortOrder
+  fullName?: Prisma.SortOrder
+  avatarUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  bannerUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  headline?: Prisma.SortOrderInput | Prisma.SortOrder
+  bio?: Prisma.SortOrderInput | Prisma.SortOrder
+  campus?: Prisma.SortOrderInput | Prisma.SortOrder
   major?: Prisma.SortOrderInput | Prisma.SortOrder
   studentNumber?: Prisma.SortOrderInput | Prisma.SortOrder
   semester?: Prisma.SortOrderInput | Prisma.SortOrder
-  avatarUrl?: Prisma.SortOrderInput | Prisma.SortOrder
-  coverUrl?: Prisma.SortOrderInput | Prisma.SortOrder
-  bio?: Prisma.SortOrderInput | Prisma.SortOrder
-  headline?: Prisma.SortOrderInput | Prisma.SortOrder
   organizationName?: Prisma.SortOrderInput | Prisma.SortOrder
   organizationLogoUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  organizationWebsiteUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  bootcampStudentProofUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   location?: Prisma.SortOrderInput | Prisma.SortOrder
+  tutorGpa?: Prisma.SortOrderInput | Prisma.SortOrder
+  tutorTranscriptUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  roles?: Prisma.SortOrder
+  activeRole?: Prisma.SortOrder
+  phoneNumber?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  classes?: Prisma.ClassOrderByRelationAggregateInput
+  emailVerifiedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  classesCreated?: Prisma.ClassOrderByRelationAggregateInput
   transactions?: Prisma.TransactionOrderByRelationAggregateInput
-  presences?: Prisma.PresenceOrderByRelationAggregateInput
-  ads?: Prisma.AdOrderByRelationAggregateInput
-  reviews?: Prisma.ClassReviewOrderByRelationAggregateInput
+  reviews?: Prisma.ReviewOrderByRelationAggregateInput
   reports?: Prisma.ClassReportOrderByRelationAggregateInput
-  tutorApplication?: Prisma.TutorApplicationOrderByWithRelationInput
+  notifications?: Prisma.NotificationOrderByRelationAggregateInput
+  bootcampTutors?: Prisma.BootcampTutorOrderByRelationAggregateInput
+  ads?: Prisma.AdOrderByRelationAggregateInput
+  roleApplications?: Prisma.RoleApplicationOrderByRelationAggregateInput
+  privateUploads?: Prisma.PrivateUploadOrderByRelationAggregateInput
+  emailVerificationTokens?: Prisma.EmailVerificationTokenOrderByRelationAggregateInput
+  courseRequests?: Prisma.CourseRequestOrderByRelationAggregateInput
   _relevance?: Prisma.UserOrderByRelevanceInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  googleId?: string
   email?: string
   AND?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
+  contactEmail?: Prisma.StringNullableFilter<"User"> | string | null
   password?: Prisma.StringNullableFilter<"User"> | string | null
-  name?: Prisma.StringFilter<"User"> | string
-  phoneNumber?: Prisma.StringFilter<"User"> | string
-  role?: Prisma.EnumUserRoleFilter<"User"> | $Enums.UserRole
-  university?: Prisma.StringNullableFilter<"User"> | string | null
+  fullName?: Prisma.StringFilter<"User"> | string
+  avatarUrl?: Prisma.StringNullableFilter<"User"> | string | null
+  bannerUrl?: Prisma.StringNullableFilter<"User"> | string | null
+  headline?: Prisma.StringNullableFilter<"User"> | string | null
+  bio?: Prisma.StringNullableFilter<"User"> | string | null
+  campus?: Prisma.StringNullableFilter<"User"> | string | null
   major?: Prisma.StringNullableFilter<"User"> | string | null
   studentNumber?: Prisma.StringNullableFilter<"User"> | string | null
   semester?: Prisma.StringNullableFilter<"User"> | string | null
-  avatarUrl?: Prisma.StringNullableFilter<"User"> | string | null
-  coverUrl?: Prisma.StringNullableFilter<"User"> | string | null
-  bio?: Prisma.StringNullableFilter<"User"> | string | null
-  headline?: Prisma.StringNullableFilter<"User"> | string | null
   organizationName?: Prisma.StringNullableFilter<"User"> | string | null
   organizationLogoUrl?: Prisma.StringNullableFilter<"User"> | string | null
+  organizationWebsiteUrl?: Prisma.StringNullableFilter<"User"> | string | null
+  bootcampStudentProofUrl?: Prisma.StringNullableFilter<"User"> | string | null
   location?: Prisma.StringNullableFilter<"User"> | string | null
+  tutorGpa?: Prisma.DecimalNullableFilter<"User"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tutorTranscriptUrl?: Prisma.StringNullableFilter<"User"> | string | null
+  roles?: Prisma.JsonFilter<"User">
+  activeRole?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
+  phoneNumber?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
-  classes?: Prisma.ClassListRelationFilter
+  emailVerifiedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  classesCreated?: Prisma.ClassListRelationFilter
   transactions?: Prisma.TransactionListRelationFilter
-  presences?: Prisma.PresenceListRelationFilter
-  ads?: Prisma.AdListRelationFilter
-  reviews?: Prisma.ClassReviewListRelationFilter
+  reviews?: Prisma.ReviewListRelationFilter
   reports?: Prisma.ClassReportListRelationFilter
-  tutorApplication?: Prisma.XOR<Prisma.TutorApplicationNullableScalarRelationFilter, Prisma.TutorApplicationWhereInput> | null
-}, "id" | "googleId" | "email">
+  notifications?: Prisma.NotificationListRelationFilter
+  bootcampTutors?: Prisma.BootcampTutorListRelationFilter
+  ads?: Prisma.AdListRelationFilter
+  roleApplications?: Prisma.RoleApplicationListRelationFilter
+  privateUploads?: Prisma.PrivateUploadListRelationFilter
+  emailVerificationTokens?: Prisma.EmailVerificationTokenListRelationFilter
+  courseRequests?: Prisma.CourseRequestListRelationFilter
+}, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  googleId?: Prisma.SortOrderInput | Prisma.SortOrder
   email?: Prisma.SortOrder
+  contactEmail?: Prisma.SortOrderInput | Prisma.SortOrder
   password?: Prisma.SortOrderInput | Prisma.SortOrder
-  name?: Prisma.SortOrder
-  phoneNumber?: Prisma.SortOrder
-  role?: Prisma.SortOrder
-  university?: Prisma.SortOrderInput | Prisma.SortOrder
+  fullName?: Prisma.SortOrder
+  avatarUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  bannerUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  headline?: Prisma.SortOrderInput | Prisma.SortOrder
+  bio?: Prisma.SortOrderInput | Prisma.SortOrder
+  campus?: Prisma.SortOrderInput | Prisma.SortOrder
   major?: Prisma.SortOrderInput | Prisma.SortOrder
   studentNumber?: Prisma.SortOrderInput | Prisma.SortOrder
   semester?: Prisma.SortOrderInput | Prisma.SortOrder
-  avatarUrl?: Prisma.SortOrderInput | Prisma.SortOrder
-  coverUrl?: Prisma.SortOrderInput | Prisma.SortOrder
-  bio?: Prisma.SortOrderInput | Prisma.SortOrder
-  headline?: Prisma.SortOrderInput | Prisma.SortOrder
   organizationName?: Prisma.SortOrderInput | Prisma.SortOrder
   organizationLogoUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  organizationWebsiteUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  bootcampStudentProofUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   location?: Prisma.SortOrderInput | Prisma.SortOrder
+  tutorGpa?: Prisma.SortOrderInput | Prisma.SortOrder
+  tutorTranscriptUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  roles?: Prisma.SortOrder
+  activeRole?: Prisma.SortOrder
+  phoneNumber?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  emailVerifiedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
+  _avg?: Prisma.UserAvgOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
   _min?: Prisma.UserMinOrderByAggregateInput
+  _sum?: Prisma.UserSumOrderByAggregateInput
 }
 
 export type UserScalarWhereWithAggregatesInput = {
@@ -406,214 +516,278 @@ export type UserScalarWhereWithAggregatesInput = {
   OR?: Prisma.UserScalarWhereWithAggregatesInput[]
   NOT?: Prisma.UserScalarWhereWithAggregatesInput | Prisma.UserScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"User"> | string
-  googleId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   email?: Prisma.StringWithAggregatesFilter<"User"> | string
+  contactEmail?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   password?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
-  name?: Prisma.StringWithAggregatesFilter<"User"> | string
-  phoneNumber?: Prisma.StringWithAggregatesFilter<"User"> | string
-  role?: Prisma.EnumUserRoleWithAggregatesFilter<"User"> | $Enums.UserRole
-  university?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  fullName?: Prisma.StringWithAggregatesFilter<"User"> | string
+  avatarUrl?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  bannerUrl?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  headline?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  bio?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  campus?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   major?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   studentNumber?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   semester?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
-  avatarUrl?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
-  coverUrl?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
-  bio?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
-  headline?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   organizationName?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   organizationLogoUrl?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  organizationWebsiteUrl?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  bootcampStudentProofUrl?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   location?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  tutorGpa?: Prisma.DecimalNullableWithAggregatesFilter<"User"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tutorTranscriptUrl?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  roles?: Prisma.JsonWithAggregatesFilter<"User">
+  activeRole?: Prisma.EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
+  phoneNumber?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
+  emailVerifiedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
 }
 
 export type UserCreateInput = {
   id?: string
-  googleId?: string | null
   email: string
+  contactEmail?: string | null
   password?: string | null
-  name: string
-  phoneNumber: string
-  role?: $Enums.UserRole
-  university?: string | null
+  fullName: string
+  avatarUrl?: string | null
+  bannerUrl?: string | null
+  headline?: string | null
+  bio?: string | null
+  campus?: string | null
   major?: string | null
   studentNumber?: string | null
   semester?: string | null
-  avatarUrl?: string | null
-  coverUrl?: string | null
-  bio?: string | null
-  headline?: string | null
   organizationName?: string | null
   organizationLogoUrl?: string | null
+  organizationWebsiteUrl?: string | null
+  bootcampStudentProofUrl?: string | null
   location?: string | null
+  tutorGpa?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tutorTranscriptUrl?: string | null
+  roles?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  activeRole?: $Enums.Role
+  phoneNumber?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  classes?: Prisma.ClassCreateNestedManyWithoutTutorInput
+  emailVerifiedAt?: Date | string | null
+  classesCreated?: Prisma.ClassCreateNestedManyWithoutCreatorInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
-  presences?: Prisma.PresenceCreateNestedManyWithoutUserInput
-  ads?: Prisma.AdCreateNestedManyWithoutOwnerInput
-  reviews?: Prisma.ClassReviewCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
   reports?: Prisma.ClassReportCreateNestedManyWithoutReporterInput
-  tutorApplication?: Prisma.TutorApplicationCreateNestedOneWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  bootcampTutors?: Prisma.BootcampTutorCreateNestedManyWithoutUserInput
+  ads?: Prisma.AdCreateNestedManyWithoutOwnerInput
+  roleApplications?: Prisma.RoleApplicationCreateNestedManyWithoutUserInput
+  privateUploads?: Prisma.PrivateUploadCreateNestedManyWithoutOwnerInput
+  emailVerificationTokens?: Prisma.EmailVerificationTokenCreateNestedManyWithoutUserInput
+  courseRequests?: Prisma.CourseRequestCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
   id?: string
-  googleId?: string | null
   email: string
+  contactEmail?: string | null
   password?: string | null
-  name: string
-  phoneNumber: string
-  role?: $Enums.UserRole
-  university?: string | null
+  fullName: string
+  avatarUrl?: string | null
+  bannerUrl?: string | null
+  headline?: string | null
+  bio?: string | null
+  campus?: string | null
   major?: string | null
   studentNumber?: string | null
   semester?: string | null
-  avatarUrl?: string | null
-  coverUrl?: string | null
-  bio?: string | null
-  headline?: string | null
   organizationName?: string | null
   organizationLogoUrl?: string | null
+  organizationWebsiteUrl?: string | null
+  bootcampStudentProofUrl?: string | null
   location?: string | null
+  tutorGpa?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tutorTranscriptUrl?: string | null
+  roles?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  activeRole?: $Enums.Role
+  phoneNumber?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  classes?: Prisma.ClassUncheckedCreateNestedManyWithoutTutorInput
+  emailVerifiedAt?: Date | string | null
+  classesCreated?: Prisma.ClassUncheckedCreateNestedManyWithoutCreatorInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
-  presences?: Prisma.PresenceUncheckedCreateNestedManyWithoutUserInput
-  ads?: Prisma.AdUncheckedCreateNestedManyWithoutOwnerInput
-  reviews?: Prisma.ClassReviewUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
   reports?: Prisma.ClassReportUncheckedCreateNestedManyWithoutReporterInput
-  tutorApplication?: Prisma.TutorApplicationUncheckedCreateNestedOneWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  bootcampTutors?: Prisma.BootcampTutorUncheckedCreateNestedManyWithoutUserInput
+  ads?: Prisma.AdUncheckedCreateNestedManyWithoutOwnerInput
+  roleApplications?: Prisma.RoleApplicationUncheckedCreateNestedManyWithoutUserInput
+  privateUploads?: Prisma.PrivateUploadUncheckedCreateNestedManyWithoutOwnerInput
+  emailVerificationTokens?: Prisma.EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
+  courseRequests?: Prisma.CourseRequestUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  phoneNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-  university?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   studentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   semester?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   organizationLogoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationWebsiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bootcampStudentProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tutorGpa?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tutorTranscriptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  roles?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  activeRole?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  classes?: Prisma.ClassUpdateManyWithoutTutorNestedInput
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  classesCreated?: Prisma.ClassUpdateManyWithoutCreatorNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
-  presences?: Prisma.PresenceUpdateManyWithoutUserNestedInput
-  ads?: Prisma.AdUpdateManyWithoutOwnerNestedInput
-  reviews?: Prisma.ClassReviewUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
   reports?: Prisma.ClassReportUpdateManyWithoutReporterNestedInput
-  tutorApplication?: Prisma.TutorApplicationUpdateOneWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  bootcampTutors?: Prisma.BootcampTutorUpdateManyWithoutUserNestedInput
+  ads?: Prisma.AdUpdateManyWithoutOwnerNestedInput
+  roleApplications?: Prisma.RoleApplicationUpdateManyWithoutUserNestedInput
+  privateUploads?: Prisma.PrivateUploadUpdateManyWithoutOwnerNestedInput
+  emailVerificationTokens?: Prisma.EmailVerificationTokenUpdateManyWithoutUserNestedInput
+  courseRequests?: Prisma.CourseRequestUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  phoneNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-  university?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   studentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   semester?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   organizationLogoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationWebsiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bootcampStudentProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tutorGpa?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tutorTranscriptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  roles?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  activeRole?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  classes?: Prisma.ClassUncheckedUpdateManyWithoutTutorNestedInput
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  classesCreated?: Prisma.ClassUncheckedUpdateManyWithoutCreatorNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
-  presences?: Prisma.PresenceUncheckedUpdateManyWithoutUserNestedInput
-  ads?: Prisma.AdUncheckedUpdateManyWithoutOwnerNestedInput
-  reviews?: Prisma.ClassReviewUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
   reports?: Prisma.ClassReportUncheckedUpdateManyWithoutReporterNestedInput
-  tutorApplication?: Prisma.TutorApplicationUncheckedUpdateOneWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  bootcampTutors?: Prisma.BootcampTutorUncheckedUpdateManyWithoutUserNestedInput
+  ads?: Prisma.AdUncheckedUpdateManyWithoutOwnerNestedInput
+  roleApplications?: Prisma.RoleApplicationUncheckedUpdateManyWithoutUserNestedInput
+  privateUploads?: Prisma.PrivateUploadUncheckedUpdateManyWithoutOwnerNestedInput
+  emailVerificationTokens?: Prisma.EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
+  courseRequests?: Prisma.CourseRequestUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
   id?: string
-  googleId?: string | null
   email: string
+  contactEmail?: string | null
   password?: string | null
-  name: string
-  phoneNumber: string
-  role?: $Enums.UserRole
-  university?: string | null
+  fullName: string
+  avatarUrl?: string | null
+  bannerUrl?: string | null
+  headline?: string | null
+  bio?: string | null
+  campus?: string | null
   major?: string | null
   studentNumber?: string | null
   semester?: string | null
-  avatarUrl?: string | null
-  coverUrl?: string | null
-  bio?: string | null
-  headline?: string | null
   organizationName?: string | null
   organizationLogoUrl?: string | null
+  organizationWebsiteUrl?: string | null
+  bootcampStudentProofUrl?: string | null
   location?: string | null
+  tutorGpa?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tutorTranscriptUrl?: string | null
+  roles?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  activeRole?: $Enums.Role
+  phoneNumber?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  emailVerifiedAt?: Date | string | null
 }
 
 export type UserUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  phoneNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-  university?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   studentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   semester?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   organizationLogoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationWebsiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bootcampStudentProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tutorGpa?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tutorTranscriptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  roles?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  activeRole?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type UserUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  phoneNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-  university?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   studentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   semester?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   organizationLogoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationWebsiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bootcampStudentProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tutorGpa?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tutorTranscriptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  roles?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  activeRole?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type UserOrderByRelevanceInput = {
@@ -624,76 +798,105 @@ export type UserOrderByRelevanceInput = {
 
 export type UserCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  googleId?: Prisma.SortOrder
   email?: Prisma.SortOrder
+  contactEmail?: Prisma.SortOrder
   password?: Prisma.SortOrder
-  name?: Prisma.SortOrder
-  phoneNumber?: Prisma.SortOrder
-  role?: Prisma.SortOrder
-  university?: Prisma.SortOrder
+  fullName?: Prisma.SortOrder
+  avatarUrl?: Prisma.SortOrder
+  bannerUrl?: Prisma.SortOrder
+  headline?: Prisma.SortOrder
+  bio?: Prisma.SortOrder
+  campus?: Prisma.SortOrder
   major?: Prisma.SortOrder
   studentNumber?: Prisma.SortOrder
   semester?: Prisma.SortOrder
-  avatarUrl?: Prisma.SortOrder
-  coverUrl?: Prisma.SortOrder
-  bio?: Prisma.SortOrder
-  headline?: Prisma.SortOrder
   organizationName?: Prisma.SortOrder
   organizationLogoUrl?: Prisma.SortOrder
+  organizationWebsiteUrl?: Prisma.SortOrder
+  bootcampStudentProofUrl?: Prisma.SortOrder
   location?: Prisma.SortOrder
+  tutorGpa?: Prisma.SortOrder
+  tutorTranscriptUrl?: Prisma.SortOrder
+  roles?: Prisma.SortOrder
+  activeRole?: Prisma.SortOrder
+  phoneNumber?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  emailVerifiedAt?: Prisma.SortOrder
+}
+
+export type UserAvgOrderByAggregateInput = {
+  tutorGpa?: Prisma.SortOrder
 }
 
 export type UserMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  googleId?: Prisma.SortOrder
   email?: Prisma.SortOrder
+  contactEmail?: Prisma.SortOrder
   password?: Prisma.SortOrder
-  name?: Prisma.SortOrder
-  phoneNumber?: Prisma.SortOrder
-  role?: Prisma.SortOrder
-  university?: Prisma.SortOrder
+  fullName?: Prisma.SortOrder
+  avatarUrl?: Prisma.SortOrder
+  bannerUrl?: Prisma.SortOrder
+  headline?: Prisma.SortOrder
+  bio?: Prisma.SortOrder
+  campus?: Prisma.SortOrder
   major?: Prisma.SortOrder
   studentNumber?: Prisma.SortOrder
   semester?: Prisma.SortOrder
-  avatarUrl?: Prisma.SortOrder
-  coverUrl?: Prisma.SortOrder
-  bio?: Prisma.SortOrder
-  headline?: Prisma.SortOrder
   organizationName?: Prisma.SortOrder
   organizationLogoUrl?: Prisma.SortOrder
+  organizationWebsiteUrl?: Prisma.SortOrder
+  bootcampStudentProofUrl?: Prisma.SortOrder
   location?: Prisma.SortOrder
+  tutorGpa?: Prisma.SortOrder
+  tutorTranscriptUrl?: Prisma.SortOrder
+  activeRole?: Prisma.SortOrder
+  phoneNumber?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  emailVerifiedAt?: Prisma.SortOrder
 }
 
 export type UserMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  googleId?: Prisma.SortOrder
   email?: Prisma.SortOrder
+  contactEmail?: Prisma.SortOrder
   password?: Prisma.SortOrder
-  name?: Prisma.SortOrder
-  phoneNumber?: Prisma.SortOrder
-  role?: Prisma.SortOrder
-  university?: Prisma.SortOrder
+  fullName?: Prisma.SortOrder
+  avatarUrl?: Prisma.SortOrder
+  bannerUrl?: Prisma.SortOrder
+  headline?: Prisma.SortOrder
+  bio?: Prisma.SortOrder
+  campus?: Prisma.SortOrder
   major?: Prisma.SortOrder
   studentNumber?: Prisma.SortOrder
   semester?: Prisma.SortOrder
-  avatarUrl?: Prisma.SortOrder
-  coverUrl?: Prisma.SortOrder
-  bio?: Prisma.SortOrder
-  headline?: Prisma.SortOrder
   organizationName?: Prisma.SortOrder
   organizationLogoUrl?: Prisma.SortOrder
+  organizationWebsiteUrl?: Prisma.SortOrder
+  bootcampStudentProofUrl?: Prisma.SortOrder
   location?: Prisma.SortOrder
+  tutorGpa?: Prisma.SortOrder
+  tutorTranscriptUrl?: Prisma.SortOrder
+  activeRole?: Prisma.SortOrder
+  phoneNumber?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  emailVerifiedAt?: Prisma.SortOrder
+}
+
+export type UserSumOrderByAggregateInput = {
+  tutorGpa?: Prisma.SortOrder
 }
 
 export type UserScalarRelationFilter = {
   is?: Prisma.UserWhereInput
   isNot?: Prisma.UserWhereInput
+}
+
+export type UserNullableScalarRelationFilter = {
+  is?: Prisma.UserWhereInput | null
+  isNot?: Prisma.UserWhereInput | null
 }
 
 export type StringFieldUpdateOperationsInput = {
@@ -704,82 +907,54 @@ export type NullableStringFieldUpdateOperationsInput = {
   set?: string | null
 }
 
-export type EnumUserRoleFieldUpdateOperationsInput = {
-  set?: $Enums.UserRole
+export type NullableDecimalFieldUpdateOperationsInput = {
+  set?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  increment?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  decrement?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  multiply?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
+}
+
+export type EnumRoleFieldUpdateOperationsInput = {
+  set?: $Enums.Role
 }
 
 export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
 }
 
-export type UserCreateNestedOneWithoutTutorApplicationInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutTutorApplicationInput, Prisma.UserUncheckedCreateWithoutTutorApplicationInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTutorApplicationInput
+export type NullableDateTimeFieldUpdateOperationsInput = {
+  set?: Date | string | null
+}
+
+export type UserCreateNestedOneWithoutClassesCreatedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutClassesCreatedInput, Prisma.UserUncheckedCreateWithoutClassesCreatedInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutClassesCreatedInput
   connect?: Prisma.UserWhereUniqueInput
 }
 
-export type UserUpdateOneRequiredWithoutTutorApplicationNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutTutorApplicationInput, Prisma.UserUncheckedCreateWithoutTutorApplicationInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTutorApplicationInput
-  upsert?: Prisma.UserUpsertWithoutTutorApplicationInput
+export type UserUpdateOneRequiredWithoutClassesCreatedNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutClassesCreatedInput, Prisma.UserUncheckedCreateWithoutClassesCreatedInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutClassesCreatedInput
+  upsert?: Prisma.UserUpsertWithoutClassesCreatedInput
   connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutTutorApplicationInput, Prisma.UserUpdateWithoutTutorApplicationInput>, Prisma.UserUncheckedUpdateWithoutTutorApplicationInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutClassesCreatedInput, Prisma.UserUpdateWithoutClassesCreatedInput>, Prisma.UserUncheckedUpdateWithoutClassesCreatedInput>
 }
 
-export type UserCreateNestedOneWithoutClassesInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutClassesInput, Prisma.UserUncheckedCreateWithoutClassesInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutClassesInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
-export type UserUpdateOneRequiredWithoutClassesNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutClassesInput, Prisma.UserUncheckedCreateWithoutClassesInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutClassesInput
-  upsert?: Prisma.UserUpsertWithoutClassesInput
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutClassesInput, Prisma.UserUpdateWithoutClassesInput>, Prisma.UserUncheckedUpdateWithoutClassesInput>
-}
-
-export type UserCreateNestedOneWithoutTransactionsInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutTransactionsInput, Prisma.UserUncheckedCreateWithoutTransactionsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTransactionsInput
+export type UserCreateNestedOneWithoutBootcampTutorsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutBootcampTutorsInput, Prisma.UserUncheckedCreateWithoutBootcampTutorsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutBootcampTutorsInput
   connect?: Prisma.UserWhereUniqueInput
 }
 
-export type UserUpdateOneRequiredWithoutTransactionsNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutTransactionsInput, Prisma.UserUncheckedCreateWithoutTransactionsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTransactionsInput
-  upsert?: Prisma.UserUpsertWithoutTransactionsInput
+export type UserUpdateOneWithoutBootcampTutorsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutBootcampTutorsInput, Prisma.UserUncheckedCreateWithoutBootcampTutorsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutBootcampTutorsInput
+  upsert?: Prisma.UserUpsertWithoutBootcampTutorsInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
   connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutTransactionsInput, Prisma.UserUpdateWithoutTransactionsInput>, Prisma.UserUncheckedUpdateWithoutTransactionsInput>
-}
-
-export type UserCreateNestedOneWithoutPresencesInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutPresencesInput, Prisma.UserUncheckedCreateWithoutPresencesInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPresencesInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
-export type UserUpdateOneRequiredWithoutPresencesNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutPresencesInput, Prisma.UserUncheckedCreateWithoutPresencesInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPresencesInput
-  upsert?: Prisma.UserUpsertWithoutPresencesInput
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutPresencesInput, Prisma.UserUpdateWithoutPresencesInput>, Prisma.UserUncheckedUpdateWithoutPresencesInput>
-}
-
-export type UserCreateNestedOneWithoutAdsInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutAdsInput, Prisma.UserUncheckedCreateWithoutAdsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAdsInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
-export type UserUpdateOneRequiredWithoutAdsNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutAdsInput, Prisma.UserUncheckedCreateWithoutAdsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAdsInput
-  upsert?: Prisma.UserUpsertWithoutAdsInput
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAdsInput, Prisma.UserUpdateWithoutAdsInput>, Prisma.UserUncheckedUpdateWithoutAdsInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutBootcampTutorsInput, Prisma.UserUpdateWithoutBootcampTutorsInput>, Prisma.UserUncheckedUpdateWithoutBootcampTutorsInput>
 }
 
 export type UserCreateNestedOneWithoutReviewsInput = {
@@ -796,6 +971,48 @@ export type UserUpdateOneRequiredWithoutReviewsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutReviewsInput, Prisma.UserUpdateWithoutReviewsInput>, Prisma.UserUncheckedUpdateWithoutReviewsInput>
 }
 
+export type UserCreateNestedOneWithoutTransactionsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutTransactionsInput, Prisma.UserUncheckedCreateWithoutTransactionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTransactionsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutTransactionsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutTransactionsInput, Prisma.UserUncheckedCreateWithoutTransactionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTransactionsInput
+  upsert?: Prisma.UserUpsertWithoutTransactionsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutTransactionsInput, Prisma.UserUpdateWithoutTransactionsInput>, Prisma.UserUncheckedUpdateWithoutTransactionsInput>
+}
+
+export type UserCreateNestedOneWithoutRoleApplicationsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutRoleApplicationsInput, Prisma.UserUncheckedCreateWithoutRoleApplicationsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutRoleApplicationsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutRoleApplicationsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutRoleApplicationsInput, Prisma.UserUncheckedCreateWithoutRoleApplicationsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutRoleApplicationsInput
+  upsert?: Prisma.UserUpsertWithoutRoleApplicationsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutRoleApplicationsInput, Prisma.UserUpdateWithoutRoleApplicationsInput>, Prisma.UserUncheckedUpdateWithoutRoleApplicationsInput>
+}
+
+export type UserCreateNestedOneWithoutPrivateUploadsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutPrivateUploadsInput, Prisma.UserUncheckedCreateWithoutPrivateUploadsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPrivateUploadsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutPrivateUploadsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutPrivateUploadsInput, Prisma.UserUncheckedCreateWithoutPrivateUploadsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPrivateUploadsInput
+  upsert?: Prisma.UserUpsertWithoutPrivateUploadsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutPrivateUploadsInput, Prisma.UserUpdateWithoutPrivateUploadsInput>, Prisma.UserUncheckedUpdateWithoutPrivateUploadsInput>
+}
+
 export type UserCreateNestedOneWithoutReportsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutReportsInput, Prisma.UserUncheckedCreateWithoutReportsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutReportsInput
@@ -810,722 +1027,482 @@ export type UserUpdateOneRequiredWithoutReportsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutReportsInput, Prisma.UserUpdateWithoutReportsInput>, Prisma.UserUncheckedUpdateWithoutReportsInput>
 }
 
-export type UserCreateWithoutTutorApplicationInput = {
+export type UserCreateNestedOneWithoutEmailVerificationTokensInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutEmailVerificationTokensInput, Prisma.UserUncheckedCreateWithoutEmailVerificationTokensInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutEmailVerificationTokensInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutEmailVerificationTokensNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutEmailVerificationTokensInput, Prisma.UserUncheckedCreateWithoutEmailVerificationTokensInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutEmailVerificationTokensInput
+  upsert?: Prisma.UserUpsertWithoutEmailVerificationTokensInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutEmailVerificationTokensInput, Prisma.UserUpdateWithoutEmailVerificationTokensInput>, Prisma.UserUncheckedUpdateWithoutEmailVerificationTokensInput>
+}
+
+export type UserCreateNestedOneWithoutCourseRequestsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCourseRequestsInput, Prisma.UserUncheckedCreateWithoutCourseRequestsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCourseRequestsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutCourseRequestsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCourseRequestsInput, Prisma.UserUncheckedCreateWithoutCourseRequestsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCourseRequestsInput
+  upsert?: Prisma.UserUpsertWithoutCourseRequestsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCourseRequestsInput, Prisma.UserUpdateWithoutCourseRequestsInput>, Prisma.UserUncheckedUpdateWithoutCourseRequestsInput>
+}
+
+export type UserCreateNestedOneWithoutNotificationsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutNotificationsInput, Prisma.UserUncheckedCreateWithoutNotificationsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutNotificationsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutNotificationsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutNotificationsInput, Prisma.UserUncheckedCreateWithoutNotificationsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutNotificationsInput
+  upsert?: Prisma.UserUpsertWithoutNotificationsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutNotificationsInput, Prisma.UserUpdateWithoutNotificationsInput>, Prisma.UserUncheckedUpdateWithoutNotificationsInput>
+}
+
+export type UserCreateNestedOneWithoutAdsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAdsInput, Prisma.UserUncheckedCreateWithoutAdsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAdsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutAdsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAdsInput, Prisma.UserUncheckedCreateWithoutAdsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAdsInput
+  upsert?: Prisma.UserUpsertWithoutAdsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAdsInput, Prisma.UserUpdateWithoutAdsInput>, Prisma.UserUncheckedUpdateWithoutAdsInput>
+}
+
+export type UserCreateWithoutClassesCreatedInput = {
   id?: string
-  googleId?: string | null
   email: string
+  contactEmail?: string | null
   password?: string | null
-  name: string
-  phoneNumber: string
-  role?: $Enums.UserRole
-  university?: string | null
+  fullName: string
+  avatarUrl?: string | null
+  bannerUrl?: string | null
+  headline?: string | null
+  bio?: string | null
+  campus?: string | null
   major?: string | null
   studentNumber?: string | null
   semester?: string | null
-  avatarUrl?: string | null
-  coverUrl?: string | null
-  bio?: string | null
-  headline?: string | null
   organizationName?: string | null
   organizationLogoUrl?: string | null
+  organizationWebsiteUrl?: string | null
+  bootcampStudentProofUrl?: string | null
   location?: string | null
+  tutorGpa?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tutorTranscriptUrl?: string | null
+  roles?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  activeRole?: $Enums.Role
+  phoneNumber?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  classes?: Prisma.ClassCreateNestedManyWithoutTutorInput
+  emailVerifiedAt?: Date | string | null
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
-  presences?: Prisma.PresenceCreateNestedManyWithoutUserInput
-  ads?: Prisma.AdCreateNestedManyWithoutOwnerInput
-  reviews?: Prisma.ClassReviewCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
   reports?: Prisma.ClassReportCreateNestedManyWithoutReporterInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  bootcampTutors?: Prisma.BootcampTutorCreateNestedManyWithoutUserInput
+  ads?: Prisma.AdCreateNestedManyWithoutOwnerInput
+  roleApplications?: Prisma.RoleApplicationCreateNestedManyWithoutUserInput
+  privateUploads?: Prisma.PrivateUploadCreateNestedManyWithoutOwnerInput
+  emailVerificationTokens?: Prisma.EmailVerificationTokenCreateNestedManyWithoutUserInput
+  courseRequests?: Prisma.CourseRequestCreateNestedManyWithoutUserInput
 }
 
-export type UserUncheckedCreateWithoutTutorApplicationInput = {
+export type UserUncheckedCreateWithoutClassesCreatedInput = {
   id?: string
-  googleId?: string | null
   email: string
+  contactEmail?: string | null
   password?: string | null
-  name: string
-  phoneNumber: string
-  role?: $Enums.UserRole
-  university?: string | null
+  fullName: string
+  avatarUrl?: string | null
+  bannerUrl?: string | null
+  headline?: string | null
+  bio?: string | null
+  campus?: string | null
   major?: string | null
   studentNumber?: string | null
   semester?: string | null
-  avatarUrl?: string | null
-  coverUrl?: string | null
-  bio?: string | null
-  headline?: string | null
   organizationName?: string | null
   organizationLogoUrl?: string | null
+  organizationWebsiteUrl?: string | null
+  bootcampStudentProofUrl?: string | null
   location?: string | null
+  tutorGpa?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tutorTranscriptUrl?: string | null
+  roles?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  activeRole?: $Enums.Role
+  phoneNumber?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  classes?: Prisma.ClassUncheckedCreateNestedManyWithoutTutorInput
+  emailVerifiedAt?: Date | string | null
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
-  presences?: Prisma.PresenceUncheckedCreateNestedManyWithoutUserInput
-  ads?: Prisma.AdUncheckedCreateNestedManyWithoutOwnerInput
-  reviews?: Prisma.ClassReviewUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
   reports?: Prisma.ClassReportUncheckedCreateNestedManyWithoutReporterInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  bootcampTutors?: Prisma.BootcampTutorUncheckedCreateNestedManyWithoutUserInput
+  ads?: Prisma.AdUncheckedCreateNestedManyWithoutOwnerInput
+  roleApplications?: Prisma.RoleApplicationUncheckedCreateNestedManyWithoutUserInput
+  privateUploads?: Prisma.PrivateUploadUncheckedCreateNestedManyWithoutOwnerInput
+  emailVerificationTokens?: Prisma.EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
+  courseRequests?: Prisma.CourseRequestUncheckedCreateNestedManyWithoutUserInput
 }
 
-export type UserCreateOrConnectWithoutTutorApplicationInput = {
+export type UserCreateOrConnectWithoutClassesCreatedInput = {
   where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutTutorApplicationInput, Prisma.UserUncheckedCreateWithoutTutorApplicationInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutClassesCreatedInput, Prisma.UserUncheckedCreateWithoutClassesCreatedInput>
 }
 
-export type UserUpsertWithoutTutorApplicationInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutTutorApplicationInput, Prisma.UserUncheckedUpdateWithoutTutorApplicationInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutTutorApplicationInput, Prisma.UserUncheckedCreateWithoutTutorApplicationInput>
+export type UserUpsertWithoutClassesCreatedInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutClassesCreatedInput, Prisma.UserUncheckedUpdateWithoutClassesCreatedInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutClassesCreatedInput, Prisma.UserUncheckedCreateWithoutClassesCreatedInput>
   where?: Prisma.UserWhereInput
 }
 
-export type UserUpdateToOneWithWhereWithoutTutorApplicationInput = {
+export type UserUpdateToOneWithWhereWithoutClassesCreatedInput = {
   where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutTutorApplicationInput, Prisma.UserUncheckedUpdateWithoutTutorApplicationInput>
+  data: Prisma.XOR<Prisma.UserUpdateWithoutClassesCreatedInput, Prisma.UserUncheckedUpdateWithoutClassesCreatedInput>
 }
 
-export type UserUpdateWithoutTutorApplicationInput = {
+export type UserUpdateWithoutClassesCreatedInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  phoneNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-  university?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   studentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   semester?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   organizationLogoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationWebsiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bootcampStudentProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tutorGpa?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tutorTranscriptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  roles?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  activeRole?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  classes?: Prisma.ClassUpdateManyWithoutTutorNestedInput
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
-  presences?: Prisma.PresenceUpdateManyWithoutUserNestedInput
-  ads?: Prisma.AdUpdateManyWithoutOwnerNestedInput
-  reviews?: Prisma.ClassReviewUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
   reports?: Prisma.ClassReportUpdateManyWithoutReporterNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  bootcampTutors?: Prisma.BootcampTutorUpdateManyWithoutUserNestedInput
+  ads?: Prisma.AdUpdateManyWithoutOwnerNestedInput
+  roleApplications?: Prisma.RoleApplicationUpdateManyWithoutUserNestedInput
+  privateUploads?: Prisma.PrivateUploadUpdateManyWithoutOwnerNestedInput
+  emailVerificationTokens?: Prisma.EmailVerificationTokenUpdateManyWithoutUserNestedInput
+  courseRequests?: Prisma.CourseRequestUpdateManyWithoutUserNestedInput
 }
 
-export type UserUncheckedUpdateWithoutTutorApplicationInput = {
+export type UserUncheckedUpdateWithoutClassesCreatedInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  phoneNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-  university?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   studentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   semester?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   organizationLogoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationWebsiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bootcampStudentProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tutorGpa?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tutorTranscriptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  roles?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  activeRole?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  classes?: Prisma.ClassUncheckedUpdateManyWithoutTutorNestedInput
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
-  presences?: Prisma.PresenceUncheckedUpdateManyWithoutUserNestedInput
-  ads?: Prisma.AdUncheckedUpdateManyWithoutOwnerNestedInput
-  reviews?: Prisma.ClassReviewUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
   reports?: Prisma.ClassReportUncheckedUpdateManyWithoutReporterNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  bootcampTutors?: Prisma.BootcampTutorUncheckedUpdateManyWithoutUserNestedInput
+  ads?: Prisma.AdUncheckedUpdateManyWithoutOwnerNestedInput
+  roleApplications?: Prisma.RoleApplicationUncheckedUpdateManyWithoutUserNestedInput
+  privateUploads?: Prisma.PrivateUploadUncheckedUpdateManyWithoutOwnerNestedInput
+  emailVerificationTokens?: Prisma.EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
+  courseRequests?: Prisma.CourseRequestUncheckedUpdateManyWithoutUserNestedInput
 }
 
-export type UserCreateWithoutClassesInput = {
+export type UserCreateWithoutBootcampTutorsInput = {
   id?: string
-  googleId?: string | null
   email: string
+  contactEmail?: string | null
   password?: string | null
-  name: string
-  phoneNumber: string
-  role?: $Enums.UserRole
-  university?: string | null
+  fullName: string
+  avatarUrl?: string | null
+  bannerUrl?: string | null
+  headline?: string | null
+  bio?: string | null
+  campus?: string | null
   major?: string | null
   studentNumber?: string | null
   semester?: string | null
-  avatarUrl?: string | null
-  coverUrl?: string | null
-  bio?: string | null
-  headline?: string | null
   organizationName?: string | null
   organizationLogoUrl?: string | null
+  organizationWebsiteUrl?: string | null
+  bootcampStudentProofUrl?: string | null
   location?: string | null
+  tutorGpa?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tutorTranscriptUrl?: string | null
+  roles?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  activeRole?: $Enums.Role
+  phoneNumber?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  emailVerifiedAt?: Date | string | null
+  classesCreated?: Prisma.ClassCreateNestedManyWithoutCreatorInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
-  presences?: Prisma.PresenceCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  reports?: Prisma.ClassReportCreateNestedManyWithoutReporterInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   ads?: Prisma.AdCreateNestedManyWithoutOwnerInput
-  reviews?: Prisma.ClassReviewCreateNestedManyWithoutUserInput
-  reports?: Prisma.ClassReportCreateNestedManyWithoutReporterInput
-  tutorApplication?: Prisma.TutorApplicationCreateNestedOneWithoutUserInput
+  roleApplications?: Prisma.RoleApplicationCreateNestedManyWithoutUserInput
+  privateUploads?: Prisma.PrivateUploadCreateNestedManyWithoutOwnerInput
+  emailVerificationTokens?: Prisma.EmailVerificationTokenCreateNestedManyWithoutUserInput
+  courseRequests?: Prisma.CourseRequestCreateNestedManyWithoutUserInput
 }
 
-export type UserUncheckedCreateWithoutClassesInput = {
+export type UserUncheckedCreateWithoutBootcampTutorsInput = {
   id?: string
-  googleId?: string | null
   email: string
+  contactEmail?: string | null
   password?: string | null
-  name: string
-  phoneNumber: string
-  role?: $Enums.UserRole
-  university?: string | null
+  fullName: string
+  avatarUrl?: string | null
+  bannerUrl?: string | null
+  headline?: string | null
+  bio?: string | null
+  campus?: string | null
   major?: string | null
   studentNumber?: string | null
   semester?: string | null
-  avatarUrl?: string | null
-  coverUrl?: string | null
-  bio?: string | null
-  headline?: string | null
   organizationName?: string | null
   organizationLogoUrl?: string | null
+  organizationWebsiteUrl?: string | null
+  bootcampStudentProofUrl?: string | null
   location?: string | null
+  tutorGpa?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tutorTranscriptUrl?: string | null
+  roles?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  activeRole?: $Enums.Role
+  phoneNumber?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  emailVerifiedAt?: Date | string | null
+  classesCreated?: Prisma.ClassUncheckedCreateNestedManyWithoutCreatorInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
-  presences?: Prisma.PresenceUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  reports?: Prisma.ClassReportUncheckedCreateNestedManyWithoutReporterInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   ads?: Prisma.AdUncheckedCreateNestedManyWithoutOwnerInput
-  reviews?: Prisma.ClassReviewUncheckedCreateNestedManyWithoutUserInput
-  reports?: Prisma.ClassReportUncheckedCreateNestedManyWithoutReporterInput
-  tutorApplication?: Prisma.TutorApplicationUncheckedCreateNestedOneWithoutUserInput
+  roleApplications?: Prisma.RoleApplicationUncheckedCreateNestedManyWithoutUserInput
+  privateUploads?: Prisma.PrivateUploadUncheckedCreateNestedManyWithoutOwnerInput
+  emailVerificationTokens?: Prisma.EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
+  courseRequests?: Prisma.CourseRequestUncheckedCreateNestedManyWithoutUserInput
 }
 
-export type UserCreateOrConnectWithoutClassesInput = {
+export type UserCreateOrConnectWithoutBootcampTutorsInput = {
   where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutClassesInput, Prisma.UserUncheckedCreateWithoutClassesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutBootcampTutorsInput, Prisma.UserUncheckedCreateWithoutBootcampTutorsInput>
 }
 
-export type UserUpsertWithoutClassesInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutClassesInput, Prisma.UserUncheckedUpdateWithoutClassesInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutClassesInput, Prisma.UserUncheckedCreateWithoutClassesInput>
+export type UserUpsertWithoutBootcampTutorsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutBootcampTutorsInput, Prisma.UserUncheckedUpdateWithoutBootcampTutorsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutBootcampTutorsInput, Prisma.UserUncheckedCreateWithoutBootcampTutorsInput>
   where?: Prisma.UserWhereInput
 }
 
-export type UserUpdateToOneWithWhereWithoutClassesInput = {
+export type UserUpdateToOneWithWhereWithoutBootcampTutorsInput = {
   where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutClassesInput, Prisma.UserUncheckedUpdateWithoutClassesInput>
+  data: Prisma.XOR<Prisma.UserUpdateWithoutBootcampTutorsInput, Prisma.UserUncheckedUpdateWithoutBootcampTutorsInput>
 }
 
-export type UserUpdateWithoutClassesInput = {
+export type UserUpdateWithoutBootcampTutorsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  phoneNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-  university?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   studentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   semester?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   organizationLogoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationWebsiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bootcampStudentProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tutorGpa?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tutorTranscriptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  roles?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  activeRole?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  classesCreated?: Prisma.ClassUpdateManyWithoutCreatorNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
-  presences?: Prisma.PresenceUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  reports?: Prisma.ClassReportUpdateManyWithoutReporterNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   ads?: Prisma.AdUpdateManyWithoutOwnerNestedInput
-  reviews?: Prisma.ClassReviewUpdateManyWithoutUserNestedInput
-  reports?: Prisma.ClassReportUpdateManyWithoutReporterNestedInput
-  tutorApplication?: Prisma.TutorApplicationUpdateOneWithoutUserNestedInput
+  roleApplications?: Prisma.RoleApplicationUpdateManyWithoutUserNestedInput
+  privateUploads?: Prisma.PrivateUploadUpdateManyWithoutOwnerNestedInput
+  emailVerificationTokens?: Prisma.EmailVerificationTokenUpdateManyWithoutUserNestedInput
+  courseRequests?: Prisma.CourseRequestUpdateManyWithoutUserNestedInput
 }
 
-export type UserUncheckedUpdateWithoutClassesInput = {
+export type UserUncheckedUpdateWithoutBootcampTutorsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  phoneNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-  university?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   studentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   semester?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   organizationLogoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationWebsiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bootcampStudentProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tutorGpa?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tutorTranscriptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  roles?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  activeRole?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  classesCreated?: Prisma.ClassUncheckedUpdateManyWithoutCreatorNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
-  presences?: Prisma.PresenceUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  reports?: Prisma.ClassReportUncheckedUpdateManyWithoutReporterNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   ads?: Prisma.AdUncheckedUpdateManyWithoutOwnerNestedInput
-  reviews?: Prisma.ClassReviewUncheckedUpdateManyWithoutUserNestedInput
-  reports?: Prisma.ClassReportUncheckedUpdateManyWithoutReporterNestedInput
-  tutorApplication?: Prisma.TutorApplicationUncheckedUpdateOneWithoutUserNestedInput
-}
-
-export type UserCreateWithoutTransactionsInput = {
-  id?: string
-  googleId?: string | null
-  email: string
-  password?: string | null
-  name: string
-  phoneNumber: string
-  role?: $Enums.UserRole
-  university?: string | null
-  major?: string | null
-  studentNumber?: string | null
-  semester?: string | null
-  avatarUrl?: string | null
-  coverUrl?: string | null
-  bio?: string | null
-  headline?: string | null
-  organizationName?: string | null
-  organizationLogoUrl?: string | null
-  location?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  classes?: Prisma.ClassCreateNestedManyWithoutTutorInput
-  presences?: Prisma.PresenceCreateNestedManyWithoutUserInput
-  ads?: Prisma.AdCreateNestedManyWithoutOwnerInput
-  reviews?: Prisma.ClassReviewCreateNestedManyWithoutUserInput
-  reports?: Prisma.ClassReportCreateNestedManyWithoutReporterInput
-  tutorApplication?: Prisma.TutorApplicationCreateNestedOneWithoutUserInput
-}
-
-export type UserUncheckedCreateWithoutTransactionsInput = {
-  id?: string
-  googleId?: string | null
-  email: string
-  password?: string | null
-  name: string
-  phoneNumber: string
-  role?: $Enums.UserRole
-  university?: string | null
-  major?: string | null
-  studentNumber?: string | null
-  semester?: string | null
-  avatarUrl?: string | null
-  coverUrl?: string | null
-  bio?: string | null
-  headline?: string | null
-  organizationName?: string | null
-  organizationLogoUrl?: string | null
-  location?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  classes?: Prisma.ClassUncheckedCreateNestedManyWithoutTutorInput
-  presences?: Prisma.PresenceUncheckedCreateNestedManyWithoutUserInput
-  ads?: Prisma.AdUncheckedCreateNestedManyWithoutOwnerInput
-  reviews?: Prisma.ClassReviewUncheckedCreateNestedManyWithoutUserInput
-  reports?: Prisma.ClassReportUncheckedCreateNestedManyWithoutReporterInput
-  tutorApplication?: Prisma.TutorApplicationUncheckedCreateNestedOneWithoutUserInput
-}
-
-export type UserCreateOrConnectWithoutTransactionsInput = {
-  where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutTransactionsInput, Prisma.UserUncheckedCreateWithoutTransactionsInput>
-}
-
-export type UserUpsertWithoutTransactionsInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutTransactionsInput, Prisma.UserUncheckedUpdateWithoutTransactionsInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutTransactionsInput, Prisma.UserUncheckedCreateWithoutTransactionsInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutTransactionsInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutTransactionsInput, Prisma.UserUncheckedUpdateWithoutTransactionsInput>
-}
-
-export type UserUpdateWithoutTransactionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  phoneNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-  university?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  studentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  semester?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  organizationLogoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  classes?: Prisma.ClassUpdateManyWithoutTutorNestedInput
-  presences?: Prisma.PresenceUpdateManyWithoutUserNestedInput
-  ads?: Prisma.AdUpdateManyWithoutOwnerNestedInput
-  reviews?: Prisma.ClassReviewUpdateManyWithoutUserNestedInput
-  reports?: Prisma.ClassReportUpdateManyWithoutReporterNestedInput
-  tutorApplication?: Prisma.TutorApplicationUpdateOneWithoutUserNestedInput
-}
-
-export type UserUncheckedUpdateWithoutTransactionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  phoneNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-  university?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  studentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  semester?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  organizationLogoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  classes?: Prisma.ClassUncheckedUpdateManyWithoutTutorNestedInput
-  presences?: Prisma.PresenceUncheckedUpdateManyWithoutUserNestedInput
-  ads?: Prisma.AdUncheckedUpdateManyWithoutOwnerNestedInput
-  reviews?: Prisma.ClassReviewUncheckedUpdateManyWithoutUserNestedInput
-  reports?: Prisma.ClassReportUncheckedUpdateManyWithoutReporterNestedInput
-  tutorApplication?: Prisma.TutorApplicationUncheckedUpdateOneWithoutUserNestedInput
-}
-
-export type UserCreateWithoutPresencesInput = {
-  id?: string
-  googleId?: string | null
-  email: string
-  password?: string | null
-  name: string
-  phoneNumber: string
-  role?: $Enums.UserRole
-  university?: string | null
-  major?: string | null
-  studentNumber?: string | null
-  semester?: string | null
-  avatarUrl?: string | null
-  coverUrl?: string | null
-  bio?: string | null
-  headline?: string | null
-  organizationName?: string | null
-  organizationLogoUrl?: string | null
-  location?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  classes?: Prisma.ClassCreateNestedManyWithoutTutorInput
-  transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
-  ads?: Prisma.AdCreateNestedManyWithoutOwnerInput
-  reviews?: Prisma.ClassReviewCreateNestedManyWithoutUserInput
-  reports?: Prisma.ClassReportCreateNestedManyWithoutReporterInput
-  tutorApplication?: Prisma.TutorApplicationCreateNestedOneWithoutUserInput
-}
-
-export type UserUncheckedCreateWithoutPresencesInput = {
-  id?: string
-  googleId?: string | null
-  email: string
-  password?: string | null
-  name: string
-  phoneNumber: string
-  role?: $Enums.UserRole
-  university?: string | null
-  major?: string | null
-  studentNumber?: string | null
-  semester?: string | null
-  avatarUrl?: string | null
-  coverUrl?: string | null
-  bio?: string | null
-  headline?: string | null
-  organizationName?: string | null
-  organizationLogoUrl?: string | null
-  location?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  classes?: Prisma.ClassUncheckedCreateNestedManyWithoutTutorInput
-  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
-  ads?: Prisma.AdUncheckedCreateNestedManyWithoutOwnerInput
-  reviews?: Prisma.ClassReviewUncheckedCreateNestedManyWithoutUserInput
-  reports?: Prisma.ClassReportUncheckedCreateNestedManyWithoutReporterInput
-  tutorApplication?: Prisma.TutorApplicationUncheckedCreateNestedOneWithoutUserInput
-}
-
-export type UserCreateOrConnectWithoutPresencesInput = {
-  where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutPresencesInput, Prisma.UserUncheckedCreateWithoutPresencesInput>
-}
-
-export type UserUpsertWithoutPresencesInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutPresencesInput, Prisma.UserUncheckedUpdateWithoutPresencesInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutPresencesInput, Prisma.UserUncheckedCreateWithoutPresencesInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutPresencesInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutPresencesInput, Prisma.UserUncheckedUpdateWithoutPresencesInput>
-}
-
-export type UserUpdateWithoutPresencesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  phoneNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-  university?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  studentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  semester?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  organizationLogoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  classes?: Prisma.ClassUpdateManyWithoutTutorNestedInput
-  transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
-  ads?: Prisma.AdUpdateManyWithoutOwnerNestedInput
-  reviews?: Prisma.ClassReviewUpdateManyWithoutUserNestedInput
-  reports?: Prisma.ClassReportUpdateManyWithoutReporterNestedInput
-  tutorApplication?: Prisma.TutorApplicationUpdateOneWithoutUserNestedInput
-}
-
-export type UserUncheckedUpdateWithoutPresencesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  phoneNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-  university?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  studentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  semester?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  organizationLogoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  classes?: Prisma.ClassUncheckedUpdateManyWithoutTutorNestedInput
-  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
-  ads?: Prisma.AdUncheckedUpdateManyWithoutOwnerNestedInput
-  reviews?: Prisma.ClassReviewUncheckedUpdateManyWithoutUserNestedInput
-  reports?: Prisma.ClassReportUncheckedUpdateManyWithoutReporterNestedInput
-  tutorApplication?: Prisma.TutorApplicationUncheckedUpdateOneWithoutUserNestedInput
-}
-
-export type UserCreateWithoutAdsInput = {
-  id?: string
-  googleId?: string | null
-  email: string
-  password?: string | null
-  name: string
-  phoneNumber: string
-  role?: $Enums.UserRole
-  university?: string | null
-  major?: string | null
-  studentNumber?: string | null
-  semester?: string | null
-  avatarUrl?: string | null
-  coverUrl?: string | null
-  bio?: string | null
-  headline?: string | null
-  organizationName?: string | null
-  organizationLogoUrl?: string | null
-  location?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  classes?: Prisma.ClassCreateNestedManyWithoutTutorInput
-  transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
-  presences?: Prisma.PresenceCreateNestedManyWithoutUserInput
-  reviews?: Prisma.ClassReviewCreateNestedManyWithoutUserInput
-  reports?: Prisma.ClassReportCreateNestedManyWithoutReporterInput
-  tutorApplication?: Prisma.TutorApplicationCreateNestedOneWithoutUserInput
-}
-
-export type UserUncheckedCreateWithoutAdsInput = {
-  id?: string
-  googleId?: string | null
-  email: string
-  password?: string | null
-  name: string
-  phoneNumber: string
-  role?: $Enums.UserRole
-  university?: string | null
-  major?: string | null
-  studentNumber?: string | null
-  semester?: string | null
-  avatarUrl?: string | null
-  coverUrl?: string | null
-  bio?: string | null
-  headline?: string | null
-  organizationName?: string | null
-  organizationLogoUrl?: string | null
-  location?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  classes?: Prisma.ClassUncheckedCreateNestedManyWithoutTutorInput
-  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
-  presences?: Prisma.PresenceUncheckedCreateNestedManyWithoutUserInput
-  reviews?: Prisma.ClassReviewUncheckedCreateNestedManyWithoutUserInput
-  reports?: Prisma.ClassReportUncheckedCreateNestedManyWithoutReporterInput
-  tutorApplication?: Prisma.TutorApplicationUncheckedCreateNestedOneWithoutUserInput
-}
-
-export type UserCreateOrConnectWithoutAdsInput = {
-  where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutAdsInput, Prisma.UserUncheckedCreateWithoutAdsInput>
-}
-
-export type UserUpsertWithoutAdsInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutAdsInput, Prisma.UserUncheckedUpdateWithoutAdsInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutAdsInput, Prisma.UserUncheckedCreateWithoutAdsInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutAdsInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutAdsInput, Prisma.UserUncheckedUpdateWithoutAdsInput>
-}
-
-export type UserUpdateWithoutAdsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  phoneNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-  university?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  studentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  semester?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  organizationLogoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  classes?: Prisma.ClassUpdateManyWithoutTutorNestedInput
-  transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
-  presences?: Prisma.PresenceUpdateManyWithoutUserNestedInput
-  reviews?: Prisma.ClassReviewUpdateManyWithoutUserNestedInput
-  reports?: Prisma.ClassReportUpdateManyWithoutReporterNestedInput
-  tutorApplication?: Prisma.TutorApplicationUpdateOneWithoutUserNestedInput
-}
-
-export type UserUncheckedUpdateWithoutAdsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  phoneNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-  university?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  studentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  semester?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  organizationLogoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  classes?: Prisma.ClassUncheckedUpdateManyWithoutTutorNestedInput
-  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
-  presences?: Prisma.PresenceUncheckedUpdateManyWithoutUserNestedInput
-  reviews?: Prisma.ClassReviewUncheckedUpdateManyWithoutUserNestedInput
-  reports?: Prisma.ClassReportUncheckedUpdateManyWithoutReporterNestedInput
-  tutorApplication?: Prisma.TutorApplicationUncheckedUpdateOneWithoutUserNestedInput
+  roleApplications?: Prisma.RoleApplicationUncheckedUpdateManyWithoutUserNestedInput
+  privateUploads?: Prisma.PrivateUploadUncheckedUpdateManyWithoutOwnerNestedInput
+  emailVerificationTokens?: Prisma.EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
+  courseRequests?: Prisma.CourseRequestUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutReviewsInput = {
   id?: string
-  googleId?: string | null
   email: string
+  contactEmail?: string | null
   password?: string | null
-  name: string
-  phoneNumber: string
-  role?: $Enums.UserRole
-  university?: string | null
+  fullName: string
+  avatarUrl?: string | null
+  bannerUrl?: string | null
+  headline?: string | null
+  bio?: string | null
+  campus?: string | null
   major?: string | null
   studentNumber?: string | null
   semester?: string | null
-  avatarUrl?: string | null
-  coverUrl?: string | null
-  bio?: string | null
-  headline?: string | null
   organizationName?: string | null
   organizationLogoUrl?: string | null
+  organizationWebsiteUrl?: string | null
+  bootcampStudentProofUrl?: string | null
   location?: string | null
+  tutorGpa?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tutorTranscriptUrl?: string | null
+  roles?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  activeRole?: $Enums.Role
+  phoneNumber?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  classes?: Prisma.ClassCreateNestedManyWithoutTutorInput
+  emailVerifiedAt?: Date | string | null
+  classesCreated?: Prisma.ClassCreateNestedManyWithoutCreatorInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
-  presences?: Prisma.PresenceCreateNestedManyWithoutUserInput
-  ads?: Prisma.AdCreateNestedManyWithoutOwnerInput
   reports?: Prisma.ClassReportCreateNestedManyWithoutReporterInput
-  tutorApplication?: Prisma.TutorApplicationCreateNestedOneWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  bootcampTutors?: Prisma.BootcampTutorCreateNestedManyWithoutUserInput
+  ads?: Prisma.AdCreateNestedManyWithoutOwnerInput
+  roleApplications?: Prisma.RoleApplicationCreateNestedManyWithoutUserInput
+  privateUploads?: Prisma.PrivateUploadCreateNestedManyWithoutOwnerInput
+  emailVerificationTokens?: Prisma.EmailVerificationTokenCreateNestedManyWithoutUserInput
+  courseRequests?: Prisma.CourseRequestCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReviewsInput = {
   id?: string
-  googleId?: string | null
   email: string
+  contactEmail?: string | null
   password?: string | null
-  name: string
-  phoneNumber: string
-  role?: $Enums.UserRole
-  university?: string | null
+  fullName: string
+  avatarUrl?: string | null
+  bannerUrl?: string | null
+  headline?: string | null
+  bio?: string | null
+  campus?: string | null
   major?: string | null
   studentNumber?: string | null
   semester?: string | null
-  avatarUrl?: string | null
-  coverUrl?: string | null
-  bio?: string | null
-  headline?: string | null
   organizationName?: string | null
   organizationLogoUrl?: string | null
+  organizationWebsiteUrl?: string | null
+  bootcampStudentProofUrl?: string | null
   location?: string | null
+  tutorGpa?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tutorTranscriptUrl?: string | null
+  roles?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  activeRole?: $Enums.Role
+  phoneNumber?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  classes?: Prisma.ClassUncheckedCreateNestedManyWithoutTutorInput
+  emailVerifiedAt?: Date | string | null
+  classesCreated?: Prisma.ClassUncheckedCreateNestedManyWithoutCreatorInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
-  presences?: Prisma.PresenceUncheckedCreateNestedManyWithoutUserInput
-  ads?: Prisma.AdUncheckedCreateNestedManyWithoutOwnerInput
   reports?: Prisma.ClassReportUncheckedCreateNestedManyWithoutReporterInput
-  tutorApplication?: Prisma.TutorApplicationUncheckedCreateNestedOneWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  bootcampTutors?: Prisma.BootcampTutorUncheckedCreateNestedManyWithoutUserInput
+  ads?: Prisma.AdUncheckedCreateNestedManyWithoutOwnerInput
+  roleApplications?: Prisma.RoleApplicationUncheckedCreateNestedManyWithoutUserInput
+  privateUploads?: Prisma.PrivateUploadUncheckedCreateNestedManyWithoutOwnerInput
+  emailVerificationTokens?: Prisma.EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
+  courseRequests?: Prisma.CourseRequestUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReviewsInput = {
@@ -1546,118 +1523,674 @@ export type UserUpdateToOneWithWhereWithoutReviewsInput = {
 
 export type UserUpdateWithoutReviewsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  phoneNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-  university?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   studentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   semester?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   organizationLogoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationWebsiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bootcampStudentProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tutorGpa?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tutorTranscriptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  roles?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  activeRole?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  classes?: Prisma.ClassUpdateManyWithoutTutorNestedInput
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  classesCreated?: Prisma.ClassUpdateManyWithoutCreatorNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
-  presences?: Prisma.PresenceUpdateManyWithoutUserNestedInput
-  ads?: Prisma.AdUpdateManyWithoutOwnerNestedInput
   reports?: Prisma.ClassReportUpdateManyWithoutReporterNestedInput
-  tutorApplication?: Prisma.TutorApplicationUpdateOneWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  bootcampTutors?: Prisma.BootcampTutorUpdateManyWithoutUserNestedInput
+  ads?: Prisma.AdUpdateManyWithoutOwnerNestedInput
+  roleApplications?: Prisma.RoleApplicationUpdateManyWithoutUserNestedInput
+  privateUploads?: Prisma.PrivateUploadUpdateManyWithoutOwnerNestedInput
+  emailVerificationTokens?: Prisma.EmailVerificationTokenUpdateManyWithoutUserNestedInput
+  courseRequests?: Prisma.CourseRequestUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReviewsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  phoneNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-  university?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   studentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   semester?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   organizationLogoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationWebsiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bootcampStudentProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tutorGpa?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tutorTranscriptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  roles?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  activeRole?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  classes?: Prisma.ClassUncheckedUpdateManyWithoutTutorNestedInput
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  classesCreated?: Prisma.ClassUncheckedUpdateManyWithoutCreatorNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
-  presences?: Prisma.PresenceUncheckedUpdateManyWithoutUserNestedInput
-  ads?: Prisma.AdUncheckedUpdateManyWithoutOwnerNestedInput
   reports?: Prisma.ClassReportUncheckedUpdateManyWithoutReporterNestedInput
-  tutorApplication?: Prisma.TutorApplicationUncheckedUpdateOneWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  bootcampTutors?: Prisma.BootcampTutorUncheckedUpdateManyWithoutUserNestedInput
+  ads?: Prisma.AdUncheckedUpdateManyWithoutOwnerNestedInput
+  roleApplications?: Prisma.RoleApplicationUncheckedUpdateManyWithoutUserNestedInput
+  privateUploads?: Prisma.PrivateUploadUncheckedUpdateManyWithoutOwnerNestedInput
+  emailVerificationTokens?: Prisma.EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
+  courseRequests?: Prisma.CourseRequestUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutTransactionsInput = {
+  id?: string
+  email: string
+  contactEmail?: string | null
+  password?: string | null
+  fullName: string
+  avatarUrl?: string | null
+  bannerUrl?: string | null
+  headline?: string | null
+  bio?: string | null
+  campus?: string | null
+  major?: string | null
+  studentNumber?: string | null
+  semester?: string | null
+  organizationName?: string | null
+  organizationLogoUrl?: string | null
+  organizationWebsiteUrl?: string | null
+  bootcampStudentProofUrl?: string | null
+  location?: string | null
+  tutorGpa?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tutorTranscriptUrl?: string | null
+  roles?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  activeRole?: $Enums.Role
+  phoneNumber?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  emailVerifiedAt?: Date | string | null
+  classesCreated?: Prisma.ClassCreateNestedManyWithoutCreatorInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  reports?: Prisma.ClassReportCreateNestedManyWithoutReporterInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  bootcampTutors?: Prisma.BootcampTutorCreateNestedManyWithoutUserInput
+  ads?: Prisma.AdCreateNestedManyWithoutOwnerInput
+  roleApplications?: Prisma.RoleApplicationCreateNestedManyWithoutUserInput
+  privateUploads?: Prisma.PrivateUploadCreateNestedManyWithoutOwnerInput
+  emailVerificationTokens?: Prisma.EmailVerificationTokenCreateNestedManyWithoutUserInput
+  courseRequests?: Prisma.CourseRequestCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutTransactionsInput = {
+  id?: string
+  email: string
+  contactEmail?: string | null
+  password?: string | null
+  fullName: string
+  avatarUrl?: string | null
+  bannerUrl?: string | null
+  headline?: string | null
+  bio?: string | null
+  campus?: string | null
+  major?: string | null
+  studentNumber?: string | null
+  semester?: string | null
+  organizationName?: string | null
+  organizationLogoUrl?: string | null
+  organizationWebsiteUrl?: string | null
+  bootcampStudentProofUrl?: string | null
+  location?: string | null
+  tutorGpa?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tutorTranscriptUrl?: string | null
+  roles?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  activeRole?: $Enums.Role
+  phoneNumber?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  emailVerifiedAt?: Date | string | null
+  classesCreated?: Prisma.ClassUncheckedCreateNestedManyWithoutCreatorInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  reports?: Prisma.ClassReportUncheckedCreateNestedManyWithoutReporterInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  bootcampTutors?: Prisma.BootcampTutorUncheckedCreateNestedManyWithoutUserInput
+  ads?: Prisma.AdUncheckedCreateNestedManyWithoutOwnerInput
+  roleApplications?: Prisma.RoleApplicationUncheckedCreateNestedManyWithoutUserInput
+  privateUploads?: Prisma.PrivateUploadUncheckedCreateNestedManyWithoutOwnerInput
+  emailVerificationTokens?: Prisma.EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
+  courseRequests?: Prisma.CourseRequestUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutTransactionsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutTransactionsInput, Prisma.UserUncheckedCreateWithoutTransactionsInput>
+}
+
+export type UserUpsertWithoutTransactionsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutTransactionsInput, Prisma.UserUncheckedUpdateWithoutTransactionsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutTransactionsInput, Prisma.UserUncheckedCreateWithoutTransactionsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutTransactionsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutTransactionsInput, Prisma.UserUncheckedUpdateWithoutTransactionsInput>
+}
+
+export type UserUpdateWithoutTransactionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  studentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  semester?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationLogoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationWebsiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bootcampStudentProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tutorGpa?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tutorTranscriptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  roles?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  activeRole?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  classesCreated?: Prisma.ClassUpdateManyWithoutCreatorNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  reports?: Prisma.ClassReportUpdateManyWithoutReporterNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  bootcampTutors?: Prisma.BootcampTutorUpdateManyWithoutUserNestedInput
+  ads?: Prisma.AdUpdateManyWithoutOwnerNestedInput
+  roleApplications?: Prisma.RoleApplicationUpdateManyWithoutUserNestedInput
+  privateUploads?: Prisma.PrivateUploadUpdateManyWithoutOwnerNestedInput
+  emailVerificationTokens?: Prisma.EmailVerificationTokenUpdateManyWithoutUserNestedInput
+  courseRequests?: Prisma.CourseRequestUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutTransactionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  studentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  semester?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationLogoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationWebsiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bootcampStudentProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tutorGpa?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tutorTranscriptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  roles?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  activeRole?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  classesCreated?: Prisma.ClassUncheckedUpdateManyWithoutCreatorNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  reports?: Prisma.ClassReportUncheckedUpdateManyWithoutReporterNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  bootcampTutors?: Prisma.BootcampTutorUncheckedUpdateManyWithoutUserNestedInput
+  ads?: Prisma.AdUncheckedUpdateManyWithoutOwnerNestedInput
+  roleApplications?: Prisma.RoleApplicationUncheckedUpdateManyWithoutUserNestedInput
+  privateUploads?: Prisma.PrivateUploadUncheckedUpdateManyWithoutOwnerNestedInput
+  emailVerificationTokens?: Prisma.EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
+  courseRequests?: Prisma.CourseRequestUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutRoleApplicationsInput = {
+  id?: string
+  email: string
+  contactEmail?: string | null
+  password?: string | null
+  fullName: string
+  avatarUrl?: string | null
+  bannerUrl?: string | null
+  headline?: string | null
+  bio?: string | null
+  campus?: string | null
+  major?: string | null
+  studentNumber?: string | null
+  semester?: string | null
+  organizationName?: string | null
+  organizationLogoUrl?: string | null
+  organizationWebsiteUrl?: string | null
+  bootcampStudentProofUrl?: string | null
+  location?: string | null
+  tutorGpa?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tutorTranscriptUrl?: string | null
+  roles?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  activeRole?: $Enums.Role
+  phoneNumber?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  emailVerifiedAt?: Date | string | null
+  classesCreated?: Prisma.ClassCreateNestedManyWithoutCreatorInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  reports?: Prisma.ClassReportCreateNestedManyWithoutReporterInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  bootcampTutors?: Prisma.BootcampTutorCreateNestedManyWithoutUserInput
+  ads?: Prisma.AdCreateNestedManyWithoutOwnerInput
+  privateUploads?: Prisma.PrivateUploadCreateNestedManyWithoutOwnerInput
+  emailVerificationTokens?: Prisma.EmailVerificationTokenCreateNestedManyWithoutUserInput
+  courseRequests?: Prisma.CourseRequestCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutRoleApplicationsInput = {
+  id?: string
+  email: string
+  contactEmail?: string | null
+  password?: string | null
+  fullName: string
+  avatarUrl?: string | null
+  bannerUrl?: string | null
+  headline?: string | null
+  bio?: string | null
+  campus?: string | null
+  major?: string | null
+  studentNumber?: string | null
+  semester?: string | null
+  organizationName?: string | null
+  organizationLogoUrl?: string | null
+  organizationWebsiteUrl?: string | null
+  bootcampStudentProofUrl?: string | null
+  location?: string | null
+  tutorGpa?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tutorTranscriptUrl?: string | null
+  roles?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  activeRole?: $Enums.Role
+  phoneNumber?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  emailVerifiedAt?: Date | string | null
+  classesCreated?: Prisma.ClassUncheckedCreateNestedManyWithoutCreatorInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  reports?: Prisma.ClassReportUncheckedCreateNestedManyWithoutReporterInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  bootcampTutors?: Prisma.BootcampTutorUncheckedCreateNestedManyWithoutUserInput
+  ads?: Prisma.AdUncheckedCreateNestedManyWithoutOwnerInput
+  privateUploads?: Prisma.PrivateUploadUncheckedCreateNestedManyWithoutOwnerInput
+  emailVerificationTokens?: Prisma.EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
+  courseRequests?: Prisma.CourseRequestUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutRoleApplicationsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutRoleApplicationsInput, Prisma.UserUncheckedCreateWithoutRoleApplicationsInput>
+}
+
+export type UserUpsertWithoutRoleApplicationsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutRoleApplicationsInput, Prisma.UserUncheckedUpdateWithoutRoleApplicationsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutRoleApplicationsInput, Prisma.UserUncheckedCreateWithoutRoleApplicationsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutRoleApplicationsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutRoleApplicationsInput, Prisma.UserUncheckedUpdateWithoutRoleApplicationsInput>
+}
+
+export type UserUpdateWithoutRoleApplicationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  studentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  semester?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationLogoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationWebsiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bootcampStudentProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tutorGpa?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tutorTranscriptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  roles?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  activeRole?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  classesCreated?: Prisma.ClassUpdateManyWithoutCreatorNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  reports?: Prisma.ClassReportUpdateManyWithoutReporterNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  bootcampTutors?: Prisma.BootcampTutorUpdateManyWithoutUserNestedInput
+  ads?: Prisma.AdUpdateManyWithoutOwnerNestedInput
+  privateUploads?: Prisma.PrivateUploadUpdateManyWithoutOwnerNestedInput
+  emailVerificationTokens?: Prisma.EmailVerificationTokenUpdateManyWithoutUserNestedInput
+  courseRequests?: Prisma.CourseRequestUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutRoleApplicationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  studentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  semester?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationLogoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationWebsiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bootcampStudentProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tutorGpa?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tutorTranscriptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  roles?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  activeRole?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  classesCreated?: Prisma.ClassUncheckedUpdateManyWithoutCreatorNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  reports?: Prisma.ClassReportUncheckedUpdateManyWithoutReporterNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  bootcampTutors?: Prisma.BootcampTutorUncheckedUpdateManyWithoutUserNestedInput
+  ads?: Prisma.AdUncheckedUpdateManyWithoutOwnerNestedInput
+  privateUploads?: Prisma.PrivateUploadUncheckedUpdateManyWithoutOwnerNestedInput
+  emailVerificationTokens?: Prisma.EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
+  courseRequests?: Prisma.CourseRequestUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutPrivateUploadsInput = {
+  id?: string
+  email: string
+  contactEmail?: string | null
+  password?: string | null
+  fullName: string
+  avatarUrl?: string | null
+  bannerUrl?: string | null
+  headline?: string | null
+  bio?: string | null
+  campus?: string | null
+  major?: string | null
+  studentNumber?: string | null
+  semester?: string | null
+  organizationName?: string | null
+  organizationLogoUrl?: string | null
+  organizationWebsiteUrl?: string | null
+  bootcampStudentProofUrl?: string | null
+  location?: string | null
+  tutorGpa?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tutorTranscriptUrl?: string | null
+  roles?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  activeRole?: $Enums.Role
+  phoneNumber?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  emailVerifiedAt?: Date | string | null
+  classesCreated?: Prisma.ClassCreateNestedManyWithoutCreatorInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  reports?: Prisma.ClassReportCreateNestedManyWithoutReporterInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  bootcampTutors?: Prisma.BootcampTutorCreateNestedManyWithoutUserInput
+  ads?: Prisma.AdCreateNestedManyWithoutOwnerInput
+  roleApplications?: Prisma.RoleApplicationCreateNestedManyWithoutUserInput
+  emailVerificationTokens?: Prisma.EmailVerificationTokenCreateNestedManyWithoutUserInput
+  courseRequests?: Prisma.CourseRequestCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutPrivateUploadsInput = {
+  id?: string
+  email: string
+  contactEmail?: string | null
+  password?: string | null
+  fullName: string
+  avatarUrl?: string | null
+  bannerUrl?: string | null
+  headline?: string | null
+  bio?: string | null
+  campus?: string | null
+  major?: string | null
+  studentNumber?: string | null
+  semester?: string | null
+  organizationName?: string | null
+  organizationLogoUrl?: string | null
+  organizationWebsiteUrl?: string | null
+  bootcampStudentProofUrl?: string | null
+  location?: string | null
+  tutorGpa?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tutorTranscriptUrl?: string | null
+  roles?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  activeRole?: $Enums.Role
+  phoneNumber?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  emailVerifiedAt?: Date | string | null
+  classesCreated?: Prisma.ClassUncheckedCreateNestedManyWithoutCreatorInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  reports?: Prisma.ClassReportUncheckedCreateNestedManyWithoutReporterInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  bootcampTutors?: Prisma.BootcampTutorUncheckedCreateNestedManyWithoutUserInput
+  ads?: Prisma.AdUncheckedCreateNestedManyWithoutOwnerInput
+  roleApplications?: Prisma.RoleApplicationUncheckedCreateNestedManyWithoutUserInput
+  emailVerificationTokens?: Prisma.EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
+  courseRequests?: Prisma.CourseRequestUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutPrivateUploadsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutPrivateUploadsInput, Prisma.UserUncheckedCreateWithoutPrivateUploadsInput>
+}
+
+export type UserUpsertWithoutPrivateUploadsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutPrivateUploadsInput, Prisma.UserUncheckedUpdateWithoutPrivateUploadsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutPrivateUploadsInput, Prisma.UserUncheckedCreateWithoutPrivateUploadsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutPrivateUploadsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutPrivateUploadsInput, Prisma.UserUncheckedUpdateWithoutPrivateUploadsInput>
+}
+
+export type UserUpdateWithoutPrivateUploadsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  studentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  semester?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationLogoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationWebsiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bootcampStudentProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tutorGpa?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tutorTranscriptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  roles?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  activeRole?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  classesCreated?: Prisma.ClassUpdateManyWithoutCreatorNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  reports?: Prisma.ClassReportUpdateManyWithoutReporterNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  bootcampTutors?: Prisma.BootcampTutorUpdateManyWithoutUserNestedInput
+  ads?: Prisma.AdUpdateManyWithoutOwnerNestedInput
+  roleApplications?: Prisma.RoleApplicationUpdateManyWithoutUserNestedInput
+  emailVerificationTokens?: Prisma.EmailVerificationTokenUpdateManyWithoutUserNestedInput
+  courseRequests?: Prisma.CourseRequestUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutPrivateUploadsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  studentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  semester?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationLogoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationWebsiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bootcampStudentProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tutorGpa?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tutorTranscriptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  roles?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  activeRole?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  classesCreated?: Prisma.ClassUncheckedUpdateManyWithoutCreatorNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  reports?: Prisma.ClassReportUncheckedUpdateManyWithoutReporterNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  bootcampTutors?: Prisma.BootcampTutorUncheckedUpdateManyWithoutUserNestedInput
+  ads?: Prisma.AdUncheckedUpdateManyWithoutOwnerNestedInput
+  roleApplications?: Prisma.RoleApplicationUncheckedUpdateManyWithoutUserNestedInput
+  emailVerificationTokens?: Prisma.EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
+  courseRequests?: Prisma.CourseRequestUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutReportsInput = {
   id?: string
-  googleId?: string | null
   email: string
+  contactEmail?: string | null
   password?: string | null
-  name: string
-  phoneNumber: string
-  role?: $Enums.UserRole
-  university?: string | null
+  fullName: string
+  avatarUrl?: string | null
+  bannerUrl?: string | null
+  headline?: string | null
+  bio?: string | null
+  campus?: string | null
   major?: string | null
   studentNumber?: string | null
   semester?: string | null
-  avatarUrl?: string | null
-  coverUrl?: string | null
-  bio?: string | null
-  headline?: string | null
   organizationName?: string | null
   organizationLogoUrl?: string | null
+  organizationWebsiteUrl?: string | null
+  bootcampStudentProofUrl?: string | null
   location?: string | null
+  tutorGpa?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tutorTranscriptUrl?: string | null
+  roles?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  activeRole?: $Enums.Role
+  phoneNumber?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  classes?: Prisma.ClassCreateNestedManyWithoutTutorInput
+  emailVerifiedAt?: Date | string | null
+  classesCreated?: Prisma.ClassCreateNestedManyWithoutCreatorInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
-  presences?: Prisma.PresenceCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  bootcampTutors?: Prisma.BootcampTutorCreateNestedManyWithoutUserInput
   ads?: Prisma.AdCreateNestedManyWithoutOwnerInput
-  reviews?: Prisma.ClassReviewCreateNestedManyWithoutUserInput
-  tutorApplication?: Prisma.TutorApplicationCreateNestedOneWithoutUserInput
+  roleApplications?: Prisma.RoleApplicationCreateNestedManyWithoutUserInput
+  privateUploads?: Prisma.PrivateUploadCreateNestedManyWithoutOwnerInput
+  emailVerificationTokens?: Prisma.EmailVerificationTokenCreateNestedManyWithoutUserInput
+  courseRequests?: Prisma.CourseRequestCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReportsInput = {
   id?: string
-  googleId?: string | null
   email: string
+  contactEmail?: string | null
   password?: string | null
-  name: string
-  phoneNumber: string
-  role?: $Enums.UserRole
-  university?: string | null
+  fullName: string
+  avatarUrl?: string | null
+  bannerUrl?: string | null
+  headline?: string | null
+  bio?: string | null
+  campus?: string | null
   major?: string | null
   studentNumber?: string | null
   semester?: string | null
-  avatarUrl?: string | null
-  coverUrl?: string | null
-  bio?: string | null
-  headline?: string | null
   organizationName?: string | null
   organizationLogoUrl?: string | null
+  organizationWebsiteUrl?: string | null
+  bootcampStudentProofUrl?: string | null
   location?: string | null
+  tutorGpa?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tutorTranscriptUrl?: string | null
+  roles?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  activeRole?: $Enums.Role
+  phoneNumber?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  classes?: Prisma.ClassUncheckedCreateNestedManyWithoutTutorInput
+  emailVerifiedAt?: Date | string | null
+  classesCreated?: Prisma.ClassUncheckedCreateNestedManyWithoutCreatorInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
-  presences?: Prisma.PresenceUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  bootcampTutors?: Prisma.BootcampTutorUncheckedCreateNestedManyWithoutUserInput
   ads?: Prisma.AdUncheckedCreateNestedManyWithoutOwnerInput
-  reviews?: Prisma.ClassReviewUncheckedCreateNestedManyWithoutUserInput
-  tutorApplication?: Prisma.TutorApplicationUncheckedCreateNestedOneWithoutUserInput
+  roleApplications?: Prisma.RoleApplicationUncheckedCreateNestedManyWithoutUserInput
+  privateUploads?: Prisma.PrivateUploadUncheckedCreateNestedManyWithoutOwnerInput
+  emailVerificationTokens?: Prisma.EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
+  courseRequests?: Prisma.CourseRequestUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReportsInput = {
@@ -1678,60 +2211,768 @@ export type UserUpdateToOneWithWhereWithoutReportsInput = {
 
 export type UserUpdateWithoutReportsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  phoneNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-  university?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   studentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   semester?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   organizationLogoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationWebsiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bootcampStudentProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tutorGpa?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tutorTranscriptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  roles?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  activeRole?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  classes?: Prisma.ClassUpdateManyWithoutTutorNestedInput
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  classesCreated?: Prisma.ClassUpdateManyWithoutCreatorNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
-  presences?: Prisma.PresenceUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  bootcampTutors?: Prisma.BootcampTutorUpdateManyWithoutUserNestedInput
   ads?: Prisma.AdUpdateManyWithoutOwnerNestedInput
-  reviews?: Prisma.ClassReviewUpdateManyWithoutUserNestedInput
-  tutorApplication?: Prisma.TutorApplicationUpdateOneWithoutUserNestedInput
+  roleApplications?: Prisma.RoleApplicationUpdateManyWithoutUserNestedInput
+  privateUploads?: Prisma.PrivateUploadUpdateManyWithoutOwnerNestedInput
+  emailVerificationTokens?: Prisma.EmailVerificationTokenUpdateManyWithoutUserNestedInput
+  courseRequests?: Prisma.CourseRequestUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReportsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  phoneNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-  university?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   studentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   semester?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   organizationLogoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationWebsiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bootcampStudentProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tutorGpa?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tutorTranscriptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  roles?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  activeRole?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  classes?: Prisma.ClassUncheckedUpdateManyWithoutTutorNestedInput
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  classesCreated?: Prisma.ClassUncheckedUpdateManyWithoutCreatorNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
-  presences?: Prisma.PresenceUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  bootcampTutors?: Prisma.BootcampTutorUncheckedUpdateManyWithoutUserNestedInput
   ads?: Prisma.AdUncheckedUpdateManyWithoutOwnerNestedInput
-  reviews?: Prisma.ClassReviewUncheckedUpdateManyWithoutUserNestedInput
-  tutorApplication?: Prisma.TutorApplicationUncheckedUpdateOneWithoutUserNestedInput
+  roleApplications?: Prisma.RoleApplicationUncheckedUpdateManyWithoutUserNestedInput
+  privateUploads?: Prisma.PrivateUploadUncheckedUpdateManyWithoutOwnerNestedInput
+  emailVerificationTokens?: Prisma.EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
+  courseRequests?: Prisma.CourseRequestUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutEmailVerificationTokensInput = {
+  id?: string
+  email: string
+  contactEmail?: string | null
+  password?: string | null
+  fullName: string
+  avatarUrl?: string | null
+  bannerUrl?: string | null
+  headline?: string | null
+  bio?: string | null
+  campus?: string | null
+  major?: string | null
+  studentNumber?: string | null
+  semester?: string | null
+  organizationName?: string | null
+  organizationLogoUrl?: string | null
+  organizationWebsiteUrl?: string | null
+  bootcampStudentProofUrl?: string | null
+  location?: string | null
+  tutorGpa?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tutorTranscriptUrl?: string | null
+  roles?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  activeRole?: $Enums.Role
+  phoneNumber?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  emailVerifiedAt?: Date | string | null
+  classesCreated?: Prisma.ClassCreateNestedManyWithoutCreatorInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  reports?: Prisma.ClassReportCreateNestedManyWithoutReporterInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  bootcampTutors?: Prisma.BootcampTutorCreateNestedManyWithoutUserInput
+  ads?: Prisma.AdCreateNestedManyWithoutOwnerInput
+  roleApplications?: Prisma.RoleApplicationCreateNestedManyWithoutUserInput
+  privateUploads?: Prisma.PrivateUploadCreateNestedManyWithoutOwnerInput
+  courseRequests?: Prisma.CourseRequestCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutEmailVerificationTokensInput = {
+  id?: string
+  email: string
+  contactEmail?: string | null
+  password?: string | null
+  fullName: string
+  avatarUrl?: string | null
+  bannerUrl?: string | null
+  headline?: string | null
+  bio?: string | null
+  campus?: string | null
+  major?: string | null
+  studentNumber?: string | null
+  semester?: string | null
+  organizationName?: string | null
+  organizationLogoUrl?: string | null
+  organizationWebsiteUrl?: string | null
+  bootcampStudentProofUrl?: string | null
+  location?: string | null
+  tutorGpa?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tutorTranscriptUrl?: string | null
+  roles?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  activeRole?: $Enums.Role
+  phoneNumber?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  emailVerifiedAt?: Date | string | null
+  classesCreated?: Prisma.ClassUncheckedCreateNestedManyWithoutCreatorInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  reports?: Prisma.ClassReportUncheckedCreateNestedManyWithoutReporterInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  bootcampTutors?: Prisma.BootcampTutorUncheckedCreateNestedManyWithoutUserInput
+  ads?: Prisma.AdUncheckedCreateNestedManyWithoutOwnerInput
+  roleApplications?: Prisma.RoleApplicationUncheckedCreateNestedManyWithoutUserInput
+  privateUploads?: Prisma.PrivateUploadUncheckedCreateNestedManyWithoutOwnerInput
+  courseRequests?: Prisma.CourseRequestUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutEmailVerificationTokensInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutEmailVerificationTokensInput, Prisma.UserUncheckedCreateWithoutEmailVerificationTokensInput>
+}
+
+export type UserUpsertWithoutEmailVerificationTokensInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutEmailVerificationTokensInput, Prisma.UserUncheckedUpdateWithoutEmailVerificationTokensInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutEmailVerificationTokensInput, Prisma.UserUncheckedCreateWithoutEmailVerificationTokensInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutEmailVerificationTokensInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutEmailVerificationTokensInput, Prisma.UserUncheckedUpdateWithoutEmailVerificationTokensInput>
+}
+
+export type UserUpdateWithoutEmailVerificationTokensInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  studentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  semester?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationLogoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationWebsiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bootcampStudentProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tutorGpa?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tutorTranscriptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  roles?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  activeRole?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  classesCreated?: Prisma.ClassUpdateManyWithoutCreatorNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  reports?: Prisma.ClassReportUpdateManyWithoutReporterNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  bootcampTutors?: Prisma.BootcampTutorUpdateManyWithoutUserNestedInput
+  ads?: Prisma.AdUpdateManyWithoutOwnerNestedInput
+  roleApplications?: Prisma.RoleApplicationUpdateManyWithoutUserNestedInput
+  privateUploads?: Prisma.PrivateUploadUpdateManyWithoutOwnerNestedInput
+  courseRequests?: Prisma.CourseRequestUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutEmailVerificationTokensInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  studentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  semester?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationLogoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationWebsiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bootcampStudentProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tutorGpa?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tutorTranscriptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  roles?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  activeRole?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  classesCreated?: Prisma.ClassUncheckedUpdateManyWithoutCreatorNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  reports?: Prisma.ClassReportUncheckedUpdateManyWithoutReporterNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  bootcampTutors?: Prisma.BootcampTutorUncheckedUpdateManyWithoutUserNestedInput
+  ads?: Prisma.AdUncheckedUpdateManyWithoutOwnerNestedInput
+  roleApplications?: Prisma.RoleApplicationUncheckedUpdateManyWithoutUserNestedInput
+  privateUploads?: Prisma.PrivateUploadUncheckedUpdateManyWithoutOwnerNestedInput
+  courseRequests?: Prisma.CourseRequestUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutCourseRequestsInput = {
+  id?: string
+  email: string
+  contactEmail?: string | null
+  password?: string | null
+  fullName: string
+  avatarUrl?: string | null
+  bannerUrl?: string | null
+  headline?: string | null
+  bio?: string | null
+  campus?: string | null
+  major?: string | null
+  studentNumber?: string | null
+  semester?: string | null
+  organizationName?: string | null
+  organizationLogoUrl?: string | null
+  organizationWebsiteUrl?: string | null
+  bootcampStudentProofUrl?: string | null
+  location?: string | null
+  tutorGpa?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tutorTranscriptUrl?: string | null
+  roles?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  activeRole?: $Enums.Role
+  phoneNumber?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  emailVerifiedAt?: Date | string | null
+  classesCreated?: Prisma.ClassCreateNestedManyWithoutCreatorInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  reports?: Prisma.ClassReportCreateNestedManyWithoutReporterInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  bootcampTutors?: Prisma.BootcampTutorCreateNestedManyWithoutUserInput
+  ads?: Prisma.AdCreateNestedManyWithoutOwnerInput
+  roleApplications?: Prisma.RoleApplicationCreateNestedManyWithoutUserInput
+  privateUploads?: Prisma.PrivateUploadCreateNestedManyWithoutOwnerInput
+  emailVerificationTokens?: Prisma.EmailVerificationTokenCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutCourseRequestsInput = {
+  id?: string
+  email: string
+  contactEmail?: string | null
+  password?: string | null
+  fullName: string
+  avatarUrl?: string | null
+  bannerUrl?: string | null
+  headline?: string | null
+  bio?: string | null
+  campus?: string | null
+  major?: string | null
+  studentNumber?: string | null
+  semester?: string | null
+  organizationName?: string | null
+  organizationLogoUrl?: string | null
+  organizationWebsiteUrl?: string | null
+  bootcampStudentProofUrl?: string | null
+  location?: string | null
+  tutorGpa?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tutorTranscriptUrl?: string | null
+  roles?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  activeRole?: $Enums.Role
+  phoneNumber?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  emailVerifiedAt?: Date | string | null
+  classesCreated?: Prisma.ClassUncheckedCreateNestedManyWithoutCreatorInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  reports?: Prisma.ClassReportUncheckedCreateNestedManyWithoutReporterInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  bootcampTutors?: Prisma.BootcampTutorUncheckedCreateNestedManyWithoutUserInput
+  ads?: Prisma.AdUncheckedCreateNestedManyWithoutOwnerInput
+  roleApplications?: Prisma.RoleApplicationUncheckedCreateNestedManyWithoutUserInput
+  privateUploads?: Prisma.PrivateUploadUncheckedCreateNestedManyWithoutOwnerInput
+  emailVerificationTokens?: Prisma.EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutCourseRequestsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutCourseRequestsInput, Prisma.UserUncheckedCreateWithoutCourseRequestsInput>
+}
+
+export type UserUpsertWithoutCourseRequestsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutCourseRequestsInput, Prisma.UserUncheckedUpdateWithoutCourseRequestsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutCourseRequestsInput, Prisma.UserUncheckedCreateWithoutCourseRequestsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutCourseRequestsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutCourseRequestsInput, Prisma.UserUncheckedUpdateWithoutCourseRequestsInput>
+}
+
+export type UserUpdateWithoutCourseRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  studentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  semester?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationLogoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationWebsiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bootcampStudentProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tutorGpa?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tutorTranscriptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  roles?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  activeRole?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  classesCreated?: Prisma.ClassUpdateManyWithoutCreatorNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  reports?: Prisma.ClassReportUpdateManyWithoutReporterNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  bootcampTutors?: Prisma.BootcampTutorUpdateManyWithoutUserNestedInput
+  ads?: Prisma.AdUpdateManyWithoutOwnerNestedInput
+  roleApplications?: Prisma.RoleApplicationUpdateManyWithoutUserNestedInput
+  privateUploads?: Prisma.PrivateUploadUpdateManyWithoutOwnerNestedInput
+  emailVerificationTokens?: Prisma.EmailVerificationTokenUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutCourseRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  studentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  semester?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationLogoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationWebsiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bootcampStudentProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tutorGpa?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tutorTranscriptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  roles?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  activeRole?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  classesCreated?: Prisma.ClassUncheckedUpdateManyWithoutCreatorNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  reports?: Prisma.ClassReportUncheckedUpdateManyWithoutReporterNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  bootcampTutors?: Prisma.BootcampTutorUncheckedUpdateManyWithoutUserNestedInput
+  ads?: Prisma.AdUncheckedUpdateManyWithoutOwnerNestedInput
+  roleApplications?: Prisma.RoleApplicationUncheckedUpdateManyWithoutUserNestedInput
+  privateUploads?: Prisma.PrivateUploadUncheckedUpdateManyWithoutOwnerNestedInput
+  emailVerificationTokens?: Prisma.EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutNotificationsInput = {
+  id?: string
+  email: string
+  contactEmail?: string | null
+  password?: string | null
+  fullName: string
+  avatarUrl?: string | null
+  bannerUrl?: string | null
+  headline?: string | null
+  bio?: string | null
+  campus?: string | null
+  major?: string | null
+  studentNumber?: string | null
+  semester?: string | null
+  organizationName?: string | null
+  organizationLogoUrl?: string | null
+  organizationWebsiteUrl?: string | null
+  bootcampStudentProofUrl?: string | null
+  location?: string | null
+  tutorGpa?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tutorTranscriptUrl?: string | null
+  roles?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  activeRole?: $Enums.Role
+  phoneNumber?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  emailVerifiedAt?: Date | string | null
+  classesCreated?: Prisma.ClassCreateNestedManyWithoutCreatorInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  reports?: Prisma.ClassReportCreateNestedManyWithoutReporterInput
+  bootcampTutors?: Prisma.BootcampTutorCreateNestedManyWithoutUserInput
+  ads?: Prisma.AdCreateNestedManyWithoutOwnerInput
+  roleApplications?: Prisma.RoleApplicationCreateNestedManyWithoutUserInput
+  privateUploads?: Prisma.PrivateUploadCreateNestedManyWithoutOwnerInput
+  emailVerificationTokens?: Prisma.EmailVerificationTokenCreateNestedManyWithoutUserInput
+  courseRequests?: Prisma.CourseRequestCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutNotificationsInput = {
+  id?: string
+  email: string
+  contactEmail?: string | null
+  password?: string | null
+  fullName: string
+  avatarUrl?: string | null
+  bannerUrl?: string | null
+  headline?: string | null
+  bio?: string | null
+  campus?: string | null
+  major?: string | null
+  studentNumber?: string | null
+  semester?: string | null
+  organizationName?: string | null
+  organizationLogoUrl?: string | null
+  organizationWebsiteUrl?: string | null
+  bootcampStudentProofUrl?: string | null
+  location?: string | null
+  tutorGpa?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tutorTranscriptUrl?: string | null
+  roles?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  activeRole?: $Enums.Role
+  phoneNumber?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  emailVerifiedAt?: Date | string | null
+  classesCreated?: Prisma.ClassUncheckedCreateNestedManyWithoutCreatorInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  reports?: Prisma.ClassReportUncheckedCreateNestedManyWithoutReporterInput
+  bootcampTutors?: Prisma.BootcampTutorUncheckedCreateNestedManyWithoutUserInput
+  ads?: Prisma.AdUncheckedCreateNestedManyWithoutOwnerInput
+  roleApplications?: Prisma.RoleApplicationUncheckedCreateNestedManyWithoutUserInput
+  privateUploads?: Prisma.PrivateUploadUncheckedCreateNestedManyWithoutOwnerInput
+  emailVerificationTokens?: Prisma.EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
+  courseRequests?: Prisma.CourseRequestUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutNotificationsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutNotificationsInput, Prisma.UserUncheckedCreateWithoutNotificationsInput>
+}
+
+export type UserUpsertWithoutNotificationsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutNotificationsInput, Prisma.UserUncheckedUpdateWithoutNotificationsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutNotificationsInput, Prisma.UserUncheckedCreateWithoutNotificationsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutNotificationsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutNotificationsInput, Prisma.UserUncheckedUpdateWithoutNotificationsInput>
+}
+
+export type UserUpdateWithoutNotificationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  studentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  semester?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationLogoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationWebsiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bootcampStudentProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tutorGpa?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tutorTranscriptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  roles?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  activeRole?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  classesCreated?: Prisma.ClassUpdateManyWithoutCreatorNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  reports?: Prisma.ClassReportUpdateManyWithoutReporterNestedInput
+  bootcampTutors?: Prisma.BootcampTutorUpdateManyWithoutUserNestedInput
+  ads?: Prisma.AdUpdateManyWithoutOwnerNestedInput
+  roleApplications?: Prisma.RoleApplicationUpdateManyWithoutUserNestedInput
+  privateUploads?: Prisma.PrivateUploadUpdateManyWithoutOwnerNestedInput
+  emailVerificationTokens?: Prisma.EmailVerificationTokenUpdateManyWithoutUserNestedInput
+  courseRequests?: Prisma.CourseRequestUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutNotificationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  studentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  semester?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationLogoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationWebsiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bootcampStudentProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tutorGpa?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tutorTranscriptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  roles?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  activeRole?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  classesCreated?: Prisma.ClassUncheckedUpdateManyWithoutCreatorNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  reports?: Prisma.ClassReportUncheckedUpdateManyWithoutReporterNestedInput
+  bootcampTutors?: Prisma.BootcampTutorUncheckedUpdateManyWithoutUserNestedInput
+  ads?: Prisma.AdUncheckedUpdateManyWithoutOwnerNestedInput
+  roleApplications?: Prisma.RoleApplicationUncheckedUpdateManyWithoutUserNestedInput
+  privateUploads?: Prisma.PrivateUploadUncheckedUpdateManyWithoutOwnerNestedInput
+  emailVerificationTokens?: Prisma.EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
+  courseRequests?: Prisma.CourseRequestUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutAdsInput = {
+  id?: string
+  email: string
+  contactEmail?: string | null
+  password?: string | null
+  fullName: string
+  avatarUrl?: string | null
+  bannerUrl?: string | null
+  headline?: string | null
+  bio?: string | null
+  campus?: string | null
+  major?: string | null
+  studentNumber?: string | null
+  semester?: string | null
+  organizationName?: string | null
+  organizationLogoUrl?: string | null
+  organizationWebsiteUrl?: string | null
+  bootcampStudentProofUrl?: string | null
+  location?: string | null
+  tutorGpa?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tutorTranscriptUrl?: string | null
+  roles?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  activeRole?: $Enums.Role
+  phoneNumber?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  emailVerifiedAt?: Date | string | null
+  classesCreated?: Prisma.ClassCreateNestedManyWithoutCreatorInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  reports?: Prisma.ClassReportCreateNestedManyWithoutReporterInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  bootcampTutors?: Prisma.BootcampTutorCreateNestedManyWithoutUserInput
+  roleApplications?: Prisma.RoleApplicationCreateNestedManyWithoutUserInput
+  privateUploads?: Prisma.PrivateUploadCreateNestedManyWithoutOwnerInput
+  emailVerificationTokens?: Prisma.EmailVerificationTokenCreateNestedManyWithoutUserInput
+  courseRequests?: Prisma.CourseRequestCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutAdsInput = {
+  id?: string
+  email: string
+  contactEmail?: string | null
+  password?: string | null
+  fullName: string
+  avatarUrl?: string | null
+  bannerUrl?: string | null
+  headline?: string | null
+  bio?: string | null
+  campus?: string | null
+  major?: string | null
+  studentNumber?: string | null
+  semester?: string | null
+  organizationName?: string | null
+  organizationLogoUrl?: string | null
+  organizationWebsiteUrl?: string | null
+  bootcampStudentProofUrl?: string | null
+  location?: string | null
+  tutorGpa?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tutorTranscriptUrl?: string | null
+  roles?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  activeRole?: $Enums.Role
+  phoneNumber?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  emailVerifiedAt?: Date | string | null
+  classesCreated?: Prisma.ClassUncheckedCreateNestedManyWithoutCreatorInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  reports?: Prisma.ClassReportUncheckedCreateNestedManyWithoutReporterInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  bootcampTutors?: Prisma.BootcampTutorUncheckedCreateNestedManyWithoutUserInput
+  roleApplications?: Prisma.RoleApplicationUncheckedCreateNestedManyWithoutUserInput
+  privateUploads?: Prisma.PrivateUploadUncheckedCreateNestedManyWithoutOwnerInput
+  emailVerificationTokens?: Prisma.EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
+  courseRequests?: Prisma.CourseRequestUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutAdsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutAdsInput, Prisma.UserUncheckedCreateWithoutAdsInput>
+}
+
+export type UserUpsertWithoutAdsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutAdsInput, Prisma.UserUncheckedUpdateWithoutAdsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAdsInput, Prisma.UserUncheckedCreateWithoutAdsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutAdsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutAdsInput, Prisma.UserUncheckedUpdateWithoutAdsInput>
+}
+
+export type UserUpdateWithoutAdsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  studentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  semester?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationLogoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationWebsiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bootcampStudentProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tutorGpa?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tutorTranscriptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  roles?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  activeRole?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  classesCreated?: Prisma.ClassUpdateManyWithoutCreatorNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  reports?: Prisma.ClassReportUpdateManyWithoutReporterNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  bootcampTutors?: Prisma.BootcampTutorUpdateManyWithoutUserNestedInput
+  roleApplications?: Prisma.RoleApplicationUpdateManyWithoutUserNestedInput
+  privateUploads?: Prisma.PrivateUploadUpdateManyWithoutOwnerNestedInput
+  emailVerificationTokens?: Prisma.EmailVerificationTokenUpdateManyWithoutUserNestedInput
+  courseRequests?: Prisma.CourseRequestUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutAdsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  studentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  semester?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationLogoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationWebsiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bootcampStudentProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tutorGpa?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tutorTranscriptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  roles?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  activeRole?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  classesCreated?: Prisma.ClassUncheckedUpdateManyWithoutCreatorNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  reports?: Prisma.ClassReportUncheckedUpdateManyWithoutReporterNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  bootcampTutors?: Prisma.BootcampTutorUncheckedUpdateManyWithoutUserNestedInput
+  roleApplications?: Prisma.RoleApplicationUncheckedUpdateManyWithoutUserNestedInput
+  privateUploads?: Prisma.PrivateUploadUncheckedUpdateManyWithoutOwnerNestedInput
+  emailVerificationTokens?: Prisma.EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
+  courseRequests?: Prisma.CourseRequestUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -1740,21 +2981,31 @@ export type UserUncheckedUpdateWithoutReportsInput = {
  */
 
 export type UserCountOutputType = {
-  classes: number
+  classesCreated: number
   transactions: number
-  presences: number
-  ads: number
   reviews: number
   reports: number
+  notifications: number
+  bootcampTutors: number
+  ads: number
+  roleApplications: number
+  privateUploads: number
+  emailVerificationTokens: number
+  courseRequests: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  classes?: boolean | UserCountOutputTypeCountClassesArgs
+  classesCreated?: boolean | UserCountOutputTypeCountClassesCreatedArgs
   transactions?: boolean | UserCountOutputTypeCountTransactionsArgs
-  presences?: boolean | UserCountOutputTypeCountPresencesArgs
-  ads?: boolean | UserCountOutputTypeCountAdsArgs
   reviews?: boolean | UserCountOutputTypeCountReviewsArgs
   reports?: boolean | UserCountOutputTypeCountReportsArgs
+  notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
+  bootcampTutors?: boolean | UserCountOutputTypeCountBootcampTutorsArgs
+  ads?: boolean | UserCountOutputTypeCountAdsArgs
+  roleApplications?: boolean | UserCountOutputTypeCountRoleApplicationsArgs
+  privateUploads?: boolean | UserCountOutputTypeCountPrivateUploadsArgs
+  emailVerificationTokens?: boolean | UserCountOutputTypeCountEmailVerificationTokensArgs
+  courseRequests?: boolean | UserCountOutputTypeCountCourseRequestsArgs
 }
 
 /**
@@ -1770,7 +3021,7 @@ export type UserCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountClassesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type UserCountOutputTypeCountClassesCreatedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.ClassWhereInput
 }
 
@@ -1784,8 +3035,29 @@ export type UserCountOutputTypeCountTransactionsArgs<ExtArgs extends runtime.Typ
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountPresencesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.PresenceWhereInput
+export type UserCountOutputTypeCountReviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ReviewWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountReportsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ClassReportWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountNotificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.NotificationWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountBootcampTutorsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.BootcampTutorWhereInput
 }
 
 /**
@@ -1798,46 +3070,70 @@ export type UserCountOutputTypeCountAdsArgs<ExtArgs extends runtime.Types.Extens
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountReviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ClassReviewWhereInput
+export type UserCountOutputTypeCountRoleApplicationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.RoleApplicationWhereInput
 }
 
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountReportsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ClassReportWhereInput
+export type UserCountOutputTypeCountPrivateUploadsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PrivateUploadWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountEmailVerificationTokensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.EmailVerificationTokenWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountCourseRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CourseRequestWhereInput
 }
 
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  googleId?: boolean
   email?: boolean
+  contactEmail?: boolean
   password?: boolean
-  name?: boolean
-  phoneNumber?: boolean
-  role?: boolean
-  university?: boolean
+  fullName?: boolean
+  avatarUrl?: boolean
+  bannerUrl?: boolean
+  headline?: boolean
+  bio?: boolean
+  campus?: boolean
   major?: boolean
   studentNumber?: boolean
   semester?: boolean
-  avatarUrl?: boolean
-  coverUrl?: boolean
-  bio?: boolean
-  headline?: boolean
   organizationName?: boolean
   organizationLogoUrl?: boolean
+  organizationWebsiteUrl?: boolean
+  bootcampStudentProofUrl?: boolean
   location?: boolean
+  tutorGpa?: boolean
+  tutorTranscriptUrl?: boolean
+  roles?: boolean
+  activeRole?: boolean
+  phoneNumber?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  classes?: boolean | Prisma.User$classesArgs<ExtArgs>
+  emailVerifiedAt?: boolean
+  classesCreated?: boolean | Prisma.User$classesCreatedArgs<ExtArgs>
   transactions?: boolean | Prisma.User$transactionsArgs<ExtArgs>
-  presences?: boolean | Prisma.User$presencesArgs<ExtArgs>
-  ads?: boolean | Prisma.User$adsArgs<ExtArgs>
   reviews?: boolean | Prisma.User$reviewsArgs<ExtArgs>
   reports?: boolean | Prisma.User$reportsArgs<ExtArgs>
-  tutorApplication?: boolean | Prisma.User$tutorApplicationArgs<ExtArgs>
+  notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
+  bootcampTutors?: boolean | Prisma.User$bootcampTutorsArgs<ExtArgs>
+  ads?: boolean | Prisma.User$adsArgs<ExtArgs>
+  roleApplications?: boolean | Prisma.User$roleApplicationsArgs<ExtArgs>
+  privateUploads?: boolean | Prisma.User$privateUploadsArgs<ExtArgs>
+  emailVerificationTokens?: boolean | Prisma.User$emailVerificationTokensArgs<ExtArgs>
+  courseRequests?: boolean | Prisma.User$courseRequestsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -1845,71 +3141,91 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
 
 export type UserSelectScalar = {
   id?: boolean
-  googleId?: boolean
   email?: boolean
+  contactEmail?: boolean
   password?: boolean
-  name?: boolean
-  phoneNumber?: boolean
-  role?: boolean
-  university?: boolean
+  fullName?: boolean
+  avatarUrl?: boolean
+  bannerUrl?: boolean
+  headline?: boolean
+  bio?: boolean
+  campus?: boolean
   major?: boolean
   studentNumber?: boolean
   semester?: boolean
-  avatarUrl?: boolean
-  coverUrl?: boolean
-  bio?: boolean
-  headline?: boolean
   organizationName?: boolean
   organizationLogoUrl?: boolean
+  organizationWebsiteUrl?: boolean
+  bootcampStudentProofUrl?: boolean
   location?: boolean
+  tutorGpa?: boolean
+  tutorTranscriptUrl?: boolean
+  roles?: boolean
+  activeRole?: boolean
+  phoneNumber?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  emailVerifiedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "googleId" | "email" | "password" | "name" | "phoneNumber" | "role" | "university" | "major" | "studentNumber" | "semester" | "avatarUrl" | "coverUrl" | "bio" | "headline" | "organizationName" | "organizationLogoUrl" | "location" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "contactEmail" | "password" | "fullName" | "avatarUrl" | "bannerUrl" | "headline" | "bio" | "campus" | "major" | "studentNumber" | "semester" | "organizationName" | "organizationLogoUrl" | "organizationWebsiteUrl" | "bootcampStudentProofUrl" | "location" | "tutorGpa" | "tutorTranscriptUrl" | "roles" | "activeRole" | "phoneNumber" | "createdAt" | "updatedAt" | "emailVerifiedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  classes?: boolean | Prisma.User$classesArgs<ExtArgs>
+  classesCreated?: boolean | Prisma.User$classesCreatedArgs<ExtArgs>
   transactions?: boolean | Prisma.User$transactionsArgs<ExtArgs>
-  presences?: boolean | Prisma.User$presencesArgs<ExtArgs>
-  ads?: boolean | Prisma.User$adsArgs<ExtArgs>
   reviews?: boolean | Prisma.User$reviewsArgs<ExtArgs>
   reports?: boolean | Prisma.User$reportsArgs<ExtArgs>
-  tutorApplication?: boolean | Prisma.User$tutorApplicationArgs<ExtArgs>
+  notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
+  bootcampTutors?: boolean | Prisma.User$bootcampTutorsArgs<ExtArgs>
+  ads?: boolean | Prisma.User$adsArgs<ExtArgs>
+  roleApplications?: boolean | Prisma.User$roleApplicationsArgs<ExtArgs>
+  privateUploads?: boolean | Prisma.User$privateUploadsArgs<ExtArgs>
+  emailVerificationTokens?: boolean | Prisma.User$emailVerificationTokensArgs<ExtArgs>
+  courseRequests?: boolean | Prisma.User$courseRequestsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 
 export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "User"
   objects: {
-    classes: Prisma.$ClassPayload<ExtArgs>[]
+    classesCreated: Prisma.$ClassPayload<ExtArgs>[]
     transactions: Prisma.$TransactionPayload<ExtArgs>[]
-    presences: Prisma.$PresencePayload<ExtArgs>[]
-    ads: Prisma.$AdPayload<ExtArgs>[]
-    reviews: Prisma.$ClassReviewPayload<ExtArgs>[]
+    reviews: Prisma.$ReviewPayload<ExtArgs>[]
     reports: Prisma.$ClassReportPayload<ExtArgs>[]
-    tutorApplication: Prisma.$TutorApplicationPayload<ExtArgs> | null
+    notifications: Prisma.$NotificationPayload<ExtArgs>[]
+    bootcampTutors: Prisma.$BootcampTutorPayload<ExtArgs>[]
+    ads: Prisma.$AdPayload<ExtArgs>[]
+    roleApplications: Prisma.$RoleApplicationPayload<ExtArgs>[]
+    privateUploads: Prisma.$PrivateUploadPayload<ExtArgs>[]
+    emailVerificationTokens: Prisma.$EmailVerificationTokenPayload<ExtArgs>[]
+    courseRequests: Prisma.$CourseRequestPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    googleId: string | null
     email: string
+    contactEmail: string | null
     password: string | null
-    name: string
-    phoneNumber: string
-    role: $Enums.UserRole
-    university: string | null
+    fullName: string
+    avatarUrl: string | null
+    bannerUrl: string | null
+    headline: string | null
+    bio: string | null
+    campus: string | null
     major: string | null
     studentNumber: string | null
     semester: string | null
-    avatarUrl: string | null
-    coverUrl: string | null
-    bio: string | null
-    headline: string | null
     organizationName: string | null
     organizationLogoUrl: string | null
+    organizationWebsiteUrl: string | null
+    bootcampStudentProofUrl: string | null
     location: string | null
+    tutorGpa: runtime.Decimal | null
+    tutorTranscriptUrl: string | null
+    roles: runtime.JsonValue
+    activeRole: $Enums.Role
+    phoneNumber: string | null
     createdAt: Date
     updatedAt: Date
+    emailVerifiedAt: Date | null
   }, ExtArgs["result"]["user"]>
   composites: {}
 }
@@ -2250,13 +3566,17 @@ readonly fields: UserFieldRefs;
  */
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  classes<T extends Prisma.User$classesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$classesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ClassPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  classesCreated<T extends Prisma.User$classesCreatedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$classesCreatedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ClassPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   transactions<T extends Prisma.User$transactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$transactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  presences<T extends Prisma.User$presencesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$presencesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PresencePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  ads<T extends Prisma.User$adsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$adsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AdPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  reviews<T extends Prisma.User$reviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ClassReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  reviews<T extends Prisma.User$reviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reports<T extends Prisma.User$reportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ClassReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  tutorApplication<T extends Prisma.User$tutorApplicationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$tutorApplicationArgs<ExtArgs>>): Prisma.Prisma__TutorApplicationClient<runtime.Types.Result.GetResult<Prisma.$TutorApplicationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  notifications<T extends Prisma.User$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  bootcampTutors<T extends Prisma.User$bootcampTutorsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$bootcampTutorsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BootcampTutorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  ads<T extends Prisma.User$adsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$adsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AdPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  roleApplications<T extends Prisma.User$roleApplicationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$roleApplicationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RoleApplicationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  privateUploads<T extends Prisma.User$privateUploadsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$privateUploadsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PrivateUploadPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  emailVerificationTokens<T extends Prisma.User$emailVerificationTokensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$emailVerificationTokensArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EmailVerificationTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  courseRequests<T extends Prisma.User$courseRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$courseRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CourseRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2287,25 +3607,31 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
  */
 export interface UserFieldRefs {
   readonly id: Prisma.FieldRef<"User", 'String'>
-  readonly googleId: Prisma.FieldRef<"User", 'String'>
   readonly email: Prisma.FieldRef<"User", 'String'>
+  readonly contactEmail: Prisma.FieldRef<"User", 'String'>
   readonly password: Prisma.FieldRef<"User", 'String'>
-  readonly name: Prisma.FieldRef<"User", 'String'>
-  readonly phoneNumber: Prisma.FieldRef<"User", 'String'>
-  readonly role: Prisma.FieldRef<"User", 'UserRole'>
-  readonly university: Prisma.FieldRef<"User", 'String'>
+  readonly fullName: Prisma.FieldRef<"User", 'String'>
+  readonly avatarUrl: Prisma.FieldRef<"User", 'String'>
+  readonly bannerUrl: Prisma.FieldRef<"User", 'String'>
+  readonly headline: Prisma.FieldRef<"User", 'String'>
+  readonly bio: Prisma.FieldRef<"User", 'String'>
+  readonly campus: Prisma.FieldRef<"User", 'String'>
   readonly major: Prisma.FieldRef<"User", 'String'>
   readonly studentNumber: Prisma.FieldRef<"User", 'String'>
   readonly semester: Prisma.FieldRef<"User", 'String'>
-  readonly avatarUrl: Prisma.FieldRef<"User", 'String'>
-  readonly coverUrl: Prisma.FieldRef<"User", 'String'>
-  readonly bio: Prisma.FieldRef<"User", 'String'>
-  readonly headline: Prisma.FieldRef<"User", 'String'>
   readonly organizationName: Prisma.FieldRef<"User", 'String'>
   readonly organizationLogoUrl: Prisma.FieldRef<"User", 'String'>
+  readonly organizationWebsiteUrl: Prisma.FieldRef<"User", 'String'>
+  readonly bootcampStudentProofUrl: Prisma.FieldRef<"User", 'String'>
   readonly location: Prisma.FieldRef<"User", 'String'>
+  readonly tutorGpa: Prisma.FieldRef<"User", 'Decimal'>
+  readonly tutorTranscriptUrl: Prisma.FieldRef<"User", 'String'>
+  readonly roles: Prisma.FieldRef<"User", 'Json'>
+  readonly activeRole: Prisma.FieldRef<"User", 'Role'>
+  readonly phoneNumber: Prisma.FieldRef<"User", 'String'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly emailVerifiedAt: Prisma.FieldRef<"User", 'DateTime'>
 }
     
 
@@ -2654,9 +3980,9 @@ export type UserDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
- * User.classes
+ * User.classesCreated
  */
-export type User$classesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$classesCreatedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Class
    */
@@ -2702,75 +4028,27 @@ export type User$transactionsArgs<ExtArgs extends runtime.Types.Extensions.Inter
 }
 
 /**
- * User.presences
- */
-export type User$presencesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Presence
-   */
-  select?: Prisma.PresenceSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Presence
-   */
-  omit?: Prisma.PresenceOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.PresenceInclude<ExtArgs> | null
-  where?: Prisma.PresenceWhereInput
-  orderBy?: Prisma.PresenceOrderByWithRelationInput | Prisma.PresenceOrderByWithRelationInput[]
-  cursor?: Prisma.PresenceWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.PresenceScalarFieldEnum | Prisma.PresenceScalarFieldEnum[]
-}
-
-/**
- * User.ads
- */
-export type User$adsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Ad
-   */
-  select?: Prisma.AdSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Ad
-   */
-  omit?: Prisma.AdOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.AdInclude<ExtArgs> | null
-  where?: Prisma.AdWhereInput
-  orderBy?: Prisma.AdOrderByWithRelationInput | Prisma.AdOrderByWithRelationInput[]
-  cursor?: Prisma.AdWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.AdScalarFieldEnum | Prisma.AdScalarFieldEnum[]
-}
-
-/**
  * User.reviews
  */
 export type User$reviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the ClassReview
+   * Select specific fields to fetch from the Review
    */
-  select?: Prisma.ClassReviewSelect<ExtArgs> | null
+  select?: Prisma.ReviewSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the ClassReview
+   * Omit specific fields from the Review
    */
-  omit?: Prisma.ClassReviewOmit<ExtArgs> | null
+  omit?: Prisma.ReviewOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.ClassReviewInclude<ExtArgs> | null
-  where?: Prisma.ClassReviewWhereInput
-  orderBy?: Prisma.ClassReviewOrderByWithRelationInput | Prisma.ClassReviewOrderByWithRelationInput[]
-  cursor?: Prisma.ClassReviewWhereUniqueInput
+  include?: Prisma.ReviewInclude<ExtArgs> | null
+  where?: Prisma.ReviewWhereInput
+  orderBy?: Prisma.ReviewOrderByWithRelationInput | Prisma.ReviewOrderByWithRelationInput[]
+  cursor?: Prisma.ReviewWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.ClassReviewScalarFieldEnum | Prisma.ClassReviewScalarFieldEnum[]
+  distinct?: Prisma.ReviewScalarFieldEnum | Prisma.ReviewScalarFieldEnum[]
 }
 
 /**
@@ -2798,22 +4076,171 @@ export type User$reportsArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
 }
 
 /**
- * User.tutorApplication
+ * User.notifications
  */
-export type User$tutorApplicationArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$notificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the TutorApplication
+   * Select specific fields to fetch from the Notification
    */
-  select?: Prisma.TutorApplicationSelect<ExtArgs> | null
+  select?: Prisma.NotificationSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the TutorApplication
+   * Omit specific fields from the Notification
    */
-  omit?: Prisma.TutorApplicationOmit<ExtArgs> | null
+  omit?: Prisma.NotificationOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.TutorApplicationInclude<ExtArgs> | null
-  where?: Prisma.TutorApplicationWhereInput
+  include?: Prisma.NotificationInclude<ExtArgs> | null
+  where?: Prisma.NotificationWhereInput
+  orderBy?: Prisma.NotificationOrderByWithRelationInput | Prisma.NotificationOrderByWithRelationInput[]
+  cursor?: Prisma.NotificationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.NotificationScalarFieldEnum | Prisma.NotificationScalarFieldEnum[]
+}
+
+/**
+ * User.bootcampTutors
+ */
+export type User$bootcampTutorsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the BootcampTutor
+   */
+  select?: Prisma.BootcampTutorSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the BootcampTutor
+   */
+  omit?: Prisma.BootcampTutorOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BootcampTutorInclude<ExtArgs> | null
+  where?: Prisma.BootcampTutorWhereInput
+  orderBy?: Prisma.BootcampTutorOrderByWithRelationInput | Prisma.BootcampTutorOrderByWithRelationInput[]
+  cursor?: Prisma.BootcampTutorWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.BootcampTutorScalarFieldEnum | Prisma.BootcampTutorScalarFieldEnum[]
+}
+
+/**
+ * User.ads
+ */
+export type User$adsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Ad
+   */
+  select?: Prisma.AdSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Ad
+   */
+  omit?: Prisma.AdOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AdInclude<ExtArgs> | null
+  where?: Prisma.AdWhereInput
+  orderBy?: Prisma.AdOrderByWithRelationInput | Prisma.AdOrderByWithRelationInput[]
+  cursor?: Prisma.AdWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AdScalarFieldEnum | Prisma.AdScalarFieldEnum[]
+}
+
+/**
+ * User.roleApplications
+ */
+export type User$roleApplicationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the RoleApplication
+   */
+  select?: Prisma.RoleApplicationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the RoleApplication
+   */
+  omit?: Prisma.RoleApplicationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RoleApplicationInclude<ExtArgs> | null
+  where?: Prisma.RoleApplicationWhereInput
+  orderBy?: Prisma.RoleApplicationOrderByWithRelationInput | Prisma.RoleApplicationOrderByWithRelationInput[]
+  cursor?: Prisma.RoleApplicationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.RoleApplicationScalarFieldEnum | Prisma.RoleApplicationScalarFieldEnum[]
+}
+
+/**
+ * User.privateUploads
+ */
+export type User$privateUploadsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PrivateUpload
+   */
+  select?: Prisma.PrivateUploadSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PrivateUpload
+   */
+  omit?: Prisma.PrivateUploadOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PrivateUploadInclude<ExtArgs> | null
+  where?: Prisma.PrivateUploadWhereInput
+  orderBy?: Prisma.PrivateUploadOrderByWithRelationInput | Prisma.PrivateUploadOrderByWithRelationInput[]
+  cursor?: Prisma.PrivateUploadWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PrivateUploadScalarFieldEnum | Prisma.PrivateUploadScalarFieldEnum[]
+}
+
+/**
+ * User.emailVerificationTokens
+ */
+export type User$emailVerificationTokensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the EmailVerificationToken
+   */
+  select?: Prisma.EmailVerificationTokenSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the EmailVerificationToken
+   */
+  omit?: Prisma.EmailVerificationTokenOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EmailVerificationTokenInclude<ExtArgs> | null
+  where?: Prisma.EmailVerificationTokenWhereInput
+  orderBy?: Prisma.EmailVerificationTokenOrderByWithRelationInput | Prisma.EmailVerificationTokenOrderByWithRelationInput[]
+  cursor?: Prisma.EmailVerificationTokenWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.EmailVerificationTokenScalarFieldEnum | Prisma.EmailVerificationTokenScalarFieldEnum[]
+}
+
+/**
+ * User.courseRequests
+ */
+export type User$courseRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CourseRequest
+   */
+  select?: Prisma.CourseRequestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the CourseRequest
+   */
+  omit?: Prisma.CourseRequestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CourseRequestInclude<ExtArgs> | null
+  where?: Prisma.CourseRequestWhereInput
+  orderBy?: Prisma.CourseRequestOrderByWithRelationInput | Prisma.CourseRequestOrderByWithRelationInput[]
+  cursor?: Prisma.CourseRequestWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CourseRequestScalarFieldEnum | Prisma.CourseRequestScalarFieldEnum[]
 }
 
 /**

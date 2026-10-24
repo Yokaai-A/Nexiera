@@ -13,31 +13,31 @@ const FOUNDERS = [
   {
     name: "Muhammad Abyan Hanif",
     role: "Chief Executive Officer (CEO)",
-    major: "Computer Science, BINUS University",
+    major: "Teknik Informatika, BINUS University",
     bio: "Memimpin arah strategis platform, arsitektur produk bimbingan akademik, serta perancangan ekosistem belajar terarah bagi mahasiswa.",
   },
   {
     name: "Nicholas Carlen",
     role: "Chief Finance Officer (CFO)",
-    major: "Computer Science, BINUS University",
+    major: "Teknik Informatika, BINUS University",
     bio: "Bertanggung jawab atas tata kelola keuangan, struktur biaya pembelajaran, dan keberlanjutan model operasional platform NEXIERA.",
   },
   {
     name: "Cornelia Jovita Putri Pramesti",
     role: "Chief Marketing Officer (CMO)",
-    major: "Computer Science, BINUS University",
+    major: "Teknik Informatika, BINUS University",
     bio: "Mengelola strategi komunikasi, engagement komunitas mahasiswa, serta memperluas jangkauan bimbingan belajar antarkampus.",
   },
   {
     name: "Muhammad Afif Syauqi",
     role: "Chief Technology Officer (CTO)",
-    major: "Computer Science, BINUS University",
+    major: "Teknik Informatika, BINUS University",
     bio: "Mengembangkan infrastruktur aplikasi, stabilitas sistem bimbingan, serta menjamin keandalan dan keamanan akses pembelajaran.",
   },
   {
     name: "Alexander Vian Hardjowibowo",
     role: "Chief Operational Officer (COO)",
-    major: "Computer Science, BINUS University",
+    major: "Teknik Informatika, BINUS University",
     bio: "Mengorkestrasi operasional harian, standarisasi alur bimbingan tutor, serta koordinasi kelancaran program belajar mahasiswa.",
   },
 ];
@@ -46,7 +46,7 @@ const VALUES = [
   {
     icon: Target,
     title: "100% Khusus Matkul Kampus",
-    desc: "Kebutuhan kuliah punya konteks dan tantangannya sendiri. Karena itu, NEXIERA berfokus pada mata kuliah kampus—mulai dari AlgoProg, ADA, Kalkulus, Software Engineering, hingga Basis Data—agar mahasiswa lebih mudah menemukan kelas yang selaras dengan materi yang sedang mereka pelajari.",
+    desc: "Kebutuhan kuliah punya konteks dan tantangannya sendiri. Karena itu, NEXIERA berfokus pada mata kuliah kampus—mulai dari AlgoProg, ADA, Kalkulus, Rekayasa Perangkat Lunak, hingga Basis Data—agar mahasiswa lebih mudah menemukan kelas yang selaras dengan materi yang sedang mereka pelajari.",
   },
   {
     icon: BookOpenText,
@@ -170,7 +170,7 @@ export default function TentangKamiPage() {
             5 Founders Mahasiswa BINUS University
           </h2>
           <p className="mx-auto mt-2 max-w-xl text-sm text-[#626B78]">
-            Berawal dari pengalaman sebagai mahasiswa School of Computer Science BINUS University, tim pendiri NEXIERA merancang platform ini untuk membuat dukungan belajar yang relevan lebih mudah dijangkau.
+            Berawal dari pengalaman sebagai mahasiswa Fakultas Ilmu Komputer BINUS University, tim pendiri NEXIERA merancang platform ini untuk membuat dukungan belajar yang relevan lebih mudah dijangkau.
           </p>
         </div>
 

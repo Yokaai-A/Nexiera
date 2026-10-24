@@ -1,5 +1,6 @@
-import { IsDateString, IsEnum, IsString, IsUrl, MaxLength, MinLength } from "class-validator";
-import { AdPlacement } from "../../generated/prisma/client.js";
+import { IsDateString, IsIn, IsString, MaxLength, MinLength } from "class-validator";
+
+export type AdPlacementType = "HOME_HERO" | "SIDE_MARGIN";
 
 export class CreateAdDto {
   @IsString()
@@ -11,13 +12,13 @@ export class CreateAdDto {
   @MaxLength(2000)
   subtitle!: string;
 
-  @IsEnum(AdPlacement)
-  placement!: AdPlacement;
+  @IsIn(["HOME_HERO", "SIDE_MARGIN"])
+  placement!: AdPlacementType;
 
-  @IsUrl({ require_protocol: true })
+  @IsString()
   imageUrl!: string;
 
-  @IsUrl({ require_protocol: true })
+  @IsString()
   targetUrl!: string;
 
   @IsDateString()

@@ -2,110 +2,118 @@ import {
   IsArray,
   IsDateString,
   IsEnum,
-  IsIn,
-  IsInt,
+  IsNumber,
   IsOptional,
   IsString,
-  IsUrl,
-  Max,
-  MaxLength,
   Min,
   MinLength,
 } from "class-validator";
-import { CourseType } from "../../generated/prisma/client.js";
+import { ClassType, TutorGrade } from "../../generated/prisma/client.js";
+
+export class BootcampTutorDto {
+  @IsString()
+  name!: string;
+
+  @IsString()
+  roleTitle!: string;
+
+  @IsOptional()
+  @IsString()
+  avatarUrl?: string;
+
+  @IsOptional()
+  @IsString()
+  headline?: string;
+
+  @IsOptional()
+  @IsString()
+  linkedinUrl?: string;
+}
 
 export class CreateClassDto {
   @IsString()
   @MinLength(3)
-  @MaxLength(191)
   title!: string;
-
-  @IsOptional()
-  @IsString()
-  @MaxLength(191)
-  shortDescription?: string;
 
   @IsString()
   @MinLength(10)
   description!: string;
 
   @IsOptional()
+  @IsEnum(ClassType)
+  type?: ClassType;
+
+  @IsOptional()
+  @IsEnum(TutorGrade)
+  tutorGrade?: TutorGrade;
+
+  // Backward compatibility alias
+  @IsOptional()
   @IsString()
-  @MaxLength(191)
+  courseType?: string;
+
+  @IsNumber()
+  @Min(0)
+  price!: number;
+
+  @IsOptional()
+  @IsString()
+  category?: string;
+
+  @IsOptional()
+  @IsString()
+  major?: string;
+
+  // Backward compatibility alias
+  @IsOptional()
+  @IsString()
   mainCategory?: string;
 
   @IsOptional()
   @IsString()
-  @MaxLength(191)
-  major?: string;
+  campusTarget?: string;
 
+  // Backward compatibility alias
   @IsOptional()
   @IsString()
-  @MaxLength(191)
   university?: string;
 
-  @IsEnum(CourseType)
-  courseType!: CourseType;
+  @IsString()
+  @MinLength(1)
+  bannerUrl!: string;
 
   @IsOptional()
   @IsString()
-  @MaxLength(191)
-  organizerName?: string;
+  meetingLink?: string;
 
-  @IsOptional()
-  @IsUrl({ require_protocol: true })
-  organizerLogo?: string;
-
-  @IsInt()
-  @Min(0)
-  @Max(9_999_999_999)
-  price!: number;
-
-  @IsDateString()
-  startsAt!: string;
-
+  // Backward compatibility alias
   @IsOptional()
   @IsString()
-  @MaxLength(191)
-  accessDuration?: string;
-
-  @IsOptional()
-  @IsInt()
-  @Min(1)
-  @Max(10000)
-  maxQuota?: number;
-
-  @IsOptional()
-  @IsArray()
-  @IsString({ each: true })
-  requirements?: string[];
-
-  @IsOptional()
-  @IsArray()
-  @IsString({ each: true })
-  facilities?: string[];
-
-  @IsOptional()
-  @IsIn(["ZOOM", "GMEET", "DISCORD"])
-  meetingPlatform?: string;
-
-  @IsOptional()
-  @IsUrl({ require_protocol: true })
   meetingUrl?: string;
 
   @IsOptional()
-  @IsIn(["NOTION", "DRIVE", "PDF", "GITHUB"])
-  materialPlatform?: string;
+  @IsString()
+  materialLink?: string;
 
+  // Backward compatibility alias
   @IsOptional()
-  @IsUrl({ require_protocol: true })
+  @IsString()
   materialUrl?: string;
 
   @IsOptional()
-  @IsUrl({ require_protocol: true })
+  @IsString()
+  recordingLink?: string;
+
+  // Backward compatibility alias
+  @IsOptional()
+  @IsString()
   recordingUrl?: string;
 
   @IsOptional()
-  @IsUrl({ require_protocol: true })
-  driveUrl?: string;
+  @IsArray()
+  tutors?: BootcampTutorDto[];
+
+  @IsOptional()
+  @IsDateString()
+  startsAt?: string;
 }

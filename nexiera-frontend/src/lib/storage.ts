@@ -2,7 +2,7 @@ import { AcademicCourse, UserProfile } from "@/src/types/course";
 import { INITIAL_COURSES, INITIAL_USER } from "./mockData";
 
 const STORAGE_KEYS = {
-  COURSES: "nexiera_academic_courses_v3",
+  COURSES: "nexiera_academic_courses_v4",
   USER: "nexiera_current_user",
   REGISTERED: "nexiera_registered_courses",
 };
@@ -30,7 +30,10 @@ export function getStoredCourses(): AcademicCourse[] {
         localStorage.setItem(STORAGE_KEYS.COURSES, JSON.stringify(INITIAL_COURSES));
         return INITIAL_COURSES;
       }
-      return parsed;
+      const canonical = parsed.filter((course: AcademicCourse) =>
+        INITIAL_COURSES.some((item) => item.title === course.title && item.mainCategory === course.mainCategory && item.university === course.university && item.type === course.type),
+      );
+      if (canonical.length > 0) return canonical;
     }
     return INITIAL_COURSES;
   } catch (error) {
@@ -40,6 +43,12 @@ export function getStoredCourses(): AcademicCourse[] {
 }
 
 export function saveNewCourse(course: Omit<AcademicCourse, "id" | "createdAt">): AcademicCourse {
+  const canonicalCourse = INITIAL_COURSES.find(
+    (item) => item.title === course.title && item.mainCategory === course.mainCategory && item.university === course.university && item.type === course.type,
+  );
+  if (!canonicalCourse) {
+    throw new Error("Pilih mata kuliah resmi yang tersedia di katalog NEXIERA.");
+  }
   const currentCourses = getStoredCourses();
   const newCourse: AcademicCourse = {
     ...course,

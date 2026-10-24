@@ -14,8 +14,8 @@ export default function KelolaKelasPage() {
     let active = true;
     nexieraApi
       .myClasses()
-      .then((items) => {
-        if (active) setClasses(items);
+      .then((data) => {
+        if (active) setClasses(Array.isArray(data) ? data : (data.created ?? []));
       })
       .catch((cause) => {
         if (active)
@@ -32,26 +32,26 @@ export default function KelolaKelasPage() {
   }, []);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {/* Header */}
-      <header className="flex flex-wrap items-center justify-between gap-4 rounded-[6px] border border-[#D9DEE7] bg-white p-6 dark:border-[#343945] dark:bg-[#191C23]">
+      <header className="flex flex-wrap items-center justify-between gap-3 rounded-[6px] border border-[#D9DEE7] bg-white p-4 dark:border-[#343945] dark:bg-[#191C23]">
         <div>
           <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-[#2457C5] dark:text-[#78A0FF]">
             <FileCheck2 className="h-4 w-4" /> Manajemen Kelas Bimbingan
           </span>
-          <h1 className="mt-2 text-lg sm:text-xl font-semibold text-[#20232B] dark:text-[#F3F4F6]">
+          <h1 className="mt-2 text-lg font-bold text-[#20232B] dark:text-[#F3F4F6]">
             Kelas yang Anda Kelola
           </h1>
-          <p className="mt-1 text-sm text-[#626B78] dark:text-[#B1B7C3]">
+          <p className="mt-1 text-xs text-[#626B78] dark:text-[#B1B7C3]">
             Kelola jadwal, link tatap muka, materi kurikulum, serta status publikasi bimbingan akademik Anda.
           </p>
         </div>
 
         <Link
           href="/dashboard/tutor/buat-kelas"
-          className="btn-primary inline-flex items-center gap-2"
+          className="btn-primary btn-dashboard-action inline-flex items-center"
         >
-          <PlusCircle className="h-4 w-4" />
+          <PlusCircle className="h-3.5 w-3.5" />
           <span>Buat Kelas Baru</span>
         </Link>
       </header>
@@ -59,29 +59,29 @@ export default function KelolaKelasPage() {
       {error && (
         <p
           role="alert"
-          className="rounded-[4px] border border-red-200 bg-red-50 p-3 text-sm text-red-700 dark:border-red-900/60 dark:bg-red-950/40 dark:text-red-300"
+          className="rounded-[4px] border border-red-200 bg-red-50 p-3 text-xs text-red-700 dark:border-red-900/60 dark:bg-red-950/40 dark:text-red-300"
         >
           {error}
         </p>
       )}
 
       {/* Konten Daftar Kelas */}
-      <section className="rounded-[6px] border border-[#D9DEE7] bg-white p-6 dark:border-[#343945] dark:bg-[#191C23]">
+      <section className="rounded-[6px] border border-[#D9DEE7] bg-white p-4 dark:border-[#343945] dark:bg-[#191C23]">
         {loading ? (
-          <p className="py-8 text-sm text-[#626B78] dark:text-[#B1B7C3]">Memuat data kelas...</p>
+          <p className="py-6 text-xs text-[#626B78] dark:text-[#B1B7C3]">Memuat data kelas...</p>
         ) : classes.length === 0 ? (
-          <div className="py-12 text-center">
+          <div className="py-6 text-center">
             <p className="font-semibold text-[#20232B] dark:text-[#F3F4F6]">
               Belum ada kelas yang dibuat.
             </p>
-            <p className="mt-1 text-sm text-[#626B78] dark:text-[#B1B7C3]">
+            <p className="mt-1 text-xs text-[#626B78] dark:text-[#B1B7C3]">
               Buka bimbingan pertamamu untuk mulai berbagi ilmu dan mendapatkan penghasilan.
             </p>
             <Link
               href="/dashboard/tutor/buat-kelas"
-              className="btn-primary mt-5 inline-flex items-center gap-2"
+              className="btn-primary btn-dashboard-action mt-5 inline-flex items-center"
             >
-              <PlusCircle className="h-4 w-4" />
+              <PlusCircle className="h-3.5 w-3.5" />
               <span>Buat Kelas Pertama</span>
             </Link>
           </div>
@@ -94,7 +94,7 @@ export default function KelolaKelasPage() {
               return (
                 <article
                   key={item.id}
-                  className="flex flex-col gap-4 rounded-[6px] border border-[#D9DEE7] p-5 sm:flex-row sm:items-center sm:justify-between dark:border-[#343945] dark:bg-[#111318]"
+                  className="flex flex-col gap-3 rounded-[6px] border border-[#D9DEE7] p-4 sm:flex-row sm:items-center sm:justify-between dark:border-[#343945] dark:bg-[#111318]"
                 >
                   <div className="min-w-0 flex-1">
                     <div className="flex flex-wrap items-center gap-2">
@@ -114,7 +114,7 @@ export default function KelolaKelasPage() {
                       </span>
                     </div>
 
-                    <h2 className="mt-2 text-base font-semibold text-[#20232B] dark:text-[#F3F4F6]">
+                    <h2 className="mt-2 text-sm font-semibold text-[#20232B] dark:text-[#F3F4F6]">
                       {item.title}
                     </h2>
                     <p className="mt-1 text-xs text-[#626B78] dark:text-[#B1B7C3]">
@@ -136,14 +136,14 @@ export default function KelolaKelasPage() {
                   <div className="flex items-center gap-2 self-start sm:self-center">
                     <Link
                       href="/dashboard/tutor/peserta"
-                      className="btn-secondary text-xs inline-flex items-center gap-1.5"
+                      className="btn-secondary btn-dashboard-action inline-flex items-center"
                     >
                       <Users2 className="h-3.5 w-3.5" />
                       Peserta
                     </Link>
                     <Link
                       href={`/dashboard/tutor/kelas/${encodeURIComponent(item.id)}`}
-                      className="btn-primary text-xs"
+                      className="btn-primary btn-dashboard-action"
                     >
                       Kelola
                     </Link>

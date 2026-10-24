@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#F8FAFC"/><stop offset="1" stop-color="#EAF1FF"/></linearGradient><linearGradient id="bar" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#7C3AED"/><stop offset="1" stop-color="#1E3A8A"/></linearGradient></defs>
+  <rect width="1280" height="720" rx="28" fill="url(#bg)"/>
+  <circle cx="1160" cy="80" r="210" fill="#7C3AED" opacity=".07"/>
+  <circle cx="1110" cy="645" r="210" fill="#7C3AED" opacity=".06"/>
+  <rect x="0" y="0" width="24" height="720" fill="url(#bar)"/>
+  <text x="92" y="168" fill="#7C3AED" font-family="Arial, sans-serif" font-size="26" font-weight="700" letter-spacing="4">MATA KULIAH</text>
+  <text x="92" y="280" fill="#172554" font-family="Arial, sans-serif" font-size="42" font-weight="700">Aljabar Linear</text>
+  <text x="92" y="346" fill="#64748B" font-family="Arial, sans-serif" font-size="27">Pendampingan akademik berbasis silabus perkuliahan</text>
+  <rect x="92" y="405" width="390" height="4" rx="2" fill="#7C3AED" opacity=".35"/>
+  <text x="92" y="475" fill="#334155" font-family="Arial, sans-serif" font-size="23">Persiapan UTS / UAS • Materi kurikulum universitas</text>
+  <g transform="translate(360 20) scale(.74)">  <path d="M720 470 C790 460 800 250 890 260 C990 270 965 490 1080 450" fill="none" stroke="#7C3AED" stroke-width="12" stroke-linecap="round"/><path d="M720 520 H1110 M760 530 V205" stroke="#9CA3AF" stroke-width="4"/><circle cx="890" cy="260" r="13" fill="#F59E0B"/>
+</g>
+</svg>

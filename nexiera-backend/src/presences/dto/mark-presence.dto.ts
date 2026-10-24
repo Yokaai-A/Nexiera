@@ -1,7 +1,7 @@
-import { IsEnum } from "class-validator";
-import { PresenceStatus } from "../../generated/prisma/client.js";
+import { IsIn, IsString } from "class-validator";
 
 export class MarkPresenceDto {
-  @IsEnum(PresenceStatus)
-  status!: PresenceStatus;
+  @IsString()
+  @IsIn(["PRESENT", "ABSENT", "LATE"])
+  status!: string;
 }

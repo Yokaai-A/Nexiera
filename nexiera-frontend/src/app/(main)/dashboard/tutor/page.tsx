@@ -47,21 +47,21 @@ export default function TutorOverviewPage() {
   const activeCount = classes.filter((item) => item.status === "ACTIVE").length;
 
   return (
-    <div className="space-y-6">
-      <header className="flex flex-wrap items-center justify-between gap-4 rounded-[6px] border border-[#D9DEE7] bg-white p-6 dark:border-[#343945] dark:bg-[#191C23]">
+    <div className="space-y-4">
+      <header className="flex flex-wrap items-center justify-between gap-3 rounded-[6px] border border-[#D9DEE7] bg-white p-4 dark:border-[#343945] dark:bg-[#191C23]">
         <div>
           <p className="text-xs font-semibold uppercase tracking-wider text-[#2457C5] dark:text-[#78A0FF]">
             Area Pengajar &amp; Penyelenggara
           </p>
-          <h1 className="mt-1 text-lg sm:text-xl font-semibold tracking-tight text-[#20232B] dark:text-[#F3F4F6]">
+          <h1 className="mt-1 text-lg font-bold tracking-tight text-[#20232B] dark:text-[#F3F4F6]">
             Ringkasan Pengajar{user.name ? ` · ${user.name}` : ""}
           </h1>
-          <p className="mt-1 text-sm text-[#626B78] dark:text-[#B1B7C3]">
+          <p className="mt-1 text-xs text-[#626B78] dark:text-[#B1B7C3]">
             Metrik operasional bimbingan, partisipasi peserta, dan analitik promosi kelas Anda.
           </p>
         </div>
-        <Link href="/dashboard/tutor/buat-kelas" className="btn-primary">
-          <PlusCircle className="mr-2 inline h-4 w-4" />
+        <Link href="/dashboard/tutor/buat-kelas" className="btn-primary btn-dashboard-action">
+          <PlusCircle className="inline h-3.5 w-3.5" />
           Buat Kelas Baru
         </Link>
       </header>
@@ -69,7 +69,7 @@ export default function TutorOverviewPage() {
       {error && (
         <div
           role="alert"
-          className="rounded-[4px] border border-red-200 bg-red-50 p-3 text-sm text-red-700 dark:border-red-900/60 dark:bg-red-950/40 dark:text-red-300"
+          className="rounded-[4px] border border-red-200 bg-red-50 p-3 text-xs text-red-700 dark:border-red-900/60 dark:bg-red-950/40 dark:text-red-300"
         >
           <p>Dashboard gagal memuat data: {error}</p>
           <button type="button" onClick={() => setReloadKey((key) => key + 1)} className="mt-2 font-semibold underline">
@@ -79,7 +79,7 @@ export default function TutorOverviewPage() {
       )}
 
       {/* 4 Metric Cards */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         {[
           ["Kelas Aktif", loading ? "Memuat..." : data ? activeCount : "—"],
           ["Peserta Terdaftar", loading ? "Memuat..." : data?.students.length ?? "—"],
@@ -88,7 +88,7 @@ export default function TutorOverviewPage() {
         ].map(([label, value]) => (
           <article
             key={label}
-            className="rounded-[6px] border border-[#D9DEE7] bg-white p-5 dark:border-[#343945] dark:bg-[#191C23]"
+            className="rounded-[6px] border border-[#D9DEE7] bg-white p-4 dark:border-[#343945] dark:bg-[#191C23]"
           >
             <p className="text-xs font-semibold uppercase tracking-wider text-[#626B78] dark:text-[#B1B7C3]">{label}</p>
             <p className="mt-1.5 break-words text-xl sm:text-2xl font-bold text-[#20232B] dark:text-[#F3F4F6]">
@@ -98,10 +98,10 @@ export default function TutorOverviewPage() {
         ))}
       </div>
 
-      <section className="rounded-[6px] border border-[#D9DEE7] bg-white p-6 dark:border-[#343945] dark:bg-[#191C23]">
+      <section className="rounded-[6px] border border-[#D9DEE7] bg-white p-4 dark:border-[#343945] dark:bg-[#191C23]">
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#D9DEE7] pb-4 dark:border-[#343945]">
           <div>
-            <h2 className="text-sm sm:text-base font-semibold text-[#20232B] dark:text-[#F3F4F6]">
+            <h2 className="text-xs sm:text-sm font-semibold text-[#20232B] dark:text-[#F3F4F6]">
               Kelas yang Dikelola
             </h2>
             <p className="mt-0.5 text-xs text-[#626B78] dark:text-[#B1B7C3]">
@@ -110,25 +110,25 @@ export default function TutorOverviewPage() {
           </div>
           <Link
             href="/dashboard/tutor/kelas"
-            className="inline-flex items-center gap-1 text-sm font-medium text-[#2457C5] hover:text-[#1D4ED8] dark:text-[#78A0FF]"
+            className="inline-flex items-center gap-1 text-xs font-medium text-[#2457C5] hover:text-[#1D4ED8] dark:text-[#78A0FF]"
           >
             Kelola Semua Kelas <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
 
         {loading ? (
-          <p className="py-8 text-sm text-[#626B78] dark:text-[#B1B7C3]">Memuat kelas yang Anda kelola...</p>
+          <p className="py-6 text-xs text-[#626B78] dark:text-[#B1B7C3]">Memuat kelas yang Anda kelola...</p>
         ) : error ? (
-          <p className="py-8 text-center text-sm text-[#626B78] dark:text-[#B1B7C3]">Data kelas belum tersedia karena dashboard gagal dimuat.</p>
+          <p className="py-6 text-center text-xs text-[#626B78] dark:text-[#B1B7C3]">Data kelas belum tersedia karena dashboard gagal dimuat.</p>
         ) : classes.length === 0 ? (
-          <div className="py-12 text-center">
-            <p className="text-base font-semibold text-[#20232B] dark:text-[#F3F4F6]">
+          <div className="py-6 text-center">
+            <p className="text-xs font-semibold text-[#20232B] dark:text-[#F3F4F6]">
               Belum ada kelas yang dibuat.
             </p>
-            <p className="mt-1.5 text-sm text-[#626B78] dark:text-[#B1B7C3]">
+            <p className="mt-1.5 text-xs text-[#626B78] dark:text-[#B1B7C3]">
               Publikasikan kelas bimbingan atau bootcamp pertama Anda untuk mulai menerima peserta.
             </p>
-            <Link href="/dashboard/tutor/buat-kelas" className="btn-primary mt-5 inline-flex">
+            <Link href="/dashboard/tutor/buat-kelas" className="btn-primary btn-dashboard-action mt-5 inline-flex">
               Buat Kelas Pertama
             </Link>
           </div>
@@ -137,16 +137,16 @@ export default function TutorOverviewPage() {
             {classes.map((item) => (
               <article
                 key={item.id}
-                className="flex flex-wrap items-center justify-between gap-4 py-4"
+                className="flex flex-wrap items-center justify-between gap-3 py-4"
               >
                 <div>
                   <span className="text-xs font-semibold uppercase tracking-wider text-[#2457C5] dark:text-[#78A0FF]">
                     {item.status || "DRAFT"}
                   </span>
-                  <h3 className="mt-1 text-base font-semibold text-[#20232B] dark:text-[#F3F4F6]">
+                  <h3 className="mt-1 text-sm font-semibold text-[#20232B] dark:text-[#F3F4F6]">
                     {item.title}
                   </h3>
-                  <p className="mt-1 text-sm text-[#626B78] dark:text-[#B1B7C3]">
+                  <p className="mt-1 text-xs text-[#626B78] dark:text-[#B1B7C3]">
                     {item.startsAt
                       ? new Intl.DateTimeFormat("id-ID", {
                           dateStyle: "medium",
@@ -156,13 +156,13 @@ export default function TutorOverviewPage() {
                   </p>
                 </div>
                 <div className="flex gap-2.5">
-                  <Link href="/dashboard/tutor/peserta" className="btn-secondary text-sm">
-                    <Users2 className="mr-1.5 inline h-4 w-4" />
+                  <Link href="/dashboard/tutor/peserta" className="btn-secondary btn-dashboard-action">
+                    <Users2 className="inline h-3.5 w-3.5" />
                     Peserta
                   </Link>
                   <Link
                     href={`/dashboard/tutor/kelas/${encodeURIComponent(item.id)}`}
-                    className="btn-primary text-sm"
+                    className="btn-primary btn-dashboard-action"
                   >
                     Kelola
                   </Link>

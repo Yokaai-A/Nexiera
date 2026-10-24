@@ -36,60 +36,54 @@ export type TransactionSumAggregateOutputType = {
 
 export type TransactionMinAggregateOutputType = {
   id: string | null
+  orderId: string | null
   userId: string | null
   classId: string | null
-  midtransOrderId: string | null
-  midtransTransactionId: string | null
-  midtransRedirectUrl: string | null
   amount: runtime.Decimal | null
-  currency: string | null
   status: $Enums.TransactionStatus | null
   refundStatus: $Enums.RefundStatus | null
-  refundProviderReference: string | null
-  refundFailureReason: string | null
-  paidAt: Date | null
+  refundMethod: string | null
+  refundAccountName: string | null
+  refundAccountNumber: string | null
   refundRequestedAt: Date | null
   refundedAt: Date | null
+  refundProofUrl: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
 
 export type TransactionMaxAggregateOutputType = {
   id: string | null
+  orderId: string | null
   userId: string | null
   classId: string | null
-  midtransOrderId: string | null
-  midtransTransactionId: string | null
-  midtransRedirectUrl: string | null
   amount: runtime.Decimal | null
-  currency: string | null
   status: $Enums.TransactionStatus | null
   refundStatus: $Enums.RefundStatus | null
-  refundProviderReference: string | null
-  refundFailureReason: string | null
-  paidAt: Date | null
+  refundMethod: string | null
+  refundAccountName: string | null
+  refundAccountNumber: string | null
   refundRequestedAt: Date | null
   refundedAt: Date | null
+  refundProofUrl: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
 
 export type TransactionCountAggregateOutputType = {
   id: number
+  orderId: number
   userId: number
   classId: number
-  midtransOrderId: number
-  midtransTransactionId: number
-  midtransRedirectUrl: number
   amount: number
-  currency: number
   status: number
   refundStatus: number
-  refundProviderReference: number
-  refundFailureReason: number
-  paidAt: number
+  refundMethod: number
+  refundAccountName: number
+  refundAccountNumber: number
   refundRequestedAt: number
   refundedAt: number
+  refundProofUrl: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -106,60 +100,54 @@ export type TransactionSumAggregateInputType = {
 
 export type TransactionMinAggregateInputType = {
   id?: true
+  orderId?: true
   userId?: true
   classId?: true
-  midtransOrderId?: true
-  midtransTransactionId?: true
-  midtransRedirectUrl?: true
   amount?: true
-  currency?: true
   status?: true
   refundStatus?: true
-  refundProviderReference?: true
-  refundFailureReason?: true
-  paidAt?: true
+  refundMethod?: true
+  refundAccountName?: true
+  refundAccountNumber?: true
   refundRequestedAt?: true
   refundedAt?: true
+  refundProofUrl?: true
   createdAt?: true
   updatedAt?: true
 }
 
 export type TransactionMaxAggregateInputType = {
   id?: true
+  orderId?: true
   userId?: true
   classId?: true
-  midtransOrderId?: true
-  midtransTransactionId?: true
-  midtransRedirectUrl?: true
   amount?: true
-  currency?: true
   status?: true
   refundStatus?: true
-  refundProviderReference?: true
-  refundFailureReason?: true
-  paidAt?: true
+  refundMethod?: true
+  refundAccountName?: true
+  refundAccountNumber?: true
   refundRequestedAt?: true
   refundedAt?: true
+  refundProofUrl?: true
   createdAt?: true
   updatedAt?: true
 }
 
 export type TransactionCountAggregateInputType = {
   id?: true
+  orderId?: true
   userId?: true
   classId?: true
-  midtransOrderId?: true
-  midtransTransactionId?: true
-  midtransRedirectUrl?: true
   amount?: true
-  currency?: true
   status?: true
   refundStatus?: true
-  refundProviderReference?: true
-  refundFailureReason?: true
-  paidAt?: true
+  refundMethod?: true
+  refundAccountName?: true
+  refundAccountNumber?: true
   refundRequestedAt?: true
   refundedAt?: true
+  refundProofUrl?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -253,20 +241,18 @@ export type TransactionGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inte
 
 export type TransactionGroupByOutputType = {
   id: string
+  orderId: string
   userId: string
   classId: string
-  midtransOrderId: string | null
-  midtransTransactionId: string | null
-  midtransRedirectUrl: string | null
   amount: runtime.Decimal
-  currency: string
   status: $Enums.TransactionStatus
   refundStatus: $Enums.RefundStatus
-  refundProviderReference: string | null
-  refundFailureReason: string | null
-  paidAt: Date | null
+  refundMethod: string | null
+  refundAccountName: string | null
+  refundAccountNumber: string | null
   refundRequestedAt: Date | null
   refundedAt: Date | null
+  refundProofUrl: string | null
   createdAt: Date
   updatedAt: Date
   _count: TransactionCountAggregateOutputType | null
@@ -296,20 +282,18 @@ export type TransactionWhereInput = {
   OR?: Prisma.TransactionWhereInput[]
   NOT?: Prisma.TransactionWhereInput | Prisma.TransactionWhereInput[]
   id?: Prisma.StringFilter<"Transaction"> | string
+  orderId?: Prisma.StringFilter<"Transaction"> | string
   userId?: Prisma.StringFilter<"Transaction"> | string
   classId?: Prisma.StringFilter<"Transaction"> | string
-  midtransOrderId?: Prisma.StringNullableFilter<"Transaction"> | string | null
-  midtransTransactionId?: Prisma.StringNullableFilter<"Transaction"> | string | null
-  midtransRedirectUrl?: Prisma.StringNullableFilter<"Transaction"> | string | null
   amount?: Prisma.DecimalFilter<"Transaction"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: Prisma.StringFilter<"Transaction"> | string
   status?: Prisma.EnumTransactionStatusFilter<"Transaction"> | $Enums.TransactionStatus
   refundStatus?: Prisma.EnumRefundStatusFilter<"Transaction"> | $Enums.RefundStatus
-  refundProviderReference?: Prisma.StringNullableFilter<"Transaction"> | string | null
-  refundFailureReason?: Prisma.StringNullableFilter<"Transaction"> | string | null
-  paidAt?: Prisma.DateTimeNullableFilter<"Transaction"> | Date | string | null
+  refundMethod?: Prisma.StringNullableFilter<"Transaction"> | string | null
+  refundAccountName?: Prisma.StringNullableFilter<"Transaction"> | string | null
+  refundAccountNumber?: Prisma.StringNullableFilter<"Transaction"> | string | null
   refundRequestedAt?: Prisma.DateTimeNullableFilter<"Transaction"> | Date | string | null
   refundedAt?: Prisma.DateTimeNullableFilter<"Transaction"> | Date | string | null
+  refundProofUrl?: Prisma.StringNullableFilter<"Transaction"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Transaction"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Transaction"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -318,20 +302,18 @@ export type TransactionWhereInput = {
 
 export type TransactionOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  orderId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   classId?: Prisma.SortOrder
-  midtransOrderId?: Prisma.SortOrderInput | Prisma.SortOrder
-  midtransTransactionId?: Prisma.SortOrderInput | Prisma.SortOrder
-  midtransRedirectUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   amount?: Prisma.SortOrder
-  currency?: Prisma.SortOrder
   status?: Prisma.SortOrder
   refundStatus?: Prisma.SortOrder
-  refundProviderReference?: Prisma.SortOrderInput | Prisma.SortOrder
-  refundFailureReason?: Prisma.SortOrderInput | Prisma.SortOrder
-  paidAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  refundMethod?: Prisma.SortOrderInput | Prisma.SortOrder
+  refundAccountName?: Prisma.SortOrderInput | Prisma.SortOrder
+  refundAccountNumber?: Prisma.SortOrderInput | Prisma.SortOrder
   refundRequestedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   refundedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  refundProofUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
@@ -341,46 +323,41 @@ export type TransactionOrderByWithRelationInput = {
 
 export type TransactionWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  midtransOrderId?: string
-  midtransTransactionId?: string
-  userId_classId_status?: Prisma.TransactionUserIdClassIdStatusCompoundUniqueInput
+  orderId?: string
   AND?: Prisma.TransactionWhereInput | Prisma.TransactionWhereInput[]
   OR?: Prisma.TransactionWhereInput[]
   NOT?: Prisma.TransactionWhereInput | Prisma.TransactionWhereInput[]
   userId?: Prisma.StringFilter<"Transaction"> | string
   classId?: Prisma.StringFilter<"Transaction"> | string
-  midtransRedirectUrl?: Prisma.StringNullableFilter<"Transaction"> | string | null
   amount?: Prisma.DecimalFilter<"Transaction"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: Prisma.StringFilter<"Transaction"> | string
   status?: Prisma.EnumTransactionStatusFilter<"Transaction"> | $Enums.TransactionStatus
   refundStatus?: Prisma.EnumRefundStatusFilter<"Transaction"> | $Enums.RefundStatus
-  refundProviderReference?: Prisma.StringNullableFilter<"Transaction"> | string | null
-  refundFailureReason?: Prisma.StringNullableFilter<"Transaction"> | string | null
-  paidAt?: Prisma.DateTimeNullableFilter<"Transaction"> | Date | string | null
+  refundMethod?: Prisma.StringNullableFilter<"Transaction"> | string | null
+  refundAccountName?: Prisma.StringNullableFilter<"Transaction"> | string | null
+  refundAccountNumber?: Prisma.StringNullableFilter<"Transaction"> | string | null
   refundRequestedAt?: Prisma.DateTimeNullableFilter<"Transaction"> | Date | string | null
   refundedAt?: Prisma.DateTimeNullableFilter<"Transaction"> | Date | string | null
+  refundProofUrl?: Prisma.StringNullableFilter<"Transaction"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Transaction"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Transaction"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   class?: Prisma.XOR<Prisma.ClassScalarRelationFilter, Prisma.ClassWhereInput>
-}, "id" | "midtransOrderId" | "midtransTransactionId" | "userId_classId_status">
+}, "id" | "orderId">
 
 export type TransactionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  orderId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   classId?: Prisma.SortOrder
-  midtransOrderId?: Prisma.SortOrderInput | Prisma.SortOrder
-  midtransTransactionId?: Prisma.SortOrderInput | Prisma.SortOrder
-  midtransRedirectUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   amount?: Prisma.SortOrder
-  currency?: Prisma.SortOrder
   status?: Prisma.SortOrder
   refundStatus?: Prisma.SortOrder
-  refundProviderReference?: Prisma.SortOrderInput | Prisma.SortOrder
-  refundFailureReason?: Prisma.SortOrderInput | Prisma.SortOrder
-  paidAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  refundMethod?: Prisma.SortOrderInput | Prisma.SortOrder
+  refundAccountName?: Prisma.SortOrderInput | Prisma.SortOrder
+  refundAccountNumber?: Prisma.SortOrderInput | Prisma.SortOrder
   refundRequestedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   refundedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  refundProofUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.TransactionCountOrderByAggregateInput
@@ -395,38 +372,34 @@ export type TransactionScalarWhereWithAggregatesInput = {
   OR?: Prisma.TransactionScalarWhereWithAggregatesInput[]
   NOT?: Prisma.TransactionScalarWhereWithAggregatesInput | Prisma.TransactionScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Transaction"> | string
+  orderId?: Prisma.StringWithAggregatesFilter<"Transaction"> | string
   userId?: Prisma.StringWithAggregatesFilter<"Transaction"> | string
   classId?: Prisma.StringWithAggregatesFilter<"Transaction"> | string
-  midtransOrderId?: Prisma.StringNullableWithAggregatesFilter<"Transaction"> | string | null
-  midtransTransactionId?: Prisma.StringNullableWithAggregatesFilter<"Transaction"> | string | null
-  midtransRedirectUrl?: Prisma.StringNullableWithAggregatesFilter<"Transaction"> | string | null
   amount?: Prisma.DecimalWithAggregatesFilter<"Transaction"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: Prisma.StringWithAggregatesFilter<"Transaction"> | string
   status?: Prisma.EnumTransactionStatusWithAggregatesFilter<"Transaction"> | $Enums.TransactionStatus
   refundStatus?: Prisma.EnumRefundStatusWithAggregatesFilter<"Transaction"> | $Enums.RefundStatus
-  refundProviderReference?: Prisma.StringNullableWithAggregatesFilter<"Transaction"> | string | null
-  refundFailureReason?: Prisma.StringNullableWithAggregatesFilter<"Transaction"> | string | null
-  paidAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Transaction"> | Date | string | null
+  refundMethod?: Prisma.StringNullableWithAggregatesFilter<"Transaction"> | string | null
+  refundAccountName?: Prisma.StringNullableWithAggregatesFilter<"Transaction"> | string | null
+  refundAccountNumber?: Prisma.StringNullableWithAggregatesFilter<"Transaction"> | string | null
   refundRequestedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Transaction"> | Date | string | null
   refundedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Transaction"> | Date | string | null
+  refundProofUrl?: Prisma.StringNullableWithAggregatesFilter<"Transaction"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Transaction"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Transaction"> | Date | string
 }
 
 export type TransactionCreateInput = {
   id?: string
-  midtransOrderId?: string | null
-  midtransTransactionId?: string | null
-  midtransRedirectUrl?: string | null
+  orderId: string
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: string
   status?: $Enums.TransactionStatus
   refundStatus?: $Enums.RefundStatus
-  refundProviderReference?: string | null
-  refundFailureReason?: string | null
-  paidAt?: Date | string | null
+  refundMethod?: string | null
+  refundAccountName?: string | null
+  refundAccountNumber?: string | null
   refundRequestedAt?: Date | string | null
   refundedAt?: Date | string | null
+  refundProofUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutTransactionsInput
@@ -435,38 +408,34 @@ export type TransactionCreateInput = {
 
 export type TransactionUncheckedCreateInput = {
   id?: string
+  orderId: string
   userId: string
   classId: string
-  midtransOrderId?: string | null
-  midtransTransactionId?: string | null
-  midtransRedirectUrl?: string | null
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: string
   status?: $Enums.TransactionStatus
   refundStatus?: $Enums.RefundStatus
-  refundProviderReference?: string | null
-  refundFailureReason?: string | null
-  paidAt?: Date | string | null
+  refundMethod?: string | null
+  refundAccountName?: string | null
+  refundAccountNumber?: string | null
   refundRequestedAt?: Date | string | null
   refundedAt?: Date | string | null
+  refundProofUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type TransactionUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  midtransOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  midtransTransactionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  midtransRedirectUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  orderId?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
   refundStatus?: Prisma.EnumRefundStatusFieldUpdateOperationsInput | $Enums.RefundStatus
-  refundProviderReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  refundFailureReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refundMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refundAccountName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refundAccountNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   refundRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   refundedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refundProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutTransactionsNestedInput
@@ -475,78 +444,70 @@ export type TransactionUpdateInput = {
 
 export type TransactionUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  orderId?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   classId?: Prisma.StringFieldUpdateOperationsInput | string
-  midtransOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  midtransTransactionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  midtransRedirectUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
   refundStatus?: Prisma.EnumRefundStatusFieldUpdateOperationsInput | $Enums.RefundStatus
-  refundProviderReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  refundFailureReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refundMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refundAccountName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refundAccountNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   refundRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   refundedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refundProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type TransactionCreateManyInput = {
   id?: string
+  orderId: string
   userId: string
   classId: string
-  midtransOrderId?: string | null
-  midtransTransactionId?: string | null
-  midtransRedirectUrl?: string | null
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: string
   status?: $Enums.TransactionStatus
   refundStatus?: $Enums.RefundStatus
-  refundProviderReference?: string | null
-  refundFailureReason?: string | null
-  paidAt?: Date | string | null
+  refundMethod?: string | null
+  refundAccountName?: string | null
+  refundAccountNumber?: string | null
   refundRequestedAt?: Date | string | null
   refundedAt?: Date | string | null
+  refundProofUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type TransactionUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  midtransOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  midtransTransactionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  midtransRedirectUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  orderId?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
   refundStatus?: Prisma.EnumRefundStatusFieldUpdateOperationsInput | $Enums.RefundStatus
-  refundProviderReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  refundFailureReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refundMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refundAccountName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refundAccountNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   refundRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   refundedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refundProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type TransactionUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  orderId?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   classId?: Prisma.StringFieldUpdateOperationsInput | string
-  midtransOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  midtransTransactionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  midtransRedirectUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
   refundStatus?: Prisma.EnumRefundStatusFieldUpdateOperationsInput | $Enums.RefundStatus
-  refundProviderReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  refundFailureReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refundMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refundAccountName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refundAccountNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   refundRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   refundedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refundProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -567,28 +528,20 @@ export type TransactionOrderByRelevanceInput = {
   search: string
 }
 
-export type TransactionUserIdClassIdStatusCompoundUniqueInput = {
-  userId: string
-  classId: string
-  status: $Enums.TransactionStatus
-}
-
 export type TransactionCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  orderId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   classId?: Prisma.SortOrder
-  midtransOrderId?: Prisma.SortOrder
-  midtransTransactionId?: Prisma.SortOrder
-  midtransRedirectUrl?: Prisma.SortOrder
   amount?: Prisma.SortOrder
-  currency?: Prisma.SortOrder
   status?: Prisma.SortOrder
   refundStatus?: Prisma.SortOrder
-  refundProviderReference?: Prisma.SortOrder
-  refundFailureReason?: Prisma.SortOrder
-  paidAt?: Prisma.SortOrder
+  refundMethod?: Prisma.SortOrder
+  refundAccountName?: Prisma.SortOrder
+  refundAccountNumber?: Prisma.SortOrder
   refundRequestedAt?: Prisma.SortOrder
   refundedAt?: Prisma.SortOrder
+  refundProofUrl?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -599,40 +552,36 @@ export type TransactionAvgOrderByAggregateInput = {
 
 export type TransactionMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  orderId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   classId?: Prisma.SortOrder
-  midtransOrderId?: Prisma.SortOrder
-  midtransTransactionId?: Prisma.SortOrder
-  midtransRedirectUrl?: Prisma.SortOrder
   amount?: Prisma.SortOrder
-  currency?: Prisma.SortOrder
   status?: Prisma.SortOrder
   refundStatus?: Prisma.SortOrder
-  refundProviderReference?: Prisma.SortOrder
-  refundFailureReason?: Prisma.SortOrder
-  paidAt?: Prisma.SortOrder
+  refundMethod?: Prisma.SortOrder
+  refundAccountName?: Prisma.SortOrder
+  refundAccountNumber?: Prisma.SortOrder
   refundRequestedAt?: Prisma.SortOrder
   refundedAt?: Prisma.SortOrder
+  refundProofUrl?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type TransactionMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  orderId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   classId?: Prisma.SortOrder
-  midtransOrderId?: Prisma.SortOrder
-  midtransTransactionId?: Prisma.SortOrder
-  midtransRedirectUrl?: Prisma.SortOrder
   amount?: Prisma.SortOrder
-  currency?: Prisma.SortOrder
   status?: Prisma.SortOrder
   refundStatus?: Prisma.SortOrder
-  refundProviderReference?: Prisma.SortOrder
-  refundFailureReason?: Prisma.SortOrder
-  paidAt?: Prisma.SortOrder
+  refundMethod?: Prisma.SortOrder
+  refundAccountName?: Prisma.SortOrder
+  refundAccountNumber?: Prisma.SortOrder
   refundRequestedAt?: Prisma.SortOrder
   refundedAt?: Prisma.SortOrder
+  refundProofUrl?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -735,18 +684,16 @@ export type EnumRefundStatusFieldUpdateOperationsInput = {
 
 export type TransactionCreateWithoutUserInput = {
   id?: string
-  midtransOrderId?: string | null
-  midtransTransactionId?: string | null
-  midtransRedirectUrl?: string | null
+  orderId: string
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: string
   status?: $Enums.TransactionStatus
   refundStatus?: $Enums.RefundStatus
-  refundProviderReference?: string | null
-  refundFailureReason?: string | null
-  paidAt?: Date | string | null
+  refundMethod?: string | null
+  refundAccountName?: string | null
+  refundAccountNumber?: string | null
   refundRequestedAt?: Date | string | null
   refundedAt?: Date | string | null
+  refundProofUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   class: Prisma.ClassCreateNestedOneWithoutTransactionsInput
@@ -754,19 +701,17 @@ export type TransactionCreateWithoutUserInput = {
 
 export type TransactionUncheckedCreateWithoutUserInput = {
   id?: string
+  orderId: string
   classId: string
-  midtransOrderId?: string | null
-  midtransTransactionId?: string | null
-  midtransRedirectUrl?: string | null
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: string
   status?: $Enums.TransactionStatus
   refundStatus?: $Enums.RefundStatus
-  refundProviderReference?: string | null
-  refundFailureReason?: string | null
-  paidAt?: Date | string | null
+  refundMethod?: string | null
+  refundAccountName?: string | null
+  refundAccountNumber?: string | null
   refundRequestedAt?: Date | string | null
   refundedAt?: Date | string | null
+  refundProofUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -802,38 +747,34 @@ export type TransactionScalarWhereInput = {
   OR?: Prisma.TransactionScalarWhereInput[]
   NOT?: Prisma.TransactionScalarWhereInput | Prisma.TransactionScalarWhereInput[]
   id?: Prisma.StringFilter<"Transaction"> | string
+  orderId?: Prisma.StringFilter<"Transaction"> | string
   userId?: Prisma.StringFilter<"Transaction"> | string
   classId?: Prisma.StringFilter<"Transaction"> | string
-  midtransOrderId?: Prisma.StringNullableFilter<"Transaction"> | string | null
-  midtransTransactionId?: Prisma.StringNullableFilter<"Transaction"> | string | null
-  midtransRedirectUrl?: Prisma.StringNullableFilter<"Transaction"> | string | null
   amount?: Prisma.DecimalFilter<"Transaction"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: Prisma.StringFilter<"Transaction"> | string
   status?: Prisma.EnumTransactionStatusFilter<"Transaction"> | $Enums.TransactionStatus
   refundStatus?: Prisma.EnumRefundStatusFilter<"Transaction"> | $Enums.RefundStatus
-  refundProviderReference?: Prisma.StringNullableFilter<"Transaction"> | string | null
-  refundFailureReason?: Prisma.StringNullableFilter<"Transaction"> | string | null
-  paidAt?: Prisma.DateTimeNullableFilter<"Transaction"> | Date | string | null
+  refundMethod?: Prisma.StringNullableFilter<"Transaction"> | string | null
+  refundAccountName?: Prisma.StringNullableFilter<"Transaction"> | string | null
+  refundAccountNumber?: Prisma.StringNullableFilter<"Transaction"> | string | null
   refundRequestedAt?: Prisma.DateTimeNullableFilter<"Transaction"> | Date | string | null
   refundedAt?: Prisma.DateTimeNullableFilter<"Transaction"> | Date | string | null
+  refundProofUrl?: Prisma.StringNullableFilter<"Transaction"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Transaction"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Transaction"> | Date | string
 }
 
 export type TransactionCreateWithoutClassInput = {
   id?: string
-  midtransOrderId?: string | null
-  midtransTransactionId?: string | null
-  midtransRedirectUrl?: string | null
+  orderId: string
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: string
   status?: $Enums.TransactionStatus
   refundStatus?: $Enums.RefundStatus
-  refundProviderReference?: string | null
-  refundFailureReason?: string | null
-  paidAt?: Date | string | null
+  refundMethod?: string | null
+  refundAccountName?: string | null
+  refundAccountNumber?: string | null
   refundRequestedAt?: Date | string | null
   refundedAt?: Date | string | null
+  refundProofUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutTransactionsInput
@@ -841,19 +782,17 @@ export type TransactionCreateWithoutClassInput = {
 
 export type TransactionUncheckedCreateWithoutClassInput = {
   id?: string
+  orderId: string
   userId: string
-  midtransOrderId?: string | null
-  midtransTransactionId?: string | null
-  midtransRedirectUrl?: string | null
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: string
   status?: $Enums.TransactionStatus
   refundStatus?: $Enums.RefundStatus
-  refundProviderReference?: string | null
-  refundFailureReason?: string | null
-  paidAt?: Date | string | null
+  refundMethod?: string | null
+  refundAccountName?: string | null
+  refundAccountNumber?: string | null
   refundRequestedAt?: Date | string | null
   refundedAt?: Date | string | null
+  refundProofUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -886,37 +825,33 @@ export type TransactionUpdateManyWithWhereWithoutClassInput = {
 
 export type TransactionCreateManyUserInput = {
   id?: string
+  orderId: string
   classId: string
-  midtransOrderId?: string | null
-  midtransTransactionId?: string | null
-  midtransRedirectUrl?: string | null
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: string
   status?: $Enums.TransactionStatus
   refundStatus?: $Enums.RefundStatus
-  refundProviderReference?: string | null
-  refundFailureReason?: string | null
-  paidAt?: Date | string | null
+  refundMethod?: string | null
+  refundAccountName?: string | null
+  refundAccountNumber?: string | null
   refundRequestedAt?: Date | string | null
   refundedAt?: Date | string | null
+  refundProofUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type TransactionUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  midtransOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  midtransTransactionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  midtransRedirectUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  orderId?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
   refundStatus?: Prisma.EnumRefundStatusFieldUpdateOperationsInput | $Enums.RefundStatus
-  refundProviderReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  refundFailureReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refundMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refundAccountName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refundAccountNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   refundRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   refundedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refundProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   class?: Prisma.ClassUpdateOneRequiredWithoutTransactionsNestedInput
@@ -924,75 +859,67 @@ export type TransactionUpdateWithoutUserInput = {
 
 export type TransactionUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  orderId?: Prisma.StringFieldUpdateOperationsInput | string
   classId?: Prisma.StringFieldUpdateOperationsInput | string
-  midtransOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  midtransTransactionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  midtransRedirectUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
   refundStatus?: Prisma.EnumRefundStatusFieldUpdateOperationsInput | $Enums.RefundStatus
-  refundProviderReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  refundFailureReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refundMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refundAccountName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refundAccountNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   refundRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   refundedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refundProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type TransactionUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  orderId?: Prisma.StringFieldUpdateOperationsInput | string
   classId?: Prisma.StringFieldUpdateOperationsInput | string
-  midtransOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  midtransTransactionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  midtransRedirectUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
   refundStatus?: Prisma.EnumRefundStatusFieldUpdateOperationsInput | $Enums.RefundStatus
-  refundProviderReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  refundFailureReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refundMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refundAccountName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refundAccountNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   refundRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   refundedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refundProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type TransactionCreateManyClassInput = {
   id?: string
+  orderId: string
   userId: string
-  midtransOrderId?: string | null
-  midtransTransactionId?: string | null
-  midtransRedirectUrl?: string | null
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: string
   status?: $Enums.TransactionStatus
   refundStatus?: $Enums.RefundStatus
-  refundProviderReference?: string | null
-  refundFailureReason?: string | null
-  paidAt?: Date | string | null
+  refundMethod?: string | null
+  refundAccountName?: string | null
+  refundAccountNumber?: string | null
   refundRequestedAt?: Date | string | null
   refundedAt?: Date | string | null
+  refundProofUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type TransactionUpdateWithoutClassInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  midtransOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  midtransTransactionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  midtransRedirectUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  orderId?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
   refundStatus?: Prisma.EnumRefundStatusFieldUpdateOperationsInput | $Enums.RefundStatus
-  refundProviderReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  refundFailureReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refundMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refundAccountName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refundAccountNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   refundRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   refundedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refundProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutTransactionsNestedInput
@@ -1000,38 +927,34 @@ export type TransactionUpdateWithoutClassInput = {
 
 export type TransactionUncheckedUpdateWithoutClassInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  orderId?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  midtransOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  midtransTransactionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  midtransRedirectUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
   refundStatus?: Prisma.EnumRefundStatusFieldUpdateOperationsInput | $Enums.RefundStatus
-  refundProviderReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  refundFailureReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refundMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refundAccountName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refundAccountNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   refundRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   refundedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refundProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type TransactionUncheckedUpdateManyWithoutClassInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  orderId?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  midtransOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  midtransTransactionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  midtransRedirectUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
   refundStatus?: Prisma.EnumRefundStatusFieldUpdateOperationsInput | $Enums.RefundStatus
-  refundProviderReference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  refundFailureReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refundMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refundAccountName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refundAccountNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   refundRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   refundedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refundProofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1040,20 +963,18 @@ export type TransactionUncheckedUpdateManyWithoutClassInput = {
 
 export type TransactionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  orderId?: boolean
   userId?: boolean
   classId?: boolean
-  midtransOrderId?: boolean
-  midtransTransactionId?: boolean
-  midtransRedirectUrl?: boolean
   amount?: boolean
-  currency?: boolean
   status?: boolean
   refundStatus?: boolean
-  refundProviderReference?: boolean
-  refundFailureReason?: boolean
-  paidAt?: boolean
+  refundMethod?: boolean
+  refundAccountName?: boolean
+  refundAccountNumber?: boolean
   refundRequestedAt?: boolean
   refundedAt?: boolean
+  refundProofUrl?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -1064,25 +985,23 @@ export type TransactionSelect<ExtArgs extends runtime.Types.Extensions.InternalA
 
 export type TransactionSelectScalar = {
   id?: boolean
+  orderId?: boolean
   userId?: boolean
   classId?: boolean
-  midtransOrderId?: boolean
-  midtransTransactionId?: boolean
-  midtransRedirectUrl?: boolean
   amount?: boolean
-  currency?: boolean
   status?: boolean
   refundStatus?: boolean
-  refundProviderReference?: boolean
-  refundFailureReason?: boolean
-  paidAt?: boolean
+  refundMethod?: boolean
+  refundAccountName?: boolean
+  refundAccountNumber?: boolean
   refundRequestedAt?: boolean
   refundedAt?: boolean
+  refundProofUrl?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type TransactionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "classId" | "midtransOrderId" | "midtransTransactionId" | "midtransRedirectUrl" | "amount" | "currency" | "status" | "refundStatus" | "refundProviderReference" | "refundFailureReason" | "paidAt" | "refundRequestedAt" | "refundedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["transaction"]>
+export type TransactionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "orderId" | "userId" | "classId" | "amount" | "status" | "refundStatus" | "refundMethod" | "refundAccountName" | "refundAccountNumber" | "refundRequestedAt" | "refundedAt" | "refundProofUrl" | "createdAt" | "updatedAt", ExtArgs["result"]["transaction"]>
 export type TransactionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   class?: boolean | Prisma.ClassDefaultArgs<ExtArgs>
@@ -1096,20 +1015,18 @@ export type $TransactionPayload<ExtArgs extends runtime.Types.Extensions.Interna
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
+    orderId: string
     userId: string
     classId: string
-    midtransOrderId: string | null
-    midtransTransactionId: string | null
-    midtransRedirectUrl: string | null
     amount: runtime.Decimal
-    currency: string
     status: $Enums.TransactionStatus
     refundStatus: $Enums.RefundStatus
-    refundProviderReference: string | null
-    refundFailureReason: string | null
-    paidAt: Date | null
+    refundMethod: string | null
+    refundAccountName: string | null
+    refundAccountNumber: string | null
     refundRequestedAt: Date | null
     refundedAt: Date | null
+    refundProofUrl: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["transaction"]>
@@ -1484,20 +1401,18 @@ export interface Prisma__TransactionClient<T, Null = never, ExtArgs extends runt
  */
 export interface TransactionFieldRefs {
   readonly id: Prisma.FieldRef<"Transaction", 'String'>
+  readonly orderId: Prisma.FieldRef<"Transaction", 'String'>
   readonly userId: Prisma.FieldRef<"Transaction", 'String'>
   readonly classId: Prisma.FieldRef<"Transaction", 'String'>
-  readonly midtransOrderId: Prisma.FieldRef<"Transaction", 'String'>
-  readonly midtransTransactionId: Prisma.FieldRef<"Transaction", 'String'>
-  readonly midtransRedirectUrl: Prisma.FieldRef<"Transaction", 'String'>
   readonly amount: Prisma.FieldRef<"Transaction", 'Decimal'>
-  readonly currency: Prisma.FieldRef<"Transaction", 'String'>
   readonly status: Prisma.FieldRef<"Transaction", 'TransactionStatus'>
   readonly refundStatus: Prisma.FieldRef<"Transaction", 'RefundStatus'>
-  readonly refundProviderReference: Prisma.FieldRef<"Transaction", 'String'>
-  readonly refundFailureReason: Prisma.FieldRef<"Transaction", 'String'>
-  readonly paidAt: Prisma.FieldRef<"Transaction", 'DateTime'>
+  readonly refundMethod: Prisma.FieldRef<"Transaction", 'String'>
+  readonly refundAccountName: Prisma.FieldRef<"Transaction", 'String'>
+  readonly refundAccountNumber: Prisma.FieldRef<"Transaction", 'String'>
   readonly refundRequestedAt: Prisma.FieldRef<"Transaction", 'DateTime'>
   readonly refundedAt: Prisma.FieldRef<"Transaction", 'DateTime'>
+  readonly refundProofUrl: Prisma.FieldRef<"Transaction", 'String'>
   readonly createdAt: Prisma.FieldRef<"Transaction", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Transaction", 'DateTime'>
 }

@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { nexieraApi, type DashboardData } from "@/src/lib/api";
 import {
   ArrowDownToLine,
   Building2,
@@ -10,50 +9,48 @@ import {
   DollarSign,
   Percent,
   Wallet,
+  AlertCircle,
   X,
 } from "lucide-react";
+import { nexieraApi, type DashboardData } from "@/src/lib/api";
 
-const money = (value: number) =>
-  new Intl.NumberFormat("id-ID", {
+function money(amount: number) {
+  return new Intl.NumberFormat("id-ID", {
     style: "currency",
     currency: "IDR",
     maximumFractionDigits: 0,
-  }).format(value);
+  }).format(amount);
+}
 
-export default function KeuanganPage() {
+export default function KeuanganTutorPage() {
   const [data, setData] = useState<DashboardData | null>(null);
-  const [error, setError] = useState("");
+  const [error, setError] = useState<string | null>(null);
   const [isPayoutModalOpen, setIsPayoutModalOpen] = useState(false);
   const [payoutSuccess, setPayoutSuccess] = useState(false);
+
+  // Form State untuk Payout
   const [bankName, setBankName] = useState("BCA");
   const [accountNumber, setAccountNumber] = useState("");
   const [accountHolder, setAccountHolder] = useState("");
 
   useEffect(() => {
-    let active = true;
-    nexieraApi
-      .dashboard()
-      .then((value) => {
-        if (active) setData(value);
-      })
-      .catch((cause) => {
-        if (active)
-          setError(
-            cause instanceof Error
-              ? cause.message
-              : "Ringkasan keuangan gagal dimuat.",
-          );
-      });
-    return () => {
-      active = false;
-    };
+    async function load() {
+      try {
+        const dashboard = await nexieraApi.dashboard();
+        setData(dashboard);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Gagal memuat data keuangan.");
+      }
+    }
+    load();
   }, []);
 
-  const transactions = data?.transactions || [];
-  const grossRevenue = data?.totalRevenue || 0;
-  const platformFee = Math.round(grossRevenue * 0.08); // 8% platform fee
-  const pendingBalance = data?.pendingBalance || 0;
-  const completedRevenue = data?.completedClassRevenue || 0;
+  const grossRevenue = data?.totalRevenue ?? 0;
+  const platformFee = Math.round(grossRevenue * 0.08); // 8% fee
+  const netBalance = data?.netBalance ?? Math.max(0, grossRevenue - platformFee);
+  const pendingBalance = data?.pendingBalance ?? 0;
+  const completedRevenue = netBalance;
+  const transactions = data?.transactions ?? [];
 
   const handleRequestPayout = (e: React.FormEvent) => {
     e.preventDefault();
@@ -66,17 +63,17 @@ export default function KeuanganPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {/* Header */}
-      <header className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 rounded-[6px] border border-[#D9DEE7] bg-white p-6 dark:border-[#343945] dark:bg-[#191C23]">
+      <header className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 rounded-[6px] border border-[#D9DEE7] bg-white p-4 dark:border-[#343945] dark:bg-[#191C23]">
         <div>
           <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-[#2457C5] dark:text-[#78A0FF]">
             <Wallet className="h-4 w-4" /> Manajemen Keuangan &amp; Payout
           </span>
-          <h1 className="mt-2 text-lg sm:text-xl font-semibold text-[#20232B] dark:text-[#F3F4F6]">
+          <h1 className="mt-1 text-lg font-semibold text-[#20232B] dark:text-[#F3F4F6]">
             Pendapatan &amp; Penarikan Dana
           </h1>
-          <p className="mt-1 text-sm text-[#626B78] dark:text-[#B1B7C3]">
+          <p className="mt-0.5 text-xs text-[#626B78] dark:text-[#B1B7C3]">
             Hasil penjualan bersih bimbingan akademik Anda tanpa dompet internal (transfer langsung ke rekening bank terdaftar).
           </p>
         </div>
@@ -85,118 +82,119 @@ export default function KeuanganPage() {
           type="button"
           onClick={() => setIsPayoutModalOpen(true)}
           disabled={completedRevenue <= 0}
-          className="btn-primary inline-flex items-center justify-center gap-2 text-xs font-semibold disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
+          className="inline-flex items-center justify-center gap-1.5 rounded-[4px] bg-[#2457C5] px-3.5 py-2 text-xs font-semibold text-white hover:bg-[#1D4ED8] transition-colors disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
         >
-          <ArrowDownToLine className="h-4 w-4" /> Tarik Dana (Payout)
+          <ArrowDownToLine className="h-4 w-4" />
+          <span>Tarik Dana (Payout)</span>
         </button>
       </header>
 
       {error && (
         <p
           role="alert"
-          className="rounded-[4px] border border-red-200 bg-red-50 p-3 text-sm text-red-700 dark:border-red-900/60 dark:bg-red-950/40 dark:text-red-300"
+          className="rounded-[4px] border border-red-200 bg-red-50 p-3 text-xs text-red-700 dark:border-red-900/60 dark:bg-red-950/40 dark:text-red-300"
         >
           {error}
         </p>
       )}
 
-      {/* 4 Metric Card Utama Sesuai Spesifikasi Teknis 2.B.3 */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <article className="rounded-[6px] border border-[#D9DEE7] bg-white p-5 dark:border-[#343945] dark:bg-[#191C23]">
+      {/* 4 Metric Cards */}
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <article className="rounded-[6px] border border-[#D9DEE7] bg-white p-4 dark:border-[#343945] dark:bg-[#191C23]">
           <div className="flex items-center justify-between text-[#626B78] dark:text-[#B1B7C3]">
-            <span className="text-xs font-semibold uppercase tracking-wider">Pending Balance</span>
-            <Clock className="h-4 w-4 text-amber-600" />
-          </div>
-          <p className="mt-1.5 text-lg sm:text-xl font-bold text-[#20232B] dark:text-[#F3F4F6]">
-            {data ? money(pendingBalance) : "—"}
-          </p>
-          <p className="mt-1 text-xs text-[#626B78] dark:text-[#B1B7C3]">
-            Saldo tertahan dari kelas berjalan
-          </p>
-        </article>
-
-        <article className="rounded-[6px] border border-[#D9DEE7] bg-white p-5 dark:border-[#343945] dark:bg-[#191C23]">
-          <div className="flex items-center justify-between text-[#626B78] dark:text-[#B1B7C3]">
-            <span className="text-xs font-semibold uppercase tracking-wider">Total Pendapatan Kotor</span>
+            <span className="text-[11px] font-semibold uppercase tracking-wider">Pendapatan Kotor</span>
             <DollarSign className="h-4 w-4 text-emerald-600" />
           </div>
-          <p className="mt-1.5 text-lg sm:text-xl font-bold text-[#20232B] dark:text-[#F3F4F6]">
+          <p className="mt-1.5 text-lg font-bold text-[#20232B] dark:text-[#F3F4F6]">
             {data ? money(grossRevenue) : "—"}
           </p>
-          <p className="mt-1 text-xs text-[#626B78] dark:text-[#B1B7C3]">
-            Akumulasi seluruh penjualan kelas
+          <p className="mt-0.5 text-[11px] text-[#626B78] dark:text-[#B1B7C3]">
+            Akumulasi transaksi terdaftar
           </p>
         </article>
 
-        <article className="rounded-[6px] border border-[#D9DEE7] bg-white p-5 dark:border-[#343945] dark:bg-[#191C23]">
+        <article className="rounded-[6px] border border-[#D9DEE7] bg-white p-4 dark:border-[#343945] dark:bg-[#191C23]">
           <div className="flex items-center justify-between text-[#626B78] dark:text-[#B1B7C3]">
-            <span className="text-xs font-semibold uppercase tracking-wider">Komisi Platform (8%)</span>
+            <span className="text-[11px] font-semibold uppercase tracking-wider">Komisi Platform (8%)</span>
             <Percent className="h-4 w-4 text-[#2457C5] dark:text-[#78A0FF]" />
           </div>
-          <p className="mt-1.5 text-lg sm:text-xl font-bold text-[#20232B] dark:text-[#F3F4F6]">
+          <p className="mt-1.5 text-lg font-bold text-[#20232B] dark:text-[#F3F4F6]">
             {data ? money(platformFee) : "—"}
           </p>
-          <p className="mt-1 text-xs text-[#626B78] dark:text-[#B1B7C3]">
-            Potongan pemeliharaan platform
+          <p className="mt-0.5 text-[11px] text-[#626B78] dark:text-[#B1B7C3]">
+            Biaya infrastruktur &amp; layanan
           </p>
         </article>
 
-        <article className="rounded-[6px] border border-[#D9DEE7] bg-white p-5 dark:border-[#343945] dark:bg-[#191C23]">
+        <article className="rounded-[6px] border border-[#D9DEE7] bg-white p-4 dark:border-[#343945] dark:bg-[#191C23]">
           <div className="flex items-center justify-between text-[#626B78] dark:text-[#B1B7C3]">
-            <span className="text-xs font-semibold uppercase tracking-wider">Total Telah Ditarik / Siap</span>
+            <span className="text-[11px] font-semibold uppercase tracking-wider">Estimasi Bersih (Net)</span>
             <CheckCircle2 className="h-4 w-4 text-emerald-600" />
           </div>
-          <p className="mt-1.5 text-lg sm:text-xl font-bold text-emerald-600 dark:text-emerald-400">
-            {data ? money(completedRevenue) : "—"}
+          <p className="mt-1.5 text-lg font-bold text-emerald-600 dark:text-emerald-400">
+            {data ? money(netBalance) : "—"}
           </p>
-          <p className="mt-1 text-xs text-[#626B78] dark:text-[#B1B7C3]">
-            Saldo berhasil atau siap transfer bank
+          <p className="mt-0.5 text-[11px] text-[#626B78] dark:text-[#B1B7C3]">
+            Gross dikurangi 8% komisi
+          </p>
+        </article>
+
+        <article className="rounded-[6px] border border-[#D9DEE7] bg-white p-4 dark:border-[#343945] dark:bg-[#191C23]">
+          <div className="flex items-center justify-between text-[#626B78] dark:text-[#B1B7C3]">
+            <span className="text-[11px] font-semibold uppercase tracking-wider">Pending Balance</span>
+            <Clock className="h-4 w-4 text-amber-600" />
+          </div>
+          <p className="mt-1.5 text-lg font-bold text-[#20232B] dark:text-[#F3F4F6]">
+            {data ? money(pendingBalance) : "—"}
+          </p>
+          <p className="mt-0.5 text-[11px] text-[#626B78] dark:text-[#B1B7C3]">
+            Saldo tertahan jadwal berjalan
           </p>
         </article>
       </div>
 
       {/* Tabel Transaksi */}
-      <section className="rounded-[6px] border border-[#D9DEE7] bg-white p-6 dark:border-[#343945] dark:bg-[#191C23]">
-        <h2 className="border-b border-[#D9DEE7] pb-3 text-sm font-semibold text-[#20232B] dark:border-[#343945] dark:text-[#F3F4F6]">
+      <section className="rounded-[6px] border border-[#D9DEE7] bg-white p-4 dark:border-[#343945] dark:bg-[#191C23]">
+        <h2 className="border-b border-[#D9DEE7] pb-2.5 text-sm font-semibold text-[#20232B] dark:border-[#343945] dark:text-[#F3F4F6]">
           Riwayat Transaksi Keuangan
         </h2>
 
         {!data && !error ? (
-          <p className="py-8 text-sm text-[#626B78] dark:text-[#B1B7C3]">Memuat transaksi...</p>
+          <p className="py-6 text-xs text-[#626B78] dark:text-[#B1B7C3]">Memuat transaksi...</p>
         ) : transactions.length === 0 ? (
-          <div className="py-12 text-center">
-            <p className="font-semibold text-[#20232B] dark:text-[#F3F4F6]">
+          <div className="py-6 text-center">
+            <p className="font-semibold text-xs text-[#20232B] dark:text-[#F3F4F6]">
               Belum ada riwayat transaksi keuangan.
             </p>
-            <p className="mt-1 text-sm text-[#626B78] dark:text-[#B1B7C3]">
+            <p className="mt-1 text-xs text-[#626B78] dark:text-[#B1B7C3]">
               Transaksi peserta yang mendaftar kelas bimbingan Anda akan otomatis tercatat di sini.
             </p>
           </div>
         ) : (
-          <div className="mt-4 overflow-x-auto">
-            <table className="w-full min-w-[650px] text-left text-sm">
+          <div className="mt-3 overflow-x-auto">
+            <table className="w-full min-w-[600px] text-left text-xs">
               <thead>
-                <tr className="border-b border-[#D9DEE7] text-xs font-semibold uppercase tracking-wider text-[#626B78] dark:border-[#343945] dark:text-[#B1B7C3]">
-                  <th className="p-3">Mata Kuliah / Kelas</th>
-                  <th className="p-3">Tanggal</th>
-                  <th className="p-3">Status Saldo</th>
-                  <th className="p-3 text-right">Nominal</th>
+                <tr className="border-b border-[#D9DEE7] text-[11px] font-semibold uppercase tracking-wider text-[#626B78] dark:border-[#343945] dark:text-[#B1B7C3]">
+                  <th className="p-2.5">Mata Kuliah / Kelas</th>
+                  <th className="p-2.5">Tanggal</th>
+                  <th className="p-2.5">Status Saldo</th>
+                  <th className="p-2.5 text-right">Nominal</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#D9DEE7] dark:divide-[#343945]">
                 {transactions.map((item) => (
                   <tr key={item.id} className="hover:bg-slate-50/60 dark:hover:bg-[#20242D]/40 transition-colors">
-                    <td className="p-3 font-medium text-[#20232B] dark:text-[#F3F4F6]">
+                    <td className="p-2.5 font-medium text-[#20232B] dark:text-[#F3F4F6]">
                       {item.class.title}
                     </td>
-                    <td className="p-3 text-xs text-[#626B78] dark:text-[#B1B7C3]">
+                    <td className="p-2.5 text-xs text-[#626B78] dark:text-[#B1B7C3]">
                       {new Intl.DateTimeFormat("id-ID", { dateStyle: "medium" }).format(
                         new Date(item.createdAt),
                       )}
                     </td>
-                    <td className="p-3">
+                    <td className="p-2.5">
                       <span
-                        className={`inline-block whitespace-nowrap rounded-[4px] px-2.5 py-1 text-xs font-semibold ${
+                        className={`inline-flex shrink-0 items-center whitespace-nowrap rounded-[4px] px-2 py-0.5 text-[11px] font-semibold ${
                           item.status === "PAID"
                             ? "bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800"
                             : item.status === "REFUNDED"
@@ -207,11 +205,11 @@ export default function KeuanganPage() {
                         {item.status === "PAID"
                           ? "PENDING BALANCE"
                           : item.status === "REFUNDED"
-                            ? `REFUNDED (${item.refundStatus})`
+                            ? `REFUNDED (${item.refundStatus || "COMPLETED"})`
                             : item.status}
                       </span>
                     </td>
-                    <td className="p-3 text-right font-semibold text-[#20232B] dark:text-[#F3F4F6]">
+                    <td className="p-2.5 text-right font-semibold text-[#20232B] dark:text-[#F3F4F6]">
                       {money(Number(item.amount))}
                     </td>
                   </tr>
@@ -222,21 +220,22 @@ export default function KeuanganPage() {
         )}
       </section>
 
-      <div className="rounded-[6px] border border-[#D9DEE7] bg-white p-4 text-xs text-[#626B78] dark:border-[#343945] dark:bg-[#191C23] dark:text-[#B1B7C3]">
+      {/* Kebijakan Transparansi Keuangan */}
+      <div className="rounded-[6px] border border-[#D9DEE7] bg-white p-3.5 text-xs text-[#626B78] dark:border-[#343945] dark:bg-[#191C23] dark:text-[#B1B7C3]">
         <p className="font-semibold text-[#20232B] dark:text-[#F3F4F6] mb-1">
           Kebijakan Transparansi Keuangan (Tanpa Internal Wallet):
         </p>
         <p>
-          Platform NEXIERA tidak menyimpan dana Anda dalam dompet virtual atau voucher. Setiap penarikan dana (_payout_) ditransfer secara langsung ke rekening bank terdaftar setelah jadwal kelas selesai dilaksanakan.
+          Platform NEXIERA tidak menyimpan dana Anda dalam dompet virtual atau voucher. Setiap penarikan dana (<i>payout</i>) ditransfer secara langsung ke rekening bank terdaftar setelah jadwal kelas selesai dilaksanakan.
         </p>
       </div>
 
       {/* Modal Payout Langsung */}
       {isPayoutModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 animate-in fade-in">
-          <div className="w-full max-w-md rounded-[6px] border border-[#D9DEE7] bg-white p-6 shadow-md dark:border-[#343945] dark:bg-[#191C23]">
-            <div className="flex items-center justify-between border-b border-[#D9DEE7] pb-3 dark:border-[#343945]">
-              <h3 className="font-bold text-[#20232B] dark:text-[#F3F4F6] flex items-center gap-2 text-base">
+          <div className="w-full max-w-md rounded-[6px] border border-[#D9DEE7] bg-white p-4 shadow-lg dark:border-[#343945] dark:bg-[#191C23]">
+            <div className="flex items-center justify-between border-b border-[#D9DEE7] pb-2.5 dark:border-[#343945]">
+              <h3 className="font-bold text-[#20232B] dark:text-[#F3F4F6] flex items-center gap-2 text-sm">
                 <Building2 className="h-4 w-4 text-[#2457C5] dark:text-[#78A0FF]" /> Pengajuan Tarik Dana (Payout)
               </h3>
               <button
@@ -249,40 +248,44 @@ export default function KeuanganPage() {
             </div>
 
             {payoutSuccess ? (
-              <div className="py-8 text-center space-y-2">
-                <CheckCircle2 className="mx-auto h-12 w-12 text-emerald-600" />
-                <h4 className="font-bold text-lg text-[#20232B] dark:text-[#F3F4F6]">
-                  Pengajuan Berhasil Diproses!
+              <div className="py-6 text-center space-y-2">
+                <CheckCircle2 className="h-10 w-10 text-emerald-500 mx-auto animate-bounce" />
+                <h4 className="font-semibold text-sm text-[#20232B] dark:text-[#F3F4F6]">
+                  Pengajuan Payout Berhasil Dikirim!
                 </h4>
-                <p className="text-xs text-[#626B78] dark:text-[#B1B7C3] max-w-xs mx-auto">
-                  Dana sebesar {money(completedRevenue)} sedang ditransfer langsung ke rekening bank {bankName} {accountNumber}.
+                <p className="text-xs text-[#626B78] dark:text-[#B1B7C3]">
+                  Dana sebesar <span className="font-bold text-emerald-600">{money(completedRevenue)}</span> sedang diproses transfer ke rekening bank Anda dalam 1x24 jam kerja.
                 </p>
               </div>
             ) : (
-              <form onSubmit={handleRequestPayout} className="mt-4 space-y-4">
-                <div className="rounded-[4px] border border-blue-100 bg-[#E5E9F0]/40 p-3 text-xs text-[#626B78] dark:border-[#343945] dark:bg-slate-800 dark:text-[#B1B7C3]">
-                  Saldo Siap Ditarik: <b className="text-[#20232B] dark:text-[#F3F4F6]">{money(completedRevenue)}</b>
+              <form onSubmit={handleRequestPayout} className="mt-3 space-y-3">
+                <div className="rounded-[4px] border border-blue-200 bg-blue-50/70 p-2.5 text-xs text-[#2457C5] dark:border-blue-900/60 dark:bg-blue-950/40 dark:text-[#78A0FF] flex items-start gap-2">
+                  <AlertCircle className="h-4 w-4 shrink-0 mt-0.5" />
+                  <p>
+                    Dana yang dapat ditarik: <strong className="font-bold">{money(completedRevenue)}</strong> (setelah komisi platform 8%).
+                  </p>
                 </div>
 
                 <div>
-                  <label className="text-xs font-semibold text-[#20232B] dark:text-[#F3F4F6]">
-                    Nama Bank Tujuan
+                  <label className="block text-xs font-semibold text-[#20232B] dark:text-[#F3F4F6]">
+                    Bank Tujuan
                   </label>
                   <select
                     value={bankName}
                     onChange={(e) => setBankName(e.target.value)}
-                    className="nx-input mt-1 w-full"
+                    className="mt-1 w-full rounded-[4px] border border-[#D9DEE7] bg-white px-2.5 py-1.5 text-xs text-[#20232B] dark:border-[#343945] dark:bg-[#111318] dark:text-[#F3F4F6]"
                   >
                     <option value="BCA">Bank Central Asia (BCA)</option>
                     <option value="Mandiri">Bank Mandiri</option>
                     <option value="BNI">Bank Negara Indonesia (BNI)</option>
                     <option value="BRI">Bank Rakyat Indonesia (BRI)</option>
+                    <option value="CIMB">CIMB Niaga</option>
                     <option value="BSI">Bank Syariah Indonesia (BSI)</option>
                   </select>
                 </div>
 
                 <div>
-                  <label className="text-xs font-semibold text-[#20232B] dark:text-[#F3F4F6]">
+                  <label className="block text-xs font-semibold text-[#20232B] dark:text-[#F3F4F6]">
                     Nomor Rekening
                   </label>
                   <input
@@ -291,37 +294,37 @@ export default function KeuanganPage() {
                     placeholder="Contoh: 1234567890"
                     value={accountNumber}
                     onChange={(e) => setAccountNumber(e.target.value)}
-                    className="nx-input mt-1 w-full"
+                    className="mt-1 w-full rounded-[4px] border border-[#D9DEE7] bg-white px-2.5 py-1.5 text-xs text-[#20232B] dark:border-[#343945] dark:bg-[#111318] dark:text-[#F3F4F6]"
                   />
                 </div>
 
                 <div>
-                  <label className="text-xs font-semibold text-[#20232B] dark:text-[#F3F4F6]">
-                    Nama Pemilik Rekening
+                  <label className="block text-xs font-semibold text-[#20232B] dark:text-[#F3F4F6]">
+                    Nama Pemilik Rekening (Sesuai Buku Tabungan)
                   </label>
                   <input
                     type="text"
                     required
-                    placeholder="Sesuai buku tabungan"
+                    placeholder="Contoh: Kevin Sanjaya"
                     value={accountHolder}
                     onChange={(e) => setAccountHolder(e.target.value)}
-                    className="nx-input mt-1 w-full"
+                    className="mt-1 w-full rounded-[4px] border border-[#D9DEE7] bg-white px-2.5 py-1.5 text-xs text-[#20232B] dark:border-[#343945] dark:bg-[#111318] dark:text-[#F3F4F6]"
                   />
                 </div>
 
-                <div className="pt-2 flex justify-end gap-2">
+                <div className="mt-4 flex items-center justify-end gap-2 border-t border-[#D9DEE7] pt-3 dark:border-[#343945]">
                   <button
                     type="button"
                     onClick={() => setIsPayoutModalOpen(false)}
-                    className="btn-secondary text-xs"
+                    className="rounded-[4px] border border-[#D9DEE7] px-3 py-1.5 text-xs font-semibold text-[#20232B] hover:bg-[#E5E9F0] dark:border-[#343945] dark:text-[#F3F4F6] dark:hover:bg-[#20242D] transition-colors"
                   >
                     Batal
                   </button>
                   <button
                     type="submit"
-                    className="btn-primary text-xs"
+                    className="rounded-[4px] bg-[#2457C5] px-3.5 py-1.5 text-xs font-semibold text-white hover:bg-[#1D4ED8] transition-colors shadow-sm"
                   >
-                    Kirim Permintaan Transfer
+                    Kirim Permintaan Payout
                   </button>
                 </div>
               </form>

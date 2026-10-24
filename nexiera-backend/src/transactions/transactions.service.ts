@@ -1,435 +1,311 @@
-import { createHash, randomUUID, timingSafeEqual } from "node:crypto";
+import { randomUUID } from "node:crypto";
+import { createHash, timingSafeEqual } from "node:crypto";
+import { basename, join } from "node:path";
+import { existsSync } from "node:fs";
 import {
   BadRequestException,
   ConflictException,
   ForbiddenException,
+  Logger,
   Injectable,
   NotFoundException,
 } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
+import { PrivateUploadPurpose, TransactionStatus } from "../generated/prisma/client.js";
+import { NotificationsService } from "../notifications/notifications.service.js";
 import { PrismaService } from "../prisma/prisma.service.js";
-import type { MidtransNotification } from "./dto/midtrans-notification.dto.js";
-import { MidtransRefundRejectedError, MidtransService } from "./midtrans.service.js";
-
-function toMinorUnits(value: string): bigint | null {
-  const match = /^(\d+)(?:\.(\d{1,2}))?$/.exec(value);
-  if (!match) return null;
-  return BigInt(match[1]) * 100n + BigInt((match[2] || "").padEnd(2, "0"));
-}
+import { isUniversityCourseRecord } from "../classes/university-courses.js";
+import { MidtransService } from "./midtrans.service.js";
 
 @Injectable()
 export class TransactionsService {
+  private readonly logger = new Logger(TransactionsService.name);
   constructor(
     private readonly prisma: PrismaService,
     private readonly midtrans: MidtransService,
     private readonly config: ConfigService,
+    private readonly notifications: NotificationsService,
   ) {}
 
   async createCheckout(userId: string, classId: string) {
     const [user, classRecord] = await Promise.all([
       this.prisma.user.findUnique({
         where: { id: userId },
-        select: { id: true, name: true, email: true, phoneNumber: true },
+        select: { id: true, fullName: true, email: true, phoneNumber: true, campus: true, major: true },
       }),
       this.prisma.class.findUnique({
         where: { id: classId },
-        select: { id: true, tutorId: true, title: true, price: true, currency: true, startsAt: true, status: true },
+        select: {
+          id: true,
+          creatorId: true,
+          title: true,
+          price: true,
+          type: true,
+          category: true,
+          campusTarget: true,
+        },
       }),
     ]);
-    if (!user) throw new NotFoundException("User not found");
-    if (!classRecord) throw new NotFoundException("Class not found");
-    if (classRecord.status !== "ACTIVE" || !classRecord.startsAt || classRecord.startsAt <= new Date()) {
-      throw new ConflictException("This class is not available for enrollment");
+
+    if (!user) throw new NotFoundException("Pengguna tidak ditemukan.");
+    if (!user.campus?.trim() || !user.major?.trim()) {
+      throw new BadRequestException("Lengkapi kampus dan program studi di profil utama sebelum mendaftar kelas.");
     }
-    if (classRecord.tutorId === userId) {
-      throw new ForbiddenException("Tutors cannot enroll in their own class");
-    }
-    if (classRecord.currency !== "IDR") {
-      throw new BadRequestException("Midtrans checkout currently supports IDR classes only");
+    if (!classRecord) throw new NotFoundException("Kelas tidak ditemukan.");
+    if (!isUniversityCourseRecord(classRecord)) {
+      throw new NotFoundException("Kelas tidak termasuk mata kuliah resmi yang tersedia di NEXIERA.");
     }
 
-    const amount = classRecord.price.toNumber();
-    if (!Number.isSafeInteger(amount) || amount < 0) {
-      throw new BadRequestException("Class price must be a non-negative whole IDR amount");
+    if (classRecord.creatorId === userId) {
+      throw new ForbiddenException("Pengajar tidak dapat mendaftar di kelas sendiri.");
     }
 
-    const paidEnrollment = await this.prisma.transaction.findFirst({
-      where: { userId, classId, status: "PAID" },
-      select: { id: true },
+    const priceNum = Number(classRecord.price);
+
+    // Check if already paid
+    const alreadyPaid = await this.prisma.transaction.findFirst({
+      where: { userId, classId, status: TransactionStatus.PAID },
     });
-    if (paidEnrollment) throw new ConflictException("You already have access to this class");
+    if (alreadyPaid) {
+      throw new ConflictException("Anda sudah terdaftar pada kelas ini.");
+    }
 
-    if (amount === 0) {
-      try {
-        const enrollment = await this.prisma.transaction.create({
-          data: {
-            userId,
-            classId,
-            amount: 0,
-            currency: classRecord.currency,
-            status: "PAID",
-            paidAt: new Date(),
-          },
-          select: { id: true, status: true },
-        });
-        return { transactionId: enrollment.id, status: enrollment.status, redirectUrl: null };
-      } catch (error) {
-        const concurrentEnrollment = await this.prisma.transaction.findFirst({
-          where: { userId, classId, status: "PAID" },
-          select: { id: true, status: true },
-        });
-        if (concurrentEnrollment) {
-          return {
-            transactionId: concurrentEnrollment.id,
-            status: concurrentEnrollment.status,
-            redirectUrl: null,
-          };
-        }
-        throw error;
-      }
+    const orderId = `NEX-${Date.now()}-${randomUUID().slice(0, 6)}`;
+
+    // Free class: auto PAID
+    if (priceNum === 0) {
+      const transaction = await this.prisma.transaction.create({
+        data: {
+          orderId,
+          userId,
+          classId,
+          amount: 0,
+          status: TransactionStatus.PAID,
+        },
+      });
+
+      // Send notifications
+      await this.notifications.createNotification({
+        userId,
+        title: "Pendaftaran Kelas Berhasil",
+        message: `Selamat! Anda berhasil terdaftar di kelas gratis "${classRecord.title}". Akses materi dan link pertemuan di Kelas Saya.`,
+        type: "ENROLLMENT",
+        linkUrl: "/dashboard/kelas-saya",
+      }).catch(() => null);
+
+      await this.notifications.createNotification({
+        userId: classRecord.creatorId,
+        title: "Peserta Baru Terdaftar",
+        message: `${user.fullName} telah bergabung ke kelas "${classRecord.title}".`,
+        type: "ENROLLMENT",
+        linkUrl: "/dashboard/tutor/peserta",
+      }).catch(() => null);
+
+      return {
+        transactionId: transaction.id,
+        status: transaction.status,
+        redirectUrl: null,
+      };
     }
 
     const serverKey = this.config.get<string>("MIDTRANS_SERVER_KEY");
     if (!serverKey || serverKey.trim() === "") {
-      const enrollment = await this.prisma.transaction.create({
+      const transaction = await this.prisma.transaction.create({
         data: {
+          orderId,
           userId,
           classId,
-          amount: classRecord.price,
-          currency: classRecord.currency,
-          status: "PAID",
-          paidAt: new Date(),
-        },
-        select: { id: true, status: true },
-      });
-      return { transactionId: enrollment.id, status: enrollment.status, redirectUrl: null };
-    }
-
-    const existingPending = await this.findPendingCheckout(userId, classId);
-    if (existingPending) {
-      return this.checkoutResponse(existingPending);
-    }
-
-    let transaction: { id: string; midtransOrderId: string | null };
-    try {
-      transaction = await this.prisma.transaction.create({
-        data: {
-          userId,
-          classId,
-          midtransOrderId: `nexiera-${randomUUID()}`,
-          amount: classRecord.price,
-          currency: classRecord.currency,
+          amount: priceNum,
+          status: TransactionStatus.FAILED,
         },
       });
-    } catch (error) {
-      const concurrentPending = await this.findPendingCheckout(userId, classId);
-      if (concurrentPending) return this.checkoutResponse(concurrentPending);
-      throw error;
+
+      return {
+        transactionId: transaction.id,
+        status: transaction.status,
+        redirectUrl: null,
+      };
     }
 
+    // Midtrans integration if server key is present
+    const pendingTransaction = await this.prisma.transaction.create({
+      data: { orderId, userId, classId, amount: priceNum, status: TransactionStatus.PENDING },
+    });
+    let snap: { redirectUrl: string };
     try {
-      if (!transaction.midtransOrderId) {
-        throw new ConflictException("Payment transaction is missing its Midtrans order reference");
-      }
-      const checkout = await this.midtrans.createSnapCheckout({
-        orderId: transaction.midtransOrderId,
-        amount,
+      snap = await this.midtrans.createSnapCheckout({
+        orderId,
+        amount: priceNum,
         classId: classRecord.id,
         classTitle: classRecord.title,
         customer: {
-          name: user.name,
+          name: user.fullName,
           email: user.email,
-          phoneNumber: user.phoneNumber,
+          phoneNumber: user.phoneNumber || "08123456789",
         },
       });
-      const updated = await this.prisma.transaction.update({
-        where: { id: transaction.id },
-        data: {
-          midtransRedirectUrl: checkout.redirectUrl,
-        },
-      });
-      return this.checkoutResponse(updated);
-    } catch (error) {
-      await this.prisma.transaction.deleteMany({
-        where: { id: transaction.id, status: "PENDING" },
-      }).catch(() => undefined);
-      throw error;
+
+    } catch {
+      const transaction = await this.prisma.transaction.update({ where: { id: pendingTransaction.id }, data: { status: TransactionStatus.FAILED } });
+      return {
+        transactionId: transaction.id,
+        status: transaction.status,
+        redirectUrl: null,
+      };
     }
+
+    return { transactionId: pendingTransaction.id, status: pendingTransaction.status, redirectUrl: snap.redirectUrl };
   }
 
-  listMine(userId: string) {
-    return this.prisma.transaction.findMany({
+  async listMine(userId: string) {
+    const list = await this.prisma.transaction.findMany({
       where: { userId },
       orderBy: { createdAt: "desc" },
-      select: {
-        id: true,
-        amount: true,
-        currency: true,
-        status: true,
-        refundStatus: true,
-        createdAt: true,
-        paidAt: true,
-        refundedAt: true,
-        class: { select: { id: true, title: true, startsAt: true, status: true } },
-      },
-    });
-  }
-
-  private findPendingCheckout(userId: string, classId: string) {
-    return this.prisma.transaction.findFirst({
-      where: { userId, classId, status: "PENDING" },
-      orderBy: { createdAt: "desc" },
-      select: {
-        id: true,
-        midtransOrderId: true,
-        amount: true,
-        currency: true,
-        midtransRedirectUrl: true,
-      },
-    });
-  }
-
-  private checkoutResponse(transaction: {
-    id: string;
-    midtransOrderId: string | null;
-    amount: { toFixed: (decimalPlaces: number) => string };
-    currency: string;
-    midtransRedirectUrl: string | null;
-  }) {
-    if (!transaction.midtransOrderId) {
-      throw new ConflictException("Payment transaction is missing its Midtrans order reference");
-    }
-    if (!transaction.midtransRedirectUrl) {
-      throw new ConflictException("Payment checkout is being prepared; try again shortly");
-    }
-    return {
-      transactionId: transaction.id,
-      orderId: transaction.midtransOrderId,
-      amount: transaction.amount.toFixed(2),
-      currency: transaction.currency,
-      redirectUrl: transaction.midtransRedirectUrl,
-    };
-  }
-
-  verifyNotificationSignature(notification: MidtransNotification): boolean {
-    const serverKey = this.config.get<string>("MIDTRANS_SERVER_KEY");
-    if (!serverKey || !/^[a-f\d]{128}$/i.test(notification.signature_key)) return false;
-
-    const expected = createHash("sha512")
-      .update(
-        `${notification.order_id}${notification.status_code}${notification.gross_amount}${serverKey}`,
-      )
-      .digest();
-    const received = Buffer.from(notification.signature_key, "hex");
-    return received.length === expected.length && timingSafeEqual(received, expected);
-  }
-
-  async handleMidtransNotification(notification: MidtransNotification) {
-    const transaction = await this.prisma.transaction.findUnique({
-      where: { midtransOrderId: notification.order_id },
-      include: { class: true },
-    });
-    if (!transaction) return { received: true, matched: false };
-
-    const expectedAmount = toMinorUnits(transaction.amount.toFixed(2));
-    const notifiedAmount = toMinorUnits(notification.gross_amount);
-    if (expectedAmount === null || notifiedAmount === null || expectedAmount !== notifiedAmount) {
-      throw new BadRequestException("Webhook amount does not match the transaction");
-    }
-
-    // Webhook delivery may be retried or arrive out of order; a refund is terminal.
-    if (transaction.status === "REFUNDED") {
-      return { received: true, matched: true };
-    }
-
-    const status = notification.transaction_status.toLowerCase();
-    const fraudStatus = notification.fraud_status?.toLowerCase();
-    const paid = status === "settlement" || (status === "capture" && fraudStatus === "accept");
-
-    if (paid) {
-      await this.prisma.transaction.update({
-        where: { id: transaction.id },
-        data: {
-          status: "PAID",
-          paidAt: transaction.paidAt || new Date(),
-          midtransTransactionId: notification.transaction_id || undefined,
-        },
-      });
-
-      if (transaction.class.status === "CANCELLED") {
-        await this.requestFullRefund(transaction.id, "Class cancelled by tutor");
-      }
-    } else if (status === "refund") {
-      if (notification.bank_confirmed_at) {
-        await this.prisma.transaction.update({
-          where: { id: transaction.id },
-          data: { status: "REFUNDED", refundStatus: "COMPLETED", refundedAt: new Date() },
-        });
-      } else {
-        await this.prisma.transaction.update({
-          where: { id: transaction.id },
-          data: {
-            refundStatus: "PROCESSING",
-            refundRequestedAt: transaction.refundRequestedAt || new Date(),
+      include: {
+        class: {
+          select: {
+            id: true,
+            title: true,
+            category: true,
+            type: true,
+            startsAt: true,
+            campusTarget: true,
+            price: true,
           },
-        });
-      }
-    }
-
-    return { received: true, matched: true };
-  }
-
-  async refundPaidTransactionsForClass(classId: string) {
-    const paidTransactions = await this.prisma.transaction.findMany({
-      where: { classId, status: "PAID", amount: { gt: 0 }, midtransOrderId: { not: null } },
-      select: { id: true },
-    });
-
-    let requested = 0;
-    let failed = 0;
-    let manualRequired = 0;
-    for (const transaction of paidTransactions) {
-      const outcome = await this.requestFullRefund(transaction.id, "Class cancelled by tutor");
-      if (outcome === "requested" || outcome === "already-processing") requested += 1;
-      if (outcome === "failed") failed += 1;
-      if (outcome === "manual-required") manualRequired += 1;
-    }
-
-    return { eligible: paidTransactions.length, requested, failed, manualRequired };
-  }
-
-  async completeManualRefund(transactionId: string, adminId: string, transferReference: string) {
-    await this.assertAdmin(adminId);
-
-    const transaction = await this.prisma.transaction.findUnique({
-      where: { id: transactionId },
-      select: { id: true, status: true, refundStatus: true },
-    });
-    if (!transaction) throw new NotFoundException("Transaction not found");
-    if (transaction.status !== "PAID" || transaction.refundStatus !== "MANUAL_REQUIRED") {
-      throw new ConflictException("Transaction is not awaiting a manual refund");
-    }
-
-    const updated = await this.prisma.transaction.updateMany({
-      where: {
-        id: transactionId,
-        status: "PAID",
-        refundStatus: "MANUAL_REQUIRED",
-      },
-      data: {
-        status: "REFUNDED",
-        refundStatus: "COMPLETED",
-        refundProviderReference: transferReference.trim(),
-        refundFailureReason: null,
-        refundedAt: new Date(),
+        },
       },
     });
-    if (updated.count === 0) {
-      throw new ConflictException("Manual refund was already reconciled");
-    }
 
-    return { transactionId, status: "REFUNDED", transferReference: transferReference.trim() };
+    return list.filter((t) => isUniversityCourseRecord(t.class)).map((t) => ({
+      id: t.id,
+      orderId: t.orderId,
+      amount: String(t.amount),
+      currency: "IDR",
+      status: t.status,
+      refundStatus: t.refundStatus,
+      refundMethod: t.refundMethod,
+      refundAccountName: t.refundAccountName,
+      refundAccountNumber: t.refundAccountNumber,
+      createdAt: t.createdAt,
+      paidAt: t.status === "PAID" ? t.createdAt : null,
+      class: {
+        id: t.class.id,
+        title: t.class.title,
+        startsAt: t.class.startsAt,
+        status: "ACTIVE",
+      },
+    }));
   }
 
-  async listManualRefunds(adminId: string) {
-    await this.assertAdmin(adminId);
+  async requestRefund(userId: string, transactionId: string, body: { method: "BANK" | "EWALLET"; accountName: string; accountNumber: string }) {
+    const tx = await this.prisma.transaction.findUnique({ where: { id: transactionId }, include: { class: { select: { title: true } } } });
+    if (!tx || tx.userId !== userId) throw new NotFoundException("Transaksi tidak ditemukan.");
+    if (tx.status !== "PAID" || tx.refundStatus !== "NOT_REQUESTED" || Number(tx.amount) <= 0) throw new ConflictException("Transaksi ini tidak memenuhi syarat pengajuan refund.");
+    if (!(["BANK", "EWALLET"] as string[]).includes(body.method) || body.accountName?.trim().length < 2 || body.accountNumber?.trim().length < 5) throw new BadRequestException("Data rekening atau e-wallet belum valid.");
+    const updated = await this.prisma.transaction.update({ where: { id: transactionId }, data: {
+      refundStatus: "PENDING_REVIEW", refundMethod: body.method,
+      refundAccountName: body.accountName.trim(), refundAccountNumber: body.accountNumber.trim(), refundRequestedAt: new Date(),
+    } });
+    return { id: updated.id, status: updated.status, refundStatus: updated.refundStatus };
+  }
+
+  async listPendingRefunds() {
     return this.prisma.transaction.findMany({
-      where: { status: "PAID", refundStatus: "MANUAL_REQUIRED" },
+      where: { refundStatus: "PENDING_REVIEW", status: "PAID" },
+      include: {
+        class: { select: { id: true, title: true } },
+        user: { select: { id: true, fullName: true, email: true } },
+      },
       orderBy: { refundRequestedAt: "asc" },
-      select: {
-        id: true,
-        amount: true,
-        currency: true,
-        refundFailureReason: true,
-        refundRequestedAt: true,
-        user: { select: { name: true, phoneNumber: true } },
-        class: { select: { title: true } },
-      },
     });
   }
 
-  private async assertAdmin(adminId: string) {
-    const admin = await this.prisma.user.findUnique({
-      where: { id: adminId },
-      select: { role: true },
-    });
-    if (!admin || admin.role !== "ADMIN") {
-      throw new ForbiddenException("Only an admin can access manual refunds");
+  async reviewRefund(adminId: string, transactionId: string, decision: "APPROVE" | "REJECT", note?: string, proofUrl?: string) {
+    const tx = await this.prisma.transaction.findUnique({ where: { id: transactionId }, include: { class: { select: { title: true } } } });
+    if (!tx || tx.refundStatus !== "PENDING_REVIEW" || tx.status !== "PAID") throw new ConflictException("Refund tidak berada pada status tinjauan.");
+    if (decision !== "APPROVE" && decision !== "REJECT") throw new BadRequestException("Keputusan review tidak valid.");
+    if (decision === "APPROVE") {
+      const filename = proofUrl?.startsWith("/uploads/private/") ? proofUrl.slice("/uploads/private/".length) : "";
+      const upload = filename ? await this.prisma.privateUpload.findFirst({ where: { filename, ownerId: adminId, purpose: PrivateUploadPurpose.REFUND_PROOF }, select: { id: true } }) : null;
+      if (!upload || basename(filename) !== filename || !existsSync(join(process.cwd(), "private-uploads", filename))) {
+        throw new BadRequestException("Unggah bukti transfer refund yang valid sebelum menyetujui refund.");
+      }
     }
+    const saved = await this.prisma.$transaction(async (db) => {
+      const result = await db.transaction.update({ where: { id: tx.id }, data: decision === "APPROVE"
+        ? { status: "REFUNDED", refundStatus: "REFUNDED", refundedAt: new Date(), refundProofUrl: proofUrl }
+        : { refundStatus: "REJECTED" } });
+      return result;
+    });
+    await this.notifications.createNotification({
+      userId: tx.userId,
+      title: decision === "APPROVE" ? "Refund Disetujui" : "Pengajuan Refund Ditolak",
+      message: `${decision === "APPROVE" ? `Refund kelas “${tx.class.title}” telah disetujui. Hak akses kelas sudah dihentikan.` : `Pengajuan refund kelas “${tx.class.title}” ditolak.`}${note?.trim() ? `\nCatatan admin: ${note.trim()}` : ""}`,
+      type: "SYSTEM",
+      linkUrl: "/dashboard/transaksi",
+    }).catch((error: unknown) => this.logger.error(`Status refund tersimpan, tetapi notifikasi gagal dibuat: ${error instanceof Error ? error.message : String(error)}`));
+    return { id: saved.id, status: saved.status, refundStatus: saved.refundStatus };
   }
 
-  private async requestFullRefund(transactionId: string, reason: string) {
+  async handleMidtransWebhook(body: Record<string, unknown>) {
+    const orderId = typeof body.order_id === "string" ? body.order_id : "";
+    const statusCode = typeof body.status_code === "string" ? body.status_code : "";
+    const grossAmount = typeof body.gross_amount === "string" ? body.gross_amount : "";
+    const signature = typeof body.signature_key === "string" ? body.signature_key : "";
+    const serverKey = this.config.get<string>("MIDTRANS_SERVER_KEY")?.trim();
+    if (!serverKey || !orderId || !statusCode || !grossAmount || !signature) {
+      throw new ForbiddenException("Webhook Midtrans tidak valid.");
+    }
+
+    const expected = createHash("sha512").update(`${orderId}${statusCode}${grossAmount}${serverKey}`).digest("hex");
+    const providedBuffer = Buffer.from(signature.toLowerCase(), "utf8");
+    const expectedBuffer = Buffer.from(expected, "utf8");
+    if (providedBuffer.length !== expectedBuffer.length || !timingSafeEqual(providedBuffer, expectedBuffer)) {
+      throw new ForbiddenException("Tanda tangan webhook Midtrans tidak valid.");
+    }
+
     const transaction = await this.prisma.transaction.findUnique({
-      where: { id: transactionId },
+      where: { orderId },
+      include: { class: { select: { title: true, creatorId: true } }, user: { select: { fullName: true } } },
     });
-    if (!transaction || transaction.status !== "PAID") return "skipped" as const;
-    if (transaction.refundStatus === "PROCESSING" || transaction.refundStatus === "COMPLETED") {
-      return "already-processing" as const;
+    if (!transaction) throw new NotFoundException("Transaksi webhook tidak ditemukan.");
+    if (Number(grossAmount) !== Number(transaction.amount)) {
+      throw new ForbiddenException("Nominal webhook Midtrans tidak sesuai dengan transaksi.");
     }
 
-    const claim = await this.prisma.transaction.updateMany({
-      where: {
-        id: transactionId,
-        status: "PAID",
-        refundStatus: { in: ["NOT_REQUESTED", "FAILED", "MANUAL_REQUIRED"] },
-      },
-      data: {
-        refundStatus: "PROCESSING",
-        refundRequestedAt: new Date(),
-        refundFailureReason: null,
-      },
-    });
-    if (claim.count === 0) return "already-processing" as const;
+    const midtransStatus = typeof body.transaction_status === "string" ? body.transaction_status : "";
+    const fraudStatus = typeof body.fraud_status === "string" ? body.fraud_status : "";
+    const reportedStatus = midtransStatus === "settlement" || (midtransStatus === "capture" && fraudStatus === "accept")
+      ? TransactionStatus.PAID
+      : midtransStatus === "expire" || midtransStatus === "cancel" || midtransStatus === "deny"
+        ? TransactionStatus.CANCELLED
+        : TransactionStatus.PENDING;
+    const wasPaid = transaction.status === TransactionStatus.PAID;
+    const nextStatus = wasPaid ? TransactionStatus.PAID : reportedStatus;
+    const updated = await this.prisma.transaction.update({ where: { id: transaction.id }, data: { status: nextStatus } });
 
-    try {
-      const serverKey = this.config.get<string>("MIDTRANS_SERVER_KEY");
-      if (!serverKey || serverKey.trim() === "") {
-        await this.prisma.transaction.update({
-          where: { id: transactionId },
-          data: {
-            status: "REFUNDED",
-            refundStatus: "COMPLETED",
-            refundFailureReason: null,
-            refundedAt: new Date(),
-          },
-        });
-        return "completed" as const;
-      }
-
-      const referenceId = transaction.midtransTransactionId || transaction.midtransOrderId;
-      if (!referenceId) {
-        await this.prisma.transaction.update({
-          where: { id: transactionId },
-          data: {
-            refundStatus: "MANUAL_REQUIRED",
-            refundFailureReason: "Midtrans transaction reference is missing; complete a direct transfer refund.",
-          },
-        });
-        return "manual-required" as const;
-      }
-      const result = await this.midtrans.requestFullRefund(
-        referenceId,
-        transaction.id,
-        reason,
-      );
-      await this.prisma.transaction.update({
-        where: { id: transactionId },
-        data: {
-          refundProviderReference: result.refund_key || result.transaction_id || null,
-        },
-      });
-      return "requested" as const;
-    } catch (error) {
-      const message = error instanceof Error ? error.message : "Refund request failed";
-      const manualRequired = error instanceof MidtransRefundRejectedError && error.statusCode === "412";
-      await this.prisma.transaction.update({
-        where: { id: transactionId },
-        data: {
-          refundStatus: manualRequired ? "MANUAL_REQUIRED" : "FAILED",
-          refundFailureReason: message.slice(0, 2000),
-        },
-      });
-      return manualRequired ? "manual-required" as const : "failed" as const;
+    if (!wasPaid && nextStatus === TransactionStatus.PAID) {
+      await this.notifyPaymentSuccess(transaction.userId, transaction.user.fullName, transaction.class.creatorId, transaction.class.title);
     }
+    return { received: true, status: updated.status };
+  }
+
+  private async notifyPaymentSuccess(userId: string, fullName: string, creatorId: string, classTitle: string) {
+    await Promise.all([
+      this.notifications.createNotification({
+        userId,
+        title: "Pembayaran Berhasil",
+        message: `Pembayaran untuk kelas “${classTitle}” telah diterima. Anda sekarang memiliki akses penuh ke sesi kelas.`,
+        type: "ENROLLMENT",
+        linkUrl: "/dashboard/kelas-saya",
+      }),
+      this.notifications.createNotification({
+        userId: creatorId,
+        title: "Peserta Baru Membeli Kelas",
+        message: `${fullName} telah membayar dan terdaftar di kelas “${classTitle}”.`,
+        type: "ENROLLMENT",
+        linkUrl: "/dashboard/tutor/peserta",
+      }),
+    ]);
   }
 }

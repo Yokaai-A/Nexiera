@@ -512,7 +512,7 @@ FRONTEND_URL=http://localhost:3001
 
 DATABASE_URL="mysql://nexiera_user:nexiera_password@localhost:3306/nexiera_db"
 
-JWT_SECRET="NEXIERA_SUPER_SECRET_JWT_KEY_2026"
+JWT_SECRET="replace-with-a-random-secret-at-least-32-characters-long"
 JWT_EXPIRES_IN="7d"
 
 GOOGLE_CLIENT_ID="YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com"

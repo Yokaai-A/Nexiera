@@ -1,4 +1,4 @@
-import { IsIn, IsString, MaxLength, MinLength } from "class-validator";
+import { IsIn, IsOptional, IsString, MaxLength, MinLength } from "class-validator";
 
 const REPORT_CATEGORIES = [
   "tutor_tidak_hadir",
@@ -24,4 +24,14 @@ export class CreateClassReportDto {
   @MinLength(10)
   @MaxLength(5000)
   description!: string;
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(2048)
+  evidenceUrl?: string;
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(191)
+  classId?: string;
 }

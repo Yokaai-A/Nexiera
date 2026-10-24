@@ -30,6 +30,9 @@ async function bootstrap() {
     ],
   });
   app.setGlobalPrefix("api");
+  const uploadsPath = (await import("path")).join(process.cwd(), "uploads");
+  const express = (await import("express")).default;
+  app.use("/uploads", express.static(uploadsPath));
   app.use(cookieParser());
   app.enableCors({
     origin: [...frontendOrigins],

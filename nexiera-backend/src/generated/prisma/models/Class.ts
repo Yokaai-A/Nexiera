@@ -28,102 +28,71 @@ export type AggregateClass = {
 
 export type ClassAvgAggregateOutputType = {
   price: runtime.Decimal | null
-  maxQuota: number | null
 }
 
 export type ClassSumAggregateOutputType = {
   price: runtime.Decimal | null
-  maxQuota: number | null
 }
 
 export type ClassMinAggregateOutputType = {
   id: string | null
-  tutorId: string | null
   title: string | null
-  shortDescription: string | null
+  slug: string | null
   description: string | null
-  mainCategory: string | null
-  major: string | null
-  university: string | null
-  courseType: $Enums.CourseType | null
-  organizerName: string | null
-  organizerLogo: string | null
+  type: $Enums.ClassType | null
+  tutorGrade: $Enums.TutorGrade | null
   price: runtime.Decimal | null
-  currency: string | null
-  status: $Enums.ClassStatus | null
+  category: string | null
+  major: string | null
+  campusTarget: string | null
+  bannerUrl: string | null
   startsAt: Date | null
-  accessDuration: string | null
-  maxQuota: number | null
-  meetingPlatform: string | null
-  meetingUrl: string | null
-  materialPlatform: string | null
-  materialUrl: string | null
-  recordingUrl: string | null
-  driveUrl: string | null
-  cancelledAt: Date | null
-  cancellationReason: string | null
+  meetingLink: string | null
+  materialLink: string | null
+  recordingLink: string | null
+  creatorId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
 
 export type ClassMaxAggregateOutputType = {
   id: string | null
-  tutorId: string | null
   title: string | null
-  shortDescription: string | null
+  slug: string | null
   description: string | null
-  mainCategory: string | null
-  major: string | null
-  university: string | null
-  courseType: $Enums.CourseType | null
-  organizerName: string | null
-  organizerLogo: string | null
+  type: $Enums.ClassType | null
+  tutorGrade: $Enums.TutorGrade | null
   price: runtime.Decimal | null
-  currency: string | null
-  status: $Enums.ClassStatus | null
+  category: string | null
+  major: string | null
+  campusTarget: string | null
+  bannerUrl: string | null
   startsAt: Date | null
-  accessDuration: string | null
-  maxQuota: number | null
-  meetingPlatform: string | null
-  meetingUrl: string | null
-  materialPlatform: string | null
-  materialUrl: string | null
-  recordingUrl: string | null
-  driveUrl: string | null
-  cancelledAt: Date | null
-  cancellationReason: string | null
+  meetingLink: string | null
+  materialLink: string | null
+  recordingLink: string | null
+  creatorId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
 
 export type ClassCountAggregateOutputType = {
   id: number
-  tutorId: number
   title: number
-  shortDescription: number
+  slug: number
   description: number
-  mainCategory: number
-  major: number
-  university: number
-  courseType: number
-  organizerName: number
-  organizerLogo: number
+  type: number
+  tutorGrade: number
   price: number
-  currency: number
-  status: number
+  category: number
+  major: number
+  campusTarget: number
+  bannerUrl: number
   startsAt: number
-  accessDuration: number
-  maxQuota: number
-  requirements: number
-  facilities: number
-  meetingPlatform: number
-  meetingUrl: number
-  materialPlatform: number
-  materialUrl: number
-  recordingUrl: number
-  driveUrl: number
-  cancelledAt: number
-  cancellationReason: number
+  meetingLink: number
+  materialLink: number
+  recordingLink: number
+  creatorId: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -132,102 +101,71 @@ export type ClassCountAggregateOutputType = {
 
 export type ClassAvgAggregateInputType = {
   price?: true
-  maxQuota?: true
 }
 
 export type ClassSumAggregateInputType = {
   price?: true
-  maxQuota?: true
 }
 
 export type ClassMinAggregateInputType = {
   id?: true
-  tutorId?: true
   title?: true
-  shortDescription?: true
+  slug?: true
   description?: true
-  mainCategory?: true
-  major?: true
-  university?: true
-  courseType?: true
-  organizerName?: true
-  organizerLogo?: true
+  type?: true
+  tutorGrade?: true
   price?: true
-  currency?: true
-  status?: true
+  category?: true
+  major?: true
+  campusTarget?: true
+  bannerUrl?: true
   startsAt?: true
-  accessDuration?: true
-  maxQuota?: true
-  meetingPlatform?: true
-  meetingUrl?: true
-  materialPlatform?: true
-  materialUrl?: true
-  recordingUrl?: true
-  driveUrl?: true
-  cancelledAt?: true
-  cancellationReason?: true
+  meetingLink?: true
+  materialLink?: true
+  recordingLink?: true
+  creatorId?: true
   createdAt?: true
   updatedAt?: true
 }
 
 export type ClassMaxAggregateInputType = {
   id?: true
-  tutorId?: true
   title?: true
-  shortDescription?: true
+  slug?: true
   description?: true
-  mainCategory?: true
-  major?: true
-  university?: true
-  courseType?: true
-  organizerName?: true
-  organizerLogo?: true
+  type?: true
+  tutorGrade?: true
   price?: true
-  currency?: true
-  status?: true
+  category?: true
+  major?: true
+  campusTarget?: true
+  bannerUrl?: true
   startsAt?: true
-  accessDuration?: true
-  maxQuota?: true
-  meetingPlatform?: true
-  meetingUrl?: true
-  materialPlatform?: true
-  materialUrl?: true
-  recordingUrl?: true
-  driveUrl?: true
-  cancelledAt?: true
-  cancellationReason?: true
+  meetingLink?: true
+  materialLink?: true
+  recordingLink?: true
+  creatorId?: true
   createdAt?: true
   updatedAt?: true
 }
 
 export type ClassCountAggregateInputType = {
   id?: true
-  tutorId?: true
   title?: true
-  shortDescription?: true
+  slug?: true
   description?: true
-  mainCategory?: true
-  major?: true
-  university?: true
-  courseType?: true
-  organizerName?: true
-  organizerLogo?: true
+  type?: true
+  tutorGrade?: true
   price?: true
-  currency?: true
-  status?: true
+  category?: true
+  major?: true
+  campusTarget?: true
+  bannerUrl?: true
   startsAt?: true
-  accessDuration?: true
-  maxQuota?: true
-  requirements?: true
-  facilities?: true
-  meetingPlatform?: true
-  meetingUrl?: true
-  materialPlatform?: true
-  materialUrl?: true
-  recordingUrl?: true
-  driveUrl?: true
-  cancelledAt?: true
-  cancellationReason?: true
+  meetingLink?: true
+  materialLink?: true
+  recordingLink?: true
+  creatorId?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -321,32 +259,21 @@ export type ClassGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
 
 export type ClassGroupByOutputType = {
   id: string
-  tutorId: string
   title: string
-  shortDescription: string | null
+  slug: string
   description: string
-  mainCategory: string | null
-  major: string | null
-  university: string | null
-  courseType: $Enums.CourseType
-  organizerName: string | null
-  organizerLogo: string | null
+  type: $Enums.ClassType
+  tutorGrade: $Enums.TutorGrade | null
   price: runtime.Decimal
-  currency: string
-  status: $Enums.ClassStatus
+  category: string
+  major: string | null
+  campusTarget: string | null
+  bannerUrl: string | null
   startsAt: Date | null
-  accessDuration: string | null
-  maxQuota: number | null
-  requirements: runtime.JsonValue | null
-  facilities: runtime.JsonValue | null
-  meetingPlatform: string | null
-  meetingUrl: string | null
-  materialPlatform: string | null
-  materialUrl: string | null
-  recordingUrl: string | null
-  driveUrl: string | null
-  cancelledAt: Date | null
-  cancellationReason: string | null
+  meetingLink: string | null
+  materialLink: string | null
+  recordingLink: string | null
+  creatorId: string
   createdAt: Date
   updatedAt: Date
   _count: ClassCountAggregateOutputType | null
@@ -376,147 +303,103 @@ export type ClassWhereInput = {
   OR?: Prisma.ClassWhereInput[]
   NOT?: Prisma.ClassWhereInput | Prisma.ClassWhereInput[]
   id?: Prisma.StringFilter<"Class"> | string
-  tutorId?: Prisma.StringFilter<"Class"> | string
   title?: Prisma.StringFilter<"Class"> | string
-  shortDescription?: Prisma.StringNullableFilter<"Class"> | string | null
+  slug?: Prisma.StringFilter<"Class"> | string
   description?: Prisma.StringFilter<"Class"> | string
-  mainCategory?: Prisma.StringNullableFilter<"Class"> | string | null
-  major?: Prisma.StringNullableFilter<"Class"> | string | null
-  university?: Prisma.StringNullableFilter<"Class"> | string | null
-  courseType?: Prisma.EnumCourseTypeFilter<"Class"> | $Enums.CourseType
-  organizerName?: Prisma.StringNullableFilter<"Class"> | string | null
-  organizerLogo?: Prisma.StringNullableFilter<"Class"> | string | null
+  type?: Prisma.EnumClassTypeFilter<"Class"> | $Enums.ClassType
+  tutorGrade?: Prisma.EnumTutorGradeNullableFilter<"Class"> | $Enums.TutorGrade | null
   price?: Prisma.DecimalFilter<"Class"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: Prisma.StringFilter<"Class"> | string
-  status?: Prisma.EnumClassStatusFilter<"Class"> | $Enums.ClassStatus
+  category?: Prisma.StringFilter<"Class"> | string
+  major?: Prisma.StringNullableFilter<"Class"> | string | null
+  campusTarget?: Prisma.StringNullableFilter<"Class"> | string | null
+  bannerUrl?: Prisma.StringNullableFilter<"Class"> | string | null
   startsAt?: Prisma.DateTimeNullableFilter<"Class"> | Date | string | null
-  accessDuration?: Prisma.StringNullableFilter<"Class"> | string | null
-  maxQuota?: Prisma.IntNullableFilter<"Class"> | number | null
-  requirements?: Prisma.JsonNullableFilter<"Class">
-  facilities?: Prisma.JsonNullableFilter<"Class">
-  meetingPlatform?: Prisma.StringNullableFilter<"Class"> | string | null
-  meetingUrl?: Prisma.StringNullableFilter<"Class"> | string | null
-  materialPlatform?: Prisma.StringNullableFilter<"Class"> | string | null
-  materialUrl?: Prisma.StringNullableFilter<"Class"> | string | null
-  recordingUrl?: Prisma.StringNullableFilter<"Class"> | string | null
-  driveUrl?: Prisma.StringNullableFilter<"Class"> | string | null
-  cancelledAt?: Prisma.DateTimeNullableFilter<"Class"> | Date | string | null
-  cancellationReason?: Prisma.StringNullableFilter<"Class"> | string | null
+  meetingLink?: Prisma.StringNullableFilter<"Class"> | string | null
+  materialLink?: Prisma.StringNullableFilter<"Class"> | string | null
+  recordingLink?: Prisma.StringNullableFilter<"Class"> | string | null
+  creatorId?: Prisma.StringFilter<"Class"> | string
   createdAt?: Prisma.DateTimeFilter<"Class"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Class"> | Date | string
-  tutor?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  creator?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  tutors?: Prisma.BootcampTutorListRelationFilter
   transactions?: Prisma.TransactionListRelationFilter
-  presences?: Prisma.PresenceListRelationFilter
-  reviews?: Prisma.ClassReviewListRelationFilter
+  reviews?: Prisma.ReviewListRelationFilter
   reports?: Prisma.ClassReportListRelationFilter
 }
 
 export type ClassOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  tutorId?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  shortDescription?: Prisma.SortOrderInput | Prisma.SortOrder
+  slug?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  mainCategory?: Prisma.SortOrderInput | Prisma.SortOrder
-  major?: Prisma.SortOrderInput | Prisma.SortOrder
-  university?: Prisma.SortOrderInput | Prisma.SortOrder
-  courseType?: Prisma.SortOrder
-  organizerName?: Prisma.SortOrderInput | Prisma.SortOrder
-  organizerLogo?: Prisma.SortOrderInput | Prisma.SortOrder
+  type?: Prisma.SortOrder
+  tutorGrade?: Prisma.SortOrderInput | Prisma.SortOrder
   price?: Prisma.SortOrder
-  currency?: Prisma.SortOrder
-  status?: Prisma.SortOrder
+  category?: Prisma.SortOrder
+  major?: Prisma.SortOrderInput | Prisma.SortOrder
+  campusTarget?: Prisma.SortOrderInput | Prisma.SortOrder
+  bannerUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   startsAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  accessDuration?: Prisma.SortOrderInput | Prisma.SortOrder
-  maxQuota?: Prisma.SortOrderInput | Prisma.SortOrder
-  requirements?: Prisma.SortOrderInput | Prisma.SortOrder
-  facilities?: Prisma.SortOrderInput | Prisma.SortOrder
-  meetingPlatform?: Prisma.SortOrderInput | Prisma.SortOrder
-  meetingUrl?: Prisma.SortOrderInput | Prisma.SortOrder
-  materialPlatform?: Prisma.SortOrderInput | Prisma.SortOrder
-  materialUrl?: Prisma.SortOrderInput | Prisma.SortOrder
-  recordingUrl?: Prisma.SortOrderInput | Prisma.SortOrder
-  driveUrl?: Prisma.SortOrderInput | Prisma.SortOrder
-  cancelledAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  cancellationReason?: Prisma.SortOrderInput | Prisma.SortOrder
+  meetingLink?: Prisma.SortOrderInput | Prisma.SortOrder
+  materialLink?: Prisma.SortOrderInput | Prisma.SortOrder
+  recordingLink?: Prisma.SortOrderInput | Prisma.SortOrder
+  creatorId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  tutor?: Prisma.UserOrderByWithRelationInput
+  creator?: Prisma.UserOrderByWithRelationInput
+  tutors?: Prisma.BootcampTutorOrderByRelationAggregateInput
   transactions?: Prisma.TransactionOrderByRelationAggregateInput
-  presences?: Prisma.PresenceOrderByRelationAggregateInput
-  reviews?: Prisma.ClassReviewOrderByRelationAggregateInput
+  reviews?: Prisma.ReviewOrderByRelationAggregateInput
   reports?: Prisma.ClassReportOrderByRelationAggregateInput
   _relevance?: Prisma.ClassOrderByRelevanceInput
 }
 
 export type ClassWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  slug?: string
   AND?: Prisma.ClassWhereInput | Prisma.ClassWhereInput[]
   OR?: Prisma.ClassWhereInput[]
   NOT?: Prisma.ClassWhereInput | Prisma.ClassWhereInput[]
-  tutorId?: Prisma.StringFilter<"Class"> | string
   title?: Prisma.StringFilter<"Class"> | string
-  shortDescription?: Prisma.StringNullableFilter<"Class"> | string | null
   description?: Prisma.StringFilter<"Class"> | string
-  mainCategory?: Prisma.StringNullableFilter<"Class"> | string | null
-  major?: Prisma.StringNullableFilter<"Class"> | string | null
-  university?: Prisma.StringNullableFilter<"Class"> | string | null
-  courseType?: Prisma.EnumCourseTypeFilter<"Class"> | $Enums.CourseType
-  organizerName?: Prisma.StringNullableFilter<"Class"> | string | null
-  organizerLogo?: Prisma.StringNullableFilter<"Class"> | string | null
+  type?: Prisma.EnumClassTypeFilter<"Class"> | $Enums.ClassType
+  tutorGrade?: Prisma.EnumTutorGradeNullableFilter<"Class"> | $Enums.TutorGrade | null
   price?: Prisma.DecimalFilter<"Class"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: Prisma.StringFilter<"Class"> | string
-  status?: Prisma.EnumClassStatusFilter<"Class"> | $Enums.ClassStatus
+  category?: Prisma.StringFilter<"Class"> | string
+  major?: Prisma.StringNullableFilter<"Class"> | string | null
+  campusTarget?: Prisma.StringNullableFilter<"Class"> | string | null
+  bannerUrl?: Prisma.StringNullableFilter<"Class"> | string | null
   startsAt?: Prisma.DateTimeNullableFilter<"Class"> | Date | string | null
-  accessDuration?: Prisma.StringNullableFilter<"Class"> | string | null
-  maxQuota?: Prisma.IntNullableFilter<"Class"> | number | null
-  requirements?: Prisma.JsonNullableFilter<"Class">
-  facilities?: Prisma.JsonNullableFilter<"Class">
-  meetingPlatform?: Prisma.StringNullableFilter<"Class"> | string | null
-  meetingUrl?: Prisma.StringNullableFilter<"Class"> | string | null
-  materialPlatform?: Prisma.StringNullableFilter<"Class"> | string | null
-  materialUrl?: Prisma.StringNullableFilter<"Class"> | string | null
-  recordingUrl?: Prisma.StringNullableFilter<"Class"> | string | null
-  driveUrl?: Prisma.StringNullableFilter<"Class"> | string | null
-  cancelledAt?: Prisma.DateTimeNullableFilter<"Class"> | Date | string | null
-  cancellationReason?: Prisma.StringNullableFilter<"Class"> | string | null
+  meetingLink?: Prisma.StringNullableFilter<"Class"> | string | null
+  materialLink?: Prisma.StringNullableFilter<"Class"> | string | null
+  recordingLink?: Prisma.StringNullableFilter<"Class"> | string | null
+  creatorId?: Prisma.StringFilter<"Class"> | string
   createdAt?: Prisma.DateTimeFilter<"Class"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Class"> | Date | string
-  tutor?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  creator?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  tutors?: Prisma.BootcampTutorListRelationFilter
   transactions?: Prisma.TransactionListRelationFilter
-  presences?: Prisma.PresenceListRelationFilter
-  reviews?: Prisma.ClassReviewListRelationFilter
+  reviews?: Prisma.ReviewListRelationFilter
   reports?: Prisma.ClassReportListRelationFilter
-}, "id">
+}, "id" | "slug">
 
 export type ClassOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  tutorId?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  shortDescription?: Prisma.SortOrderInput | Prisma.SortOrder
+  slug?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  mainCategory?: Prisma.SortOrderInput | Prisma.SortOrder
-  major?: Prisma.SortOrderInput | Prisma.SortOrder
-  university?: Prisma.SortOrderInput | Prisma.SortOrder
-  courseType?: Prisma.SortOrder
-  organizerName?: Prisma.SortOrderInput | Prisma.SortOrder
-  organizerLogo?: Prisma.SortOrderInput | Prisma.SortOrder
+  type?: Prisma.SortOrder
+  tutorGrade?: Prisma.SortOrderInput | Prisma.SortOrder
   price?: Prisma.SortOrder
-  currency?: Prisma.SortOrder
-  status?: Prisma.SortOrder
+  category?: Prisma.SortOrder
+  major?: Prisma.SortOrderInput | Prisma.SortOrder
+  campusTarget?: Prisma.SortOrderInput | Prisma.SortOrder
+  bannerUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   startsAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  accessDuration?: Prisma.SortOrderInput | Prisma.SortOrder
-  maxQuota?: Prisma.SortOrderInput | Prisma.SortOrder
-  requirements?: Prisma.SortOrderInput | Prisma.SortOrder
-  facilities?: Prisma.SortOrderInput | Prisma.SortOrder
-  meetingPlatform?: Prisma.SortOrderInput | Prisma.SortOrder
-  meetingUrl?: Prisma.SortOrderInput | Prisma.SortOrder
-  materialPlatform?: Prisma.SortOrderInput | Prisma.SortOrder
-  materialUrl?: Prisma.SortOrderInput | Prisma.SortOrder
-  recordingUrl?: Prisma.SortOrderInput | Prisma.SortOrder
-  driveUrl?: Prisma.SortOrderInput | Prisma.SortOrder
-  cancelledAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  cancellationReason?: Prisma.SortOrderInput | Prisma.SortOrder
+  meetingLink?: Prisma.SortOrderInput | Prisma.SortOrder
+  materialLink?: Prisma.SortOrderInput | Prisma.SortOrder
+  recordingLink?: Prisma.SortOrderInput | Prisma.SortOrder
+  creatorId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.ClassCountOrderByAggregateInput
@@ -531,32 +414,21 @@ export type ClassScalarWhereWithAggregatesInput = {
   OR?: Prisma.ClassScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ClassScalarWhereWithAggregatesInput | Prisma.ClassScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Class"> | string
-  tutorId?: Prisma.StringWithAggregatesFilter<"Class"> | string
   title?: Prisma.StringWithAggregatesFilter<"Class"> | string
-  shortDescription?: Prisma.StringNullableWithAggregatesFilter<"Class"> | string | null
+  slug?: Prisma.StringWithAggregatesFilter<"Class"> | string
   description?: Prisma.StringWithAggregatesFilter<"Class"> | string
-  mainCategory?: Prisma.StringNullableWithAggregatesFilter<"Class"> | string | null
-  major?: Prisma.StringNullableWithAggregatesFilter<"Class"> | string | null
-  university?: Prisma.StringNullableWithAggregatesFilter<"Class"> | string | null
-  courseType?: Prisma.EnumCourseTypeWithAggregatesFilter<"Class"> | $Enums.CourseType
-  organizerName?: Prisma.StringNullableWithAggregatesFilter<"Class"> | string | null
-  organizerLogo?: Prisma.StringNullableWithAggregatesFilter<"Class"> | string | null
+  type?: Prisma.EnumClassTypeWithAggregatesFilter<"Class"> | $Enums.ClassType
+  tutorGrade?: Prisma.EnumTutorGradeNullableWithAggregatesFilter<"Class"> | $Enums.TutorGrade | null
   price?: Prisma.DecimalWithAggregatesFilter<"Class"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: Prisma.StringWithAggregatesFilter<"Class"> | string
-  status?: Prisma.EnumClassStatusWithAggregatesFilter<"Class"> | $Enums.ClassStatus
+  category?: Prisma.StringWithAggregatesFilter<"Class"> | string
+  major?: Prisma.StringNullableWithAggregatesFilter<"Class"> | string | null
+  campusTarget?: Prisma.StringNullableWithAggregatesFilter<"Class"> | string | null
+  bannerUrl?: Prisma.StringNullableWithAggregatesFilter<"Class"> | string | null
   startsAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Class"> | Date | string | null
-  accessDuration?: Prisma.StringNullableWithAggregatesFilter<"Class"> | string | null
-  maxQuota?: Prisma.IntNullableWithAggregatesFilter<"Class"> | number | null
-  requirements?: Prisma.JsonNullableWithAggregatesFilter<"Class">
-  facilities?: Prisma.JsonNullableWithAggregatesFilter<"Class">
-  meetingPlatform?: Prisma.StringNullableWithAggregatesFilter<"Class"> | string | null
-  meetingUrl?: Prisma.StringNullableWithAggregatesFilter<"Class"> | string | null
-  materialPlatform?: Prisma.StringNullableWithAggregatesFilter<"Class"> | string | null
-  materialUrl?: Prisma.StringNullableWithAggregatesFilter<"Class"> | string | null
-  recordingUrl?: Prisma.StringNullableWithAggregatesFilter<"Class"> | string | null
-  driveUrl?: Prisma.StringNullableWithAggregatesFilter<"Class"> | string | null
-  cancelledAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Class"> | Date | string | null
-  cancellationReason?: Prisma.StringNullableWithAggregatesFilter<"Class"> | string | null
+  meetingLink?: Prisma.StringNullableWithAggregatesFilter<"Class"> | string | null
+  materialLink?: Prisma.StringNullableWithAggregatesFilter<"Class"> | string | null
+  recordingLink?: Prisma.StringNullableWithAggregatesFilter<"Class"> | string | null
+  creatorId?: Prisma.StringWithAggregatesFilter<"Class"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Class"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Class"> | Date | string
 }
@@ -564,175 +436,120 @@ export type ClassScalarWhereWithAggregatesInput = {
 export type ClassCreateInput = {
   id?: string
   title: string
-  shortDescription?: string | null
+  slug: string
   description: string
-  mainCategory?: string | null
+  type?: $Enums.ClassType
+  tutorGrade?: $Enums.TutorGrade | null
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  category: string
   major?: string | null
-  university?: string | null
-  courseType?: $Enums.CourseType
-  organizerName?: string | null
-  organizerLogo?: string | null
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: string
-  status?: $Enums.ClassStatus
+  campusTarget?: string | null
+  bannerUrl?: string | null
   startsAt?: Date | string | null
-  accessDuration?: string | null
-  maxQuota?: number | null
-  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  meetingPlatform?: string | null
-  meetingUrl?: string | null
-  materialPlatform?: string | null
-  materialUrl?: string | null
-  recordingUrl?: string | null
-  driveUrl?: string | null
-  cancelledAt?: Date | string | null
-  cancellationReason?: string | null
+  meetingLink?: string | null
+  materialLink?: string | null
+  recordingLink?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  tutor: Prisma.UserCreateNestedOneWithoutClassesInput
+  creator: Prisma.UserCreateNestedOneWithoutClassesCreatedInput
+  tutors?: Prisma.BootcampTutorCreateNestedManyWithoutClassInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutClassInput
-  presences?: Prisma.PresenceCreateNestedManyWithoutClassInput
-  reviews?: Prisma.ClassReviewCreateNestedManyWithoutClassInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutClassInput
   reports?: Prisma.ClassReportCreateNestedManyWithoutClassInput
 }
 
 export type ClassUncheckedCreateInput = {
   id?: string
-  tutorId: string
   title: string
-  shortDescription?: string | null
+  slug: string
   description: string
-  mainCategory?: string | null
+  type?: $Enums.ClassType
+  tutorGrade?: $Enums.TutorGrade | null
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  category: string
   major?: string | null
-  university?: string | null
-  courseType?: $Enums.CourseType
-  organizerName?: string | null
-  organizerLogo?: string | null
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: string
-  status?: $Enums.ClassStatus
+  campusTarget?: string | null
+  bannerUrl?: string | null
   startsAt?: Date | string | null
-  accessDuration?: string | null
-  maxQuota?: number | null
-  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  meetingPlatform?: string | null
-  meetingUrl?: string | null
-  materialPlatform?: string | null
-  materialUrl?: string | null
-  recordingUrl?: string | null
-  driveUrl?: string | null
-  cancelledAt?: Date | string | null
-  cancellationReason?: string | null
+  meetingLink?: string | null
+  materialLink?: string | null
+  recordingLink?: string | null
+  creatorId: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  tutors?: Prisma.BootcampTutorUncheckedCreateNestedManyWithoutClassInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutClassInput
-  presences?: Prisma.PresenceUncheckedCreateNestedManyWithoutClassInput
-  reviews?: Prisma.ClassReviewUncheckedCreateNestedManyWithoutClassInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutClassInput
   reports?: Prisma.ClassReportUncheckedCreateNestedManyWithoutClassInput
 }
 
 export type ClassUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  mainCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  university?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  courseType?: Prisma.EnumCourseTypeFieldUpdateOperationsInput | $Enums.CourseType
-  organizerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  organizerLogo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumClassTypeFieldUpdateOperationsInput | $Enums.ClassType
+  tutorGrade?: Prisma.NullableEnumTutorGradeFieldUpdateOperationsInput | $Enums.TutorGrade | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumClassStatusFieldUpdateOperationsInput | $Enums.ClassStatus
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campusTarget?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  accessDuration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  maxQuota?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  meetingPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  meetingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  materialPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  materialUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  recordingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  driveUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  cancellationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  meetingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  materialLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recordingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tutor?: Prisma.UserUpdateOneRequiredWithoutClassesNestedInput
+  creator?: Prisma.UserUpdateOneRequiredWithoutClassesCreatedNestedInput
+  tutors?: Prisma.BootcampTutorUpdateManyWithoutClassNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutClassNestedInput
-  presences?: Prisma.PresenceUpdateManyWithoutClassNestedInput
-  reviews?: Prisma.ClassReviewUpdateManyWithoutClassNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutClassNestedInput
   reports?: Prisma.ClassReportUpdateManyWithoutClassNestedInput
 }
 
 export type ClassUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tutorId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  mainCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  university?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  courseType?: Prisma.EnumCourseTypeFieldUpdateOperationsInput | $Enums.CourseType
-  organizerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  organizerLogo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumClassTypeFieldUpdateOperationsInput | $Enums.ClassType
+  tutorGrade?: Prisma.NullableEnumTutorGradeFieldUpdateOperationsInput | $Enums.TutorGrade | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumClassStatusFieldUpdateOperationsInput | $Enums.ClassStatus
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campusTarget?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  accessDuration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  maxQuota?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  meetingPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  meetingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  materialPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  materialUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  recordingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  driveUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  cancellationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  meetingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  materialLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recordingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creatorId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tutors?: Prisma.BootcampTutorUncheckedUpdateManyWithoutClassNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutClassNestedInput
-  presences?: Prisma.PresenceUncheckedUpdateManyWithoutClassNestedInput
-  reviews?: Prisma.ClassReviewUncheckedUpdateManyWithoutClassNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutClassNestedInput
   reports?: Prisma.ClassReportUncheckedUpdateManyWithoutClassNestedInput
 }
 
 export type ClassCreateManyInput = {
   id?: string
-  tutorId: string
   title: string
-  shortDescription?: string | null
+  slug: string
   description: string
-  mainCategory?: string | null
+  type?: $Enums.ClassType
+  tutorGrade?: $Enums.TutorGrade | null
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  category: string
   major?: string | null
-  university?: string | null
-  courseType?: $Enums.CourseType
-  organizerName?: string | null
-  organizerLogo?: string | null
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: string
-  status?: $Enums.ClassStatus
+  campusTarget?: string | null
+  bannerUrl?: string | null
   startsAt?: Date | string | null
-  accessDuration?: string | null
-  maxQuota?: number | null
-  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  meetingPlatform?: string | null
-  meetingUrl?: string | null
-  materialPlatform?: string | null
-  materialUrl?: string | null
-  recordingUrl?: string | null
-  driveUrl?: string | null
-  cancelledAt?: Date | string | null
-  cancellationReason?: string | null
+  meetingLink?: string | null
+  materialLink?: string | null
+  recordingLink?: string | null
+  creatorId: string
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -740,62 +557,40 @@ export type ClassCreateManyInput = {
 export type ClassUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  mainCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  university?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  courseType?: Prisma.EnumCourseTypeFieldUpdateOperationsInput | $Enums.CourseType
-  organizerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  organizerLogo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumClassTypeFieldUpdateOperationsInput | $Enums.ClassType
+  tutorGrade?: Prisma.NullableEnumTutorGradeFieldUpdateOperationsInput | $Enums.TutorGrade | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumClassStatusFieldUpdateOperationsInput | $Enums.ClassStatus
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campusTarget?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  accessDuration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  maxQuota?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  meetingPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  meetingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  materialPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  materialUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  recordingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  driveUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  cancellationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  meetingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  materialLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recordingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ClassUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tutorId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  mainCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  university?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  courseType?: Prisma.EnumCourseTypeFieldUpdateOperationsInput | $Enums.CourseType
-  organizerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  organizerLogo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumClassTypeFieldUpdateOperationsInput | $Enums.ClassType
+  tutorGrade?: Prisma.NullableEnumTutorGradeFieldUpdateOperationsInput | $Enums.TutorGrade | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumClassStatusFieldUpdateOperationsInput | $Enums.ClassStatus
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campusTarget?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  accessDuration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  maxQuota?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  meetingPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  meetingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  materialPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  materialUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  recordingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  driveUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  cancellationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  meetingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  materialLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recordingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creatorId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -818,104 +613,73 @@ export type ClassOrderByRelevanceInput = {
 
 export type ClassCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  tutorId?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  shortDescription?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  mainCategory?: Prisma.SortOrder
-  major?: Prisma.SortOrder
-  university?: Prisma.SortOrder
-  courseType?: Prisma.SortOrder
-  organizerName?: Prisma.SortOrder
-  organizerLogo?: Prisma.SortOrder
+  type?: Prisma.SortOrder
+  tutorGrade?: Prisma.SortOrder
   price?: Prisma.SortOrder
-  currency?: Prisma.SortOrder
-  status?: Prisma.SortOrder
+  category?: Prisma.SortOrder
+  major?: Prisma.SortOrder
+  campusTarget?: Prisma.SortOrder
+  bannerUrl?: Prisma.SortOrder
   startsAt?: Prisma.SortOrder
-  accessDuration?: Prisma.SortOrder
-  maxQuota?: Prisma.SortOrder
-  requirements?: Prisma.SortOrder
-  facilities?: Prisma.SortOrder
-  meetingPlatform?: Prisma.SortOrder
-  meetingUrl?: Prisma.SortOrder
-  materialPlatform?: Prisma.SortOrder
-  materialUrl?: Prisma.SortOrder
-  recordingUrl?: Prisma.SortOrder
-  driveUrl?: Prisma.SortOrder
-  cancelledAt?: Prisma.SortOrder
-  cancellationReason?: Prisma.SortOrder
+  meetingLink?: Prisma.SortOrder
+  materialLink?: Prisma.SortOrder
+  recordingLink?: Prisma.SortOrder
+  creatorId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type ClassAvgOrderByAggregateInput = {
   price?: Prisma.SortOrder
-  maxQuota?: Prisma.SortOrder
 }
 
 export type ClassMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  tutorId?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  shortDescription?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  mainCategory?: Prisma.SortOrder
-  major?: Prisma.SortOrder
-  university?: Prisma.SortOrder
-  courseType?: Prisma.SortOrder
-  organizerName?: Prisma.SortOrder
-  organizerLogo?: Prisma.SortOrder
+  type?: Prisma.SortOrder
+  tutorGrade?: Prisma.SortOrder
   price?: Prisma.SortOrder
-  currency?: Prisma.SortOrder
-  status?: Prisma.SortOrder
+  category?: Prisma.SortOrder
+  major?: Prisma.SortOrder
+  campusTarget?: Prisma.SortOrder
+  bannerUrl?: Prisma.SortOrder
   startsAt?: Prisma.SortOrder
-  accessDuration?: Prisma.SortOrder
-  maxQuota?: Prisma.SortOrder
-  meetingPlatform?: Prisma.SortOrder
-  meetingUrl?: Prisma.SortOrder
-  materialPlatform?: Prisma.SortOrder
-  materialUrl?: Prisma.SortOrder
-  recordingUrl?: Prisma.SortOrder
-  driveUrl?: Prisma.SortOrder
-  cancelledAt?: Prisma.SortOrder
-  cancellationReason?: Prisma.SortOrder
+  meetingLink?: Prisma.SortOrder
+  materialLink?: Prisma.SortOrder
+  recordingLink?: Prisma.SortOrder
+  creatorId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type ClassMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  tutorId?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  shortDescription?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  mainCategory?: Prisma.SortOrder
-  major?: Prisma.SortOrder
-  university?: Prisma.SortOrder
-  courseType?: Prisma.SortOrder
-  organizerName?: Prisma.SortOrder
-  organizerLogo?: Prisma.SortOrder
+  type?: Prisma.SortOrder
+  tutorGrade?: Prisma.SortOrder
   price?: Prisma.SortOrder
-  currency?: Prisma.SortOrder
-  status?: Prisma.SortOrder
+  category?: Prisma.SortOrder
+  major?: Prisma.SortOrder
+  campusTarget?: Prisma.SortOrder
+  bannerUrl?: Prisma.SortOrder
   startsAt?: Prisma.SortOrder
-  accessDuration?: Prisma.SortOrder
-  maxQuota?: Prisma.SortOrder
-  meetingPlatform?: Prisma.SortOrder
-  meetingUrl?: Prisma.SortOrder
-  materialPlatform?: Prisma.SortOrder
-  materialUrl?: Prisma.SortOrder
-  recordingUrl?: Prisma.SortOrder
-  driveUrl?: Prisma.SortOrder
-  cancelledAt?: Prisma.SortOrder
-  cancellationReason?: Prisma.SortOrder
+  meetingLink?: Prisma.SortOrder
+  materialLink?: Prisma.SortOrder
+  recordingLink?: Prisma.SortOrder
+  creatorId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type ClassSumOrderByAggregateInput = {
   price?: Prisma.SortOrder
-  maxQuota?: Prisma.SortOrder
 }
 
 export type ClassScalarRelationFilter = {
@@ -928,50 +692,54 @@ export type ClassNullableScalarRelationFilter = {
   isNot?: Prisma.ClassWhereInput | null
 }
 
-export type ClassCreateNestedManyWithoutTutorInput = {
-  create?: Prisma.XOR<Prisma.ClassCreateWithoutTutorInput, Prisma.ClassUncheckedCreateWithoutTutorInput> | Prisma.ClassCreateWithoutTutorInput[] | Prisma.ClassUncheckedCreateWithoutTutorInput[]
-  connectOrCreate?: Prisma.ClassCreateOrConnectWithoutTutorInput | Prisma.ClassCreateOrConnectWithoutTutorInput[]
-  createMany?: Prisma.ClassCreateManyTutorInputEnvelope
+export type ClassCreateNestedManyWithoutCreatorInput = {
+  create?: Prisma.XOR<Prisma.ClassCreateWithoutCreatorInput, Prisma.ClassUncheckedCreateWithoutCreatorInput> | Prisma.ClassCreateWithoutCreatorInput[] | Prisma.ClassUncheckedCreateWithoutCreatorInput[]
+  connectOrCreate?: Prisma.ClassCreateOrConnectWithoutCreatorInput | Prisma.ClassCreateOrConnectWithoutCreatorInput[]
+  createMany?: Prisma.ClassCreateManyCreatorInputEnvelope
   connect?: Prisma.ClassWhereUniqueInput | Prisma.ClassWhereUniqueInput[]
 }
 
-export type ClassUncheckedCreateNestedManyWithoutTutorInput = {
-  create?: Prisma.XOR<Prisma.ClassCreateWithoutTutorInput, Prisma.ClassUncheckedCreateWithoutTutorInput> | Prisma.ClassCreateWithoutTutorInput[] | Prisma.ClassUncheckedCreateWithoutTutorInput[]
-  connectOrCreate?: Prisma.ClassCreateOrConnectWithoutTutorInput | Prisma.ClassCreateOrConnectWithoutTutorInput[]
-  createMany?: Prisma.ClassCreateManyTutorInputEnvelope
+export type ClassUncheckedCreateNestedManyWithoutCreatorInput = {
+  create?: Prisma.XOR<Prisma.ClassCreateWithoutCreatorInput, Prisma.ClassUncheckedCreateWithoutCreatorInput> | Prisma.ClassCreateWithoutCreatorInput[] | Prisma.ClassUncheckedCreateWithoutCreatorInput[]
+  connectOrCreate?: Prisma.ClassCreateOrConnectWithoutCreatorInput | Prisma.ClassCreateOrConnectWithoutCreatorInput[]
+  createMany?: Prisma.ClassCreateManyCreatorInputEnvelope
   connect?: Prisma.ClassWhereUniqueInput | Prisma.ClassWhereUniqueInput[]
 }
 
-export type ClassUpdateManyWithoutTutorNestedInput = {
-  create?: Prisma.XOR<Prisma.ClassCreateWithoutTutorInput, Prisma.ClassUncheckedCreateWithoutTutorInput> | Prisma.ClassCreateWithoutTutorInput[] | Prisma.ClassUncheckedCreateWithoutTutorInput[]
-  connectOrCreate?: Prisma.ClassCreateOrConnectWithoutTutorInput | Prisma.ClassCreateOrConnectWithoutTutorInput[]
-  upsert?: Prisma.ClassUpsertWithWhereUniqueWithoutTutorInput | Prisma.ClassUpsertWithWhereUniqueWithoutTutorInput[]
-  createMany?: Prisma.ClassCreateManyTutorInputEnvelope
+export type ClassUpdateManyWithoutCreatorNestedInput = {
+  create?: Prisma.XOR<Prisma.ClassCreateWithoutCreatorInput, Prisma.ClassUncheckedCreateWithoutCreatorInput> | Prisma.ClassCreateWithoutCreatorInput[] | Prisma.ClassUncheckedCreateWithoutCreatorInput[]
+  connectOrCreate?: Prisma.ClassCreateOrConnectWithoutCreatorInput | Prisma.ClassCreateOrConnectWithoutCreatorInput[]
+  upsert?: Prisma.ClassUpsertWithWhereUniqueWithoutCreatorInput | Prisma.ClassUpsertWithWhereUniqueWithoutCreatorInput[]
+  createMany?: Prisma.ClassCreateManyCreatorInputEnvelope
   set?: Prisma.ClassWhereUniqueInput | Prisma.ClassWhereUniqueInput[]
   disconnect?: Prisma.ClassWhereUniqueInput | Prisma.ClassWhereUniqueInput[]
   delete?: Prisma.ClassWhereUniqueInput | Prisma.ClassWhereUniqueInput[]
   connect?: Prisma.ClassWhereUniqueInput | Prisma.ClassWhereUniqueInput[]
-  update?: Prisma.ClassUpdateWithWhereUniqueWithoutTutorInput | Prisma.ClassUpdateWithWhereUniqueWithoutTutorInput[]
-  updateMany?: Prisma.ClassUpdateManyWithWhereWithoutTutorInput | Prisma.ClassUpdateManyWithWhereWithoutTutorInput[]
+  update?: Prisma.ClassUpdateWithWhereUniqueWithoutCreatorInput | Prisma.ClassUpdateWithWhereUniqueWithoutCreatorInput[]
+  updateMany?: Prisma.ClassUpdateManyWithWhereWithoutCreatorInput | Prisma.ClassUpdateManyWithWhereWithoutCreatorInput[]
   deleteMany?: Prisma.ClassScalarWhereInput | Prisma.ClassScalarWhereInput[]
 }
 
-export type ClassUncheckedUpdateManyWithoutTutorNestedInput = {
-  create?: Prisma.XOR<Prisma.ClassCreateWithoutTutorInput, Prisma.ClassUncheckedCreateWithoutTutorInput> | Prisma.ClassCreateWithoutTutorInput[] | Prisma.ClassUncheckedCreateWithoutTutorInput[]
-  connectOrCreate?: Prisma.ClassCreateOrConnectWithoutTutorInput | Prisma.ClassCreateOrConnectWithoutTutorInput[]
-  upsert?: Prisma.ClassUpsertWithWhereUniqueWithoutTutorInput | Prisma.ClassUpsertWithWhereUniqueWithoutTutorInput[]
-  createMany?: Prisma.ClassCreateManyTutorInputEnvelope
+export type ClassUncheckedUpdateManyWithoutCreatorNestedInput = {
+  create?: Prisma.XOR<Prisma.ClassCreateWithoutCreatorInput, Prisma.ClassUncheckedCreateWithoutCreatorInput> | Prisma.ClassCreateWithoutCreatorInput[] | Prisma.ClassUncheckedCreateWithoutCreatorInput[]
+  connectOrCreate?: Prisma.ClassCreateOrConnectWithoutCreatorInput | Prisma.ClassCreateOrConnectWithoutCreatorInput[]
+  upsert?: Prisma.ClassUpsertWithWhereUniqueWithoutCreatorInput | Prisma.ClassUpsertWithWhereUniqueWithoutCreatorInput[]
+  createMany?: Prisma.ClassCreateManyCreatorInputEnvelope
   set?: Prisma.ClassWhereUniqueInput | Prisma.ClassWhereUniqueInput[]
   disconnect?: Prisma.ClassWhereUniqueInput | Prisma.ClassWhereUniqueInput[]
   delete?: Prisma.ClassWhereUniqueInput | Prisma.ClassWhereUniqueInput[]
   connect?: Prisma.ClassWhereUniqueInput | Prisma.ClassWhereUniqueInput[]
-  update?: Prisma.ClassUpdateWithWhereUniqueWithoutTutorInput | Prisma.ClassUpdateWithWhereUniqueWithoutTutorInput[]
-  updateMany?: Prisma.ClassUpdateManyWithWhereWithoutTutorInput | Prisma.ClassUpdateManyWithWhereWithoutTutorInput[]
+  update?: Prisma.ClassUpdateWithWhereUniqueWithoutCreatorInput | Prisma.ClassUpdateWithWhereUniqueWithoutCreatorInput[]
+  updateMany?: Prisma.ClassUpdateManyWithWhereWithoutCreatorInput | Prisma.ClassUpdateManyWithWhereWithoutCreatorInput[]
   deleteMany?: Prisma.ClassScalarWhereInput | Prisma.ClassScalarWhereInput[]
 }
 
-export type EnumCourseTypeFieldUpdateOperationsInput = {
-  set?: $Enums.CourseType
+export type EnumClassTypeFieldUpdateOperationsInput = {
+  set?: $Enums.ClassType
+}
+
+export type NullableEnumTutorGradeFieldUpdateOperationsInput = {
+  set?: $Enums.TutorGrade | null
 }
 
 export type DecimalFieldUpdateOperationsInput = {
@@ -982,44 +750,18 @@ export type DecimalFieldUpdateOperationsInput = {
   divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
-export type EnumClassStatusFieldUpdateOperationsInput = {
-  set?: $Enums.ClassStatus
-}
-
-export type NullableIntFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
-export type ClassCreateNestedOneWithoutTransactionsInput = {
-  create?: Prisma.XOR<Prisma.ClassCreateWithoutTransactionsInput, Prisma.ClassUncheckedCreateWithoutTransactionsInput>
-  connectOrCreate?: Prisma.ClassCreateOrConnectWithoutTransactionsInput
+export type ClassCreateNestedOneWithoutTutorsInput = {
+  create?: Prisma.XOR<Prisma.ClassCreateWithoutTutorsInput, Prisma.ClassUncheckedCreateWithoutTutorsInput>
+  connectOrCreate?: Prisma.ClassCreateOrConnectWithoutTutorsInput
   connect?: Prisma.ClassWhereUniqueInput
 }
 
-export type ClassUpdateOneRequiredWithoutTransactionsNestedInput = {
-  create?: Prisma.XOR<Prisma.ClassCreateWithoutTransactionsInput, Prisma.ClassUncheckedCreateWithoutTransactionsInput>
-  connectOrCreate?: Prisma.ClassCreateOrConnectWithoutTransactionsInput
-  upsert?: Prisma.ClassUpsertWithoutTransactionsInput
+export type ClassUpdateOneRequiredWithoutTutorsNestedInput = {
+  create?: Prisma.XOR<Prisma.ClassCreateWithoutTutorsInput, Prisma.ClassUncheckedCreateWithoutTutorsInput>
+  connectOrCreate?: Prisma.ClassCreateOrConnectWithoutTutorsInput
+  upsert?: Prisma.ClassUpsertWithoutTutorsInput
   connect?: Prisma.ClassWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.ClassUpdateToOneWithWhereWithoutTransactionsInput, Prisma.ClassUpdateWithoutTransactionsInput>, Prisma.ClassUncheckedUpdateWithoutTransactionsInput>
-}
-
-export type ClassCreateNestedOneWithoutPresencesInput = {
-  create?: Prisma.XOR<Prisma.ClassCreateWithoutPresencesInput, Prisma.ClassUncheckedCreateWithoutPresencesInput>
-  connectOrCreate?: Prisma.ClassCreateOrConnectWithoutPresencesInput
-  connect?: Prisma.ClassWhereUniqueInput
-}
-
-export type ClassUpdateOneRequiredWithoutPresencesNestedInput = {
-  create?: Prisma.XOR<Prisma.ClassCreateWithoutPresencesInput, Prisma.ClassUncheckedCreateWithoutPresencesInput>
-  connectOrCreate?: Prisma.ClassCreateOrConnectWithoutPresencesInput
-  upsert?: Prisma.ClassUpsertWithoutPresencesInput
-  connect?: Prisma.ClassWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.ClassUpdateToOneWithWhereWithoutPresencesInput, Prisma.ClassUpdateWithoutPresencesInput>, Prisma.ClassUncheckedUpdateWithoutPresencesInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ClassUpdateToOneWithWhereWithoutTutorsInput, Prisma.ClassUpdateWithoutTutorsInput>, Prisma.ClassUncheckedUpdateWithoutTutorsInput>
 }
 
 export type ClassCreateNestedOneWithoutReviewsInput = {
@@ -1034,6 +776,20 @@ export type ClassUpdateOneRequiredWithoutReviewsNestedInput = {
   upsert?: Prisma.ClassUpsertWithoutReviewsInput
   connect?: Prisma.ClassWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.ClassUpdateToOneWithWhereWithoutReviewsInput, Prisma.ClassUpdateWithoutReviewsInput>, Prisma.ClassUncheckedUpdateWithoutReviewsInput>
+}
+
+export type ClassCreateNestedOneWithoutTransactionsInput = {
+  create?: Prisma.XOR<Prisma.ClassCreateWithoutTransactionsInput, Prisma.ClassUncheckedCreateWithoutTransactionsInput>
+  connectOrCreate?: Prisma.ClassCreateOrConnectWithoutTransactionsInput
+  connect?: Prisma.ClassWhereUniqueInput
+}
+
+export type ClassUpdateOneRequiredWithoutTransactionsNestedInput = {
+  create?: Prisma.XOR<Prisma.ClassCreateWithoutTransactionsInput, Prisma.ClassUncheckedCreateWithoutTransactionsInput>
+  connectOrCreate?: Prisma.ClassCreateOrConnectWithoutTransactionsInput
+  upsert?: Prisma.ClassUpsertWithoutTransactionsInput
+  connect?: Prisma.ClassWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ClassUpdateToOneWithWhereWithoutTransactionsInput, Prisma.ClassUpdateWithoutTransactionsInput>, Prisma.ClassUncheckedUpdateWithoutTransactionsInput>
 }
 
 export type ClassCreateNestedOneWithoutReportsInput = {
@@ -1052,100 +808,78 @@ export type ClassUpdateOneWithoutReportsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ClassUpdateToOneWithWhereWithoutReportsInput, Prisma.ClassUpdateWithoutReportsInput>, Prisma.ClassUncheckedUpdateWithoutReportsInput>
 }
 
-export type ClassCreateWithoutTutorInput = {
+export type ClassCreateWithoutCreatorInput = {
   id?: string
   title: string
-  shortDescription?: string | null
+  slug: string
   description: string
-  mainCategory?: string | null
+  type?: $Enums.ClassType
+  tutorGrade?: $Enums.TutorGrade | null
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  category: string
   major?: string | null
-  university?: string | null
-  courseType?: $Enums.CourseType
-  organizerName?: string | null
-  organizerLogo?: string | null
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: string
-  status?: $Enums.ClassStatus
+  campusTarget?: string | null
+  bannerUrl?: string | null
   startsAt?: Date | string | null
-  accessDuration?: string | null
-  maxQuota?: number | null
-  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  meetingPlatform?: string | null
-  meetingUrl?: string | null
-  materialPlatform?: string | null
-  materialUrl?: string | null
-  recordingUrl?: string | null
-  driveUrl?: string | null
-  cancelledAt?: Date | string | null
-  cancellationReason?: string | null
+  meetingLink?: string | null
+  materialLink?: string | null
+  recordingLink?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  tutors?: Prisma.BootcampTutorCreateNestedManyWithoutClassInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutClassInput
-  presences?: Prisma.PresenceCreateNestedManyWithoutClassInput
-  reviews?: Prisma.ClassReviewCreateNestedManyWithoutClassInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutClassInput
   reports?: Prisma.ClassReportCreateNestedManyWithoutClassInput
 }
 
-export type ClassUncheckedCreateWithoutTutorInput = {
+export type ClassUncheckedCreateWithoutCreatorInput = {
   id?: string
   title: string
-  shortDescription?: string | null
+  slug: string
   description: string
-  mainCategory?: string | null
+  type?: $Enums.ClassType
+  tutorGrade?: $Enums.TutorGrade | null
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  category: string
   major?: string | null
-  university?: string | null
-  courseType?: $Enums.CourseType
-  organizerName?: string | null
-  organizerLogo?: string | null
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: string
-  status?: $Enums.ClassStatus
+  campusTarget?: string | null
+  bannerUrl?: string | null
   startsAt?: Date | string | null
-  accessDuration?: string | null
-  maxQuota?: number | null
-  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  meetingPlatform?: string | null
-  meetingUrl?: string | null
-  materialPlatform?: string | null
-  materialUrl?: string | null
-  recordingUrl?: string | null
-  driveUrl?: string | null
-  cancelledAt?: Date | string | null
-  cancellationReason?: string | null
+  meetingLink?: string | null
+  materialLink?: string | null
+  recordingLink?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  tutors?: Prisma.BootcampTutorUncheckedCreateNestedManyWithoutClassInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutClassInput
-  presences?: Prisma.PresenceUncheckedCreateNestedManyWithoutClassInput
-  reviews?: Prisma.ClassReviewUncheckedCreateNestedManyWithoutClassInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutClassInput
   reports?: Prisma.ClassReportUncheckedCreateNestedManyWithoutClassInput
 }
 
-export type ClassCreateOrConnectWithoutTutorInput = {
+export type ClassCreateOrConnectWithoutCreatorInput = {
   where: Prisma.ClassWhereUniqueInput
-  create: Prisma.XOR<Prisma.ClassCreateWithoutTutorInput, Prisma.ClassUncheckedCreateWithoutTutorInput>
+  create: Prisma.XOR<Prisma.ClassCreateWithoutCreatorInput, Prisma.ClassUncheckedCreateWithoutCreatorInput>
 }
 
-export type ClassCreateManyTutorInputEnvelope = {
-  data: Prisma.ClassCreateManyTutorInput | Prisma.ClassCreateManyTutorInput[]
+export type ClassCreateManyCreatorInputEnvelope = {
+  data: Prisma.ClassCreateManyCreatorInput | Prisma.ClassCreateManyCreatorInput[]
   skipDuplicates?: boolean
 }
 
-export type ClassUpsertWithWhereUniqueWithoutTutorInput = {
+export type ClassUpsertWithWhereUniqueWithoutCreatorInput = {
   where: Prisma.ClassWhereUniqueInput
-  update: Prisma.XOR<Prisma.ClassUpdateWithoutTutorInput, Prisma.ClassUncheckedUpdateWithoutTutorInput>
-  create: Prisma.XOR<Prisma.ClassCreateWithoutTutorInput, Prisma.ClassUncheckedCreateWithoutTutorInput>
+  update: Prisma.XOR<Prisma.ClassUpdateWithoutCreatorInput, Prisma.ClassUncheckedUpdateWithoutCreatorInput>
+  create: Prisma.XOR<Prisma.ClassCreateWithoutCreatorInput, Prisma.ClassUncheckedCreateWithoutCreatorInput>
 }
 
-export type ClassUpdateWithWhereUniqueWithoutTutorInput = {
+export type ClassUpdateWithWhereUniqueWithoutCreatorInput = {
   where: Prisma.ClassWhereUniqueInput
-  data: Prisma.XOR<Prisma.ClassUpdateWithoutTutorInput, Prisma.ClassUncheckedUpdateWithoutTutorInput>
+  data: Prisma.XOR<Prisma.ClassUpdateWithoutCreatorInput, Prisma.ClassUncheckedUpdateWithoutCreatorInput>
 }
 
-export type ClassUpdateManyWithWhereWithoutTutorInput = {
+export type ClassUpdateManyWithWhereWithoutCreatorInput = {
   where: Prisma.ClassScalarWhereInput
-  data: Prisma.XOR<Prisma.ClassUpdateManyMutationInput, Prisma.ClassUncheckedUpdateManyWithoutTutorInput>
+  data: Prisma.XOR<Prisma.ClassUpdateManyMutationInput, Prisma.ClassUncheckedUpdateManyWithoutCreatorInput>
 }
 
 export type ClassScalarWhereInput = {
@@ -1153,415 +887,182 @@ export type ClassScalarWhereInput = {
   OR?: Prisma.ClassScalarWhereInput[]
   NOT?: Prisma.ClassScalarWhereInput | Prisma.ClassScalarWhereInput[]
   id?: Prisma.StringFilter<"Class"> | string
-  tutorId?: Prisma.StringFilter<"Class"> | string
   title?: Prisma.StringFilter<"Class"> | string
-  shortDescription?: Prisma.StringNullableFilter<"Class"> | string | null
+  slug?: Prisma.StringFilter<"Class"> | string
   description?: Prisma.StringFilter<"Class"> | string
-  mainCategory?: Prisma.StringNullableFilter<"Class"> | string | null
-  major?: Prisma.StringNullableFilter<"Class"> | string | null
-  university?: Prisma.StringNullableFilter<"Class"> | string | null
-  courseType?: Prisma.EnumCourseTypeFilter<"Class"> | $Enums.CourseType
-  organizerName?: Prisma.StringNullableFilter<"Class"> | string | null
-  organizerLogo?: Prisma.StringNullableFilter<"Class"> | string | null
+  type?: Prisma.EnumClassTypeFilter<"Class"> | $Enums.ClassType
+  tutorGrade?: Prisma.EnumTutorGradeNullableFilter<"Class"> | $Enums.TutorGrade | null
   price?: Prisma.DecimalFilter<"Class"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: Prisma.StringFilter<"Class"> | string
-  status?: Prisma.EnumClassStatusFilter<"Class"> | $Enums.ClassStatus
+  category?: Prisma.StringFilter<"Class"> | string
+  major?: Prisma.StringNullableFilter<"Class"> | string | null
+  campusTarget?: Prisma.StringNullableFilter<"Class"> | string | null
+  bannerUrl?: Prisma.StringNullableFilter<"Class"> | string | null
   startsAt?: Prisma.DateTimeNullableFilter<"Class"> | Date | string | null
-  accessDuration?: Prisma.StringNullableFilter<"Class"> | string | null
-  maxQuota?: Prisma.IntNullableFilter<"Class"> | number | null
-  requirements?: Prisma.JsonNullableFilter<"Class">
-  facilities?: Prisma.JsonNullableFilter<"Class">
-  meetingPlatform?: Prisma.StringNullableFilter<"Class"> | string | null
-  meetingUrl?: Prisma.StringNullableFilter<"Class"> | string | null
-  materialPlatform?: Prisma.StringNullableFilter<"Class"> | string | null
-  materialUrl?: Prisma.StringNullableFilter<"Class"> | string | null
-  recordingUrl?: Prisma.StringNullableFilter<"Class"> | string | null
-  driveUrl?: Prisma.StringNullableFilter<"Class"> | string | null
-  cancelledAt?: Prisma.DateTimeNullableFilter<"Class"> | Date | string | null
-  cancellationReason?: Prisma.StringNullableFilter<"Class"> | string | null
+  meetingLink?: Prisma.StringNullableFilter<"Class"> | string | null
+  materialLink?: Prisma.StringNullableFilter<"Class"> | string | null
+  recordingLink?: Prisma.StringNullableFilter<"Class"> | string | null
+  creatorId?: Prisma.StringFilter<"Class"> | string
   createdAt?: Prisma.DateTimeFilter<"Class"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Class"> | Date | string
 }
 
-export type ClassCreateWithoutTransactionsInput = {
+export type ClassCreateWithoutTutorsInput = {
   id?: string
   title: string
-  shortDescription?: string | null
+  slug: string
   description: string
-  mainCategory?: string | null
+  type?: $Enums.ClassType
+  tutorGrade?: $Enums.TutorGrade | null
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  category: string
   major?: string | null
-  university?: string | null
-  courseType?: $Enums.CourseType
-  organizerName?: string | null
-  organizerLogo?: string | null
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: string
-  status?: $Enums.ClassStatus
+  campusTarget?: string | null
+  bannerUrl?: string | null
   startsAt?: Date | string | null
-  accessDuration?: string | null
-  maxQuota?: number | null
-  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  meetingPlatform?: string | null
-  meetingUrl?: string | null
-  materialPlatform?: string | null
-  materialUrl?: string | null
-  recordingUrl?: string | null
-  driveUrl?: string | null
-  cancelledAt?: Date | string | null
-  cancellationReason?: string | null
+  meetingLink?: string | null
+  materialLink?: string | null
+  recordingLink?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  tutor: Prisma.UserCreateNestedOneWithoutClassesInput
-  presences?: Prisma.PresenceCreateNestedManyWithoutClassInput
-  reviews?: Prisma.ClassReviewCreateNestedManyWithoutClassInput
-  reports?: Prisma.ClassReportCreateNestedManyWithoutClassInput
-}
-
-export type ClassUncheckedCreateWithoutTransactionsInput = {
-  id?: string
-  tutorId: string
-  title: string
-  shortDescription?: string | null
-  description: string
-  mainCategory?: string | null
-  major?: string | null
-  university?: string | null
-  courseType?: $Enums.CourseType
-  organizerName?: string | null
-  organizerLogo?: string | null
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: string
-  status?: $Enums.ClassStatus
-  startsAt?: Date | string | null
-  accessDuration?: string | null
-  maxQuota?: number | null
-  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  meetingPlatform?: string | null
-  meetingUrl?: string | null
-  materialPlatform?: string | null
-  materialUrl?: string | null
-  recordingUrl?: string | null
-  driveUrl?: string | null
-  cancelledAt?: Date | string | null
-  cancellationReason?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  presences?: Prisma.PresenceUncheckedCreateNestedManyWithoutClassInput
-  reviews?: Prisma.ClassReviewUncheckedCreateNestedManyWithoutClassInput
-  reports?: Prisma.ClassReportUncheckedCreateNestedManyWithoutClassInput
-}
-
-export type ClassCreateOrConnectWithoutTransactionsInput = {
-  where: Prisma.ClassWhereUniqueInput
-  create: Prisma.XOR<Prisma.ClassCreateWithoutTransactionsInput, Prisma.ClassUncheckedCreateWithoutTransactionsInput>
-}
-
-export type ClassUpsertWithoutTransactionsInput = {
-  update: Prisma.XOR<Prisma.ClassUpdateWithoutTransactionsInput, Prisma.ClassUncheckedUpdateWithoutTransactionsInput>
-  create: Prisma.XOR<Prisma.ClassCreateWithoutTransactionsInput, Prisma.ClassUncheckedCreateWithoutTransactionsInput>
-  where?: Prisma.ClassWhereInput
-}
-
-export type ClassUpdateToOneWithWhereWithoutTransactionsInput = {
-  where?: Prisma.ClassWhereInput
-  data: Prisma.XOR<Prisma.ClassUpdateWithoutTransactionsInput, Prisma.ClassUncheckedUpdateWithoutTransactionsInput>
-}
-
-export type ClassUpdateWithoutTransactionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  description?: Prisma.StringFieldUpdateOperationsInput | string
-  mainCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  university?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  courseType?: Prisma.EnumCourseTypeFieldUpdateOperationsInput | $Enums.CourseType
-  organizerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  organizerLogo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumClassStatusFieldUpdateOperationsInput | $Enums.ClassStatus
-  startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  accessDuration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  maxQuota?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  meetingPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  meetingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  materialPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  materialUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  recordingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  driveUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  cancellationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tutor?: Prisma.UserUpdateOneRequiredWithoutClassesNestedInput
-  presences?: Prisma.PresenceUpdateManyWithoutClassNestedInput
-  reviews?: Prisma.ClassReviewUpdateManyWithoutClassNestedInput
-  reports?: Prisma.ClassReportUpdateManyWithoutClassNestedInput
-}
-
-export type ClassUncheckedUpdateWithoutTransactionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tutorId?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  description?: Prisma.StringFieldUpdateOperationsInput | string
-  mainCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  university?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  courseType?: Prisma.EnumCourseTypeFieldUpdateOperationsInput | $Enums.CourseType
-  organizerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  organizerLogo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumClassStatusFieldUpdateOperationsInput | $Enums.ClassStatus
-  startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  accessDuration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  maxQuota?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  meetingPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  meetingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  materialPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  materialUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  recordingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  driveUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  cancellationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  presences?: Prisma.PresenceUncheckedUpdateManyWithoutClassNestedInput
-  reviews?: Prisma.ClassReviewUncheckedUpdateManyWithoutClassNestedInput
-  reports?: Prisma.ClassReportUncheckedUpdateManyWithoutClassNestedInput
-}
-
-export type ClassCreateWithoutPresencesInput = {
-  id?: string
-  title: string
-  shortDescription?: string | null
-  description: string
-  mainCategory?: string | null
-  major?: string | null
-  university?: string | null
-  courseType?: $Enums.CourseType
-  organizerName?: string | null
-  organizerLogo?: string | null
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: string
-  status?: $Enums.ClassStatus
-  startsAt?: Date | string | null
-  accessDuration?: string | null
-  maxQuota?: number | null
-  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  meetingPlatform?: string | null
-  meetingUrl?: string | null
-  materialPlatform?: string | null
-  materialUrl?: string | null
-  recordingUrl?: string | null
-  driveUrl?: string | null
-  cancelledAt?: Date | string | null
-  cancellationReason?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  tutor: Prisma.UserCreateNestedOneWithoutClassesInput
+  creator: Prisma.UserCreateNestedOneWithoutClassesCreatedInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutClassInput
-  reviews?: Prisma.ClassReviewCreateNestedManyWithoutClassInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutClassInput
   reports?: Prisma.ClassReportCreateNestedManyWithoutClassInput
 }
 
-export type ClassUncheckedCreateWithoutPresencesInput = {
+export type ClassUncheckedCreateWithoutTutorsInput = {
   id?: string
-  tutorId: string
   title: string
-  shortDescription?: string | null
+  slug: string
   description: string
-  mainCategory?: string | null
+  type?: $Enums.ClassType
+  tutorGrade?: $Enums.TutorGrade | null
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  category: string
   major?: string | null
-  university?: string | null
-  courseType?: $Enums.CourseType
-  organizerName?: string | null
-  organizerLogo?: string | null
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: string
-  status?: $Enums.ClassStatus
+  campusTarget?: string | null
+  bannerUrl?: string | null
   startsAt?: Date | string | null
-  accessDuration?: string | null
-  maxQuota?: number | null
-  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  meetingPlatform?: string | null
-  meetingUrl?: string | null
-  materialPlatform?: string | null
-  materialUrl?: string | null
-  recordingUrl?: string | null
-  driveUrl?: string | null
-  cancelledAt?: Date | string | null
-  cancellationReason?: string | null
+  meetingLink?: string | null
+  materialLink?: string | null
+  recordingLink?: string | null
+  creatorId: string
   createdAt?: Date | string
   updatedAt?: Date | string
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutClassInput
-  reviews?: Prisma.ClassReviewUncheckedCreateNestedManyWithoutClassInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutClassInput
   reports?: Prisma.ClassReportUncheckedCreateNestedManyWithoutClassInput
 }
 
-export type ClassCreateOrConnectWithoutPresencesInput = {
+export type ClassCreateOrConnectWithoutTutorsInput = {
   where: Prisma.ClassWhereUniqueInput
-  create: Prisma.XOR<Prisma.ClassCreateWithoutPresencesInput, Prisma.ClassUncheckedCreateWithoutPresencesInput>
+  create: Prisma.XOR<Prisma.ClassCreateWithoutTutorsInput, Prisma.ClassUncheckedCreateWithoutTutorsInput>
 }
 
-export type ClassUpsertWithoutPresencesInput = {
-  update: Prisma.XOR<Prisma.ClassUpdateWithoutPresencesInput, Prisma.ClassUncheckedUpdateWithoutPresencesInput>
-  create: Prisma.XOR<Prisma.ClassCreateWithoutPresencesInput, Prisma.ClassUncheckedCreateWithoutPresencesInput>
+export type ClassUpsertWithoutTutorsInput = {
+  update: Prisma.XOR<Prisma.ClassUpdateWithoutTutorsInput, Prisma.ClassUncheckedUpdateWithoutTutorsInput>
+  create: Prisma.XOR<Prisma.ClassCreateWithoutTutorsInput, Prisma.ClassUncheckedCreateWithoutTutorsInput>
   where?: Prisma.ClassWhereInput
 }
 
-export type ClassUpdateToOneWithWhereWithoutPresencesInput = {
+export type ClassUpdateToOneWithWhereWithoutTutorsInput = {
   where?: Prisma.ClassWhereInput
-  data: Prisma.XOR<Prisma.ClassUpdateWithoutPresencesInput, Prisma.ClassUncheckedUpdateWithoutPresencesInput>
+  data: Prisma.XOR<Prisma.ClassUpdateWithoutTutorsInput, Prisma.ClassUncheckedUpdateWithoutTutorsInput>
 }
 
-export type ClassUpdateWithoutPresencesInput = {
+export type ClassUpdateWithoutTutorsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  mainCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  university?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  courseType?: Prisma.EnumCourseTypeFieldUpdateOperationsInput | $Enums.CourseType
-  organizerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  organizerLogo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumClassTypeFieldUpdateOperationsInput | $Enums.ClassType
+  tutorGrade?: Prisma.NullableEnumTutorGradeFieldUpdateOperationsInput | $Enums.TutorGrade | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumClassStatusFieldUpdateOperationsInput | $Enums.ClassStatus
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campusTarget?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  accessDuration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  maxQuota?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  meetingPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  meetingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  materialPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  materialUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  recordingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  driveUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  cancellationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  meetingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  materialLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recordingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tutor?: Prisma.UserUpdateOneRequiredWithoutClassesNestedInput
+  creator?: Prisma.UserUpdateOneRequiredWithoutClassesCreatedNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutClassNestedInput
-  reviews?: Prisma.ClassReviewUpdateManyWithoutClassNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutClassNestedInput
   reports?: Prisma.ClassReportUpdateManyWithoutClassNestedInput
 }
 
-export type ClassUncheckedUpdateWithoutPresencesInput = {
+export type ClassUncheckedUpdateWithoutTutorsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tutorId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  mainCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  university?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  courseType?: Prisma.EnumCourseTypeFieldUpdateOperationsInput | $Enums.CourseType
-  organizerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  organizerLogo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumClassTypeFieldUpdateOperationsInput | $Enums.ClassType
+  tutorGrade?: Prisma.NullableEnumTutorGradeFieldUpdateOperationsInput | $Enums.TutorGrade | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumClassStatusFieldUpdateOperationsInput | $Enums.ClassStatus
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campusTarget?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  accessDuration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  maxQuota?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  meetingPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  meetingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  materialPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  materialUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  recordingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  driveUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  cancellationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  meetingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  materialLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recordingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creatorId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutClassNestedInput
-  reviews?: Prisma.ClassReviewUncheckedUpdateManyWithoutClassNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutClassNestedInput
   reports?: Prisma.ClassReportUncheckedUpdateManyWithoutClassNestedInput
 }
 
 export type ClassCreateWithoutReviewsInput = {
   id?: string
   title: string
-  shortDescription?: string | null
+  slug: string
   description: string
-  mainCategory?: string | null
+  type?: $Enums.ClassType
+  tutorGrade?: $Enums.TutorGrade | null
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  category: string
   major?: string | null
-  university?: string | null
-  courseType?: $Enums.CourseType
-  organizerName?: string | null
-  organizerLogo?: string | null
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: string
-  status?: $Enums.ClassStatus
+  campusTarget?: string | null
+  bannerUrl?: string | null
   startsAt?: Date | string | null
-  accessDuration?: string | null
-  maxQuota?: number | null
-  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  meetingPlatform?: string | null
-  meetingUrl?: string | null
-  materialPlatform?: string | null
-  materialUrl?: string | null
-  recordingUrl?: string | null
-  driveUrl?: string | null
-  cancelledAt?: Date | string | null
-  cancellationReason?: string | null
+  meetingLink?: string | null
+  materialLink?: string | null
+  recordingLink?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  tutor: Prisma.UserCreateNestedOneWithoutClassesInput
+  creator: Prisma.UserCreateNestedOneWithoutClassesCreatedInput
+  tutors?: Prisma.BootcampTutorCreateNestedManyWithoutClassInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutClassInput
-  presences?: Prisma.PresenceCreateNestedManyWithoutClassInput
   reports?: Prisma.ClassReportCreateNestedManyWithoutClassInput
 }
 
 export type ClassUncheckedCreateWithoutReviewsInput = {
   id?: string
-  tutorId: string
   title: string
-  shortDescription?: string | null
+  slug: string
   description: string
-  mainCategory?: string | null
+  type?: $Enums.ClassType
+  tutorGrade?: $Enums.TutorGrade | null
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  category: string
   major?: string | null
-  university?: string | null
-  courseType?: $Enums.CourseType
-  organizerName?: string | null
-  organizerLogo?: string | null
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: string
-  status?: $Enums.ClassStatus
+  campusTarget?: string | null
+  bannerUrl?: string | null
   startsAt?: Date | string | null
-  accessDuration?: string | null
-  maxQuota?: number | null
-  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  meetingPlatform?: string | null
-  meetingUrl?: string | null
-  materialPlatform?: string | null
-  materialUrl?: string | null
-  recordingUrl?: string | null
-  driveUrl?: string | null
-  cancelledAt?: Date | string | null
-  cancellationReason?: string | null
+  meetingLink?: string | null
+  materialLink?: string | null
+  recordingLink?: string | null
+  creatorId: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  tutors?: Prisma.BootcampTutorUncheckedCreateNestedManyWithoutClassInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutClassInput
-  presences?: Prisma.PresenceUncheckedCreateNestedManyWithoutClassInput
   reports?: Prisma.ClassReportUncheckedCreateNestedManyWithoutClassInput
 }
 
@@ -1584,141 +1085,209 @@ export type ClassUpdateToOneWithWhereWithoutReviewsInput = {
 export type ClassUpdateWithoutReviewsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  mainCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  university?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  courseType?: Prisma.EnumCourseTypeFieldUpdateOperationsInput | $Enums.CourseType
-  organizerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  organizerLogo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumClassTypeFieldUpdateOperationsInput | $Enums.ClassType
+  tutorGrade?: Prisma.NullableEnumTutorGradeFieldUpdateOperationsInput | $Enums.TutorGrade | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumClassStatusFieldUpdateOperationsInput | $Enums.ClassStatus
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campusTarget?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  accessDuration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  maxQuota?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  meetingPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  meetingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  materialPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  materialUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  recordingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  driveUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  cancellationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  meetingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  materialLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recordingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tutor?: Prisma.UserUpdateOneRequiredWithoutClassesNestedInput
+  creator?: Prisma.UserUpdateOneRequiredWithoutClassesCreatedNestedInput
+  tutors?: Prisma.BootcampTutorUpdateManyWithoutClassNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutClassNestedInput
-  presences?: Prisma.PresenceUpdateManyWithoutClassNestedInput
   reports?: Prisma.ClassReportUpdateManyWithoutClassNestedInput
 }
 
 export type ClassUncheckedUpdateWithoutReviewsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tutorId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  mainCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  university?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  courseType?: Prisma.EnumCourseTypeFieldUpdateOperationsInput | $Enums.CourseType
-  organizerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  organizerLogo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumClassTypeFieldUpdateOperationsInput | $Enums.ClassType
+  tutorGrade?: Prisma.NullableEnumTutorGradeFieldUpdateOperationsInput | $Enums.TutorGrade | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumClassStatusFieldUpdateOperationsInput | $Enums.ClassStatus
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campusTarget?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  accessDuration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  maxQuota?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  meetingPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  meetingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  materialPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  materialUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  recordingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  driveUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  cancellationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  meetingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  materialLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recordingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creatorId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tutors?: Prisma.BootcampTutorUncheckedUpdateManyWithoutClassNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutClassNestedInput
-  presences?: Prisma.PresenceUncheckedUpdateManyWithoutClassNestedInput
+  reports?: Prisma.ClassReportUncheckedUpdateManyWithoutClassNestedInput
+}
+
+export type ClassCreateWithoutTransactionsInput = {
+  id?: string
+  title: string
+  slug: string
+  description: string
+  type?: $Enums.ClassType
+  tutorGrade?: $Enums.TutorGrade | null
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  category: string
+  major?: string | null
+  campusTarget?: string | null
+  bannerUrl?: string | null
+  startsAt?: Date | string | null
+  meetingLink?: string | null
+  materialLink?: string | null
+  recordingLink?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  creator: Prisma.UserCreateNestedOneWithoutClassesCreatedInput
+  tutors?: Prisma.BootcampTutorCreateNestedManyWithoutClassInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutClassInput
+  reports?: Prisma.ClassReportCreateNestedManyWithoutClassInput
+}
+
+export type ClassUncheckedCreateWithoutTransactionsInput = {
+  id?: string
+  title: string
+  slug: string
+  description: string
+  type?: $Enums.ClassType
+  tutorGrade?: $Enums.TutorGrade | null
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  category: string
+  major?: string | null
+  campusTarget?: string | null
+  bannerUrl?: string | null
+  startsAt?: Date | string | null
+  meetingLink?: string | null
+  materialLink?: string | null
+  recordingLink?: string | null
+  creatorId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  tutors?: Prisma.BootcampTutorUncheckedCreateNestedManyWithoutClassInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutClassInput
+  reports?: Prisma.ClassReportUncheckedCreateNestedManyWithoutClassInput
+}
+
+export type ClassCreateOrConnectWithoutTransactionsInput = {
+  where: Prisma.ClassWhereUniqueInput
+  create: Prisma.XOR<Prisma.ClassCreateWithoutTransactionsInput, Prisma.ClassUncheckedCreateWithoutTransactionsInput>
+}
+
+export type ClassUpsertWithoutTransactionsInput = {
+  update: Prisma.XOR<Prisma.ClassUpdateWithoutTransactionsInput, Prisma.ClassUncheckedUpdateWithoutTransactionsInput>
+  create: Prisma.XOR<Prisma.ClassCreateWithoutTransactionsInput, Prisma.ClassUncheckedCreateWithoutTransactionsInput>
+  where?: Prisma.ClassWhereInput
+}
+
+export type ClassUpdateToOneWithWhereWithoutTransactionsInput = {
+  where?: Prisma.ClassWhereInput
+  data: Prisma.XOR<Prisma.ClassUpdateWithoutTransactionsInput, Prisma.ClassUncheckedUpdateWithoutTransactionsInput>
+}
+
+export type ClassUpdateWithoutTransactionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumClassTypeFieldUpdateOperationsInput | $Enums.ClassType
+  tutorGrade?: Prisma.NullableEnumTutorGradeFieldUpdateOperationsInput | $Enums.TutorGrade | null
+  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campusTarget?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  meetingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  materialLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recordingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  creator?: Prisma.UserUpdateOneRequiredWithoutClassesCreatedNestedInput
+  tutors?: Prisma.BootcampTutorUpdateManyWithoutClassNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutClassNestedInput
+  reports?: Prisma.ClassReportUpdateManyWithoutClassNestedInput
+}
+
+export type ClassUncheckedUpdateWithoutTransactionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumClassTypeFieldUpdateOperationsInput | $Enums.ClassType
+  tutorGrade?: Prisma.NullableEnumTutorGradeFieldUpdateOperationsInput | $Enums.TutorGrade | null
+  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campusTarget?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  meetingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  materialLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recordingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creatorId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tutors?: Prisma.BootcampTutorUncheckedUpdateManyWithoutClassNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutClassNestedInput
   reports?: Prisma.ClassReportUncheckedUpdateManyWithoutClassNestedInput
 }
 
 export type ClassCreateWithoutReportsInput = {
   id?: string
   title: string
-  shortDescription?: string | null
+  slug: string
   description: string
-  mainCategory?: string | null
+  type?: $Enums.ClassType
+  tutorGrade?: $Enums.TutorGrade | null
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  category: string
   major?: string | null
-  university?: string | null
-  courseType?: $Enums.CourseType
-  organizerName?: string | null
-  organizerLogo?: string | null
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: string
-  status?: $Enums.ClassStatus
+  campusTarget?: string | null
+  bannerUrl?: string | null
   startsAt?: Date | string | null
-  accessDuration?: string | null
-  maxQuota?: number | null
-  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  meetingPlatform?: string | null
-  meetingUrl?: string | null
-  materialPlatform?: string | null
-  materialUrl?: string | null
-  recordingUrl?: string | null
-  driveUrl?: string | null
-  cancelledAt?: Date | string | null
-  cancellationReason?: string | null
+  meetingLink?: string | null
+  materialLink?: string | null
+  recordingLink?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  tutor: Prisma.UserCreateNestedOneWithoutClassesInput
+  creator: Prisma.UserCreateNestedOneWithoutClassesCreatedInput
+  tutors?: Prisma.BootcampTutorCreateNestedManyWithoutClassInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutClassInput
-  presences?: Prisma.PresenceCreateNestedManyWithoutClassInput
-  reviews?: Prisma.ClassReviewCreateNestedManyWithoutClassInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutClassInput
 }
 
 export type ClassUncheckedCreateWithoutReportsInput = {
   id?: string
-  tutorId: string
   title: string
-  shortDescription?: string | null
+  slug: string
   description: string
-  mainCategory?: string | null
+  type?: $Enums.ClassType
+  tutorGrade?: $Enums.TutorGrade | null
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  category: string
   major?: string | null
-  university?: string | null
-  courseType?: $Enums.CourseType
-  organizerName?: string | null
-  organizerLogo?: string | null
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: string
-  status?: $Enums.ClassStatus
+  campusTarget?: string | null
+  bannerUrl?: string | null
   startsAt?: Date | string | null
-  accessDuration?: string | null
-  maxQuota?: number | null
-  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  meetingPlatform?: string | null
-  meetingUrl?: string | null
-  materialPlatform?: string | null
-  materialUrl?: string | null
-  recordingUrl?: string | null
-  driveUrl?: string | null
-  cancelledAt?: Date | string | null
-  cancellationReason?: string | null
+  meetingLink?: string | null
+  materialLink?: string | null
+  recordingLink?: string | null
+  creatorId: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  tutors?: Prisma.BootcampTutorUncheckedCreateNestedManyWithoutClassInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutClassInput
-  presences?: Prisma.PresenceUncheckedCreateNestedManyWithoutClassInput
-  reviews?: Prisma.ClassReviewUncheckedCreateNestedManyWithoutClassInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutClassInput
 }
 
 export type ClassCreateOrConnectWithoutReportsInput = {
@@ -1740,201 +1309,135 @@ export type ClassUpdateToOneWithWhereWithoutReportsInput = {
 export type ClassUpdateWithoutReportsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  mainCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  university?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  courseType?: Prisma.EnumCourseTypeFieldUpdateOperationsInput | $Enums.CourseType
-  organizerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  organizerLogo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumClassTypeFieldUpdateOperationsInput | $Enums.ClassType
+  tutorGrade?: Prisma.NullableEnumTutorGradeFieldUpdateOperationsInput | $Enums.TutorGrade | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumClassStatusFieldUpdateOperationsInput | $Enums.ClassStatus
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campusTarget?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  accessDuration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  maxQuota?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  meetingPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  meetingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  materialPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  materialUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  recordingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  driveUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  cancellationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  meetingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  materialLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recordingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tutor?: Prisma.UserUpdateOneRequiredWithoutClassesNestedInput
+  creator?: Prisma.UserUpdateOneRequiredWithoutClassesCreatedNestedInput
+  tutors?: Prisma.BootcampTutorUpdateManyWithoutClassNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutClassNestedInput
-  presences?: Prisma.PresenceUpdateManyWithoutClassNestedInput
-  reviews?: Prisma.ClassReviewUpdateManyWithoutClassNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutClassNestedInput
 }
 
 export type ClassUncheckedUpdateWithoutReportsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tutorId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  mainCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  university?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  courseType?: Prisma.EnumCourseTypeFieldUpdateOperationsInput | $Enums.CourseType
-  organizerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  organizerLogo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumClassTypeFieldUpdateOperationsInput | $Enums.ClassType
+  tutorGrade?: Prisma.NullableEnumTutorGradeFieldUpdateOperationsInput | $Enums.TutorGrade | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumClassStatusFieldUpdateOperationsInput | $Enums.ClassStatus
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campusTarget?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  accessDuration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  maxQuota?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  meetingPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  meetingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  materialPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  materialUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  recordingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  driveUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  cancellationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  meetingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  materialLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recordingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creatorId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tutors?: Prisma.BootcampTutorUncheckedUpdateManyWithoutClassNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutClassNestedInput
-  presences?: Prisma.PresenceUncheckedUpdateManyWithoutClassNestedInput
-  reviews?: Prisma.ClassReviewUncheckedUpdateManyWithoutClassNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutClassNestedInput
 }
 
-export type ClassCreateManyTutorInput = {
+export type ClassCreateManyCreatorInput = {
   id?: string
   title: string
-  shortDescription?: string | null
+  slug: string
   description: string
-  mainCategory?: string | null
+  type?: $Enums.ClassType
+  tutorGrade?: $Enums.TutorGrade | null
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  category: string
   major?: string | null
-  university?: string | null
-  courseType?: $Enums.CourseType
-  organizerName?: string | null
-  organizerLogo?: string | null
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: string
-  status?: $Enums.ClassStatus
+  campusTarget?: string | null
+  bannerUrl?: string | null
   startsAt?: Date | string | null
-  accessDuration?: string | null
-  maxQuota?: number | null
-  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  meetingPlatform?: string | null
-  meetingUrl?: string | null
-  materialPlatform?: string | null
-  materialUrl?: string | null
-  recordingUrl?: string | null
-  driveUrl?: string | null
-  cancelledAt?: Date | string | null
-  cancellationReason?: string | null
+  meetingLink?: string | null
+  materialLink?: string | null
+  recordingLink?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
-export type ClassUpdateWithoutTutorInput = {
+export type ClassUpdateWithoutCreatorInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  mainCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  university?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  courseType?: Prisma.EnumCourseTypeFieldUpdateOperationsInput | $Enums.CourseType
-  organizerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  organizerLogo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumClassTypeFieldUpdateOperationsInput | $Enums.ClassType
+  tutorGrade?: Prisma.NullableEnumTutorGradeFieldUpdateOperationsInput | $Enums.TutorGrade | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumClassStatusFieldUpdateOperationsInput | $Enums.ClassStatus
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campusTarget?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  accessDuration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  maxQuota?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  meetingPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  meetingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  materialPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  materialUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  recordingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  driveUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  cancellationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  meetingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  materialLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recordingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tutors?: Prisma.BootcampTutorUpdateManyWithoutClassNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutClassNestedInput
-  presences?: Prisma.PresenceUpdateManyWithoutClassNestedInput
-  reviews?: Prisma.ClassReviewUpdateManyWithoutClassNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutClassNestedInput
   reports?: Prisma.ClassReportUpdateManyWithoutClassNestedInput
 }
 
-export type ClassUncheckedUpdateWithoutTutorInput = {
+export type ClassUncheckedUpdateWithoutCreatorInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  mainCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  university?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  courseType?: Prisma.EnumCourseTypeFieldUpdateOperationsInput | $Enums.CourseType
-  organizerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  organizerLogo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumClassTypeFieldUpdateOperationsInput | $Enums.ClassType
+  tutorGrade?: Prisma.NullableEnumTutorGradeFieldUpdateOperationsInput | $Enums.TutorGrade | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumClassStatusFieldUpdateOperationsInput | $Enums.ClassStatus
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campusTarget?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  accessDuration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  maxQuota?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  meetingPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  meetingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  materialPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  materialUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  recordingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  driveUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  cancellationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  meetingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  materialLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recordingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tutors?: Prisma.BootcampTutorUncheckedUpdateManyWithoutClassNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutClassNestedInput
-  presences?: Prisma.PresenceUncheckedUpdateManyWithoutClassNestedInput
-  reviews?: Prisma.ClassReviewUncheckedUpdateManyWithoutClassNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutClassNestedInput
   reports?: Prisma.ClassReportUncheckedUpdateManyWithoutClassNestedInput
 }
 
-export type ClassUncheckedUpdateManyWithoutTutorInput = {
+export type ClassUncheckedUpdateManyWithoutCreatorInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  mainCategory?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  university?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  courseType?: Prisma.EnumCourseTypeFieldUpdateOperationsInput | $Enums.CourseType
-  organizerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  organizerLogo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumClassTypeFieldUpdateOperationsInput | $Enums.ClassType
+  tutorGrade?: Prisma.NullableEnumTutorGradeFieldUpdateOperationsInput | $Enums.TutorGrade | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumClassStatusFieldUpdateOperationsInput | $Enums.ClassStatus
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  major?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campusTarget?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  accessDuration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  maxQuota?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  meetingPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  meetingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  materialPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  materialUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  recordingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  driveUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  cancellationReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  meetingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  materialLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recordingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1945,15 +1448,15 @@ export type ClassUncheckedUpdateManyWithoutTutorInput = {
  */
 
 export type ClassCountOutputType = {
+  tutors: number
   transactions: number
-  presences: number
   reviews: number
   reports: number
 }
 
 export type ClassCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  tutors?: boolean | ClassCountOutputTypeCountTutorsArgs
   transactions?: boolean | ClassCountOutputTypeCountTransactionsArgs
-  presences?: boolean | ClassCountOutputTypeCountPresencesArgs
   reviews?: boolean | ClassCountOutputTypeCountReviewsArgs
   reports?: boolean | ClassCountOutputTypeCountReportsArgs
 }
@@ -1971,6 +1474,13 @@ export type ClassCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extens
 /**
  * ClassCountOutputType without action
  */
+export type ClassCountOutputTypeCountTutorsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.BootcampTutorWhereInput
+}
+
+/**
+ * ClassCountOutputType without action
+ */
 export type ClassCountOutputTypeCountTransactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.TransactionWhereInput
 }
@@ -1978,15 +1488,8 @@ export type ClassCountOutputTypeCountTransactionsArgs<ExtArgs extends runtime.Ty
 /**
  * ClassCountOutputType without action
  */
-export type ClassCountOutputTypeCountPresencesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.PresenceWhereInput
-}
-
-/**
- * ClassCountOutputType without action
- */
 export type ClassCountOutputTypeCountReviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ClassReviewWhereInput
+  where?: Prisma.ReviewWhereInput
 }
 
 /**
@@ -1999,37 +1502,26 @@ export type ClassCountOutputTypeCountReportsArgs<ExtArgs extends runtime.Types.E
 
 export type ClassSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  tutorId?: boolean
   title?: boolean
-  shortDescription?: boolean
+  slug?: boolean
   description?: boolean
-  mainCategory?: boolean
-  major?: boolean
-  university?: boolean
-  courseType?: boolean
-  organizerName?: boolean
-  organizerLogo?: boolean
+  type?: boolean
+  tutorGrade?: boolean
   price?: boolean
-  currency?: boolean
-  status?: boolean
+  category?: boolean
+  major?: boolean
+  campusTarget?: boolean
+  bannerUrl?: boolean
   startsAt?: boolean
-  accessDuration?: boolean
-  maxQuota?: boolean
-  requirements?: boolean
-  facilities?: boolean
-  meetingPlatform?: boolean
-  meetingUrl?: boolean
-  materialPlatform?: boolean
-  materialUrl?: boolean
-  recordingUrl?: boolean
-  driveUrl?: boolean
-  cancelledAt?: boolean
-  cancellationReason?: boolean
+  meetingLink?: boolean
+  materialLink?: boolean
+  recordingLink?: boolean
+  creatorId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  tutor?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  creator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  tutors?: boolean | Prisma.Class$tutorsArgs<ExtArgs>
   transactions?: boolean | Prisma.Class$transactionsArgs<ExtArgs>
-  presences?: boolean | Prisma.Class$presencesArgs<ExtArgs>
   reviews?: boolean | Prisma.Class$reviewsArgs<ExtArgs>
   reports?: boolean | Prisma.Class$reportsArgs<ExtArgs>
   _count?: boolean | Prisma.ClassCountOutputTypeDefaultArgs<ExtArgs>
@@ -2039,41 +1531,30 @@ export type ClassSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
 
 export type ClassSelectScalar = {
   id?: boolean
-  tutorId?: boolean
   title?: boolean
-  shortDescription?: boolean
+  slug?: boolean
   description?: boolean
-  mainCategory?: boolean
-  major?: boolean
-  university?: boolean
-  courseType?: boolean
-  organizerName?: boolean
-  organizerLogo?: boolean
+  type?: boolean
+  tutorGrade?: boolean
   price?: boolean
-  currency?: boolean
-  status?: boolean
+  category?: boolean
+  major?: boolean
+  campusTarget?: boolean
+  bannerUrl?: boolean
   startsAt?: boolean
-  accessDuration?: boolean
-  maxQuota?: boolean
-  requirements?: boolean
-  facilities?: boolean
-  meetingPlatform?: boolean
-  meetingUrl?: boolean
-  materialPlatform?: boolean
-  materialUrl?: boolean
-  recordingUrl?: boolean
-  driveUrl?: boolean
-  cancelledAt?: boolean
-  cancellationReason?: boolean
+  meetingLink?: boolean
+  materialLink?: boolean
+  recordingLink?: boolean
+  creatorId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type ClassOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tutorId" | "title" | "shortDescription" | "description" | "mainCategory" | "major" | "university" | "courseType" | "organizerName" | "organizerLogo" | "price" | "currency" | "status" | "startsAt" | "accessDuration" | "maxQuota" | "requirements" | "facilities" | "meetingPlatform" | "meetingUrl" | "materialPlatform" | "materialUrl" | "recordingUrl" | "driveUrl" | "cancelledAt" | "cancellationReason" | "createdAt" | "updatedAt", ExtArgs["result"]["class"]>
+export type ClassOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "slug" | "description" | "type" | "tutorGrade" | "price" | "category" | "major" | "campusTarget" | "bannerUrl" | "startsAt" | "meetingLink" | "materialLink" | "recordingLink" | "creatorId" | "createdAt" | "updatedAt", ExtArgs["result"]["class"]>
 export type ClassInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tutor?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  creator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  tutors?: boolean | Prisma.Class$tutorsArgs<ExtArgs>
   transactions?: boolean | Prisma.Class$transactionsArgs<ExtArgs>
-  presences?: boolean | Prisma.Class$presencesArgs<ExtArgs>
   reviews?: boolean | Prisma.Class$reviewsArgs<ExtArgs>
   reports?: boolean | Prisma.Class$reportsArgs<ExtArgs>
   _count?: boolean | Prisma.ClassCountOutputTypeDefaultArgs<ExtArgs>
@@ -2082,40 +1563,29 @@ export type ClassInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs =
 export type $ClassPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Class"
   objects: {
-    tutor: Prisma.$UserPayload<ExtArgs>
+    creator: Prisma.$UserPayload<ExtArgs>
+    tutors: Prisma.$BootcampTutorPayload<ExtArgs>[]
     transactions: Prisma.$TransactionPayload<ExtArgs>[]
-    presences: Prisma.$PresencePayload<ExtArgs>[]
-    reviews: Prisma.$ClassReviewPayload<ExtArgs>[]
+    reviews: Prisma.$ReviewPayload<ExtArgs>[]
     reports: Prisma.$ClassReportPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    tutorId: string
     title: string
-    shortDescription: string | null
+    slug: string
     description: string
-    mainCategory: string | null
-    major: string | null
-    university: string | null
-    courseType: $Enums.CourseType
-    organizerName: string | null
-    organizerLogo: string | null
+    type: $Enums.ClassType
+    tutorGrade: $Enums.TutorGrade | null
     price: runtime.Decimal
-    currency: string
-    status: $Enums.ClassStatus
+    category: string
+    major: string | null
+    campusTarget: string | null
+    bannerUrl: string | null
     startsAt: Date | null
-    accessDuration: string | null
-    maxQuota: number | null
-    requirements: runtime.JsonValue | null
-    facilities: runtime.JsonValue | null
-    meetingPlatform: string | null
-    meetingUrl: string | null
-    materialPlatform: string | null
-    materialUrl: string | null
-    recordingUrl: string | null
-    driveUrl: string | null
-    cancelledAt: Date | null
-    cancellationReason: string | null
+    meetingLink: string | null
+    materialLink: string | null
+    recordingLink: string | null
+    creatorId: string
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["class"]>
@@ -2458,10 +1928,10 @@ readonly fields: ClassFieldRefs;
  */
 export interface Prisma__ClassClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  tutor<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  creator<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  tutors<T extends Prisma.Class$tutorsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Class$tutorsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BootcampTutorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   transactions<T extends Prisma.Class$transactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Class$transactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  presences<T extends Prisma.Class$presencesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Class$presencesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PresencePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  reviews<T extends Prisma.Class$reviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Class$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ClassReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  reviews<T extends Prisma.Class$reviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Class$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reports<T extends Prisma.Class$reportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Class$reportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ClassReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -2493,32 +1963,21 @@ export interface Prisma__ClassClient<T, Null = never, ExtArgs extends runtime.Ty
  */
 export interface ClassFieldRefs {
   readonly id: Prisma.FieldRef<"Class", 'String'>
-  readonly tutorId: Prisma.FieldRef<"Class", 'String'>
   readonly title: Prisma.FieldRef<"Class", 'String'>
-  readonly shortDescription: Prisma.FieldRef<"Class", 'String'>
+  readonly slug: Prisma.FieldRef<"Class", 'String'>
   readonly description: Prisma.FieldRef<"Class", 'String'>
-  readonly mainCategory: Prisma.FieldRef<"Class", 'String'>
-  readonly major: Prisma.FieldRef<"Class", 'String'>
-  readonly university: Prisma.FieldRef<"Class", 'String'>
-  readonly courseType: Prisma.FieldRef<"Class", 'CourseType'>
-  readonly organizerName: Prisma.FieldRef<"Class", 'String'>
-  readonly organizerLogo: Prisma.FieldRef<"Class", 'String'>
+  readonly type: Prisma.FieldRef<"Class", 'ClassType'>
+  readonly tutorGrade: Prisma.FieldRef<"Class", 'TutorGrade'>
   readonly price: Prisma.FieldRef<"Class", 'Decimal'>
-  readonly currency: Prisma.FieldRef<"Class", 'String'>
-  readonly status: Prisma.FieldRef<"Class", 'ClassStatus'>
+  readonly category: Prisma.FieldRef<"Class", 'String'>
+  readonly major: Prisma.FieldRef<"Class", 'String'>
+  readonly campusTarget: Prisma.FieldRef<"Class", 'String'>
+  readonly bannerUrl: Prisma.FieldRef<"Class", 'String'>
   readonly startsAt: Prisma.FieldRef<"Class", 'DateTime'>
-  readonly accessDuration: Prisma.FieldRef<"Class", 'String'>
-  readonly maxQuota: Prisma.FieldRef<"Class", 'Int'>
-  readonly requirements: Prisma.FieldRef<"Class", 'Json'>
-  readonly facilities: Prisma.FieldRef<"Class", 'Json'>
-  readonly meetingPlatform: Prisma.FieldRef<"Class", 'String'>
-  readonly meetingUrl: Prisma.FieldRef<"Class", 'String'>
-  readonly materialPlatform: Prisma.FieldRef<"Class", 'String'>
-  readonly materialUrl: Prisma.FieldRef<"Class", 'String'>
-  readonly recordingUrl: Prisma.FieldRef<"Class", 'String'>
-  readonly driveUrl: Prisma.FieldRef<"Class", 'String'>
-  readonly cancelledAt: Prisma.FieldRef<"Class", 'DateTime'>
-  readonly cancellationReason: Prisma.FieldRef<"Class", 'String'>
+  readonly meetingLink: Prisma.FieldRef<"Class", 'String'>
+  readonly materialLink: Prisma.FieldRef<"Class", 'String'>
+  readonly recordingLink: Prisma.FieldRef<"Class", 'String'>
+  readonly creatorId: Prisma.FieldRef<"Class", 'String'>
   readonly createdAt: Prisma.FieldRef<"Class", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Class", 'DateTime'>
 }
@@ -2869,6 +2328,30 @@ export type ClassDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
 }
 
 /**
+ * Class.tutors
+ */
+export type Class$tutorsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the BootcampTutor
+   */
+  select?: Prisma.BootcampTutorSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the BootcampTutor
+   */
+  omit?: Prisma.BootcampTutorOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BootcampTutorInclude<ExtArgs> | null
+  where?: Prisma.BootcampTutorWhereInput
+  orderBy?: Prisma.BootcampTutorOrderByWithRelationInput | Prisma.BootcampTutorOrderByWithRelationInput[]
+  cursor?: Prisma.BootcampTutorWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.BootcampTutorScalarFieldEnum | Prisma.BootcampTutorScalarFieldEnum[]
+}
+
+/**
  * Class.transactions
  */
 export type Class$transactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2893,51 +2376,27 @@ export type Class$transactionsArgs<ExtArgs extends runtime.Types.Extensions.Inte
 }
 
 /**
- * Class.presences
- */
-export type Class$presencesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Presence
-   */
-  select?: Prisma.PresenceSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Presence
-   */
-  omit?: Prisma.PresenceOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.PresenceInclude<ExtArgs> | null
-  where?: Prisma.PresenceWhereInput
-  orderBy?: Prisma.PresenceOrderByWithRelationInput | Prisma.PresenceOrderByWithRelationInput[]
-  cursor?: Prisma.PresenceWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.PresenceScalarFieldEnum | Prisma.PresenceScalarFieldEnum[]
-}
-
-/**
  * Class.reviews
  */
 export type Class$reviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the ClassReview
+   * Select specific fields to fetch from the Review
    */
-  select?: Prisma.ClassReviewSelect<ExtArgs> | null
+  select?: Prisma.ReviewSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the ClassReview
+   * Omit specific fields from the Review
    */
-  omit?: Prisma.ClassReviewOmit<ExtArgs> | null
+  omit?: Prisma.ReviewOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.ClassReviewInclude<ExtArgs> | null
-  where?: Prisma.ClassReviewWhereInput
-  orderBy?: Prisma.ClassReviewOrderByWithRelationInput | Prisma.ClassReviewOrderByWithRelationInput[]
-  cursor?: Prisma.ClassReviewWhereUniqueInput
+  include?: Prisma.ReviewInclude<ExtArgs> | null
+  where?: Prisma.ReviewWhereInput
+  orderBy?: Prisma.ReviewOrderByWithRelationInput | Prisma.ReviewOrderByWithRelationInput[]
+  cursor?: Prisma.ReviewWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.ClassReviewScalarFieldEnum | Prisma.ClassReviewScalarFieldEnum[]
+  distinct?: Prisma.ReviewScalarFieldEnum | Prisma.ReviewScalarFieldEnum[]
 }
 
 /**

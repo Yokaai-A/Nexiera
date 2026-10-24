@@ -1,12 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
-import { CheckCircle2, Mail, ShieldCheck } from "lucide-react";
+import { Camera, X } from "lucide-react";
 import { useUserStore } from "@/src/store/useUserStore";
+import { nexieraApi } from "@/src/lib/api";
 
 export function AccountSettingsForm({ dashboard = false }: { dashboard?: boolean }) {
   const user = useUserStore();
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [university, setUniversity] = useState("");
@@ -14,18 +16,12 @@ export function AccountSettingsForm({ dashboard = false }: { dashboard?: boolean
   const [studentNumber, setStudentNumber] = useState("");
   const [semester, setSemester] = useState("");
   const [bio, setBio] = useState("");
+  const [headline, setHeadline] = useState("");
   const [avatarUrl, setAvatarUrl] = useState("");
+  const [uploadingAvatar, setUploadingAvatar] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
-
-  // Campus Email OTP Verification State
-  const [campusEmail, setCampusEmail] = useState("");
-  const [otpCode, setOtpCode] = useState("");
-  const [isOtpSent, setIsOtpSent] = useState(false);
-  const [isCampusVerified, setIsCampusVerified] = useState(false);
-  const [otpError, setOtpError] = useState("");
-  const [otpNotice, setOtpNotice] = useState("");
 
   useEffect(() => {
     setName(user.name || "");
@@ -35,14 +31,35 @@ export function AccountSettingsForm({ dashboard = false }: { dashboard?: boolean
     setStudentNumber(user.nim || "");
     setSemester(user.semester || "");
     setBio(user.bio || "");
+    setHeadline(user.headline || "");
     setAvatarUrl(user.avatarUrl || "");
 
-    const verified = Boolean(user.email?.includes("@binus.") || (user.university && user.university.length > 0));
-    setIsCampusVerified(verified);
-    if (user.email?.includes("@binus.")) {
-      setCampusEmail(user.email);
+  }, [user.id, user.name, user.phoneNumber, user.university, user.major, user.nim, user.semester, user.bio, user.headline, user.avatarUrl]);
+
+  async function handleAvatarUpload(event: React.ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    if (file.size > 2 * 1024 * 1024) {
+      setError("Ukuran foto profil maksimal 2 MB.");
+      return;
     }
-  }, [user.id, user.name, user.phoneNumber, user.university, user.major, user.nim, user.semester, user.bio, user.avatarUrl, user.email]);
+    const allowed = ["image/png", "image/jpeg", "image/jpg", "image/webp"];
+    if (!allowed.includes(file.type)) {
+      setError("Format file harus PNG, JPEG, JPG, atau WebP.");
+      return;
+    }
+    setUploadingAvatar(true);
+    setError("");
+    try {
+      const res = await nexieraApi.uploadProfile(file);
+      setAvatarUrl(res.url);
+      setNotice("Foto profil berhasil diunggah. Klik 'Simpan Perubahan Profil' untuk menyimpan.");
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : "Gagal mengunggah foto profil.");
+    } finally {
+      setUploadingAvatar(false);
+    }
+  }
 
   async function save(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -51,10 +68,6 @@ export function AccountSettingsForm({ dashboard = false }: { dashboard?: boolean
     const phone = phoneNumber.trim();
     if (!/^\+?[0-9\s().-]{8,32}$/.test(phone)) {
       setError("Masukkan nomor WhatsApp yang valid (8–32 karakter angka).");
-      return;
-    }
-    if (avatarUrl.trim() && !/^https?:\/\//i.test(avatarUrl.trim())) {
-      setError("URL foto profil harus dimulai dengan https:// atau http://.");
       return;
     }
     setSaving(true);
@@ -67,38 +80,16 @@ export function AccountSettingsForm({ dashboard = false }: { dashboard?: boolean
         nim: studentNumber.trim(),
         semester: semester.trim(),
         bio: bio.trim(),
-        avatarUrl: avatarUrl.trim() || undefined,
+        headline: headline.trim(),
+        avatarUrl: avatarUrl.trim(),
       });
-      setNotice("Profil tersimpan.");
+      setNotice("Profil berhasil disimpan.");
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : "Perubahan profil gagal disimpan.");
     } finally {
       setSaving(false);
     }
   }
-
-  const handleSendOtp = (e: React.FormEvent) => {
-    e.preventDefault();
-    setOtpError("");
-    setOtpNotice("");
-    if (!campusEmail.endsWith("@binus.ac.id") && !campusEmail.endsWith("@binus.edu") && !campusEmail.includes(".ac.id")) {
-      setOtpError("Email harus menggunakan domain resmi kampus (contoh: @binus.ac.id).");
-      return;
-    }
-    setIsOtpSent(true);
-    setOtpNotice("Kode OTP 6-digit telah dikirimkan ke email resmi kampus Anda.");
-  };
-
-  const handleVerifyOtp = (e: React.FormEvent) => {
-    e.preventDefault();
-    setOtpError("");
-    if (otpCode.length < 6) {
-      setOtpError("Masukkan 6 digit kode OTP yang valid.");
-      return;
-    }
-    setIsCampusVerified(true);
-    setOtpNotice("Email kampus berhasil diverifikasi!");
-  };
 
   const field =
     "nx-input mt-1 w-full rounded-[4px] border border-[#D9DEE7] bg-white px-3.5 py-2.5 text-xs sm:text-sm text-[#20232B] outline-none transition-colors focus:border-[#2457C5] dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100";
@@ -114,7 +105,7 @@ export function AccountSettingsForm({ dashboard = false }: { dashboard?: boolean
           Profil &amp; Identitas Akademik
         </h1>
         <p className="mt-1 text-xs sm:text-sm text-[#626B78] dark:text-slate-300">
-          Kelola data diri, kontak WhatsApp untuk komunikasi bimbingan, serta verifikasi email kampus resmi.
+          Kelola data diri dan informasi akademik. Notifikasi NEXIERA dikirim ke email akun utama.
         </p>
         <p className="mt-3 text-xs text-[#626B78] dark:text-slate-400">
           <span className="font-semibold text-[#20232B] dark:text-slate-200">Email Akun:</span>{" "}
@@ -129,7 +120,7 @@ export function AccountSettingsForm({ dashboard = false }: { dashboard?: boolean
       >
         <div className="sm:col-span-2 border-b border-[#D9DEE7] pb-3 dark:border-slate-800">
           <h2 className="text-sm font-bold text-[#20232B] dark:text-slate-100 uppercase tracking-wider">
-            1. Informasi Personal &amp; Kontak
+            Informasi Personal &amp; Akademik
           </h2>
         </div>
 
@@ -176,7 +167,18 @@ export function AccountSettingsForm({ dashboard = false }: { dashboard?: boolean
             value={major}
             onChange={(e) => setMajor(e.target.value)}
             maxLength={191}
-            placeholder="Contoh: Computer Science"
+            placeholder="Contoh: Teknik Informatika"
+            className={field}
+          />
+        </label>
+
+        <label className="text-xs font-semibold text-[#20232B] dark:text-slate-200">
+          Headline Profil
+          <input
+            value={headline}
+            onChange={(e) => setHeadline(e.target.value)}
+            maxLength={191}
+            placeholder="Contoh: Tutor Teknik Informatika"
             className={field}
           />
         </label>
@@ -202,16 +204,56 @@ export function AccountSettingsForm({ dashboard = false }: { dashboard?: boolean
           />
         </label>
 
-        <label className="text-xs font-semibold text-[#20232B] sm:col-span-2 dark:text-slate-200">
-          URL Foto Profil (Opsional)
-          <input
-            type="url"
-            value={avatarUrl}
-            onChange={(e) => setAvatarUrl(e.target.value)}
-            className={field}
-            placeholder="https://..."
-          />
-        </label>
+        <div className="sm:col-span-2">
+          <label className="text-xs font-semibold text-[#20232B] dark:text-slate-200 block mb-2">
+            Foto Profil (Unggah Langsung, Maks. 2 MB)
+          </label>
+          <div className="flex items-center gap-4">
+            <div className="relative h-16 w-16 overflow-hidden rounded-full border-2 border-[#D9DEE7] bg-slate-100 dark:border-slate-700 dark:bg-slate-800 shrink-0">
+              {avatarUrl ? (
+                <img
+                  src={avatarUrl.startsWith("/uploads") ? `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000"}${avatarUrl}` : avatarUrl}
+                  alt="Foto Profil"
+                  className="h-full w-full object-cover"
+                />
+              ) : (
+                <div className="flex h-full w-full items-center justify-center text-xs font-bold text-slate-400">
+                  {name ? name.slice(0, 2).toUpperCase() : "NX"}
+                </div>
+              )}
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <input
+                type="file"
+                ref={fileInputRef}
+                className="hidden"
+                accept="image/png,image/jpeg,image/jpg,image/webp"
+                onChange={handleAvatarUpload}
+              />
+              <button
+                type="button"
+                disabled={uploadingAvatar}
+                onClick={() => fileInputRef.current?.click()}
+                className="inline-flex items-center gap-1.5 rounded-[4px] border border-[#D9DEE7] bg-white px-3.5 py-2 text-xs font-semibold text-[#20232B] hover:bg-[#E5E9F0] dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
+              >
+                <Camera className="h-4 w-4" />
+                {uploadingAvatar ? "Mengunggah..." : "Pilih File Foto..."}
+              </button>
+              {avatarUrl && (
+                <button
+                  type="button"
+                  onClick={() => setAvatarUrl("")}
+                  className="inline-flex items-center gap-1 rounded-[4px] px-2.5 py-2 text-xs font-medium text-red-600 hover:bg-red-50 dark:hover:bg-red-950/20"
+                >
+                  <X className="h-3.5 w-3.5" /> Hapus Foto
+                </button>
+              )}
+            </div>
+          </div>
+          <p className="mt-1.5 text-[11px] text-[#626B78] dark:text-slate-400">
+            Format yang didukung: PNG, JPEG, JPG, WebP. Maksimal 2 MB. File langsung disimpan di server.
+          </p>
+        </div>
 
         <label className="text-xs font-semibold text-[#20232B] sm:col-span-2 dark:text-slate-200">
           Bio / Deskripsi Singkat Diri
@@ -255,88 +297,7 @@ export function AccountSettingsForm({ dashboard = false }: { dashboard?: boolean
         </div>
       </form>
 
-      {/* Section Verifikasi Email Kampus */}
-      <section className="rounded-[6px] border border-[#D9DEE7] bg-white p-6 shadow-xs dark:border-slate-800 dark:bg-slate-900">
-        <div className="border-b border-[#D9DEE7] pb-3 dark:border-slate-800">
-          <h2 className="text-sm font-bold text-[#20232B] dark:text-slate-100 uppercase tracking-wider flex items-center gap-2">
-            <ShieldCheck className="h-4 w-4 text-[#2457C5]" /> 2. Verifikasi Email Kampus
-          </h2>
-          <p className="mt-1 text-xs text-[#626B78] dark:text-slate-300">
-            Tautkan email berdomain resmi kampus untuk memverifikasi status mahasiswa aktif.
-          </p>
-        </div>
 
-        <div className="mt-5">
-          {isCampusVerified ? (
-            <div className="flex items-start gap-3 rounded-[6px] border border-emerald-200 bg-emerald-50 p-4 dark:border-emerald-900/50 dark:bg-emerald-950/30">
-              <CheckCircle2 className="h-5 w-5 text-emerald-700 dark:text-emerald-400 shrink-0 mt-0.5" />
-              <div>
-                <p className="font-semibold text-sm text-emerald-800 dark:text-emerald-300">
-                  ✓ Email Kampus Anda Telah Terverifikasi
-                </p>
-                <p className="text-xs text-emerald-700 dark:text-emerald-400 mt-0.5">
-                  {campusEmail || user.email} (Domain Email Resmi Kampus)
-                </p>
-              </div>
-            </div>
-          ) : (
-            <div className="space-y-4">
-              <label className="block text-xs font-medium text-[#20232B] dark:text-slate-200">
-                Masukkan Email Resmi Kampus Anda:
-              </label>
-
-              {!isOtpSent ? (
-                <form onSubmit={handleSendOtp} className="flex flex-col sm:flex-row gap-2 max-w-md">
-                  <input
-                    type="email"
-                    required
-                    value={campusEmail}
-                    onChange={(e) => setCampusEmail(e.target.value)}
-                    placeholder="nama@binus.ac.id"
-                    className="flex-1 rounded-[4px] border border-[#D9DEE7] bg-white px-3.5 py-2 text-xs text-[#20232B] outline-none focus:border-[#2457C5] dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
-                  />
-                  <button
-                    type="submit"
-                    className="rounded-[4px] bg-[#2563EB] px-4 py-2 text-xs font-semibold text-white hover:bg-blue-700 shrink-0"
-                  >
-                    Kirim Kode OTP
-                  </button>
-                </form>
-              ) : (
-                <form onSubmit={handleVerifyOtp} className="space-y-3 max-w-md">
-                  <div className="flex flex-col sm:flex-row gap-2">
-                    <input
-                      type="text"
-                      required
-                      maxLength={6}
-                      value={otpCode}
-                      onChange={(e) => setOtpCode(e.target.value)}
-                      placeholder="Masukkan 6-Digit OTP"
-                      className="flex-1 rounded-[4px] border border-[#D9DEE7] bg-white px-3.5 py-2 text-xs text-[#20232B] outline-none focus:border-[#2457C5] tracking-widest font-mono dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
-                    />
-                    <button
-                      type="submit"
-                      className="rounded-[4px] bg-[#2563EB] px-4 py-2 text-xs font-semibold text-white hover:bg-blue-700 shrink-0"
-                    >
-                      Verifikasi Kode OTP
-                    </button>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => setIsOtpSent(false)}
-                    className="text-[11px] text-[#2457C5] hover:underline"
-                  >
-                    Ganti email kampus
-                  </button>
-                </form>
-              )}
-
-              {otpError && <p className="text-xs text-red-600">{otpError}</p>}
-              {otpNotice && <p className="text-xs text-emerald-700">{otpNotice}</p>}
-            </div>
-          )}
-        </div>
-      </section>
     </div>
   );
 }

@@ -36,6 +36,10 @@ yarn-error.log*
 !.env.example
 !.env.local.example
 
+# User uploads and verification documents must never be committed.
+/nexiera-backend/uploads/
+/nexiera-backend/private-uploads/
+
 # vercel
 .vercel
 

@@ -60,7 +60,7 @@ export default function TutorClassDetailPage() {
     setError("");
     try {
       const result = await nexieraApi.cancelClass(item.id, reason.trim());
-      setRefundSummary(result.refunds);
+      setRefundSummary({ eligible: result.refunds?.length ?? 0, requested: result.refunds?.filter(r => r.status !== "FAILED").length ?? 0, failed: result.refunds?.filter(r => r.status === "FAILED").length ?? 0, manualRequired: 0 });
       setItem({ ...item, status: "CANCELLED", cancellationReason: reason.trim() });
       setIsCancelModalOpen(false);
     } catch (cause) {
@@ -72,7 +72,7 @@ export default function TutorClassDetailPage() {
 
   if (loading) {
     return (
-      <div className="rounded-[6px] border border-[#D9DEE7] bg-white p-8 text-sm text-[#626B78] dark:border-[#343945] dark:bg-[#191C23] dark:text-[#B1B7C3]">
+      <div className="rounded-[6px] border border-[#D9DEE7] bg-white p-4 text-xs text-[#626B78] dark:border-[#343945] dark:bg-[#191C23] dark:text-[#B1B7C3]">
         Memuat detail kelas...
       </div>
     );
@@ -80,10 +80,10 @@ export default function TutorClassDetailPage() {
 
   if (!item) {
     return (
-      <div className="rounded-[6px] border border-[#D9DEE7] bg-white p-8 dark:border-[#343945] dark:bg-[#191C23]">
+      <div className="rounded-[6px] border border-[#D9DEE7] bg-white p-4 dark:border-[#343945] dark:bg-[#191C23]">
         <p className="font-semibold text-[#20232B] dark:text-[#F3F4F6]">Kelas tidak ditemukan</p>
-        <p role="alert" className="mt-2 text-sm text-red-600 dark:text-red-400">{error}</p>
-        <Link href="/dashboard/tutor/kelas" className="btn-primary mt-4 inline-flex items-center gap-1.5">
+        <p role="alert" className="mt-2 text-xs text-red-600 dark:text-red-400">{error}</p>
+        <Link href="/dashboard/tutor/kelas" className="btn-primary btn-dashboard-action mt-4 inline-flex items-center">
           <ArrowLeft className="h-4 w-4" /> Kembali ke Manajemen Kelas
         </Link>
       </div>
@@ -91,9 +91,9 @@ export default function TutorClassDetailPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {/* Header */}
-      <header className="rounded-[6px] border border-[#D9DEE7] bg-white p-6 dark:border-[#343945] dark:bg-[#191C23]">
+      <header className="rounded-[6px] border border-[#D9DEE7] bg-white p-4 dark:border-[#343945] dark:bg-[#191C23]">
         <Link
           href="/dashboard/tutor/kelas"
           className="inline-flex items-center gap-1.5 text-xs font-medium text-[#2457C5] hover:underline dark:text-[#78A0FF]"
@@ -101,7 +101,7 @@ export default function TutorClassDetailPage() {
           <ArrowLeft className="h-3.5 w-3.5" /> Kembali ke Daftar Kelas
         </Link>
 
-        <div className="mt-4 flex flex-wrap items-start justify-between gap-4">
+        <div className="mt-4 flex flex-wrap items-start justify-between gap-3">
           <div>
             <div className="flex items-center gap-2">
               <span
@@ -119,10 +119,10 @@ export default function TutorClassDetailPage() {
                 {item.courseType === "BOOTCAMP" ? "Bootcamp" : "Peer-Tutoring"}
               </span>
             </div>
-            <h1 className="mt-2 text-lg sm:text-xl font-semibold text-[#20232B] dark:text-[#F3F4F6]">
+            <h1 className="mt-2 text-lg font-bold text-[#20232B] dark:text-[#F3F4F6]">
               {item.title}
             </h1>
-            <p className="mt-1 text-sm text-[#626B78] dark:text-[#B1B7C3]">
+            <p className="mt-1 text-xs text-[#626B78] dark:text-[#B1B7C3]">
               <CalendarDays className="mr-1.5 inline h-4 w-4 text-[#2457C5] dark:text-[#78A0FF]" />
               {item.startsAt
                 ? new Intl.DateTimeFormat("id-ID", {
@@ -138,7 +138,7 @@ export default function TutorClassDetailPage() {
               <>
                 <Link
                   href={`/dashboard/tutor/kelas/${encodeURIComponent(item.id)}/edit`}
-                  className="btn-secondary text-xs"
+                  className="btn-secondary btn-dashboard-action"
                 >
                   Edit Kelas
                 </Link>
@@ -160,22 +160,22 @@ export default function TutorClassDetailPage() {
       {error && (
         <p
           role="alert"
-          className="rounded-[4px] border border-red-200 bg-red-50 p-3 text-sm text-red-700 dark:border-red-900/60 dark:bg-red-950/40 dark:text-red-300"
+          className="rounded-[4px] border border-red-200 bg-red-50 p-3 text-xs text-red-700 dark:border-red-900/60 dark:bg-red-950/40 dark:text-red-300"
         >
           {error}
         </p>
       )}
 
       {/* Ringkasan Metrik Kelas */}
-      <section className="grid gap-4 sm:grid-cols-3">
-        <article className="rounded-[6px] border border-[#D9DEE7] bg-white p-5 dark:border-[#343945] dark:bg-[#191C23]">
+      <section className="grid gap-3 sm:grid-cols-3">
+        <article className="rounded-[6px] border border-[#D9DEE7] bg-white p-4 dark:border-[#343945] dark:bg-[#191C23]">
           <p className="text-xs font-semibold uppercase text-[#626B78] dark:text-[#B1B7C3]">
             Peserta Berstatus PAID
           </p>
           <p className="mt-2 text-2xl font-bold text-[#20232B] dark:text-[#F3F4F6]">{paid}</p>
         </article>
 
-        <article className="rounded-[6px] border border-[#D9DEE7] bg-white p-5 dark:border-[#343945] dark:bg-[#191C23]">
+        <article className="rounded-[6px] border border-[#D9DEE7] bg-white p-4 dark:border-[#343945] dark:bg-[#191C23]">
           <p className="text-xs font-semibold uppercase text-[#626B78] dark:text-[#B1B7C3]">
             Harga Bimbingan
           </p>
@@ -188,7 +188,7 @@ export default function TutorClassDetailPage() {
           </p>
         </article>
 
-        <article className="rounded-[6px] border border-[#D9DEE7] bg-white p-5 dark:border-[#343945] dark:bg-[#191C23]">
+        <article className="rounded-[6px] border border-[#D9DEE7] bg-white p-4 dark:border-[#343945] dark:bg-[#191C23]">
           <p className="text-xs font-semibold uppercase text-[#626B78] dark:text-[#B1B7C3]">
             Kapasitas Kuota
           </p>
@@ -199,7 +199,7 @@ export default function TutorClassDetailPage() {
       </section>
 
       {/* Tautan Pembelajaran */}
-      <section className="rounded-[6px] border border-[#D9DEE7] bg-white p-6 dark:border-[#343945] dark:bg-[#191C23]">
+      <section className="rounded-[6px] border border-[#D9DEE7] bg-white p-4 dark:border-[#343945] dark:bg-[#191C23]">
         <h2 className="font-semibold text-[#20232B] dark:text-[#F3F4F6]">Tautan Akses Kelas</h2>
         <p className="mt-1 text-xs text-[#626B78] dark:text-[#B1B7C3]">
           Tautan tatap muka ini hanya terbuka untuk peserta yang telah lunas (PAID). Jika kelas dibatalkan, tautan dikunci otomatis.
@@ -215,7 +215,7 @@ export default function TutorClassDetailPage() {
               target="_blank"
               rel="noreferrer"
               href={item.meetingUrl}
-              className="btn-primary inline-flex items-center gap-1.5 text-xs"
+              className="btn-primary btn-dashboard-action inline-flex items-center"
             >
               Buka Pertemuan Langsung <ExternalLink className="h-3.5 w-3.5" />
             </a>
@@ -230,7 +230,7 @@ export default function TutorClassDetailPage() {
               target="_blank"
               rel="noreferrer"
               href={item.materialUrl}
-              className="btn-secondary inline-flex items-center gap-1.5 text-xs"
+              className="btn-secondary btn-dashboard-action inline-flex items-center"
             >
               Materi &amp; Catatan <ExternalLink className="h-3.5 w-3.5" />
             </a>
@@ -240,9 +240,9 @@ export default function TutorClassDetailPage() {
 
       {/* Banner Informasi Pembatalan */}
       {item.status === "CANCELLED" && (
-        <section className="rounded-[6px] border border-red-200 bg-red-50 p-5 dark:border-red-900/60 dark:bg-red-950/40">
+        <section className="rounded-[6px] border border-red-200 bg-red-50 p-4 dark:border-red-900/60 dark:bg-red-950/40">
           <h2 className="font-semibold text-red-800 dark:text-red-300">Kelas Telah Dibatalkan</h2>
-          <p className="mt-1 text-sm text-red-700 dark:text-red-300">
+          <p className="mt-1 text-xs text-red-700 dark:text-red-300">
             Alasan pembatalan: <i>&quot;{item.cancellationReason || "Tidak dicantumkan"}&quot;</i>
           </p>
           {refundSummary && (
@@ -257,9 +257,9 @@ export default function TutorClassDetailPage() {
       {/* Modal Konfirmasi Pembatalan Kelas (Auto-Refund 100%) */}
       {isCancelModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 animate-in fade-in">
-          <div className="w-full max-w-md rounded-[6px] border border-[#D9DEE7] bg-white p-6 shadow-md dark:border-[#343945] dark:bg-[#191C23]">
+          <div className="w-full max-w-md rounded-[6px] border border-[#D9DEE7] bg-white p-4 shadow-md dark:border-[#343945] dark:bg-[#191C23]">
             <div className="flex items-center justify-between border-b border-[#D9DEE7] pb-3 dark:border-[#343945]">
-              <h3 className="font-bold text-[#20232B] dark:text-[#F3F4F6] flex items-center gap-2 text-base text-red-600 dark:text-red-400">
+              <h3 className="font-bold text-[#20232B] dark:text-[#F3F4F6] flex items-center gap-2 text-sm text-red-600 dark:text-red-400">
                 <AlertTriangle className="h-5 w-5" /> Konfirmasi Pembatalan Kelas
               </h3>
               <button
@@ -298,7 +298,7 @@ export default function TutorClassDetailPage() {
                 <button
                   type="button"
                   onClick={() => setIsCancelModalOpen(false)}
-                  className="btn-secondary text-xs"
+                  className="btn-secondary btn-dashboard-action"
                 >
                   Batal
                 </button>

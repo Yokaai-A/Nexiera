@@ -20,10 +20,17 @@ export function AuthForm({ mode }: AuthFormProps) {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [registrationPendingEmail, setRegistrationPendingEmail] = useState("");
+  const [resendMessage, setResendMessage] = useState("");
+  const [showLoginResend, setShowLoginResend] = useState(false);
+  const [resending, setResending] = useState(false);
+  const [verificationUrl, setVerificationUrl] = useState("");
 
   async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError("");
+    setShowLoginResend(false);
+    setResendMessage("");
     if (isRegister && !phonePattern.test(phoneNumber.trim())) {
       setError("Masukkan nomor WhatsApp yang valid.");
       return;
@@ -31,19 +38,30 @@ export function AuthForm({ mode }: AuthFormProps) {
     setSubmitting(true);
     try {
       if (isRegister) {
-        await nexieraApi.register({
+        const result = await nexieraApi.register({
           email: email.trim(),
           password,
           fullName: fullName.trim(),
           phoneNumber: phoneNumber.trim(),
         });
+        if (result.accessToken) {
+          await refreshUser();
+          router.replace("/dashboard");
+          return;
+        }
+        setRegistrationPendingEmail(email.trim());
+        setVerificationUrl(result.verificationUrl || "");
+        setSubmitting(false);
+        return;
       } else {
         await nexieraApi.login({ email: email.trim(), password });
       }
       await refreshUser();
       router.replace("/dashboard");
     } catch (cause) {
-      setError(cause instanceof Error ? cause.message : "Autentikasi gagal. Silakan coba lagi.");
+      const message = cause instanceof Error ? cause.message : "Autentikasi gagal. Silakan coba lagi.";
+      setError(message);
+      setShowLoginResend(!isRegister && /verifikasi email/i.test(message));
       setSubmitting(false);
     }
   }
@@ -60,12 +78,14 @@ export function AuthForm({ mode }: AuthFormProps) {
             {isRegister ? "Daftar untuk menemukan kelas dan bimbingan yang sesuai." : "Lanjutkan belajar bersama komunitas akademikmu."}
           </p>
         </header>
+        {registrationPendingEmail ? <section className="space-y-3 rounded-[6px] border border-blue-200 bg-blue-50 p-4 text-sm text-[#20232B]"><h2 className="font-bold">{verificationUrl ? "Verifikasi Akun (Mode Uji Lokal)" : "Periksa email Anda"}</h2><p className="text-xs leading-5">{verificationUrl ? <>Email tidak diperlukan di mode uji. Buka tautan untuk memverifikasi akun <b>{registrationPendingEmail}</b>.</> : <>Kami mengirim tautan verifikasi ke <b>{registrationPendingEmail}</b>. Verifikasi email sebelum masuk. Tautan berlaku 24 jam.</>}</p>{verificationUrl && <a href={verificationUrl} className="btn-primary flex w-full justify-center">Buka tautan verifikasi</a>}<button type="button" className="btn-secondary w-full justify-center" onClick={() => void nexieraApi.resendVerification(registrationPendingEmail).then((result) => { setResendMessage(result.message); if (result.verificationUrl) setVerificationUrl(result.verificationUrl); }).catch((cause) => setResendMessage(cause instanceof Error ? cause.message : "Gagal mengirim ulang."))}>Kirim ulang tautan</button>{resendMessage && <p role="status" className="text-xs">{resendMessage}</p>}<Link className="block text-center text-sm font-semibold text-[#2457C5]" href="/login">Kembali ke masuk</Link></section> : <>
         <form onSubmit={(event) => void submit(event)} className="space-y-3.5">
           {isRegister && <label className="block text-[13px] font-semibold text-[#20232B]">Nama lengkap<input name="fullName" autoComplete="name" value={fullName} onChange={(event) => setFullName(event.target.value)} required minLength={2} maxLength={191} className={fieldClass} /></label>}
           <label className="block text-[13px] font-semibold text-[#20232B]">Email<input name="email" type="email" autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} required maxLength={191} className={fieldClass} placeholder="nama@email.com" /></label>
           {isRegister && <label className="block text-[13px] font-semibold text-[#20232B]">Nomor WhatsApp<input name="phoneNumber" type="tel" autoComplete="tel" value={phoneNumber} onChange={(event) => setPhoneNumber(event.target.value)} required minLength={8} maxLength={32} pattern="\+?[0-9\s().-]{8,32}" className={fieldClass} placeholder="+62 812 3456 7890" /></label>}
           <label className="block text-[13px] font-semibold text-[#20232B]">Password<input name="password" type="password" autoComplete={isRegister ? "new-password" : "current-password"} value={password} onChange={(event) => setPassword(event.target.value)} required minLength={6} maxLength={72} className={fieldClass} placeholder={isRegister ? "Minimal 6 karakter" : "Masukkan password"} /></label>
           {error && <p role="alert" className="rounded-[4px] border border-red-200 bg-red-50 px-3 py-2 text-xs leading-5 text-red-700">{error}</p>}
+          {showLoginResend && <div className="rounded-[4px] border border-amber-200 bg-amber-50 p-3 text-xs text-amber-900"><p>Belum menerima tautan verifikasi?</p><button type="button" disabled={resending || !email.trim()} onClick={() => { setResending(true); setResendMessage(""); void nexieraApi.resendVerification(email.trim()).then((result) => { setResendMessage(result.message); setVerificationUrl(result.verificationUrl || ""); }).catch((cause) => setResendMessage(cause instanceof Error ? cause.message : "Permintaan kirim ulang gagal.")).finally(() => setResending(false)); }} className="mt-2 cursor-pointer font-semibold text-[#2457C5] underline disabled:cursor-not-allowed disabled:opacity-50">{resending ? "Mengirim ulang..." : "Kirim ulang tautan"}</button>{resendMessage && <p role="status" className="mt-2">{resendMessage} {!verificationUrl && "Jika email belum tiba, periksa folder spam."}</p>}{verificationUrl && <a href={verificationUrl} className="mt-2 inline-block font-semibold text-[#2457C5] underline">Buka tautan verifikasi lokal</a>}</div>}
           <button type="submit" disabled={submitting} className="btn-primary mt-1 h-11 w-full text-sm font-semibold disabled:cursor-wait disabled:opacity-60">
             {submitting ? "Memproses…" : isRegister ? "Buat akun" : "Masuk"}
           </button>
@@ -98,39 +118,49 @@ export function AuthForm({ mode }: AuthFormProps) {
               <button
                 type="button"
                 onClick={() => {
-                  setEmail("kevin.sanjaya@binus.ac.id");
+                  setEmail("budi@student.com");
                   setPassword("password123");
                 }}
                 className="flex items-center justify-between rounded border border-[#D9DEE7] bg-white px-2.5 py-1.5 text-xs text-[#20232B] hover:bg-[#E5E9F0] dark:border-[#343945] dark:bg-[#20242D] dark:text-[#F3F4F6]"
               >
-                <span className="font-medium">Kevin Sanjaya</span>
+                <div className="flex flex-col text-left">
+                  <span className="font-medium">Budi Pratama</span>
+                  <span className="text-[10px] text-[#626B78] dark:text-[#9DA4B0]">budi@student.com (Semua Peran Terbuka)</span>
+                </div>
+                <span className="text-[10px] text-emerald-600 font-semibold uppercase">Demo Evaluasi</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setEmail("kevin@student.com");
+                  setPassword("password123");
+                }}
+                className="flex items-center justify-between rounded border border-[#D9DEE7] bg-white px-2.5 py-1.5 text-xs text-[#20232B] hover:bg-[#E5E9F0] dark:border-[#343945] dark:bg-[#20242D] dark:text-[#F3F4F6]"
+              >
+                <div className="flex flex-col text-left">
+                  <span className="font-medium">Kevin Sanjaya</span>
+                  <span className="text-[10px] text-[#626B78] dark:text-[#9DA4B0]">kevin@student.com</span>
+                </div>
                 <span className="text-[10px] text-[#2457C5] font-semibold uppercase">Peer-Tutor</span>
               </button>
               <button
                 type="button"
                 onClick={() => {
-                  setEmail("budi.pratama@binus.ac.id");
+                  setEmail("rafi.pratama@student.ac.id");
                   setPassword("password123");
                 }}
                 className="flex items-center justify-between rounded border border-[#D9DEE7] bg-white px-2.5 py-1.5 text-xs text-[#20232B] hover:bg-[#E5E9F0] dark:border-[#343945] dark:bg-[#20242D] dark:text-[#F3F4F6]"
               >
-                <span className="font-medium">Budi Pratama</span>
-                <span className="text-[10px] text-emerald-600 font-semibold uppercase">Mahasiswa</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setEmail("admin@boosteracademy.id");
-                  setPassword("password123");
-                }}
-                className="flex items-center justify-between rounded border border-[#D9DEE7] bg-white px-2.5 py-1.5 text-xs text-[#20232B] hover:bg-[#E5E9F0] dark:border-[#343945] dark:bg-[#20242D] dark:text-[#F3F4F6]"
-              >
-                <span className="font-medium">Booster Academy</span>
+                <div className="flex flex-col text-left">
+                  <span className="font-medium">Rafi Pratama</span>
+                  <span className="text-[10px] text-[#626B78] dark:text-[#9DA4B0]">rafi.pratama@student.ac.id</span>
+                </div>
                 <span className="text-[10px] text-purple-600 font-semibold uppercase">Mitra Bootcamp</span>
               </button>
             </div>
           </div>
         )}
+        </>}
       </div>
     </AuthLayout>
   );

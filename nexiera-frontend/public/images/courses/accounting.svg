@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#F8FAFC"/><stop offset="1" stop-color="#EAF1FF"/></linearGradient><linearGradient id="bar" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#059669"/><stop offset="1" stop-color="#1E3A8A"/></linearGradient></defs>
+  <rect width="1280" height="720" rx="28" fill="url(#bg)"/>
+  <circle cx="1160" cy="80" r="210" fill="#059669" opacity=".07"/>
+  <circle cx="1110" cy="645" r="210" fill="#059669" opacity=".06"/>
+  <rect x="0" y="0" width="24" height="720" fill="url(#bar)"/>
+  <text x="92" y="168" fill="#059669" font-family="Arial, sans-serif" font-size="26" font-weight="700" letter-spacing="4">MATA KULIAH</text>
+  <text x="92" y="280" fill="#172554" font-family="Arial, sans-serif" font-size="42" font-weight="700">Pengantar Akuntansi Keuangan</text>
+  <text x="92" y="346" fill="#64748B" font-family="Arial, sans-serif" font-size="27">Pendampingan akademik berbasis silabus perkuliahan</text>
+  <rect x="92" y="405" width="390" height="4" rx="2" fill="#059669" opacity=".35"/>
+  <text x="92" y="475" fill="#334155" font-family="Arial, sans-serif" font-size="23">Persiapan UTS / UAS • Materi kurikulum universitas</text>
+  <g transform="translate(360 20) scale(.74)">  <rect x="745" y="185" width="285" height="360" rx="18" fill="#ECFDF5" stroke="#059669" stroke-width="8"/><path d="M800 275 H970 M800 335 H970 M800 395 H900 M800 455 H945" stroke="#34D399" stroke-width="13" stroke-linecap="round"/><circle cx="1060" cy="440" r="75" fill="#D1FAE5" stroke="#059669" stroke-width="8"/><path d="M1060 400 V480 M1083 416 C1070 398 1037 402 1035 423 C1033 447 1087 438 1085 462 C1083 484 1050 487 1037 467" fill="none" stroke="#059669" stroke-width="9" stroke-linecap="round"/>
+</g>
+</svg>

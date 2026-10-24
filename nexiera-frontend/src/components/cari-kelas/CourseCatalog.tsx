@@ -10,6 +10,8 @@ import {
   BookOpen,
   Check,
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
   CreditCard,
   GraduationCap,
   Landmark,
@@ -19,15 +21,9 @@ import {
   X,
   Rocket,
   Handshake,
-  Sparkles,
 } from "lucide-react";
 
-const CAMPUS_OPTIONS = [
-  "BINUS University",
-  "Universitas Indonesia",
-  "Institut Teknologi Bandung",
-  "Universitas Gadjah Mada",
-];
+const ITEMS_PER_PAGE = 12; // 3 columns x 4 rows
 
 export function CourseCatalog() {
   const searchParams = useSearchParams();
@@ -35,9 +31,13 @@ export function CourseCatalog() {
 
   const [courses, setCourses] = useState<ApiClass[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadedSideBanners, setLoadedSideBanners] = useState({ left: false, right: false });
   const [loadError, setLoadError] = useState("");
-  const [reloadKey, setReloadKey] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
+  const [courseRequestOpen, setCourseRequestOpen] = useState(false);
+  const [courseRequestTitle, setCourseRequestTitle] = useState("");
+  const [courseRequestMessage, setCourseRequestMessage] = useState("");
+  const [courseRequestBusy, setCourseRequestBusy] = useState(false);
 
   const [campusFilter, setCampusFilter] = useState("ALL");
   const [mainCategoryFilter, setMainCategoryFilter] = useState(initialCategory);
@@ -47,8 +47,15 @@ export function CourseCatalog() {
   const [typeFilter, setTypeFilter] = useState<"ALL" | CourseType>("ALL");
   const [pricingFilter, setPricingFilter] = useState<"ALL" | PricingModel>("ALL");
 
-  // Catalog Ad Slot
-  const [catalogAd, setCatalogAd] = useState<(ApiAd & { official?: boolean }) | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const campusOptions = useMemo(
+    () => Array.from(new Set(courses.map((course) => course.campusTarget || course.university).filter((campus): campus is string => Boolean(campus)))).sort((a, b) => a.localeCompare(b, "id")),
+    [courses],
+  );
+
+  // Margin Ads
+  const marginAdLeft = "/Banner_Samping_Kiri.webp";
+  const marginAdRight = "/Banner_Samping_Kanan.webp";
 
   useEffect(() => {
     let active = true;
@@ -68,22 +75,10 @@ export function CourseCatalog() {
         if (active) setLoading(false);
       });
 
-    void nexieraApi
-      .adsSlot("CLASS_CATALOG")
-      .then(({ ads }) => {
-        if (active && ads.length > 0) {
-          setCatalogAd(ads[0]);
-          if (!ads[0].official) {
-            void nexieraApi.trackAdImpression(ads[0].id).catch(() => undefined);
-          }
-        }
-      })
-      .catch(() => undefined);
-
     return () => {
       active = false;
     };
-  }, [reloadKey]);
+  }, []);
 
   useEffect(() => {
     const cat = searchParams.get("category");
@@ -93,6 +88,11 @@ export function CourseCatalog() {
       setSubjectFilter("ALL");
     }
   }, [searchParams]);
+
+  // Reset to page 1 whenever any filter changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, campusFilter, mainCategoryFilter, majorFilter, subjectFilter, typeFilter, pricingFilter]);
 
   const availableMajors = useMemo(() => {
     if (mainCategoryFilter !== "ALL" && CATEGORIES_DATA[mainCategoryFilter]) {
@@ -118,13 +118,13 @@ export function CourseCatalog() {
     }
     if (mainCategoryFilter !== "ALL" && CATEGORIES_DATA[mainCategoryFilter]) {
       const subjects: string[] = [];
-      Object.values(CATEGORIES_DATA[mainCategoryFilter]).forEach((list) => {
-        subjects.push(...list);
+      Object.values(CATEGORIES_DATA[mainCategoryFilter]).forEach((subs) => {
+        subs.forEach((s) => subjects.push(s));
       });
-      return Array.from(new Set(subjects));
+      return subjects;
     }
-    return Array.from(new Set(courses.map((c) => c.title)));
-  }, [mainCategoryFilter, majorFilter, courses]);
+    return [];
+  }, [mainCategoryFilter, majorFilter]);
 
   const handleResetFilter = () => {
     setSearchQuery("");
@@ -134,6 +134,7 @@ export function CourseCatalog() {
     setSubjectFilter("ALL");
     setTypeFilter("ALL");
     setPricingFilter("ALL");
+    setCurrentPage(1);
   };
 
   const filteredCourses = useMemo(() => {
@@ -142,29 +143,34 @@ export function CourseCatalog() {
         const query = searchQuery.toLowerCase();
         const matchesTitle = course.title.toLowerCase().includes(query);
         const matchesDesc = (course.shortDescription || course.description).toLowerCase().includes(query);
-        const matchesOrganizer = (course.organizerName || course.tutor.name).toLowerCase().includes(query);
+        const organizerOrTutor = course.organizerName || course.creator?.name || course.tutor?.name || "";
+        const matchesOrganizer = organizerOrTutor.toLowerCase().includes(query);
         if (!matchesTitle && !matchesDesc && !matchesOrganizer) {
           return false;
         }
       }
 
       if (campusFilter !== "ALL") {
-        const courseCampus = course.university || "";
-        if (courseCampus.toLowerCase() !== campusFilter.toLowerCase()) {
+        const courseCampus = course.campusTarget || course.university || "";
+        if (!courseCampus.toLowerCase().includes(campusFilter.toLowerCase())) {
           return false;
         }
       }
 
       if (mainCategoryFilter !== "ALL") {
-        const courseCategory = course.mainCategory || "";
-        if (courseCategory.toLowerCase() !== mainCategoryFilter.toLowerCase()) {
+        const courseCategory = course.category || course.mainCategory || "";
+        if (courseCategory !== mainCategoryFilter) {
           return false;
         }
       }
 
+      if (majorFilter !== "ALL" && course.major !== majorFilter) {
+          return false;
+      }
+
       if (majorFilter !== "ALL") {
         const courseMajor = course.major || "";
-        if (courseMajor.toLowerCase() !== majorFilter.toLowerCase()) {
+        if (courseMajor && !courseMajor.toLowerCase().includes(majorFilter.toLowerCase())) {
           return false;
         }
       }
@@ -175,326 +181,393 @@ export function CourseCatalog() {
         }
       }
 
-      if (typeFilter !== "ALL" && course.courseType !== typeFilter) {
-        return false;
+      // Filter Fix: When "ALL", show BOTH Bootcamp and Peer-Tutoring!
+      if (typeFilter !== "ALL") {
+        const actualType = (course.type || course.courseType || "").toUpperCase();
+        if (typeFilter === "BOOTCAMP" && actualType !== "BOOTCAMP") {
+          return false;
+        }
+        if (typeFilter === "PEER_TUTORING" && actualType !== "PEER_TUTORING") {
+          return false;
+        }
       }
 
-      if (pricingFilter !== "ALL" && (Number(course.price) === 0 ? "FREE" : "PAID") !== pricingFilter) {
-        return false;
+      if (pricingFilter !== "ALL") {
+        const isFree = Number(course.price) === 0;
+        if (pricingFilter === "FREE" && !isFree) return false;
+        if (pricingFilter === "PAID" && isFree) return false;
       }
 
       return true;
     });
   }, [courses, searchQuery, campusFilter, mainCategoryFilter, majorFilter, subjectFilter, typeFilter, pricingFilter]);
 
-  // The Cari Kelas landing catalog intentionally features one class per price
-  // model. The API returns newest classes first, so new listings replace the
-  // featured class in their free/paid slot.
-  const catalogCourses = useMemo(() => {
-    const paidCourse = filteredCourses.find((course) => Number(course.price) > 0);
-    const freeCourse = filteredCourses.find((course) => Number(course.price) === 0);
-    return [paidCourse, freeCourse].filter((course): course is ApiClass => Boolean(course));
-  }, [filteredCourses]);
+  // Pagination calculation
+  const totalItems = filteredCourses.length;
+  const totalPages = Math.max(1, Math.ceil(totalItems / ITEMS_PER_PAGE));
+  const paginatedCourses = useMemo(() => {
+    const start = (currentPage - 1) * ITEMS_PER_PAGE;
+    return filteredCourses.slice(start, start + ITEMS_PER_PAGE);
+  }, [filteredCourses, currentPage]);
 
   return (
-    <div className="mx-auto max-w-[1180px] px-4 sm:px-6 lg:px-8 py-6">
-      {/* Filter Box */}
-      <div className="rounded-[6px] border border-[#D9DEE7] bg-white p-5 shadow-xs dark:border-slate-800 dark:bg-slate-900">
-        <div className="flex flex-col gap-3">
-          {/* Search Input */}
-          <div className="flex flex-1 items-center gap-2.5 rounded-[4px] border border-[#D9DEE7] bg-white px-3.5 py-2.5 transition-colors focus-within:border-[#2457C5] dark:border-slate-700 dark:bg-slate-800">
-            <Search className="h-4 w-4 text-[#626B78] dark:text-slate-400" aria-hidden="true" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => {
-                setSearchQuery(e.target.value);
-              }}
-              placeholder="Cari Mata Kuliah: Algorithm, Data Structures, Software Engineering, Kalkulus, Akuntansi..."
-              className="w-full bg-transparent text-xs sm:text-sm text-[#20232B] outline-none placeholder:text-[#626B78] dark:text-slate-100 dark:placeholder:text-slate-400"
-            />
-            {searchQuery && (
-              <button
-                type="button"
-                onClick={() => setSearchQuery("")}
-                className="text-xs text-[#626B78] hover:text-[#20232B] dark:text-slate-400 dark:hover:text-slate-200"
-              >
-                <X className="h-4 w-4" aria-hidden="true" />
-              </button>
-            )}
+    <div className="w-full py-6">
+      <div className="relative mx-auto w-full max-w-[1180px] px-4 sm:px-6 lg:px-8 min-[1640px]:min-h-[650px]">
+        {/* Side banners sit outside the catalog width when the viewport has room. */}
+        <div className="pointer-events-none absolute inset-0 hidden min-[1640px]:block">
+          <div className="absolute -left-[224px] top-0 h-full w-[208px]">
+            <aside className="pointer-events-auto sticky top-24 self-start">
+              <div className="relative overflow-hidden rounded-[6px] border border-[#D9DEE7] bg-white shadow-xs dark:border-[#343945] dark:bg-[#191C23] min-h-[650px]">
+                {!loadedSideBanners.left && <div aria-hidden="true" className="skeleton-shimmer absolute inset-0" />}
+                <img
+                  src={marginAdLeft || "/Banner_samping.png"}
+                  alt="Promo Banner NEXIERA"
+                  loading="eager"
+                  decoding="async"
+                  onLoad={() => setLoadedSideBanners((loaded) => ({ ...loaded, left: true }))}
+                  onError={() => setLoadedSideBanners((loaded) => ({ ...loaded, left: true }))}
+                  className="w-full h-full min-h-[650px] object-cover"
+                />
+              </div>
+            </aside>
           </div>
-
-          {/* 4-Level Dropdown Hierarchy (Kampus -> Kategori -> Jurusan -> Matkul) */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-            {/* Level 1: Kampus */}
-            <div className="relative">
-              <label className="text-[10px] font-semibold uppercase tracking-wider text-[#626B78] dark:text-slate-400 mb-1 block">
-                1. Kampus
-              </label>
-              <div className="relative">
-                <Landmark className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#626B78] dark:text-slate-400" aria-hidden="true" />
-                <select
-                  value={campusFilter}
-                  onChange={(e) => {
-                    setCampusFilter(e.target.value);
-                  }}
-                  className="w-full appearance-none rounded-[4px] border border-[#D9DEE7] bg-white py-2.5 pl-9 pr-8 text-xs font-medium text-[#20232B] outline-none transition-colors focus:border-[#2457C5] dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
-                >
-                  <option value="ALL">Semua Kampus</option>
-                  {CAMPUS_OPTIONS.map((c) => (
-                    <option key={c} value={c}>
-                      {c}
-                    </option>
-                  ))}
-                </select>
-                <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#626B78] dark:text-slate-400" aria-hidden="true" />
+          <div className="absolute -right-[224px] top-0 h-full w-[208px]">
+            <aside className="pointer-events-auto sticky top-24 self-start">
+              <div className="relative overflow-hidden rounded-[6px] border border-[#D9DEE7] bg-white shadow-xs dark:border-[#343945] dark:bg-[#191C23] min-h-[650px]">
+                {!loadedSideBanners.right && <div aria-hidden="true" className="skeleton-shimmer absolute inset-0" />}
+                <img
+                  src={marginAdRight || "/Banner_samping.png"}
+                  alt="Promo Banner NEXIERA"
+                  loading="eager"
+                  decoding="async"
+                  onLoad={() => setLoadedSideBanners((loaded) => ({ ...loaded, right: true }))}
+                  onError={() => setLoadedSideBanners((loaded) => ({ ...loaded, right: true }))}
+                  className="w-full h-full min-h-[650px] object-cover"
+                />
               </div>
-            </div>
-
-            {/* Level 2: Kategori Utama */}
-            <div className="relative">
-              <label className="text-[10px] font-semibold uppercase tracking-wider text-[#626B78] dark:text-slate-400 mb-1 block">
-                2. Kategori Utama
-              </label>
-              <div className="relative">
-                <Layers className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#626B78] dark:text-slate-400" aria-hidden="true" />
-                <select
-                  value={mainCategoryFilter}
-                  onChange={(e) => {
-                    setMainCategoryFilter(e.target.value);
-                    setMajorFilter("ALL");
-                    setSubjectFilter("ALL");
-                  }}
-                  className="w-full appearance-none rounded-[4px] border border-[#D9DEE7] bg-white py-2.5 pl-9 pr-8 text-xs font-medium text-[#20232B] outline-none transition-colors focus:border-[#2457C5] dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
-                >
-                  <option value="ALL">Semua Kategori Utama</option>
-                  {Object.keys(CATEGORIES_DATA).map((cat) => (
-                    <option key={cat} value={cat}>
-                      {cat}
-                    </option>
-                  ))}
-                </select>
-                <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#626B78] dark:text-slate-400" aria-hidden="true" />
-              </div>
-            </div>
-
-            {/* Level 3: Jurusan */}
-            <div className="relative">
-              <label className="text-[10px] font-semibold uppercase tracking-wider text-[#626B78] dark:text-slate-400 mb-1 block">
-                3. Jurusan
-              </label>
-              <div className="relative">
-                <GraduationCap className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#626B78] dark:text-slate-400" aria-hidden="true" />
-                <select
-                  value={majorFilter}
-                  onChange={(e) => {
-                    setMajorFilter(e.target.value);
-                    setSubjectFilter("ALL");
-                  }}
-                  className="w-full appearance-none rounded-[4px] border border-[#D9DEE7] bg-white py-2.5 pl-9 pr-8 text-xs font-medium text-[#20232B] outline-none transition-colors focus:border-[#2457C5] dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
-                >
-                  <option value="ALL">Semua Jurusan</option>
-                  {availableMajors.map((m) => (
-                    <option key={m} value={m}>
-                      {m}
-                    </option>
-                  ))}
-                </select>
-                <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#626B78] dark:text-slate-400" aria-hidden="true" />
-              </div>
-            </div>
-
-            {/* Level 4: Mata Kuliah */}
-            <div className="relative">
-              <label className="text-[10px] font-semibold uppercase tracking-wider text-[#626B78] dark:text-slate-400 mb-1 block">
-                4. Mata Kuliah
-              </label>
-              <div className="relative">
-                <BookOpen className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#626B78] dark:text-slate-400" aria-hidden="true" />
-                <select
-                  value={subjectFilter}
-                  onChange={(e) => {
-                    setSubjectFilter(e.target.value);
-                  }}
-                  className="w-full appearance-none rounded-[4px] border border-[#D9DEE7] bg-white py-2.5 pl-9 pr-8 text-xs font-medium text-[#20232B] outline-none transition-colors focus:border-[#2457C5] dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
-                >
-                  <option value="ALL">Semua Mata Kuliah</option>
-                  {availableSubjects.map((sub) => (
-                    <option key={sub} value={sub}>
-                      {sub}
-                    </option>
-                  ))}
-                </select>
-                <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#626B78] dark:text-slate-400" aria-hidden="true" />
-              </div>
-            </div>
+            </aside>
           </div>
         </div>
 
-        {/* Filter Baris Bawah: Tipe, Biaya, Reset */}
-        <div className="mt-4 flex flex-col gap-3 border-t border-[#D9DEE7] pt-3 sm:flex-row sm:items-center sm:justify-between dark:border-slate-800">
-          <div className="flex flex-wrap items-center gap-2">
-            {/* Tipe Kelas */}
-            <div className="inline-flex rounded-[4px] border border-[#D9DEE7] bg-white p-0.5 dark:border-slate-700 dark:bg-slate-800">
-              <button
-                type="button"
-                onClick={() => setTypeFilter("ALL")}
-                className={`rounded-[4px] px-3 py-1.5 text-xs font-medium transition-colors ${
-                  typeFilter === "ALL"
-                    ? "bg-[#2457C5] text-white"
-                    : "text-[#20232B] hover:bg-[#E5E9F0] dark:text-slate-200 dark:hover:bg-slate-700"
-                }`}
-              >
-                Semua Tipe
-              </button>
-              <button
-                type="button"
-                onClick={() => setTypeFilter("BOOTCAMP")}
-                className={`rounded-[4px] px-3 py-1.5 text-xs font-medium transition-colors ${
-                  typeFilter === "BOOTCAMP"
-                    ? "bg-[#2457C5] text-white"
-                    : "text-[#20232B] hover:bg-[#E5E9F0] dark:text-slate-200 dark:hover:bg-slate-700"
-                }`}
-              >
-                <Rocket className="mr-1 inline h-3 w-3" aria-hidden="true" /> Bootcamp
-              </button>
-              <button
-                type="button"
-                onClick={() => setTypeFilter("PEER_TUTORING")}
-                className={`rounded-[4px] px-3 py-1.5 text-xs font-medium transition-colors ${
-                  typeFilter === "PEER_TUTORING"
-                    ? "bg-[#2457C5] text-white"
-                    : "text-[#20232B] hover:bg-[#E5E9F0] dark:text-slate-200 dark:hover:bg-slate-700"
-                }`}
-              >
-                <Handshake className="mr-1 inline h-3 w-3" aria-hidden="true" /> Peer-Tutoring
-              </button>
+        {/* Main Center Catalog Area */}
+        <main className="relative z-0 w-full min-w-0">
+          {/* Filter Box */}
+          <div className="rounded-[6px] border border-[#D9DEE7] bg-white p-4 shadow-xs dark:border-[#343945] dark:bg-[#191C23]">
+            <div className="flex flex-col gap-3">
+              {/* Search Input */}
+              <div className="flex flex-1 items-center gap-2.5 rounded-[4px] border border-[#D9DEE7] bg-white px-3 py-2 transition-colors focus-within:border-[#2457C5] dark:border-[#343945] dark:bg-[#111318]">
+                <Search className="h-4 w-4 text-[#626B78] dark:text-[#B1B7C3]" aria-hidden="true" />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Cari mata kuliah, misalnya Struktur Data atau Sistem Basis Data"
+                  className="w-full bg-transparent text-xs sm:text-sm text-[#20232B] outline-none placeholder:text-[#626B78] dark:text-[#F3F4F6] dark:placeholder:text-[#B1B7C3]"
+                />
+                {searchQuery && (
+                  <button
+                    type="button"
+                    onClick={() => setSearchQuery("")}
+                    className="text-xs text-[#626B78] hover:text-[#20232B] dark:text-[#B1B7C3] dark:hover:text-[#F3F4F6]"
+                  >
+                    <X className="h-4 w-4" aria-hidden="true" />
+                  </button>
+                )}
+              </div>
+
+              {/* 4-Level Dropdowns */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
+                {/* Kampus */}
+                <div className="relative">
+                  <label className="text-[10px] font-semibold uppercase tracking-wider text-[#626B78] dark:text-[#B1B7C3] mb-1 block">
+                    1. Kampus
+                  </label>
+                  <div className="relative">
+                    <Landmark className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-[#626B78] dark:text-[#B1B7C3]" />
+                    <select
+                      value={campusFilter}
+                      onChange={(e) => setCampusFilter(e.target.value)}
+                      className="w-full appearance-none rounded-[4px] border border-[#D9DEE7] bg-white py-1.5 pl-8 pr-7 text-xs font-medium text-[#20232B] outline-none focus:border-[#2457C5] dark:border-[#343945] dark:bg-[#111318] dark:text-[#F3F4F6]"
+                    >
+                      <option value="ALL">Semua Kampus</option>
+                      {campusOptions.map((c) => (
+                        <option key={c} value={c}>
+                          {c}
+                        </option>
+                      ))}
+                    </select>
+                    <ChevronDown className="pointer-events-none absolute right-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-[#626B78] dark:text-[#B1B7C3]" />
+                  </div>
+                </div>
+
+                {/* Kategori Utama */}
+                <div className="relative">
+                  <label className="text-[10px] font-semibold uppercase tracking-wider text-[#626B78] dark:text-[#B1B7C3] mb-1 block">
+                    2. Kategori Utama
+                  </label>
+                  <div className="relative">
+                    <Layers className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-[#626B78] dark:text-[#B1B7C3]" />
+                    <select
+                      value={mainCategoryFilter}
+                      onChange={(e) => {
+                        setMainCategoryFilter(e.target.value);
+                        setMajorFilter("ALL");
+                        setSubjectFilter("ALL");
+                      }}
+                      className="w-full appearance-none rounded-[4px] border border-[#D9DEE7] bg-white py-1.5 pl-8 pr-7 text-xs font-medium text-[#20232B] outline-none focus:border-[#2457C5] dark:border-[#343945] dark:bg-[#111318] dark:text-[#F3F4F6]"
+                    >
+                      <option value="ALL">Semua Kategori</option>
+                      {Object.keys(CATEGORIES_DATA).map((cat) => (
+                        <option key={cat} value={cat}>
+                          {cat}
+                        </option>
+                      ))}
+                    </select>
+                    <ChevronDown className="pointer-events-none absolute right-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-[#626B78] dark:text-[#B1B7C3]" />
+                  </div>
+                </div>
+
+                {/* Jurusan */}
+                <div className="relative">
+                  <label className="text-[10px] font-semibold uppercase tracking-wider text-[#626B78] dark:text-[#B1B7C3] mb-1 block">
+                    3. Jurusan
+                  </label>
+                  <div className="relative">
+                    <GraduationCap className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-[#626B78] dark:text-[#B1B7C3]" />
+                    <select
+                      value={majorFilter}
+                      onChange={(e) => {
+                        setMajorFilter(e.target.value);
+                        setSubjectFilter("ALL");
+                      }}
+                      className="w-full appearance-none rounded-[4px] border border-[#D9DEE7] bg-white py-1.5 pl-8 pr-7 text-xs font-medium text-[#20232B] outline-none focus:border-[#2457C5] dark:border-[#343945] dark:bg-[#111318] dark:text-[#F3F4F6]"
+                    >
+                      <option value="ALL">Semua Jurusan</option>
+                      {availableMajors.map((m) => (
+                        <option key={m} value={m}>
+                          {m}
+                        </option>
+                      ))}
+                    </select>
+                    <ChevronDown className="pointer-events-none absolute right-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-[#626B78] dark:text-[#B1B7C3]" />
+                  </div>
+                </div>
+
+                {/* Mata Kuliah */}
+                <div className="relative">
+                  <label className="text-[10px] font-semibold uppercase tracking-wider text-[#626B78] dark:text-[#B1B7C3] mb-1 block">
+                    4. Mata Kuliah
+                  </label>
+                  <div className="relative">
+                    <BookOpen className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-[#626B78] dark:text-[#B1B7C3]" />
+                    <select
+                      value={subjectFilter}
+                      onChange={(e) => setSubjectFilter(e.target.value)}
+                      className="w-full appearance-none rounded-[4px] border border-[#D9DEE7] bg-white py-1.5 pl-8 pr-7 text-xs font-medium text-[#20232B] outline-none focus:border-[#2457C5] dark:border-[#343945] dark:bg-[#111318] dark:text-[#F3F4F6]"
+                    >
+                      <option value="ALL">Semua Mata Kuliah</option>
+                      {availableSubjects.map((sub) => (
+                        <option key={sub} value={sub}>
+                          {sub}
+                        </option>
+                      ))}
+                    </select>
+                    <ChevronDown className="pointer-events-none absolute right-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-[#626B78] dark:text-[#B1B7C3]" />
+                  </div>
+                </div>
+              </div>
             </div>
 
-            {/* Biaya Kelas */}
-            <div className="inline-flex rounded-[4px] border border-[#D9DEE7] bg-white p-0.5 dark:border-slate-700 dark:bg-slate-800">
-              <button
-                type="button"
-                onClick={() => setPricingFilter("ALL")}
-                className={`rounded-[4px] px-3 py-1.5 text-xs font-medium transition-colors ${
-                  pricingFilter === "ALL"
-                    ? "bg-[#2457C5] text-white"
-                    : "text-[#20232B] hover:bg-[#E5E9F0] dark:text-slate-200 dark:hover:bg-slate-700"
-                }`}
-              >
-                Semua Biaya
-              </button>
-              <button
-                type="button"
-                onClick={() => setPricingFilter("FREE")}
-                className={`rounded-[4px] px-3 py-1.5 text-xs font-medium transition-colors ${
-                  pricingFilter === "FREE"
-                    ? "bg-[#2457C5] text-white"
-                    : "text-[#20232B] hover:bg-[#E5E9F0] dark:text-slate-200 dark:hover:bg-slate-700"
-                }`}
-              >
-                <Check className="mr-1 inline h-3 w-3" aria-hidden="true" /> Gratis
-              </button>
-              <button
-                type="button"
-                onClick={() => setPricingFilter("PAID")}
-                className={`rounded-[4px] px-3 py-1.5 text-xs font-medium transition-colors ${
-                  pricingFilter === "PAID"
-                    ? "bg-[#2457C5] text-white"
-                    : "text-[#20232B] hover:bg-[#E5E9F0] dark:text-slate-200 dark:hover:bg-slate-700"
-                }`}
-              >
-                <CreditCard className="mr-1 inline h-3 w-3" aria-hidden="true" /> Berbayar
-              </button>
-            </div>
+            {/* Filter Baris Bawah: Tipe, Biaya, Reset */}
+            <div className="mt-3.5 flex flex-col gap-2.5 border-t border-[#D9DEE7] pt-2.5 sm:flex-row sm:items-center sm:justify-between dark:border-[#343945]">
+              <div className="flex flex-wrap items-center gap-2">
+                {/* Tipe Kelas */}
+                <div className="inline-flex rounded-[4px] border border-[#D9DEE7] bg-white p-0.5 dark:border-[#343945] dark:bg-[#111318]">
+                  <button
+                    type="button"
+                    onClick={() => setTypeFilter("ALL")}
+                    className={`rounded-[4px] px-2.5 py-1 text-xs font-medium transition-colors ${
+                      typeFilter === "ALL"
+                        ? "bg-[#2457C5] text-white"
+                        : "text-[#20232B] hover:bg-[#E5E9F0] dark:text-[#F3F4F6] dark:hover:bg-[#20242D]"
+                    }`}
+                  >
+                    Semua Tipe
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setTypeFilter("BOOTCAMP")}
+                    className={`rounded-[4px] px-2.5 py-1 text-xs font-medium transition-colors ${
+                      typeFilter === "BOOTCAMP"
+                        ? "bg-[#2457C5] text-white"
+                        : "text-[#20232B] hover:bg-[#E5E9F0] dark:text-[#F3F4F6] dark:hover:bg-[#20242D]"
+                    }`}
+                  >
+                    <Rocket className="mr-1 inline h-3 w-3" /> Bootcamp
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setTypeFilter("PEER_TUTORING")}
+                    className={`rounded-[4px] px-2.5 py-1 text-xs font-medium transition-colors ${
+                      typeFilter === "PEER_TUTORING"
+                        ? "bg-[#2457C5] text-white"
+                        : "text-[#20232B] hover:bg-[#E5E9F0] dark:text-[#F3F4F6] dark:hover:bg-[#20242D]"
+                    }`}
+                  >
+                    <Handshake className="mr-1 inline h-3 w-3" /> Peer-Tutoring
+                  </button>
+                </div>
 
-            {/* Reset Button */}
-            <button
-              type="button"
-              onClick={handleResetFilter}
-              className="inline-flex items-center gap-1 rounded-[4px] px-3 py-1.5 text-xs font-medium text-[#2457C5] hover:underline transition-colors dark:text-[#78A0FF]"
-            >
-              <RotateCcw className="h-3.5 w-3.5" aria-hidden="true" /> Reset Filter
-            </button>
+                {/* Biaya Kelas */}
+                <div className="inline-flex rounded-[4px] border border-[#D9DEE7] bg-white p-0.5 dark:border-[#343945] dark:bg-[#111318]">
+                  <button
+                    type="button"
+                    onClick={() => setPricingFilter("ALL")}
+                    className={`rounded-[4px] px-2.5 py-1 text-xs font-medium transition-colors ${
+                      pricingFilter === "ALL"
+                        ? "bg-[#2457C5] text-white"
+                        : "text-[#20232B] hover:bg-[#E5E9F0] dark:text-[#F3F4F6] dark:hover:bg-[#20242D]"
+                    }`}
+                  >
+                    Semua Biaya
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setPricingFilter("FREE")}
+                    className={`rounded-[4px] px-2.5 py-1 text-xs font-medium transition-colors ${
+                      pricingFilter === "FREE"
+                        ? "bg-[#2457C5] text-white"
+                        : "text-[#20232B] hover:bg-[#E5E9F0] dark:text-[#F3F4F6] dark:hover:bg-[#20242D]"
+                    }`}
+                  >
+                    <Check className="mr-1 inline h-3 w-3" /> Gratis
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setPricingFilter("PAID")}
+                    className={`rounded-[4px] px-2.5 py-1 text-xs font-medium transition-colors ${
+                      pricingFilter === "PAID"
+                        ? "bg-[#2457C5] text-white"
+                        : "text-[#20232B] hover:bg-[#E5E9F0] dark:text-[#F3F4F6] dark:hover:bg-[#20242D]"
+                    }`}
+                  >
+                    <CreditCard className="mr-1 inline h-3 w-3" /> Berbayar
+                  </button>
+                </div>
+
+                {/* Reset Button */}
+                <button
+                  type="button"
+                  onClick={handleResetFilter}
+                  className="inline-flex cursor-pointer items-center gap-1 rounded-[4px] px-2.5 py-1 text-xs font-medium text-[#2457C5] hover:underline dark:text-[#78A0FF]"
+                >
+                  <RotateCcw className="h-3.5 w-3.5" /> Reset Filter
+                </button>
+              </div>
+
+              <span className="text-xs text-[#626B78] font-medium dark:text-[#B1B7C3]">
+                Total: <strong className="text-[#20232B] dark:text-[#F3F4F6]">{totalItems}</strong> kelas ditemukan
+              </span>
+            </div>
           </div>
 
-          <span className="text-xs text-[#626B78] font-medium dark:text-slate-400">
-            Menampilkan <strong className="text-[#20232B] font-semibold dark:text-slate-100">{catalogCourses.length}</strong> kelas akademik
-          </span>
-        </div>
-      </div>
-
-      {/* Grid Kelas */}
-      <div className="mt-8">
-        {loading ? (
-          <div role="status" aria-label="Memuat kelas" className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-            <span className="sr-only">Memuat kelas akademik yang tersedia...</span>
-            {Array.from({ length: 2 }, (_, index) => (
-              <div
-                key={index}
-                aria-hidden="true"
-                className="animate-pulse rounded-[6px] border border-[#D9DEE7] bg-white p-5 dark:border-slate-800 dark:bg-slate-900"
-              >
-                <div className="flex items-center justify-between gap-3">
-                  <div className="flex min-w-0 flex-1 items-center gap-2.5">
-                    <div className="h-9 w-9 shrink-0 rounded-full bg-[#E5E9F0] dark:bg-slate-800" />
-                    <div className="min-w-0 flex-1 space-y-2">
-                      <div className="h-3 w-2/3 rounded bg-[#E5E9F0] dark:bg-slate-800" />
-                      <div className="h-2.5 w-1/2 rounded bg-[#E5E9F0] dark:bg-slate-800" />
+          {/* Grid Kelas: 3 Kolom per Baris (grid-cols-1 md:grid-cols-2 lg:grid-cols-3) */}
+          <div className="mt-6">
+            {loading ? (
+              <div role="status" aria-label="Memuat daftar kelas" className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+                <span className="sr-only">Memuat kelas...</span>
+                {Array.from({ length: 6 }, (_, index) => (
+                  <article
+                    key={index}
+                    aria-hidden="true"
+                    className="overflow-hidden rounded-[6px] border border-[#D9DEE7] bg-white dark:border-[#343945] dark:bg-[#191C23]"
+                  >
+                    <div className="skeleton-shimmer h-36 w-full" />
+                    <div className="space-y-4 p-4">
+                      <div className="flex gap-2">
+                        <div className="skeleton-shimmer h-4 w-20 rounded-full" />
+                        <div className="skeleton-shimmer h-4 w-14 rounded-full" />
+                      </div>
+                      <div className="skeleton-shimmer h-5 w-4/5 rounded" />
+                      <div className="space-y-2">
+                        <div className="skeleton-shimmer h-3 w-full rounded" />
+                        <div className="skeleton-shimmer h-3 w-2/3 rounded" />
+                      </div>
+                      <div className="flex items-center gap-2 border-t border-[#D9DEE7] pt-3 dark:border-[#343945]">
+                        <div className="skeleton-shimmer h-8 w-8 shrink-0 rounded-full" />
+                        <div className="skeleton-shimmer h-3 w-28 rounded" />
+                      </div>
+                      <div className="flex items-center justify-between border-t border-[#D9DEE7] pt-3 dark:border-[#343945]">
+                        <div className="skeleton-shimmer h-5 w-24 rounded" />
+                        <div className="skeleton-shimmer h-8 w-24 rounded" />
+                      </div>
                     </div>
-                  </div>
-                  <div className="h-6 w-24 shrink-0 rounded bg-[#E5E9F0] dark:bg-slate-800" />
-                </div>
-                <div className="mt-4 border-t border-[#D9DEE7] pt-4 dark:border-slate-800">
-                  <div className="h-2.5 w-1/3 rounded bg-[#E5E9F0] dark:bg-slate-800" />
-                  <div className="mt-2 h-4 w-4/5 rounded bg-[#E5E9F0] dark:bg-slate-800" />
-                  <div className="mt-2 h-3 w-full rounded bg-[#E5E9F0] dark:bg-slate-800" />
-                  <div className="mt-2 h-3 w-3/4 rounded bg-[#E5E9F0] dark:bg-slate-800" />
-                </div>
-                <div className="mt-4 h-10 rounded bg-[#E5E9F0]/70 dark:bg-slate-800/70" />
-                <div className="mt-4 flex items-center justify-between border-t border-[#D9DEE7] pt-4 dark:border-slate-800">
-                  <div className="space-y-2">
-                    <div className="h-2 w-16 rounded bg-[#E5E9F0] dark:bg-slate-800" />
-                    <div className="h-4 w-24 rounded bg-[#E5E9F0] dark:bg-slate-800" />
-                  </div>
-                  <div className="h-8 w-28 rounded bg-[#E5E9F0] dark:bg-slate-800" />
-                </div>
+                  </article>
+                ))}
               </div>
-            ))}
-          </div>
-        ) : loadError ? (
-          <div className="rounded-[6px] border border-red-200 bg-white p-8 text-center dark:border-red-900/50 dark:bg-slate-900">
-            <h3 className="text-base font-semibold text-[#20232B] dark:text-slate-100">Katalog kelas belum dapat dimuat</h3>
-            <p role="alert" className="mt-1 text-sm text-[#626B78] dark:text-slate-400">{loadError}</p>
-            <button type="button" onClick={() => setReloadKey((key) => key + 1)} className="btn-primary mt-4">
-              Coba lagi
-            </button>
-          </div>
-        ) : filteredCourses.length === 0 ? (
-          <div className="rounded-[6px] border border-[#D9DEE7] bg-white p-12 text-center dark:border-slate-800 dark:bg-slate-900">
-            <h3 className="text-base font-semibold text-[#20232B] dark:text-slate-100">
-              {courses.length === 0 ? "Belum ada kelas yang tersedia" : "Tidak ada kelas yang cocok"}
-            </h3>
-            <p className="mt-1 text-xs text-[#626B78] dark:text-slate-400">
-              {courses.length === 0
-                ? "Kelas yang sudah dipublikasikan pengajar akan muncul di sini."
-                : "Coba sesuaikan kampus, kategori utama, jurusan, atau kata kunci pencarian kamu."}
-            </p>
-            {courses.length > 0 && (
-              <button type="button" onClick={handleResetFilter} className="mt-4 btn-primary">
-                Reset Semua Filter
-              </button>
+            ) : paginatedCourses.length === 0 ? (
+              <div className="rounded-[6px] border border-dashed border-[#D9DEE7] bg-white p-12 text-center dark:border-[#343945] dark:bg-[#191C23]">
+                <p className="text-sm font-semibold text-[#20232B] dark:text-[#F3F4F6]">
+                  Tidak ada kelas yang sesuai dengan kriteria filter Anda.
+                </p>
+                <p className="mt-1 text-xs text-[#626B78] dark:text-[#B1B7C3]">
+                  Coba sesuaikan kata kunci pencarian atau tekan "Reset Filter".
+                </p>
+                {searchQuery.trim() && <div className="mt-4"><button type="button" onClick={() => { setCourseRequestTitle(searchQuery.trim()); setCourseRequestOpen((open) => !open); setCourseRequestMessage(""); }} className="btn-secondary cursor-pointer">Ajukan Mata Kuliah Baru</button>{courseRequestOpen && <form className="mx-auto mt-4 grid max-w-md gap-3 text-left" onSubmit={(event) => { event.preventDefault(); setCourseRequestBusy(true); void nexieraApi.requestCourse({ title: courseRequestTitle.trim() }).then(() => { setCourseRequestMessage("Pengajuan mata kuliah tersimpan untuk ditinjau."); setCourseRequestOpen(false); }).catch((error) => setCourseRequestMessage(error instanceof Error ? error.message : "Pengajuan gagal dikirim.")).finally(() => setCourseRequestBusy(false)); }}><label className="text-xs font-semibold">Nama mata kuliah<input required maxLength={160} value={courseRequestTitle} onChange={(event) => setCourseRequestTitle(event.target.value)} className="nx-input mt-1 w-full" /></label><button disabled={courseRequestBusy} className="btn-primary cursor-pointer">{courseRequestBusy ? "Mengirim..." : "Kirim pengajuan"}</button></form>}{courseRequestMessage && <p role="status" className="mt-2 text-xs text-[#2457C5]">{courseRequestMessage}</p>}</div>}
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                {paginatedCourses.map((course) => (
+                  <ClassCard key={course.id} item={course} />
+                ))}
+              </div>
+            )}
+
+            {/* Pagination Bar (Muncul bila jumlah item melebihi 12) */}
+            {totalPages > 1 && (
+              <div className="mt-8 flex items-center justify-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                  disabled={currentPage === 1}
+                  className="inline-flex items-center gap-1 rounded-[4px] border border-[#D9DEE7] bg-white px-3 py-1.5 text-xs font-semibold text-[#20232B] transition-colors hover:bg-[#E5E9F0] disabled:opacity-40 disabled:cursor-not-allowed dark:border-[#343945] dark:bg-[#191C23] dark:text-[#F3F4F6] dark:hover:bg-[#20242D]"
+                >
+                  <ChevronLeft className="h-3.5 w-3.5" /> Sebelumnya
+                </button>
+
+                {Array.from({ length: totalPages }).map((_, idx) => {
+                  const pageNum = idx + 1;
+                  const isActive = pageNum === currentPage;
+                  return (
+                    <button
+                      key={pageNum}
+                      type="button"
+                      onClick={() => setCurrentPage(pageNum)}
+                      className={`h-8 w-8 rounded-[4px] text-xs font-semibold transition-colors ${
+                        isActive
+                          ? "bg-[#2457C5] text-white"
+                          : "border border-[#D9DEE7] bg-white text-[#20232B] hover:bg-[#E5E9F0] dark:border-[#343945] dark:bg-[#191C23] dark:text-[#F3F4F6] dark:hover:bg-[#20242D]"
+                      }`}
+                    >
+                      {pageNum}
+                    </button>
+                  );
+                })}
+
+                <button
+                  type="button"
+                  onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                  disabled={currentPage === totalPages}
+                  className="inline-flex items-center gap-1 rounded-[4px] border border-[#D9DEE7] bg-white px-3 py-1.5 text-xs font-semibold text-[#20232B] transition-colors hover:bg-[#E5E9F0] disabled:opacity-40 disabled:cursor-not-allowed dark:border-[#343945] dark:bg-[#191C23] dark:text-[#F3F4F6] dark:hover:bg-[#20242D]"
+                >
+                  Selanjutnya <ChevronRight className="h-3.5 w-3.5" />
+                </button>
+              </div>
             )}
           </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {catalogCourses.map((course) => (
-              <ClassCard key={course.id} item={course} />
-            ))}
-          </div>
-        )}
-      </div>
+        </main>
 
+      </div>
     </div>
   );
 }

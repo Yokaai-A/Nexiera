@@ -39,12 +39,12 @@ export function Hero() {
         <div className="flex min-w-0 items-center justify-center lg:justify-end">
           <div className="flex w-full max-w-md items-center justify-center overflow-hidden rounded-[6px] border border-[#D9DEE7] bg-white p-6">
             <Image
-              src="/landing-main.png"
+              src="/Illustration_NoLogo.jpg"
               alt="Ilustrasi Pembelajaran Nexiera"
               width={400}
               height={400}
               priority
-              className="max-h-[380px] w-auto object-contain"
+              className="max-h-[380px] w-auto rounded-[30%] object-contain"
             />
           </div>
         </div>

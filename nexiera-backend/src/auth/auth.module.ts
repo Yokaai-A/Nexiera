@@ -8,6 +8,7 @@ import { AuthService } from "./auth.service.js";
 import { GoogleOAuthGuard } from "./google-oauth.guard.js";
 import { GoogleStrategy } from "./google.strategy.js";
 import { JwtStrategy } from "./jwt.strategy.js";
+import { MailModule } from "../mail/mail.module.js";
 
 const googleStrategyProvider = {
   provide: GoogleStrategy,
@@ -24,6 +25,7 @@ const googleStrategyProvider = {
   imports: [
     ConfigModule,
     UsersModule,
+    MailModule,
     PassportModule.register({ defaultStrategy: "jwt" }),
     JwtModule.registerAsync({
       imports: [ConfigModule],

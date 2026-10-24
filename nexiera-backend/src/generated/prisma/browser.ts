@@ -23,37 +23,57 @@ export * from './enums.js';
  */
 export type User = Prisma.UserModel
 /**
- * Model TutorApplication
- * 
- */
-export type TutorApplication = Prisma.TutorApplicationModel
-/**
  * Model Class
  * 
  */
 export type Class = Prisma.ClassModel
+/**
+ * Model BootcampTutor
+ * 
+ */
+export type BootcampTutor = Prisma.BootcampTutorModel
+/**
+ * Model Review
+ * 
+ */
+export type Review = Prisma.ReviewModel
 /**
  * Model Transaction
  * 
  */
 export type Transaction = Prisma.TransactionModel
 /**
- * Model Presence
+ * Model RoleApplication
  * 
  */
-export type Presence = Prisma.PresenceModel
+export type RoleApplication = Prisma.RoleApplicationModel
 /**
- * Model Ad
+ * Model PrivateUpload
  * 
  */
-export type Ad = Prisma.AdModel
-/**
- * Model ClassReview
- * 
- */
-export type ClassReview = Prisma.ClassReviewModel
+export type PrivateUpload = Prisma.PrivateUploadModel
 /**
  * Model ClassReport
  * 
  */
 export type ClassReport = Prisma.ClassReportModel
+/**
+ * Model EmailVerificationToken
+ * 
+ */
+export type EmailVerificationToken = Prisma.EmailVerificationTokenModel
+/**
+ * Model CourseRequest
+ * 
+ */
+export type CourseRequest = Prisma.CourseRequestModel
+/**
+ * Model Notification
+ * 
+ */
+export type Notification = Prisma.NotificationModel
+/**
+ * Model Ad
+ * 
+ */
+export type Ad = Prisma.AdModel

@@ -1,7 +1,6 @@
 import Link from "next/link";
 import {
   ArrowRight,
-  Building2,
   CalendarDays,
   Handshake,
   MonitorPlay,
@@ -21,10 +20,12 @@ export function normalizeCourseToApiClass(item: ApiClass | AcademicCourse): ApiC
     return item as ApiClass;
   }
   const ac = item as AcademicCourse;
-  const tutor = ac.tutors?.[0] || { id: "tutor-1", name: ac.organizerName || "Tutor" };
+  const tutor = ac.tutors?.[0];
   return {
     id: ac.id,
+    slug: ac.slug,
     title: ac.title,
+    bannerUrl: ac.bannerUrl || null,
     shortDescription: ac.shortDescription || null,
     description: ac.fullDescription || ac.shortDescription || "",
     mainCategory: ac.mainCategory || null,
@@ -46,7 +47,7 @@ export function normalizeCourseToApiClass(item: ApiClass | AcademicCourse): ApiC
     materialPlatform: ac.materialPlatform || null,
     materialUrl: ac.materialUrl || null,
     recordingUrl: ac.recordingUrl || null,
-    tutor: { id: tutor.id, name: tutor.name },
+    tutor: tutor ? { id: tutor.id, name: tutor.name } : undefined,
   };
 }
 
@@ -61,12 +62,22 @@ export function ClassCard({ item }: { item: ApiClass | AcademicCourse }) {
   const normalized = normalizeCourseToApiClass(item);
   const isBootcamp = normalized.courseType === "BOOTCAMP";
   const isFree = Number(normalized.price) === 0;
-  const tutorName = normalized.tutor.name;
+  const tutorName = (isBootcamp ? normalized.tutors?.[0]?.name : undefined)
+    ?? normalized.tutor?.name
+    ?? normalized.organizerName
+    ?? "Tutor";
   const organizerName = normalized.organizerName?.trim() || tutorName;
+  const organizerInitials = organizerName
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0])
+    .join("")
+    .toUpperCase() || "NX";
   const profileHref = isBootcamp
     ? `/organizers/${slugify(organizerName)}`
     : `/tutors/${slugify(tutorName)}`;
-  const startDate = formatStartDate(normalized.startsAt);
+  const startDate = formatStartDate(normalized.startsAt ?? null);
   const availableSeats = normalized.availableSeats ?? normalized.maxQuota;
   const currency = /^[A-Z]{3}$/.test(normalized.currency) ? normalized.currency : "IDR";
   const price = Number(normalized.price);
@@ -74,25 +85,62 @@ export function ClassCard({ item }: { item: ApiClass | AcademicCourse }) {
     ? new Intl.NumberFormat("id-ID", { style: "currency", currency, maximumFractionDigits: 0 }).format(price)
     : null;
 
+  const rawApi = item as ApiClass;
+  const avatarUrl = isBootcamp
+    ? rawApi.organizerLogo || normalized.organizerLogo || rawApi.creator?.avatarUrl || null
+    : rawApi.creator?.avatarUrl || rawApi.tutor?.avatarUrl || rawApi.tutors?.[0]?.avatarUrl || null;
+
+  const resolvedAvatar = avatarUrl
+    ? avatarUrl.startsWith("/uploads")
+      ? `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000"}${avatarUrl}`
+      : avatarUrl
+    : null;
+
+  const bannerUrl = normalized.bannerUrl
+    ? normalized.bannerUrl.startsWith("/uploads")
+      ? `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000"}${normalized.bannerUrl}`
+      : normalized.bannerUrl
+    : null;
+
   return (
-    <article className="group flex h-full flex-col rounded-[6px] border border-[#D9DEE7] bg-white p-5 transition-colors hover:border-[#BAC3D2] dark:border-slate-800 dark:bg-slate-900">
+    <article className="group flex h-full flex-col rounded-[6px] border border-[#D9DEE7] bg-white p-4 sm:p-5 transition-colors hover:border-[#BAC3D2] dark:border-slate-800 dark:bg-slate-900">
       <div>
+        {bannerUrl && (
+          <div className="relative mb-3.5 aspect-video w-full overflow-hidden rounded-[4px] border border-[#D9DEE7] bg-slate-100 dark:border-slate-800 dark:bg-slate-800">
+            <img
+              src={bannerUrl}
+              alt={normalized.title}
+              loading="lazy"
+              className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+            />
+          </div>
+        )}
+
         <div className="flex items-start justify-between gap-3">
           <Link href={profileHref} className="group/org flex min-w-0 items-center gap-2.5">
             <div className="relative flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full border border-[#D9DEE7] bg-[#E5E9F0] dark:border-slate-700 dark:bg-slate-800">
-              {normalized.organizerLogo ? (
-                <img src={normalized.organizerLogo} alt="" loading="lazy" className="h-full w-full object-cover" />
-              ) : isBootcamp ? (
-                <Building2 className="h-4 w-4 text-[#20232B] dark:text-slate-200" aria-hidden="true" />
+              {resolvedAvatar ? (
+                <img
+                  src={resolvedAvatar}
+                  alt={organizerName}
+                  loading="lazy"
+                  className="h-full w-full object-cover"
+                />
               ) : (
-                <UserRound className="h-4 w-4 text-[#20232B] dark:text-slate-200" aria-hidden="true" />
+                <span className="text-[10px] font-bold text-[#2457C5] dark:text-[#78A0FF]" aria-hidden="true">
+                  {organizerInitials}
+                </span>
               )}
             </div>
             <span className="min-w-0">
               <span className="block truncate text-xs font-semibold text-[#20232B] transition-colors group-hover/org:text-[#2457C5] dark:text-slate-100">
                 {organizerName}
               </span>
-              {normalized.university && <span className="block truncate text-[11px] text-[#626B78] dark:text-slate-400">{normalized.university}</span>}
+              {(normalized.tutor?.headline || normalized.tutor?.major || normalized.tutor?.campus || normalized.university) && (
+                <span className="block truncate text-[11px] text-[#626B78] dark:text-slate-400">
+                  {[normalized.tutor?.headline, normalized.tutor?.major, normalized.tutor?.campus || normalized.university].filter(Boolean).join(" · ")}
+                </span>
+              )}
             </span>
           </Link>
 
@@ -118,7 +166,7 @@ export function ClassCard({ item }: { item: ApiClass | AcademicCourse }) {
         <div className="mt-3 flex items-center gap-2 rounded-[4px] border border-[#D9DEE7] bg-[#E5E9F0]/30 px-2.5 py-2 text-[11px] text-[#626B78] dark:border-slate-800 dark:bg-slate-800/60 dark:text-slate-300">
           <UserRound className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
           <span className="min-w-0 truncate">
-            Tutor: <Link href={`/tutors/${slugify(tutorName)}`} className="font-medium text-[#20232B] hover:text-[#2457C5] hover:underline dark:text-slate-100">{tutorName}</Link>
+            {isBootcamp ? "Pengajar:" : "Tutor:"} <Link href={`/tutors/${slugify(tutorName)}`} className="font-medium text-[#20232B] hover:text-[#2457C5] hover:underline dark:text-slate-100">{tutorName}</Link>
           </span>
         </div>
 

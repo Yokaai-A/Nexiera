@@ -14,6 +14,7 @@ import {
   PlusCircle,
   Receipt,
   Settings,
+  ShieldCheck,
   Star,
   Users2,
   Wallet,
@@ -53,11 +54,6 @@ export function DashboardSidebar() {
       href: "/dashboard/transaksi",
       icon: <Receipt className="h-4 w-4" />,
     },
-    {
-      label: "Pengaturan Akun",
-      href: "/pengaturan",
-      icon: <Settings className="h-4 w-4" />,
-    },
   ];
 
   const tutorLinks = [
@@ -96,11 +92,6 @@ export function DashboardSidebar() {
       label: "Keuangan & Payout",
       href: "/dashboard/tutor/keuangan",
       icon: <Wallet className="h-4 w-4" />,
-    },
-    {
-      label: "Pengaturan Profil Bimbingan",
-      href: "/dashboard/tutor/pengaturan",
-      icon: <Settings className="h-4 w-4" />,
     },
   ];
 
@@ -148,13 +139,24 @@ export function DashboardSidebar() {
     },
   ];
 
+  const adminLinks = [
+    {
+      label: "Tinjauan Admin",
+      href: "/dashboard/admin",
+      icon: <ShieldCheck className="h-4 w-4" />,
+      exact: true,
+    },
+  ];
+
   const isTutor = user.activeRole === "tutor" || user.activeViewRole === "tutor";
   const isBootcamp =
     user.activeRole === "bootcamp" ||
     user.activeRole === "bootcamp_partner" ||
     user.activeViewRole === "bootcamp_partner";
 
-  const activeLinks = isTutor ? tutorLinks : isBootcamp ? bootcampLinks : studentLinks;
+  const activeLinks = user.roles.includes("admin")
+    ? adminLinks
+    : isTutor ? tutorLinks : isBootcamp ? bootcampLinks : studentLinks;
 
   return (
     <aside className="w-full lg:w-72 shrink-0 flex flex-col gap-5">

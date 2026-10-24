@@ -1,8 +1,7 @@
 import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-import { AdPlacement } from "../generated/prisma/client.js";
 import { PrismaService } from "../prisma/prisma.service.js";
-import { CreateAdDto } from "./dto/create-ad.dto.js";
+import { CreateAdDto, type AdPlacementType } from "./dto/create-ad.dto.js";
 
 @Injectable()
 export class AdsService {
@@ -11,7 +10,7 @@ export class AdsService {
     private readonly config: ConfigService,
   ) {}
 
-  async getSlot(placement: AdPlacement) {
+  async getSlot(placement: AdPlacementType) {
     const now = new Date();
     const ads = await this.prisma.ad.findMany({
       where: {
@@ -35,14 +34,15 @@ export class AdsService {
     if (ads.length > 0) return { source: "advertiser" as const, ads };
 
     const frontendUrl = this.config.getOrThrow<string>("FRONTEND_URL");
+    const isSideMargin = placement === "SIDE_MARGIN";
     return {
       source: "nexiera" as const,
       ads: [
         {
           id: `official-${placement.toLowerCase()}`,
-          title: "Belajar lebih terarah bersama NEXIERA",
+          title: isSideMargin ? "Selamat datang di NEXIERA" : "Belajar lebih terarah bersama NEXIERA",
           placement,
-          imageUrl: `${frontendUrl}/banner-cari-kelas.jpeg`,
+          imageUrl: `${frontendUrl}/${isSideMargin ? "Banner_Samping_Kanan.webp" : "banner-cari-kelas.jpeg"}`,
           targetUrl: `${frontendUrl}/cari-kelas`,
           official: true,
         },
@@ -51,16 +51,13 @@ export class AdsService {
   }
 
   async create(ownerId: string, body: CreateAdDto) {
-    const owner = await this.prisma.user.findUnique({ where: { id: ownerId }, select: { role: true } });
-    if (!owner) throw new NotFoundException("User not found");
-    if (owner.role !== "TUTOR" && owner.role !== "ADMIN") {
-      throw new ForbiddenException("Only tutors can create advertisements");
-    }
+    const owner = await this.prisma.user.findUnique({ where: { id: ownerId }, select: { activeRole: true } });
+    if (!owner) throw new NotFoundException("Pengguna tidak ditemukan");
 
     const startsAt = new Date(body.startsAt);
     const endsAt = new Date(body.endsAt);
     if (!Number.isFinite(startsAt.getTime()) || !Number.isFinite(endsAt.getTime()) || endsAt <= startsAt) {
-      throw new BadRequestException("Ad end time must be later than its start time");
+      throw new BadRequestException("Waktu berakhir iklan harus lebih lanjut dari waktu mulai.");
     }
 
     return this.prisma.ad.create({
@@ -116,7 +113,7 @@ export class AdsService {
       },
       select: { id: true, targetUrl: true },
     });
-    if (!ad) throw new BadRequestException("Ad is not currently active");
+    if (!ad) throw new BadRequestException("Iklan saat ini tidak aktif.");
     return ad;
   }
 }

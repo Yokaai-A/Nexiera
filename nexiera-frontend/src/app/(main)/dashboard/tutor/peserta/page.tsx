@@ -44,7 +44,7 @@ export default function DataPesertaPage() {
   const visible = useMemo(
     () =>
       participants.filter((item) =>
-        [item.user.name, item.user.email, item.user.phoneNumber, item.class.title].some((value) =>
+        [item.user.name ?? "", item.user.email, item.user.phoneNumber ?? "", item.class.title].some((value) =>
           value.toLocaleLowerCase().includes(search.toLocaleLowerCase()),
         ),
       ),
@@ -52,16 +52,16 @@ export default function DataPesertaPage() {
   );
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {/* Header */}
-      <header className="rounded-[6px] border border-[#D9DEE7] bg-white p-6 dark:border-[#343945] dark:bg-[#191C23]">
+      <header className="rounded-[6px] border border-[#D9DEE7] bg-white p-4 dark:border-[#343945] dark:bg-[#191C23]">
         <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-[#2457C5] dark:text-[#78A0FF]">
           <Users2 className="h-4 w-4" /> Data Peserta Bimbingan
         </span>
-        <h1 className="mt-2 text-lg sm:text-xl font-semibold text-[#20232B] dark:text-[#F3F4F6]">
+        <h1 className="mt-2 text-lg font-bold text-[#20232B] dark:text-[#F3F4F6]">
           Peserta Kelas Anda
         </h1>
-        <p className="mt-1 text-sm text-[#626B78] dark:text-[#B1B7C3]">
+        <p className="mt-1 text-xs text-[#626B78] dark:text-[#B1B7C3]">
           Status pendaftaran aktif terkonfirmasi otomatis dari pembayaran Midtrans yang sukses (PAID). Hubungi mahasiswa langsung melalui WhatsApp atau Email.
         </p>
       </header>
@@ -69,48 +69,47 @@ export default function DataPesertaPage() {
       {error && (
         <p
           role="alert"
-          className="rounded-[4px] border border-red-200 bg-red-50 p-3 text-sm text-red-700 dark:border-red-900/60 dark:bg-red-950/40 dark:text-red-300"
+          className="rounded-[4px] border border-red-200 bg-red-50 p-3 text-xs text-red-700 dark:border-red-900/60 dark:bg-red-950/40 dark:text-red-300"
         >
           {error}
         </p>
       )}
 
-      <section className="rounded-[6px] border border-[#D9DEE7] bg-white p-5 dark:border-[#343945] dark:bg-[#191C23]">
+      <section className="rounded-[6px] border border-[#D9DEE7] bg-white p-4 dark:border-[#343945] dark:bg-[#191C23]">
         {/* Input Pencarian */}
         <label className="flex items-center gap-2 rounded-[4px] border border-[#D9DEE7] px-3 py-2 bg-white dark:border-[#343945] dark:bg-[#111318]">
           <Search className="h-4 w-4 text-[#626B78] dark:text-[#B1B7C3]" />
           <input
             value={search}
             onChange={(event) => setSearch(event.target.value)}
-            className="w-full text-sm outline-none bg-transparent text-[#20232B] dark:text-[#F3F4F6] placeholder:text-[#626B78] dark:placeholder:text-[#777F8D]"
+            className="w-full text-xs outline-none bg-transparent text-[#20232B] dark:text-[#F3F4F6] placeholder:text-[#626B78] dark:placeholder:text-[#777F8D]"
             placeholder="Cari nama, email, nomor WhatsApp, atau mata kuliah..."
           />
         </label>
 
         {loading ? (
-          <p className="py-8 text-sm text-[#626B78] dark:text-[#B1B7C3]">
+          <p className="py-6 text-xs text-[#626B78] dark:text-[#B1B7C3]">
             Memuat daftar peserta...
           </p>
         ) : visible.length === 0 ? (
-          <div className="py-12 text-center">
+          <div className="py-6 text-center">
             <p className="font-semibold text-[#20232B] dark:text-[#F3F4F6]">
               {participants.length
                 ? "Tidak ada peserta yang cocok dengan kata kunci pencarian"
                 : "Belum ada mahasiswa yang mendaftar pada kelas ini."}
             </p>
-            <p className="mt-1 text-sm text-[#626B78] dark:text-[#B1B7C3]">
+            <p className="mt-1 text-xs text-[#626B78] dark:text-[#B1B7C3]">
               Peserta terdaftar akan muncul otomatis setelah transaksi pembayaran berhasil (PAID).
             </p>
           </div>
         ) : (
           <div className="mt-4 overflow-x-auto">
-            <table className="w-full min-w-[760px] text-left text-sm">
+            <table className="w-full min-w-[760px] text-left text-xs">
               <thead>
                 <tr className="border-b border-[#D9DEE7] text-xs font-semibold uppercase tracking-wider text-[#626B78] dark:border-[#343945] dark:text-[#B1B7C3]">
                   <th className="p-3">Mahasiswa</th>
                   <th className="p-3">Kelas Bimbingan</th>
                   <th className="p-3">Status Pendaftaran</th>
-                  <th className="p-3">Presensi</th>
                   <th className="p-3 text-right">Kontak Langsung</th>
                 </tr>
               </thead>
@@ -132,7 +131,7 @@ export default function DataPesertaPage() {
                           {item.user.email}
                         </p>
                       </td>
-                      <td className="p-3 text-sm font-medium text-[#20232B] dark:text-[#F3F4F6]">
+                      <td className="p-3 text-xs font-medium text-[#20232B] dark:text-[#F3F4F6]">
                         {item.class.title}
                       </td>
                       <td className="p-3">
@@ -148,16 +147,13 @@ export default function DataPesertaPage() {
                           {isPaid ? "Aktif (PAID)" : isRefunded ? `Refund ${item.refundStatus}` : item.status}
                         </span>
                       </td>
-                      <td className="p-3 text-xs font-medium text-[#20232B] dark:text-[#F3F4F6]">
-                        {item.presence?.status === "PRESENT" ? "1 Sesi Hadir" : "0/1 Sesi (Terjadwal)"}
-                      </td>
                       <td className="p-3 text-right">
                         <div className="inline-flex items-center gap-2">
                           {item.user.phoneNumber ? (
                             <a
                               href={whatsappUrl(
-                                item.user.phoneNumber,
-                                item.user.name,
+                                item.user.phoneNumber ?? "",
+                                item.user.name ?? "",
                                 item.class.title,
                               )}
                               target="_blank"

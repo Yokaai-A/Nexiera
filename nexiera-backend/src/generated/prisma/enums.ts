@@ -9,76 +9,61 @@
 * 🟢 You can import this file directly.
 */
 
-export const UserRole = {
-  STUDENT: 'STUDENT',
-  TUTOR: 'TUTOR',
-  ADMIN: 'ADMIN'
+export const Role = {
+  MAHASISWA: 'MAHASISWA',
+  PEER_TUTOR: 'PEER_TUTOR',
+  MITRA_BOOTCAMP: 'MITRA_BOOTCAMP'
 } as const
 
-export type UserRole = (typeof UserRole)[keyof typeof UserRole]
-
-
-export const ClassStatus = {
-  DRAFT: 'DRAFT',
-  ACTIVE: 'ACTIVE',
-  CANCELLED: 'CANCELLED'
-} as const
-
-export type ClassStatus = (typeof ClassStatus)[keyof typeof ClassStatus]
-
-
-export const CourseType = {
-  PEER_TUTORING: 'PEER_TUTORING',
-  BOOTCAMP: 'BOOTCAMP'
-} as const
-
-export type CourseType = (typeof CourseType)[keyof typeof CourseType]
+export type Role = (typeof Role)[keyof typeof Role]
 
 
 export const TransactionStatus = {
   PENDING: 'PENDING',
   PAID: 'PAID',
+  FAILED: 'FAILED',
+  CANCELLED: 'CANCELLED',
   REFUNDED: 'REFUNDED'
 } as const
 
 export type TransactionStatus = (typeof TransactionStatus)[keyof typeof TransactionStatus]
 
 
+export const RoleApplicationType = {
+  PEER_TUTOR: 'PEER_TUTOR',
+  MITRA_BOOTCAMP: 'MITRA_BOOTCAMP'
+} as const
+
+export type RoleApplicationType = (typeof RoleApplicationType)[keyof typeof RoleApplicationType]
+
+
+export const RoleApplicationStatus = {
+  PENDING_VERIFICATION: 'PENDING_VERIFICATION',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+} as const
+
+export type RoleApplicationStatus = (typeof RoleApplicationStatus)[keyof typeof RoleApplicationStatus]
+
+
+export const PrivateUploadPurpose = {
+  STUDENT_PROOF: 'STUDENT_PROOF',
+  REPORT_EVIDENCE: 'REPORT_EVIDENCE',
+  REFUND_PROOF: 'REFUND_PROOF'
+} as const
+
+export type PrivateUploadPurpose = (typeof PrivateUploadPurpose)[keyof typeof PrivateUploadPurpose]
+
+
 export const RefundStatus = {
   NOT_REQUESTED: 'NOT_REQUESTED',
+  PENDING_REVIEW: 'PENDING_REVIEW',
   PROCESSING: 'PROCESSING',
-  COMPLETED: 'COMPLETED',
-  FAILED: 'FAILED',
-  MANUAL_REQUIRED: 'MANUAL_REQUIRED'
+  REFUNDED: 'REFUNDED',
+  REJECTED: 'REJECTED'
 } as const
 
 export type RefundStatus = (typeof RefundStatus)[keyof typeof RefundStatus]
-
-
-export const PresenceStatus = {
-  PRESENT: 'PRESENT',
-  ABSENT: 'ABSENT',
-  LATE: 'LATE'
-} as const
-
-export type PresenceStatus = (typeof PresenceStatus)[keyof typeof PresenceStatus]
-
-
-export const AdPlacement = {
-  HOME_HERO: 'HOME_HERO',
-  CLASS_CATALOG: 'CLASS_CATALOG',
-  DASHBOARD: 'DASHBOARD'
-} as const
-
-export type AdPlacement = (typeof AdPlacement)[keyof typeof AdPlacement]
-
-
-export const AdStatus = {
-  ACTIVE: 'ACTIVE',
-  PAUSED: 'PAUSED'
-} as const
-
-export type AdStatus = (typeof AdStatus)[keyof typeof AdStatus]
 
 
 export const ReportTargetType = {
@@ -89,18 +74,18 @@ export const ReportTargetType = {
 export type ReportTargetType = (typeof ReportTargetType)[keyof typeof ReportTargetType]
 
 
-export const TutorApplicationType = {
-  PEER_TUTOR: 'PEER_TUTOR',
-  BOOTCAMP_PARTNER: 'BOOTCAMP_PARTNER'
+export const ClassType = {
+  PEER_TUTORING: 'PEER_TUTORING',
+  BOOTCAMP: 'BOOTCAMP'
 } as const
 
-export type TutorApplicationType = (typeof TutorApplicationType)[keyof typeof TutorApplicationType]
+export type ClassType = (typeof ClassType)[keyof typeof ClassType]
 
 
-export const TutorApplicationStatus = {
-  PENDING: 'PENDING',
-  APPROVED: 'APPROVED',
-  REJECTED: 'REJECTED'
+export const TutorGrade = {
+  A: 'A',
+  A_MINUS: 'A_MINUS',
+  B_PLUS: 'B_PLUS'
 } as const
 
-export type TutorApplicationStatus = (typeof TutorApplicationStatus)[keyof typeof TutorApplicationStatus]
+export type TutorGrade = (typeof TutorGrade)[keyof typeof TutorGrade]

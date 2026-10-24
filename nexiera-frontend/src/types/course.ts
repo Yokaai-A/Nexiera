@@ -7,15 +7,17 @@ export type MaterialPlatform = "NOTION" | "DRIVE" | "PDF" | "GITHUB";
 export interface Tutor {
   id: string;
   name: string; // Nama murni tanpa gelar formal
-  role: string; // Contoh: "Mahasiswa Computer Science BINUS"
+  role: string; // Contoh: "Mahasiswa Teknik Informatika BINUS"
   avatarUrl: string;
 }
 
 export interface AcademicCourse {
   id: string;
+  slug?: string;
+  bannerUrl?: string;
   title: string; // Nama mata kuliah murni (tanpa kode matkul)
   mainCategory: string; // Contoh: "Sains & Teknologi", "Ekonomi & Bisnis"
-  major: string; // Contoh: "Computer Science", "Information Systems"
+  major: string; // Contoh: "Teknik Informatika", "Sistem Informasi"
   subjectCategory?: string; // Kompatibilitas mundur
   university: string; // Default: "BINUS University"
   shortDescription: string;
@@ -25,23 +27,23 @@ export interface AcademicCourse {
   pricingModel: PricingModel; // "FREE" | "PAID"
   priceAmount?: number;
 
-  organizerName: string;
+  organizerName?: string;
   organizerLogo?: string;
-  tutors: Tutor[]; // 1 orang jika Peer-Tutoring, Multi-tutor jika Bootcamp
+  tutors?: Tutor[]; // 1 orang jika Peer-Tutoring, Multi-tutor jika Bootcamp
 
-  meetingPlatform: MeetingPlatform;
-  meetingUrl: string; // Link Sesi Live (Zoom / GMeet / Discord)
+  meetingPlatform?: MeetingPlatform;
+  meetingUrl?: string; // Link Sesi Live (Zoom / GMeet / Discord)
   materialPlatform?: MaterialPlatform;
   materialUrl?: string; // Link Catatan / Materi (Opsional - Invisible jika kosong)
   recordingUrl?: string; // Link Penyimpanan / Rekaman Sesi (Opsional - Invisible jika kosong)
 
-  scheduleDate: string;
-  accessDuration: string; // Contoh: "Lifetime Access"
-  maxQuota: number;
-  availableSeats: number;
-  requirements: string[];
-  facilities: string[];
-  createdAt: string;
+  scheduleDate?: string;
+  accessDuration?: string;
+  maxQuota?: number;
+  availableSeats?: number;
+  requirements?: string[];
+  facilities?: string[];
+  createdAt?: string;
 
   tags?: string[];
   rating?: number;
@@ -53,7 +55,7 @@ export interface UserProfile {
   fullName: string;
   email: string;
   campus: string; // Default: "BINUS University"
-  major: string; // Contoh: "Computer Science"
+  major: string; // Contoh: "Teknik Informatika"
   isCampusVerified: boolean;
   isLoggedIn: boolean;
   role?: "student" | "tutor" | "bootcamp" | "bootcamp_partner";

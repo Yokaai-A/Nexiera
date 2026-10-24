@@ -1,32 +1,21 @@
 "use client";
 
 import { useEffect, useSyncExternalStore } from "react";
-import { nexieraApi, type ApiTutorApplication, type ApiUser } from "@/src/lib/api";
+import { nexieraApi, type ApiUser } from "@/src/lib/api";
 
-export type UserRole = "student" | "tutor" | "bootcamp" | "bootcamp_partner" | "admin";
-export type ApplicationStatus = "NONE" | "PENDING" | "APPROVED" | "REJECTED";
-
-export interface TutorApplicationData {
-  type?: "peer_tutor" | "bootcamp_partner";
-  studentCardUrl?: string | null;
-  transcriptUrl?: string | null;
-  organizationProofUrl?: string | null;
-  organizationName?: string;
-  contactPerson?: string;
-  notes?: string;
-  submittedAt?: string;
-}
+export type UserRole = "student" | "tutor" | "bootcamp" | "bootcamp_partner" | "admin" | "MAHASISWA" | "PEER_TUTOR" | "MITRA_BOOTCAMP";
 
 export interface UserState {
   id: string;
   name: string;
+  fullName: string;
   email: string;
+  contactEmail?: string;
   roles: UserRole[];
   activeRole: UserRole;
   role: UserRole;
   activeViewRole: UserRole;
-  tutorApplicationStatus: ApplicationStatus;
-  tutorApplicationData?: TutorApplicationData;
+  campus?: string;
   university?: string;
   major?: string;
   nim?: string;
@@ -34,40 +23,55 @@ export interface UserState {
   phoneNumber?: string;
   avatarUrl?: string;
   coverUrl?: string;
+  bannerUrl?: string;
   bio?: string;
   headline?: string;
   organizationName?: string;
   organizationLogoUrl?: string;
   location?: string;
   isLoggedIn: boolean;
+  tutorApplicationStatus?: "PENDING" | "APPROVED" | "REJECTED" | null;
+  tutorApplicationData?: { submittedAt?: string } | null;
   setRole: (role: UserRole) => void;
-  setActiveRole: (role: UserRole) => void;
+  setActiveRole: (role: UserRole) => Promise<void>;
   setActiveViewRole: (role: UserRole) => void;
   addRole: (role: UserRole) => void;
   hasRole: (role: UserRole) => boolean;
-  submitTutorApplication: (data: TutorApplicationData) => Promise<void>;
-  updateUser: (data: Partial<Omit<UserState, "updateUser" | "setRole" | "setActiveRole" | "setActiveViewRole" | "addRole" | "hasRole" | "submitTutorApplication">>) => Promise<void>;
+  updateUser: (data: Partial<UserState>) => Promise<void>;
+  submitTutorApplication: (payload: {
+    type: "PEER_TUTOR" | "BOOTCAMP_PARTNER" | "peer_tutor" | "bootcamp_partner" | string;
+    campus?: string;
+    major?: string;
+    organizationName?: string;
+    contactEmail?: string;
+    contactPerson?: string;
+    organizationProofUrl?: string;
+    organizationWebsiteUrl?: string;
+    studentProofUrl?: string;
+    notes?: string;
+  }) => Promise<void>;
 }
 
-type UserSnapshot = Omit<UserState,
+type UserSnapshot = Omit<
+  UserState,
   | "setRole"
   | "setActiveRole"
   | "setActiveViewRole"
   | "addRole"
   | "hasRole"
-  | "submitTutorApplication"
   | "updateUser"
+  | "submitTutorApplication"
 >;
 
 const ANONYMOUS_USER: UserSnapshot = {
   id: "",
   name: "",
+  fullName: "",
   email: "",
   roles: ["student"],
   activeRole: "student",
   role: "student",
   activeViewRole: "student",
-  tutorApplicationStatus: "NONE",
   isLoggedIn: false,
 };
 
@@ -79,55 +83,59 @@ function notify() {
   listeners.forEach((listener) => listener());
 }
 
-function toUserRole(role: ApiUser["role"]): UserRole {
-  if (role === "TUTOR") return "tutor";
-  if (role === "ADMIN") return "admin";
+function normalizeRole(roleStr?: string): UserRole {
+  if (roleStr === "PEER_TUTOR" || roleStr === "TUTOR" || roleStr === "tutor") return "tutor";
+  if (roleStr === "MITRA_BOOTCAMP" || roleStr === "bootcamp" || roleStr === "bootcamp_partner") return "bootcamp_partner";
+  if (roleStr === "ADMIN" || roleStr === "admin") return "admin";
   return "student";
 }
 
-function mapApplication(application: ApiTutorApplication | null): Pick<UserSnapshot, "tutorApplicationStatus" | "tutorApplicationData"> {
-  if (!application) return { tutorApplicationStatus: "NONE", tutorApplicationData: undefined };
-  return {
-    tutorApplicationStatus: application.status,
-    tutorApplicationData: {
-      type: application.type === "PEER_TUTOR" ? "peer_tutor" : "bootcamp_partner",
-      studentCardUrl: application.studentCardUrl,
-      transcriptUrl: application.transcriptUrl,
-      organizationProofUrl: application.organizationProofUrl,
-      organizationName: application.organizationName || undefined,
-      contactPerson: application.contactPerson || undefined,
-      notes: application.notes || undefined,
-      submittedAt: application.submittedAt,
-    },
-  };
+function toBackendRole(role: UserRole): string {
+  if (role === "tutor" || role === "PEER_TUTOR") return "PEER_TUTOR";
+  if (role === "bootcamp" || role === "bootcamp_partner" || role === "MITRA_BOOTCAMP") return "MITRA_BOOTCAMP";
+  return "MAHASISWA";
 }
 
-function mapUser(user: ApiUser, application: ApiTutorApplication | null = null): UserSnapshot {
-  const databaseRole = toUserRole(user.role);
-  const isBootcamp = databaseRole === "tutor" && (application?.type === "BOOTCAMP_PARTNER" || Boolean(user.organizationName));
-  const role: UserRole = isBootcamp ? "bootcamp_partner" : databaseRole;
+function mapUser(user: ApiUser): UserSnapshot {
+  const normActive = normalizeRole(user.activeRole || user.role);
 
-  const roles: UserRole[] = ["student"];
-  if (role === "tutor") roles.push("tutor");
-  if (role === "bootcamp_partner") roles.push("bootcamp_partner");
-  if (role === "admin") roles.push("tutor", "bootcamp_partner", "admin");
+  let rawRoles: string[] = [];
+  if (Array.isArray(user.roles)) {
+    rawRoles = user.roles;
+  } else if (typeof user.roles === "string") {
+    try { rawRoles = JSON.parse(user.roles); } catch { rawRoles = ["MAHASISWA"]; }
+  } else {
+    rawRoles = ["MAHASISWA"];
+  }
+
+  const mappedRoles: UserRole[] = ["student"];
+  for (const r of rawRoles) {
+    const nr = normalizeRole(r);
+    if (!mappedRoles.includes(nr)) mappedRoles.push(nr);
+  }
+  if (!mappedRoles.includes(normActive)) mappedRoles.push(normActive);
+
+  const displayName = user.fullName || user.name || "Pengguna";
 
   return {
     id: user.id,
-    name: user.name,
+    name: displayName,
+    fullName: displayName,
     email: user.email,
-    roles,
-    activeRole: role,
-    role,
-    activeViewRole: role,
-    ...mapApplication(application),
-    university: user.university || undefined,
+    contactEmail: user.contactEmail || undefined,
+    roles: mappedRoles,
+    activeRole: normActive,
+    role: normActive,
+    activeViewRole: normActive,
+    campus: user.campus || user.university || undefined,
+    university: user.campus || user.university || undefined,
     major: user.major || undefined,
     nim: user.studentNumber || undefined,
     semester: user.semester || undefined,
-    phoneNumber: user.phoneNumber,
+    phoneNumber: user.phoneNumber || undefined,
     avatarUrl: user.avatarUrl || undefined,
-    coverUrl: user.coverUrl || undefined,
+    coverUrl: user.bannerUrl || user.coverUrl || undefined,
+    bannerUrl: user.bannerUrl || user.coverUrl || undefined,
     bio: user.bio || undefined,
     headline: user.headline || undefined,
     organizationName: user.organizationName || undefined,
@@ -139,10 +147,10 @@ function mapUser(user: ApiUser, application: ApiTutorApplication | null = null):
 
 export async function refreshUser() {
   if (!hydration) {
-    hydration = nexieraApi.me()
-      .then(async (user) => {
-        const application = await nexieraApi.tutorApplication().catch(() => null);
-        currentState = mapUser(user, application);
+    hydration = nexieraApi
+      .me()
+      .then((user) => {
+        currentState = mapUser(user);
       })
       .catch(() => {
         currentState = ANONYMOUS_USER;
@@ -160,54 +168,34 @@ function subscribe(listener: () => void) {
   return () => listeners.delete(listener);
 }
 
-function activateRole(role: UserRole) {
-  if (currentState.roles.includes(role)) {
-    currentState = { ...currentState, activeRole: role, role, activeViewRole: role };
-    notify();
-  }
-}
-
-async function updateUser(data: Parameters<UserState["updateUser"]>[0]) {
-  if (!currentState.isLoggedIn) throw new Error("Masuk terlebih dahulu untuk mengubah profil.");
-  const profile: Record<string, string> = {};
-  const map: Array<[keyof typeof data, string]> = [
-    ["name", "name"], ["university", "university"], ["major", "major"],
-    ["nim", "studentNumber"], ["semester", "semester"], ["avatarUrl", "avatarUrl"],
-    ["coverUrl", "coverUrl"], ["bio", "bio"], ["headline", "headline"],
-    ["organizationName", "organizationName"], ["organizationLogoUrl", "organizationLogoUrl"],
-    ["location", "location"],
-  ];
-  for (const [source, target] of map) {
-    const value = data[source];
-    if (typeof value === "string") profile[target] = value;
-  }
-
-  if (data.phoneNumber !== undefined) await nexieraApi.updatePhone(data.phoneNumber);
-  if (Object.keys(profile).length > 0) {
-    const updated = await nexieraApi.updateProfile(profile);
-    const application = await nexieraApi.tutorApplication().catch(() => null);
-    currentState = mapUser(updated, application);
-  } else if (data.phoneNumber !== undefined) {
-    const updated = await nexieraApi.me();
-    const application = await nexieraApi.tutorApplication().catch(() => null);
-    currentState = mapUser(updated, application);
-  }
+async function activateRole(role: UserRole) {
+  const backendRole = toBackendRole(role);
+  const updated = await nexieraApi.switchRole(backendRole);
+  currentState = mapUser(updated);
   notify();
 }
 
-async function submitTutorApplication(data: TutorApplicationData) {
-  if (!currentState.isLoggedIn) throw new Error("Masuk terlebih dahulu untuk mengajukan verifikasi.");
-  if (!data.type) throw new Error("Jenis pengajuan wajib dipilih.");
-  const application = await nexieraApi.submitTutorApplication({
-    type: data.type === "peer_tutor" ? "PEER_TUTOR" : "BOOTCAMP_PARTNER",
-    organizationName: data.organizationName,
-    contactPerson: data.contactPerson,
-    studentCardUrl: data.studentCardUrl || undefined,
-    transcriptUrl: data.transcriptUrl || undefined,
-    organizationProofUrl: data.organizationProofUrl || undefined,
-    notes: data.notes,
-  });
-  currentState = { ...currentState, ...mapApplication(application) };
+async function updateUser(data: Partial<UserState>) {
+  if (!currentState.isLoggedIn) throw new Error("Masuk terlebih dahulu untuk mengubah profil.");
+
+  const payload: Partial<ApiUser> = {};
+  if (data.fullName !== undefined || data.name !== undefined) payload.fullName = data.fullName || data.name || "";
+  if (data.contactEmail !== undefined) payload.contactEmail = data.contactEmail;
+  if (data.campus !== undefined || data.university !== undefined) payload.campus = data.campus || data.university || "";
+  if (data.major !== undefined) payload.major = data.major;
+  if (data.nim !== undefined) payload.studentNumber = data.nim;
+  if (data.semester !== undefined) payload.semester = data.semester;
+  if (data.bio !== undefined) payload.bio = data.bio;
+  if (data.headline !== undefined) payload.headline = data.headline;
+  if (data.avatarUrl !== undefined) payload.avatarUrl = data.avatarUrl;
+  if (data.bannerUrl !== undefined || data.coverUrl !== undefined) payload.bannerUrl = data.bannerUrl || data.coverUrl || "";
+  if (data.phoneNumber !== undefined) payload.phoneNumber = data.phoneNumber;
+  if (data.organizationName !== undefined) payload.organizationName = data.organizationName;
+  if (data.organizationLogoUrl !== undefined) payload.organizationLogoUrl = data.organizationLogoUrl;
+  if (data.location !== undefined) payload.location = data.location;
+
+  const updated = await nexieraApi.updateProfile(payload);
+  currentState = mapUser(updated);
   notify();
 }
 
@@ -219,13 +207,37 @@ function useUserStore(): UserState {
 
   return {
     ...state,
-    setRole: activateRole,
+    setRole: (r) => void activateRole(r),
     setActiveRole: activateRole,
-    setActiveViewRole: activateRole,
+    setActiveViewRole: (r) => {
+      currentState = { ...currentState, activeViewRole: r };
+      notify();
+    },
     addRole: () => undefined,
-    hasRole: (role) => state.roles.includes(role) || (role === "bootcamp_partner" && state.roles.includes("bootcamp")),
-    submitTutorApplication,
+    hasRole: (role) =>
+      state.roles.includes(role) ||
+      (role === "bootcamp_partner" && state.roles.includes("bootcamp")),
     updateUser,
+    submitTutorApplication: async (payload) => {
+      const isBootcamp = payload.type.toUpperCase() === "BOOTCAMP_PARTNER" || payload.type === "bootcamp_partner";
+      if (isBootcamp) {
+        await nexieraApi.applyBootcamp({
+          organizationName: payload.organizationName || "Lembaga Bootcamp",
+          contactEmail: payload.contactEmail || payload.contactPerson || "",
+          logoUrl: payload.organizationProofUrl,
+          websiteUrl: payload.organizationWebsiteUrl,
+          studentProofUrl: payload.studentProofUrl || "",
+          description: payload.notes,
+        });
+      } else {
+        await nexieraApi.applyTutor({
+          campus: payload.campus || currentState.university || currentState.campus,
+          major: payload.major || currentState.major,
+          studentProofUrl: payload.studentProofUrl || "",
+          notes: payload.notes,
+        });
+      }
+    },
   };
 }
 

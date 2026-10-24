@@ -1,11 +1,13 @@
 import { Module } from "@nestjs/common";
-import { TransactionsModule } from "../transactions/transactions.module.js";
+import { NotificationsModule } from "../notifications/notifications.module.js";
+import { AdminGuard } from "../auth/admin.guard.js";
 import { ClassesController } from "./classes.controller.js";
 import { ClassesService } from "./classes.service.js";
 
 @Module({
-  imports: [TransactionsModule],
+  imports: [NotificationsModule],
   controllers: [ClassesController],
-  providers: [ClassesService],
+  providers: [ClassesService, AdminGuard],
+  exports: [ClassesService],
 })
 export class ClassesModule {}
