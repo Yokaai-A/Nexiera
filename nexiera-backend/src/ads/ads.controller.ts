@@ -65,3 +65,14 @@ export class AdsController {
     return this.adsService.create(request.user.userId, body);
   }
 }
+
+@Controller("campaigns")
+export class CampaignsController {
+  constructor(private readonly adsService: AdsService) {}
+
+  @Get("mine")
+  @UseGuards(JwtAuthGuard)
+  getMine(@Req() request: AuthenticatedRequest) {
+    return this.adsService.findMyAds(request.user.userId);
+  }
+}

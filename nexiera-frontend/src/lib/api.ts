@@ -432,7 +432,7 @@ export const nexieraApi = {
   adminPendingAds: () => apiFetch<Array<ApiAd & { owner: Pick<ApiUser, "id" | "name" | "fullName" | "email"> }>>("/ads/admin/pending"),
   reviewAd: (adId: string, decision: "APPROVE" | "REJECT") =>
     apiFetch<ApiAd>(`/ads/${encodeURIComponent(adId)}/review`, { method: "PATCH", body: JSON.stringify({ decision }) }),
-  myAds: () => apiFetch<ApiAd[]>("/ads/mine"),
+  myAds: () => apiFetch<ApiAd[]>("/campaigns/mine"),
   createAd: (payload: { title: string; subtitle: string; placement: ApiAd["placement"]; imageUrl: string; targetUrl: string; startsAt: string; endsAt: string }) =>
     apiFetch<ApiAd>("/ads", { method: "POST", body: JSON.stringify(payload) }),
   trackAdImpression: (id: string) => apiFetch<{ tracked: boolean }>(`/ads/${encodeURIComponent(id)}/impression`, { method: "POST" }),
