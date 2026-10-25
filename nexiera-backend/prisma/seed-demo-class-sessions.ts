@@ -1,25 +1,15 @@
 import "reflect-metadata";
 import "dotenv/config";
-import { PrismaMariaDb } from "@prisma/adapter-mariadb";
+import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "../src/generated/prisma/client.js";
 import { demoClassSessions } from "./demo-class-sessions.js";
 
-const databaseHost = process.env.DATABASE_HOST || "localhost";
-if (!["localhost", "127.0.0.1", "::1"].includes(databaseHost)) {
+const databaseUrl = process.env.DATABASE_URL;
+if (!databaseUrl || !["localhost", "127.0.0.1", "::1"].includes(new URL(databaseUrl).hostname)) {
   throw new Error("Demo class session refresh only runs against a local database.");
 }
 
-const prisma = new PrismaClient({
-  adapter: new PrismaMariaDb({
-    host: databaseHost,
-    port: Number(process.env.DATABASE_PORT || 3306),
-    user: process.env.DATABASE_USER || "nexiera",
-    password: process.env.DATABASE_PASSWORD || "nexiera_local_password",
-    database: process.env.DATABASE_NAME || "nexiera",
-    connectionLimit: 2,
-    allowPublicKeyRetrieval: true,
-  }),
-});
+const prisma = new PrismaClient({ adapter: new PrismaPg({ connectionString: databaseUrl }) });
 
 async function main() {
   for (const [slug, session] of Object.entries(demoClassSessions)) {

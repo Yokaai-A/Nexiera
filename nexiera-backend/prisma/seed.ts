@@ -3,21 +3,13 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import bcrypt from "bcryptjs";
-import { PrismaMariaDb } from "@prisma/adapter-mariadb";
+import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient, Role, ClassType } from "../src/generated/prisma/client.js";
 import { universityCourses } from "../src/classes/university-courses.js";
 import { demoClassSessions } from "./demo-class-sessions.js";
 export { universityCourses };
 
-const adapter = new PrismaMariaDb({
-  host: process.env.DATABASE_HOST || "localhost",
-  port: Number(process.env.DATABASE_PORT || 3306),
-  user: process.env.DATABASE_USER || "nexiera",
-  password: process.env.DATABASE_PASSWORD || "nexiera_local_password",
-  database: process.env.DATABASE_NAME || "nexiera",
-  connectionLimit: 5,
-  allowPublicKeyRetrieval: true,
-});
+const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
 
 const prisma = new PrismaClient({ adapter });
 

@@ -201,7 +201,6 @@ export type EmailVerificationTokenOrderByWithRelationInput = {
   consumedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
-  _relevance?: Prisma.EmailVerificationTokenOrderByRelevanceInput
 }
 
 export type EmailVerificationTokenWhereUniqueInput = Prisma.AtLeast<{
@@ -311,12 +310,6 @@ export type EmailVerificationTokenListRelationFilter = {
 
 export type EmailVerificationTokenOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type EmailVerificationTokenOrderByRelevanceInput = {
-  fields: Prisma.EmailVerificationTokenOrderByRelevanceFieldEnum | Prisma.EmailVerificationTokenOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type EmailVerificationTokenCountOrderByAggregateInput = {
@@ -486,7 +479,25 @@ export type EmailVerificationTokenSelect<ExtArgs extends runtime.Types.Extension
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["emailVerificationToken"]>
 
+export type EmailVerificationTokenSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  userId?: boolean
+  tokenHash?: boolean
+  expiresAt?: boolean
+  consumedAt?: boolean
+  createdAt?: boolean
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["emailVerificationToken"]>
 
+export type EmailVerificationTokenSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  userId?: boolean
+  tokenHash?: boolean
+  expiresAt?: boolean
+  consumedAt?: boolean
+  createdAt?: boolean
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["emailVerificationToken"]>
 
 export type EmailVerificationTokenSelectScalar = {
   id?: boolean
@@ -499,6 +510,12 @@ export type EmailVerificationTokenSelectScalar = {
 
 export type EmailVerificationTokenOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "tokenHash" | "expiresAt" | "consumedAt" | "createdAt", ExtArgs["result"]["emailVerificationToken"]>
 export type EmailVerificationTokenInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type EmailVerificationTokenIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type EmailVerificationTokenIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 
@@ -632,6 +649,30 @@ export interface EmailVerificationTokenDelegate<ExtArgs extends runtime.Types.Ex
   createMany<T extends EmailVerificationTokenCreateManyArgs>(args?: Prisma.SelectSubset<T, EmailVerificationTokenCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many EmailVerificationTokens and returns the data saved in the database.
+   * @param {EmailVerificationTokenCreateManyAndReturnArgs} args - Arguments to create many EmailVerificationTokens.
+   * @example
+   * // Create many EmailVerificationTokens
+   * const emailVerificationToken = await prisma.emailVerificationToken.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many EmailVerificationTokens and only return the `id`
+   * const emailVerificationTokenWithIdOnly = await prisma.emailVerificationToken.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends EmailVerificationTokenCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, EmailVerificationTokenCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EmailVerificationTokenPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a EmailVerificationToken.
    * @param {EmailVerificationTokenDeleteArgs} args - Arguments to delete one EmailVerificationToken.
    * @example
@@ -694,6 +735,36 @@ export interface EmailVerificationTokenDelegate<ExtArgs extends runtime.Types.Ex
    * 
    */
   updateMany<T extends EmailVerificationTokenUpdateManyArgs>(args: Prisma.SelectSubset<T, EmailVerificationTokenUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more EmailVerificationTokens and returns the data updated in the database.
+   * @param {EmailVerificationTokenUpdateManyAndReturnArgs} args - Arguments to update many EmailVerificationTokens.
+   * @example
+   * // Update many EmailVerificationTokens
+   * const emailVerificationToken = await prisma.emailVerificationToken.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more EmailVerificationTokens and only return the `id`
+   * const emailVerificationTokenWithIdOnly = await prisma.emailVerificationToken.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends EmailVerificationTokenUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, EmailVerificationTokenUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EmailVerificationTokenPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one EmailVerificationToken.
@@ -1128,6 +1199,29 @@ export type EmailVerificationTokenCreateManyArgs<ExtArgs extends runtime.Types.E
 }
 
 /**
+ * EmailVerificationToken createManyAndReturn
+ */
+export type EmailVerificationTokenCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the EmailVerificationToken
+   */
+  select?: Prisma.EmailVerificationTokenSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the EmailVerificationToken
+   */
+  omit?: Prisma.EmailVerificationTokenOmit<ExtArgs> | null
+  /**
+   * The data used to create many EmailVerificationTokens.
+   */
+  data: Prisma.EmailVerificationTokenCreateManyInput | Prisma.EmailVerificationTokenCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EmailVerificationTokenIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * EmailVerificationToken update
  */
 export type EmailVerificationTokenUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1169,6 +1263,36 @@ export type EmailVerificationTokenUpdateManyArgs<ExtArgs extends runtime.Types.E
    * Limit how many EmailVerificationTokens to update.
    */
   limit?: number
+}
+
+/**
+ * EmailVerificationToken updateManyAndReturn
+ */
+export type EmailVerificationTokenUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the EmailVerificationToken
+   */
+  select?: Prisma.EmailVerificationTokenSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the EmailVerificationToken
+   */
+  omit?: Prisma.EmailVerificationTokenOmit<ExtArgs> | null
+  /**
+   * The data used to update EmailVerificationTokens.
+   */
+  data: Prisma.XOR<Prisma.EmailVerificationTokenUpdateManyMutationInput, Prisma.EmailVerificationTokenUncheckedUpdateManyInput>
+  /**
+   * Filter which EmailVerificationTokens to update
+   */
+  where?: Prisma.EmailVerificationTokenWhereInput
+  /**
+   * Limit how many EmailVerificationTokens to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EmailVerificationTokenIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

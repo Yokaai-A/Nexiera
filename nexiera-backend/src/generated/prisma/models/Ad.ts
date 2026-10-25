@@ -311,7 +311,6 @@ export type AdOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   owner?: Prisma.UserOrderByWithRelationInput
-  _relevance?: Prisma.AdOrderByRelevanceInput
 }
 
 export type AdWhereUniqueInput = Prisma.AtLeast<{
@@ -503,12 +502,6 @@ export type AdListRelationFilter = {
 
 export type AdOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type AdOrderByRelevanceInput = {
-  fields: Prisma.AdOrderByRelevanceFieldEnum | Prisma.AdOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type AdCountOrderByAggregateInput = {
@@ -776,7 +769,41 @@ export type AdSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = run
   owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["ad"]>
 
+export type AdSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  ownerId?: boolean
+  title?: boolean
+  subtitle?: boolean
+  placement?: boolean
+  imageUrl?: boolean
+  targetUrl?: boolean
+  startsAt?: boolean
+  endsAt?: boolean
+  status?: boolean
+  impressions?: boolean
+  clicks?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["ad"]>
 
+export type AdSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  ownerId?: boolean
+  title?: boolean
+  subtitle?: boolean
+  placement?: boolean
+  imageUrl?: boolean
+  targetUrl?: boolean
+  startsAt?: boolean
+  endsAt?: boolean
+  status?: boolean
+  impressions?: boolean
+  clicks?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["ad"]>
 
 export type AdSelectScalar = {
   id?: boolean
@@ -797,6 +824,12 @@ export type AdSelectScalar = {
 
 export type AdOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "ownerId" | "title" | "subtitle" | "placement" | "imageUrl" | "targetUrl" | "startsAt" | "endsAt" | "status" | "impressions" | "clicks" | "createdAt" | "updatedAt", ExtArgs["result"]["ad"]>
 export type AdInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type AdIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type AdIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 
@@ -938,6 +971,30 @@ export interface AdDelegate<ExtArgs extends runtime.Types.Extensions.InternalArg
   createMany<T extends AdCreateManyArgs>(args?: Prisma.SelectSubset<T, AdCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many Ads and returns the data saved in the database.
+   * @param {AdCreateManyAndReturnArgs} args - Arguments to create many Ads.
+   * @example
+   * // Create many Ads
+   * const ad = await prisma.ad.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many Ads and only return the `id`
+   * const adWithIdOnly = await prisma.ad.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends AdCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, AdCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AdPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a Ad.
    * @param {AdDeleteArgs} args - Arguments to delete one Ad.
    * @example
@@ -1000,6 +1057,36 @@ export interface AdDelegate<ExtArgs extends runtime.Types.Extensions.InternalArg
    * 
    */
   updateMany<T extends AdUpdateManyArgs>(args: Prisma.SelectSubset<T, AdUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more Ads and returns the data updated in the database.
+   * @param {AdUpdateManyAndReturnArgs} args - Arguments to update many Ads.
+   * @example
+   * // Update many Ads
+   * const ad = await prisma.ad.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more Ads and only return the `id`
+   * const adWithIdOnly = await prisma.ad.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends AdUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, AdUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AdPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one Ad.
@@ -1442,6 +1529,29 @@ export type AdCreateManyArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
 }
 
 /**
+ * Ad createManyAndReturn
+ */
+export type AdCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Ad
+   */
+  select?: Prisma.AdSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Ad
+   */
+  omit?: Prisma.AdOmit<ExtArgs> | null
+  /**
+   * The data used to create many Ads.
+   */
+  data: Prisma.AdCreateManyInput | Prisma.AdCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AdIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * Ad update
  */
 export type AdUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1483,6 +1593,36 @@ export type AdUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
    * Limit how many Ads to update.
    */
   limit?: number
+}
+
+/**
+ * Ad updateManyAndReturn
+ */
+export type AdUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Ad
+   */
+  select?: Prisma.AdSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Ad
+   */
+  omit?: Prisma.AdOmit<ExtArgs> | null
+  /**
+   * The data used to update Ads.
+   */
+  data: Prisma.XOR<Prisma.AdUpdateManyMutationInput, Prisma.AdUncheckedUpdateManyInput>
+  /**
+   * Filter which Ads to update
+   */
+  where?: Prisma.AdWhereInput
+  /**
+   * Limit how many Ads to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AdIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

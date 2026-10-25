@@ -1,3 +1,0 @@
-ALTER TABLE `classes`
-  ADD COLUMN `accessDuration` VARCHAR(191) NULL,
-  ADD COLUMN `maxQuota` INTEGER NULL;

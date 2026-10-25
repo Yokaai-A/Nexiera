@@ -230,7 +230,6 @@ export type BootcampTutorOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   class?: Prisma.ClassOrderByWithRelationInput
   user?: Prisma.UserOrderByWithRelationInput
-  _relevance?: Prisma.BootcampTutorOrderByRelevanceInput
 }
 
 export type BootcampTutorWhereUniqueInput = Prisma.AtLeast<{
@@ -370,12 +369,6 @@ export type BootcampTutorListRelationFilter = {
 
 export type BootcampTutorOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type BootcampTutorOrderByRelevanceInput = {
-  fields: Prisma.BootcampTutorOrderByRelevanceFieldEnum | Prisma.BootcampTutorOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type BootcampTutorCountOrderByAggregateInput = {
@@ -713,7 +706,33 @@ export type BootcampTutorSelect<ExtArgs extends runtime.Types.Extensions.Interna
   user?: boolean | Prisma.BootcampTutor$userArgs<ExtArgs>
 }, ExtArgs["result"]["bootcampTutor"]>
 
+export type BootcampTutorSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  classId?: boolean
+  userId?: boolean
+  name?: boolean
+  roleTitle?: boolean
+  avatarUrl?: boolean
+  headline?: boolean
+  linkedinUrl?: boolean
+  createdAt?: boolean
+  class?: boolean | Prisma.ClassDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.BootcampTutor$userArgs<ExtArgs>
+}, ExtArgs["result"]["bootcampTutor"]>
 
+export type BootcampTutorSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  classId?: boolean
+  userId?: boolean
+  name?: boolean
+  roleTitle?: boolean
+  avatarUrl?: boolean
+  headline?: boolean
+  linkedinUrl?: boolean
+  createdAt?: boolean
+  class?: boolean | Prisma.ClassDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.BootcampTutor$userArgs<ExtArgs>
+}, ExtArgs["result"]["bootcampTutor"]>
 
 export type BootcampTutorSelectScalar = {
   id?: boolean
@@ -729,6 +748,14 @@ export type BootcampTutorSelectScalar = {
 
 export type BootcampTutorOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "classId" | "userId" | "name" | "roleTitle" | "avatarUrl" | "headline" | "linkedinUrl" | "createdAt", ExtArgs["result"]["bootcampTutor"]>
 export type BootcampTutorInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  class?: boolean | Prisma.ClassDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.BootcampTutor$userArgs<ExtArgs>
+}
+export type BootcampTutorIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  class?: boolean | Prisma.ClassDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.BootcampTutor$userArgs<ExtArgs>
+}
+export type BootcampTutorIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   class?: boolean | Prisma.ClassDefaultArgs<ExtArgs>
   user?: boolean | Prisma.BootcampTutor$userArgs<ExtArgs>
 }
@@ -867,6 +894,30 @@ export interface BootcampTutorDelegate<ExtArgs extends runtime.Types.Extensions.
   createMany<T extends BootcampTutorCreateManyArgs>(args?: Prisma.SelectSubset<T, BootcampTutorCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many BootcampTutors and returns the data saved in the database.
+   * @param {BootcampTutorCreateManyAndReturnArgs} args - Arguments to create many BootcampTutors.
+   * @example
+   * // Create many BootcampTutors
+   * const bootcampTutor = await prisma.bootcampTutor.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many BootcampTutors and only return the `id`
+   * const bootcampTutorWithIdOnly = await prisma.bootcampTutor.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends BootcampTutorCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, BootcampTutorCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BootcampTutorPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a BootcampTutor.
    * @param {BootcampTutorDeleteArgs} args - Arguments to delete one BootcampTutor.
    * @example
@@ -929,6 +980,36 @@ export interface BootcampTutorDelegate<ExtArgs extends runtime.Types.Extensions.
    * 
    */
   updateMany<T extends BootcampTutorUpdateManyArgs>(args: Prisma.SelectSubset<T, BootcampTutorUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more BootcampTutors and returns the data updated in the database.
+   * @param {BootcampTutorUpdateManyAndReturnArgs} args - Arguments to update many BootcampTutors.
+   * @example
+   * // Update many BootcampTutors
+   * const bootcampTutor = await prisma.bootcampTutor.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more BootcampTutors and only return the `id`
+   * const bootcampTutorWithIdOnly = await prisma.bootcampTutor.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends BootcampTutorUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, BootcampTutorUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BootcampTutorPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one BootcampTutor.
@@ -1367,6 +1448,29 @@ export type BootcampTutorCreateManyArgs<ExtArgs extends runtime.Types.Extensions
 }
 
 /**
+ * BootcampTutor createManyAndReturn
+ */
+export type BootcampTutorCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the BootcampTutor
+   */
+  select?: Prisma.BootcampTutorSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the BootcampTutor
+   */
+  omit?: Prisma.BootcampTutorOmit<ExtArgs> | null
+  /**
+   * The data used to create many BootcampTutors.
+   */
+  data: Prisma.BootcampTutorCreateManyInput | Prisma.BootcampTutorCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BootcampTutorIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * BootcampTutor update
  */
 export type BootcampTutorUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1408,6 +1512,36 @@ export type BootcampTutorUpdateManyArgs<ExtArgs extends runtime.Types.Extensions
    * Limit how many BootcampTutors to update.
    */
   limit?: number
+}
+
+/**
+ * BootcampTutor updateManyAndReturn
+ */
+export type BootcampTutorUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the BootcampTutor
+   */
+  select?: Prisma.BootcampTutorSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the BootcampTutor
+   */
+  omit?: Prisma.BootcampTutorOmit<ExtArgs> | null
+  /**
+   * The data used to update BootcampTutors.
+   */
+  data: Prisma.XOR<Prisma.BootcampTutorUpdateManyMutationInput, Prisma.BootcampTutorUncheckedUpdateManyInput>
+  /**
+   * Filter which BootcampTutors to update
+   */
+  where?: Prisma.BootcampTutorWhereInput
+  /**
+   * Limit how many BootcampTutors to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BootcampTutorIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

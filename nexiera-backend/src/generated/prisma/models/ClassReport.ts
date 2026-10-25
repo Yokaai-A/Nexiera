@@ -257,7 +257,6 @@ export type ClassReportOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   reporter?: Prisma.UserOrderByWithRelationInput
   class?: Prisma.ClassOrderByWithRelationInput
-  _relevance?: Prisma.ClassReportOrderByRelevanceInput
 }
 
 export type ClassReportWhereUniqueInput = Prisma.AtLeast<{
@@ -427,12 +426,6 @@ export type ClassReportListRelationFilter = {
 
 export type ClassReportOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type ClassReportOrderByRelevanceInput = {
-  fields: Prisma.ClassReportOrderByRelevanceFieldEnum | Prisma.ClassReportOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type ClassReportCountOrderByAggregateInput = {
@@ -825,7 +818,39 @@ export type ClassReportSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   class?: boolean | Prisma.ClassReport$classArgs<ExtArgs>
 }, ExtArgs["result"]["classReport"]>
 
+export type ClassReportSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  reporterId?: boolean
+  targetType?: boolean
+  targetId?: boolean
+  classId?: boolean
+  category?: boolean
+  description?: boolean
+  evidenceUrl?: boolean
+  status?: boolean
+  adminNote?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  reporter?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  class?: boolean | Prisma.ClassReport$classArgs<ExtArgs>
+}, ExtArgs["result"]["classReport"]>
 
+export type ClassReportSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  reporterId?: boolean
+  targetType?: boolean
+  targetId?: boolean
+  classId?: boolean
+  category?: boolean
+  description?: boolean
+  evidenceUrl?: boolean
+  status?: boolean
+  adminNote?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  reporter?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  class?: boolean | Prisma.ClassReport$classArgs<ExtArgs>
+}, ExtArgs["result"]["classReport"]>
 
 export type ClassReportSelectScalar = {
   id?: boolean
@@ -844,6 +869,14 @@ export type ClassReportSelectScalar = {
 
 export type ClassReportOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "reporterId" | "targetType" | "targetId" | "classId" | "category" | "description" | "evidenceUrl" | "status" | "adminNote" | "createdAt" | "updatedAt", ExtArgs["result"]["classReport"]>
 export type ClassReportInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  reporter?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  class?: boolean | Prisma.ClassReport$classArgs<ExtArgs>
+}
+export type ClassReportIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  reporter?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  class?: boolean | Prisma.ClassReport$classArgs<ExtArgs>
+}
+export type ClassReportIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   reporter?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   class?: boolean | Prisma.ClassReport$classArgs<ExtArgs>
 }
@@ -985,6 +1018,30 @@ export interface ClassReportDelegate<ExtArgs extends runtime.Types.Extensions.In
   createMany<T extends ClassReportCreateManyArgs>(args?: Prisma.SelectSubset<T, ClassReportCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many ClassReports and returns the data saved in the database.
+   * @param {ClassReportCreateManyAndReturnArgs} args - Arguments to create many ClassReports.
+   * @example
+   * // Create many ClassReports
+   * const classReport = await prisma.classReport.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many ClassReports and only return the `id`
+   * const classReportWithIdOnly = await prisma.classReport.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends ClassReportCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, ClassReportCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ClassReportPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a ClassReport.
    * @param {ClassReportDeleteArgs} args - Arguments to delete one ClassReport.
    * @example
@@ -1047,6 +1104,36 @@ export interface ClassReportDelegate<ExtArgs extends runtime.Types.Extensions.In
    * 
    */
   updateMany<T extends ClassReportUpdateManyArgs>(args: Prisma.SelectSubset<T, ClassReportUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more ClassReports and returns the data updated in the database.
+   * @param {ClassReportUpdateManyAndReturnArgs} args - Arguments to update many ClassReports.
+   * @example
+   * // Update many ClassReports
+   * const classReport = await prisma.classReport.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more ClassReports and only return the `id`
+   * const classReportWithIdOnly = await prisma.classReport.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends ClassReportUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, ClassReportUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ClassReportPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one ClassReport.
@@ -1488,6 +1575,29 @@ export type ClassReportCreateManyArgs<ExtArgs extends runtime.Types.Extensions.I
 }
 
 /**
+ * ClassReport createManyAndReturn
+ */
+export type ClassReportCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ClassReport
+   */
+  select?: Prisma.ClassReportSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the ClassReport
+   */
+  omit?: Prisma.ClassReportOmit<ExtArgs> | null
+  /**
+   * The data used to create many ClassReports.
+   */
+  data: Prisma.ClassReportCreateManyInput | Prisma.ClassReportCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ClassReportIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * ClassReport update
  */
 export type ClassReportUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1529,6 +1639,36 @@ export type ClassReportUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * Limit how many ClassReports to update.
    */
   limit?: number
+}
+
+/**
+ * ClassReport updateManyAndReturn
+ */
+export type ClassReportUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ClassReport
+   */
+  select?: Prisma.ClassReportSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the ClassReport
+   */
+  omit?: Prisma.ClassReportOmit<ExtArgs> | null
+  /**
+   * The data used to update ClassReports.
+   */
+  data: Prisma.XOR<Prisma.ClassReportUpdateManyMutationInput, Prisma.ClassReportUncheckedUpdateManyInput>
+  /**
+   * Filter which ClassReports to update
+   */
+  where?: Prisma.ClassReportWhereInput
+  /**
+   * Limit how many ClassReports to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ClassReportIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

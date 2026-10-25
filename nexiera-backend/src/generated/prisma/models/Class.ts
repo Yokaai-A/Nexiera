@@ -455,7 +455,6 @@ export type ClassOrderByWithRelationInput = {
   transactions?: Prisma.TransactionOrderByRelationAggregateInput
   reviews?: Prisma.ReviewOrderByRelationAggregateInput
   reports?: Prisma.ClassReportOrderByRelationAggregateInput
-  _relevance?: Prisma.ClassOrderByRelevanceInput
 }
 
 export type ClassWhereUniqueInput = Prisma.AtLeast<{
@@ -827,12 +826,6 @@ export type ClassListRelationFilter = {
 
 export type ClassOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type ClassOrderByRelevanceInput = {
-  fields: Prisma.ClassOrderByRelevanceFieldEnum | Prisma.ClassOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type ClassCountOrderByAggregateInput = {
@@ -2081,7 +2074,73 @@ export type ClassSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   _count?: boolean | Prisma.ClassCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["class"]>
 
+export type ClassSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  title?: boolean
+  slug?: boolean
+  description?: boolean
+  shortDescription?: boolean
+  type?: boolean
+  tutorGrade?: boolean
+  price?: boolean
+  category?: boolean
+  major?: boolean
+  campusTarget?: boolean
+  bannerUrl?: boolean
+  startsAt?: boolean
+  accessDuration?: boolean
+  accessUntil?: boolean
+  maxQuota?: boolean
+  meetingPlatform?: boolean
+  meetingLink?: boolean
+  materialPlatform?: boolean
+  materialLink?: boolean
+  recordingLink?: boolean
+  requirements?: boolean
+  facilities?: boolean
+  reviewStatus?: boolean
+  reviewNote?: boolean
+  reviewedById?: boolean
+  reviewedAt?: boolean
+  creatorId?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  creator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["class"]>
 
+export type ClassSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  title?: boolean
+  slug?: boolean
+  description?: boolean
+  shortDescription?: boolean
+  type?: boolean
+  tutorGrade?: boolean
+  price?: boolean
+  category?: boolean
+  major?: boolean
+  campusTarget?: boolean
+  bannerUrl?: boolean
+  startsAt?: boolean
+  accessDuration?: boolean
+  accessUntil?: boolean
+  maxQuota?: boolean
+  meetingPlatform?: boolean
+  meetingLink?: boolean
+  materialPlatform?: boolean
+  materialLink?: boolean
+  recordingLink?: boolean
+  requirements?: boolean
+  facilities?: boolean
+  reviewStatus?: boolean
+  reviewNote?: boolean
+  reviewedById?: boolean
+  reviewedAt?: boolean
+  creatorId?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  creator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["class"]>
 
 export type ClassSelectScalar = {
   id?: boolean
@@ -2124,6 +2183,12 @@ export type ClassInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   reviews?: boolean | Prisma.Class$reviewsArgs<ExtArgs>
   reports?: boolean | Prisma.Class$reportsArgs<ExtArgs>
   _count?: boolean | Prisma.ClassCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type ClassIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  creator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type ClassIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  creator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 
 export type $ClassPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2284,6 +2349,30 @@ export interface ClassDelegate<ExtArgs extends runtime.Types.Extensions.Internal
   createMany<T extends ClassCreateManyArgs>(args?: Prisma.SelectSubset<T, ClassCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many Classes and returns the data saved in the database.
+   * @param {ClassCreateManyAndReturnArgs} args - Arguments to create many Classes.
+   * @example
+   * // Create many Classes
+   * const class = await prisma.class.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many Classes and only return the `id`
+   * const classWithIdOnly = await prisma.class.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends ClassCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, ClassCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ClassPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a Class.
    * @param {ClassDeleteArgs} args - Arguments to delete one Class.
    * @example
@@ -2346,6 +2435,36 @@ export interface ClassDelegate<ExtArgs extends runtime.Types.Extensions.Internal
    * 
    */
   updateMany<T extends ClassUpdateManyArgs>(args: Prisma.SelectSubset<T, ClassUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more Classes and returns the data updated in the database.
+   * @param {ClassUpdateManyAndReturnArgs} args - Arguments to update many Classes.
+   * @example
+   * // Update many Classes
+   * const class = await prisma.class.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more Classes and only return the `id`
+   * const classWithIdOnly = await prisma.class.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends ClassUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, ClassUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ClassPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one Class.
@@ -2808,6 +2927,29 @@ export type ClassCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
 }
 
 /**
+ * Class createManyAndReturn
+ */
+export type ClassCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Class
+   */
+  select?: Prisma.ClassSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Class
+   */
+  omit?: Prisma.ClassOmit<ExtArgs> | null
+  /**
+   * The data used to create many Classes.
+   */
+  data: Prisma.ClassCreateManyInput | Prisma.ClassCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ClassIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * Class update
  */
 export type ClassUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2849,6 +2991,36 @@ export type ClassUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Limit how many Classes to update.
    */
   limit?: number
+}
+
+/**
+ * Class updateManyAndReturn
+ */
+export type ClassUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Class
+   */
+  select?: Prisma.ClassSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Class
+   */
+  omit?: Prisma.ClassOmit<ExtArgs> | null
+  /**
+   * The data used to update Classes.
+   */
+  data: Prisma.XOR<Prisma.ClassUpdateManyMutationInput, Prisma.ClassUncheckedUpdateManyInput>
+  /**
+   * Filter which Classes to update
+   */
+  where?: Prisma.ClassWhereInput
+  /**
+   * Limit how many Classes to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ClassIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

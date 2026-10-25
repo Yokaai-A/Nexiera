@@ -5,7 +5,7 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
 }
 
 enum Role {
@@ -89,7 +89,7 @@ model User {
   phoneNumber             String?
   createdAt               DateTime  @default(now())
   updatedAt               DateTime  @updatedAt
-  emailVerifiedAt         DateTime? @db.DateTime(3)
+  emailVerifiedAt         DateTime? @db.Timestamp(3)
 
   classesCreated          Class[]                  @relation("CreatedClasses")
   transactions            Transaction[]
@@ -119,9 +119,9 @@ model Class {
   major            String?
   campusTarget     String?
   bannerUrl        String?     @db.Text
-  startsAt         DateTime?   @db.DateTime(3)
+  startsAt         DateTime?   @db.Timestamp(3)
   accessDuration   String?     @db.VarChar(191)
-  accessUntil      DateTime?   @db.DateTime(3)
+  accessUntil      DateTime?   @db.Timestamp(3)
   maxQuota         Int?
   meetingPlatform  String?     @db.VarChar(191)
   meetingLink      String?     @db.Text
@@ -133,7 +133,7 @@ model Class {
   reviewStatus     String      @default("APPROVED") @db.VarChar(32)
   reviewNote       String?     @db.Text
   reviewedById     String?
-  reviewedAt       DateTime?   @db.DateTime(3)
+  reviewedAt       DateTime?   @db.Timestamp(3)
   creatorId        String
   creator          User        @relation("CreatedClasses", fields: [creatorId], references: [id], onDelete: Cascade)
   createdAt        DateTime    @default(now())
@@ -194,8 +194,8 @@ model Transaction {
   refundMethod        String?
   refundAccountName   String?
   refundAccountNumber String?
-  refundRequestedAt   DateTime?         @db.DateTime(3)
-  refundedAt          DateTime?         @db.DateTime(3)
+  refundRequestedAt   DateTime?         @db.Timestamp(3)
+  refundedAt          DateTime?         @db.Timestamp(3)
   refundProofUrl      String?           @db.Text
   createdAt           DateTime          @default(now())
   updatedAt           DateTime          @updatedAt
@@ -219,7 +219,7 @@ model RoleApplication {
   description      String?               @db.Text
   reviewNote       String?               @db.Text
   reviewedById     String?
-  reviewedAt       DateTime?             @db.DateTime(3)
+  reviewedAt       DateTime?             @db.Timestamp(3)
   createdAt        DateTime              @default(now())
   updatedAt        DateTime              @updatedAt
 
@@ -266,8 +266,8 @@ model EmailVerificationToken {
   userId     String
   user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   tokenHash  String    @unique @db.Char(64)
-  expiresAt  DateTime  @db.DateTime(3)
-  consumedAt DateTime? @db.DateTime(3)
+  expiresAt  DateTime  @db.Timestamp(3)
+  consumedAt DateTime? @db.Timestamp(3)
   createdAt  DateTime  @default(now())
 
   @@index([userId, createdAt])

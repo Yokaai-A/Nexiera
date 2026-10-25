@@ -336,6 +336,14 @@ export const NullableJsonNullValueInput = {
 export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
+export const QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
+} as const
+
+export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
 export const JsonNullValueFilter = {
   DbNull: DbNull,
   JsonNull: JsonNull,
@@ -345,199 +353,10 @@ export const JsonNullValueFilter = {
 export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
-export const QueryMode = {
-  default: 'default',
-  insensitive: 'insensitive'
-} as const
-
-export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
-
-
 export const NullsOrder = {
   first: 'first',
   last: 'last'
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
-
-
-export const UserOrderByRelevanceFieldEnum = {
-  id: 'id',
-  email: 'email',
-  contactEmail: 'contactEmail',
-  password: 'password',
-  fullName: 'fullName',
-  avatarUrl: 'avatarUrl',
-  bannerUrl: 'bannerUrl',
-  headline: 'headline',
-  bio: 'bio',
-  campus: 'campus',
-  major: 'major',
-  studentNumber: 'studentNumber',
-  semester: 'semester',
-  organizationName: 'organizationName',
-  organizationLogoUrl: 'organizationLogoUrl',
-  organizationWebsiteUrl: 'organizationWebsiteUrl',
-  bootcampStudentProofUrl: 'bootcampStudentProofUrl',
-  location: 'location',
-  tutorTranscriptUrl: 'tutorTranscriptUrl',
-  phoneNumber: 'phoneNumber'
-} as const
-
-export type UserOrderByRelevanceFieldEnum = (typeof UserOrderByRelevanceFieldEnum)[keyof typeof UserOrderByRelevanceFieldEnum]
-
-
-export const ClassOrderByRelevanceFieldEnum = {
-  id: 'id',
-  title: 'title',
-  slug: 'slug',
-  description: 'description',
-  shortDescription: 'shortDescription',
-  category: 'category',
-  major: 'major',
-  campusTarget: 'campusTarget',
-  bannerUrl: 'bannerUrl',
-  accessDuration: 'accessDuration',
-  meetingPlatform: 'meetingPlatform',
-  meetingLink: 'meetingLink',
-  materialPlatform: 'materialPlatform',
-  materialLink: 'materialLink',
-  recordingLink: 'recordingLink',
-  reviewStatus: 'reviewStatus',
-  reviewNote: 'reviewNote',
-  reviewedById: 'reviewedById',
-  creatorId: 'creatorId'
-} as const
-
-export type ClassOrderByRelevanceFieldEnum = (typeof ClassOrderByRelevanceFieldEnum)[keyof typeof ClassOrderByRelevanceFieldEnum]
-
-
-export const BootcampTutorOrderByRelevanceFieldEnum = {
-  id: 'id',
-  classId: 'classId',
-  userId: 'userId',
-  name: 'name',
-  roleTitle: 'roleTitle',
-  avatarUrl: 'avatarUrl',
-  headline: 'headline',
-  linkedinUrl: 'linkedinUrl'
-} as const
-
-export type BootcampTutorOrderByRelevanceFieldEnum = (typeof BootcampTutorOrderByRelevanceFieldEnum)[keyof typeof BootcampTutorOrderByRelevanceFieldEnum]
-
-
-export const ReviewOrderByRelevanceFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  classId: 'classId',
-  comment: 'comment',
-  reply: 'reply'
-} as const
-
-export type ReviewOrderByRelevanceFieldEnum = (typeof ReviewOrderByRelevanceFieldEnum)[keyof typeof ReviewOrderByRelevanceFieldEnum]
-
-
-export const TransactionOrderByRelevanceFieldEnum = {
-  id: 'id',
-  orderId: 'orderId',
-  userId: 'userId',
-  classId: 'classId',
-  refundMethod: 'refundMethod',
-  refundAccountName: 'refundAccountName',
-  refundAccountNumber: 'refundAccountNumber',
-  refundProofUrl: 'refundProofUrl'
-} as const
-
-export type TransactionOrderByRelevanceFieldEnum = (typeof TransactionOrderByRelevanceFieldEnum)[keyof typeof TransactionOrderByRelevanceFieldEnum]
-
-
-export const RoleApplicationOrderByRelevanceFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  campus: 'campus',
-  major: 'major',
-  studentProofUrl: 'studentProofUrl',
-  organizationName: 'organizationName',
-  contactEmail: 'contactEmail',
-  logoUrl: 'logoUrl',
-  websiteUrl: 'websiteUrl',
-  description: 'description',
-  reviewNote: 'reviewNote',
-  reviewedById: 'reviewedById'
-} as const
-
-export type RoleApplicationOrderByRelevanceFieldEnum = (typeof RoleApplicationOrderByRelevanceFieldEnum)[keyof typeof RoleApplicationOrderByRelevanceFieldEnum]
-
-
-export const PrivateUploadOrderByRelevanceFieldEnum = {
-  id: 'id',
-  filename: 'filename',
-  ownerId: 'ownerId'
-} as const
-
-export type PrivateUploadOrderByRelevanceFieldEnum = (typeof PrivateUploadOrderByRelevanceFieldEnum)[keyof typeof PrivateUploadOrderByRelevanceFieldEnum]
-
-
-export const ClassReportOrderByRelevanceFieldEnum = {
-  id: 'id',
-  reporterId: 'reporterId',
-  targetId: 'targetId',
-  classId: 'classId',
-  category: 'category',
-  description: 'description',
-  evidenceUrl: 'evidenceUrl',
-  status: 'status',
-  adminNote: 'adminNote'
-} as const
-
-export type ClassReportOrderByRelevanceFieldEnum = (typeof ClassReportOrderByRelevanceFieldEnum)[keyof typeof ClassReportOrderByRelevanceFieldEnum]
-
-
-export const EmailVerificationTokenOrderByRelevanceFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  tokenHash: 'tokenHash'
-} as const
-
-export type EmailVerificationTokenOrderByRelevanceFieldEnum = (typeof EmailVerificationTokenOrderByRelevanceFieldEnum)[keyof typeof EmailVerificationTokenOrderByRelevanceFieldEnum]
-
-
-export const CourseRequestOrderByRelevanceFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  title: 'title',
-  campus: 'campus',
-  major: 'major',
-  courseCode: 'courseCode',
-  note: 'note',
-  status: 'status'
-} as const
-
-export type CourseRequestOrderByRelevanceFieldEnum = (typeof CourseRequestOrderByRelevanceFieldEnum)[keyof typeof CourseRequestOrderByRelevanceFieldEnum]
-
-
-export const NotificationOrderByRelevanceFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  title: 'title',
-  message: 'message',
-  type: 'type',
-  linkUrl: 'linkUrl'
-} as const
-
-export type NotificationOrderByRelevanceFieldEnum = (typeof NotificationOrderByRelevanceFieldEnum)[keyof typeof NotificationOrderByRelevanceFieldEnum]
-
-
-export const AdOrderByRelevanceFieldEnum = {
-  id: 'id',
-  ownerId: 'ownerId',
-  title: 'title',
-  subtitle: 'subtitle',
-  placement: 'placement',
-  imageUrl: 'imageUrl',
-  targetUrl: 'targetUrl',
-  status: 'status'
-} as const
-
-export type AdOrderByRelevanceFieldEnum = (typeof AdOrderByRelevanceFieldEnum)[keyof typeof AdOrderByRelevanceFieldEnum]
 

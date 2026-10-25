@@ -318,7 +318,6 @@ export type TransactionOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   class?: Prisma.ClassOrderByWithRelationInput
-  _relevance?: Prisma.TransactionOrderByRelevanceInput
 }
 
 export type TransactionWhereUniqueInput = Prisma.AtLeast<{
@@ -520,12 +519,6 @@ export type TransactionListRelationFilter = {
 
 export type TransactionOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type TransactionOrderByRelevanceInput = {
-  fields: Prisma.TransactionOrderByRelevanceFieldEnum | Prisma.TransactionOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type TransactionCountOrderByAggregateInput = {
@@ -981,7 +974,45 @@ export type TransactionSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   class?: boolean | Prisma.ClassDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["transaction"]>
 
+export type TransactionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  orderId?: boolean
+  userId?: boolean
+  classId?: boolean
+  amount?: boolean
+  status?: boolean
+  refundStatus?: boolean
+  refundMethod?: boolean
+  refundAccountName?: boolean
+  refundAccountNumber?: boolean
+  refundRequestedAt?: boolean
+  refundedAt?: boolean
+  refundProofUrl?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  class?: boolean | Prisma.ClassDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["transaction"]>
 
+export type TransactionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  orderId?: boolean
+  userId?: boolean
+  classId?: boolean
+  amount?: boolean
+  status?: boolean
+  refundStatus?: boolean
+  refundMethod?: boolean
+  refundAccountName?: boolean
+  refundAccountNumber?: boolean
+  refundRequestedAt?: boolean
+  refundedAt?: boolean
+  refundProofUrl?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  class?: boolean | Prisma.ClassDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["transaction"]>
 
 export type TransactionSelectScalar = {
   id?: boolean
@@ -1003,6 +1034,14 @@ export type TransactionSelectScalar = {
 
 export type TransactionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "orderId" | "userId" | "classId" | "amount" | "status" | "refundStatus" | "refundMethod" | "refundAccountName" | "refundAccountNumber" | "refundRequestedAt" | "refundedAt" | "refundProofUrl" | "createdAt" | "updatedAt", ExtArgs["result"]["transaction"]>
 export type TransactionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  class?: boolean | Prisma.ClassDefaultArgs<ExtArgs>
+}
+export type TransactionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  class?: boolean | Prisma.ClassDefaultArgs<ExtArgs>
+}
+export type TransactionIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   class?: boolean | Prisma.ClassDefaultArgs<ExtArgs>
 }
@@ -1147,6 +1186,30 @@ export interface TransactionDelegate<ExtArgs extends runtime.Types.Extensions.In
   createMany<T extends TransactionCreateManyArgs>(args?: Prisma.SelectSubset<T, TransactionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many Transactions and returns the data saved in the database.
+   * @param {TransactionCreateManyAndReturnArgs} args - Arguments to create many Transactions.
+   * @example
+   * // Create many Transactions
+   * const transaction = await prisma.transaction.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many Transactions and only return the `id`
+   * const transactionWithIdOnly = await prisma.transaction.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends TransactionCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, TransactionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a Transaction.
    * @param {TransactionDeleteArgs} args - Arguments to delete one Transaction.
    * @example
@@ -1209,6 +1272,36 @@ export interface TransactionDelegate<ExtArgs extends runtime.Types.Extensions.In
    * 
    */
   updateMany<T extends TransactionUpdateManyArgs>(args: Prisma.SelectSubset<T, TransactionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more Transactions and returns the data updated in the database.
+   * @param {TransactionUpdateManyAndReturnArgs} args - Arguments to update many Transactions.
+   * @example
+   * // Update many Transactions
+   * const transaction = await prisma.transaction.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more Transactions and only return the `id`
+   * const transactionWithIdOnly = await prisma.transaction.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends TransactionUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, TransactionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one Transaction.
@@ -1653,6 +1746,29 @@ export type TransactionCreateManyArgs<ExtArgs extends runtime.Types.Extensions.I
 }
 
 /**
+ * Transaction createManyAndReturn
+ */
+export type TransactionCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Transaction
+   */
+  select?: Prisma.TransactionSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Transaction
+   */
+  omit?: Prisma.TransactionOmit<ExtArgs> | null
+  /**
+   * The data used to create many Transactions.
+   */
+  data: Prisma.TransactionCreateManyInput | Prisma.TransactionCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TransactionIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * Transaction update
  */
 export type TransactionUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1694,6 +1810,36 @@ export type TransactionUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * Limit how many Transactions to update.
    */
   limit?: number
+}
+
+/**
+ * Transaction updateManyAndReturn
+ */
+export type TransactionUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Transaction
+   */
+  select?: Prisma.TransactionSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Transaction
+   */
+  omit?: Prisma.TransactionOmit<ExtArgs> | null
+  /**
+   * The data used to update Transactions.
+   */
+  data: Prisma.XOR<Prisma.TransactionUpdateManyMutationInput, Prisma.TransactionUncheckedUpdateManyInput>
+  /**
+   * Filter which Transactions to update
+   */
+  where?: Prisma.TransactionWhereInput
+  /**
+   * Limit how many Transactions to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TransactionIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

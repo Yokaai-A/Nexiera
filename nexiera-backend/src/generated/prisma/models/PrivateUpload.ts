@@ -192,7 +192,6 @@ export type PrivateUploadOrderByWithRelationInput = {
   purpose?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   owner?: Prisma.UserOrderByWithRelationInput
-  _relevance?: Prisma.PrivateUploadOrderByRelevanceInput
 }
 
 export type PrivateUploadWhereUniqueInput = Prisma.AtLeast<{
@@ -292,12 +291,6 @@ export type PrivateUploadListRelationFilter = {
 
 export type PrivateUploadOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type PrivateUploadOrderByRelevanceInput = {
-  fields: Prisma.PrivateUploadOrderByRelevanceFieldEnum | Prisma.PrivateUploadOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type PrivateUploadCountOrderByAggregateInput = {
@@ -460,7 +453,23 @@ export type PrivateUploadSelect<ExtArgs extends runtime.Types.Extensions.Interna
   owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["privateUpload"]>
 
+export type PrivateUploadSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  filename?: boolean
+  ownerId?: boolean
+  purpose?: boolean
+  createdAt?: boolean
+  owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["privateUpload"]>
 
+export type PrivateUploadSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  filename?: boolean
+  ownerId?: boolean
+  purpose?: boolean
+  createdAt?: boolean
+  owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["privateUpload"]>
 
 export type PrivateUploadSelectScalar = {
   id?: boolean
@@ -472,6 +481,12 @@ export type PrivateUploadSelectScalar = {
 
 export type PrivateUploadOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "filename" | "ownerId" | "purpose" | "createdAt", ExtArgs["result"]["privateUpload"]>
 export type PrivateUploadInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type PrivateUploadIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type PrivateUploadIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 
@@ -604,6 +619,30 @@ export interface PrivateUploadDelegate<ExtArgs extends runtime.Types.Extensions.
   createMany<T extends PrivateUploadCreateManyArgs>(args?: Prisma.SelectSubset<T, PrivateUploadCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many PrivateUploads and returns the data saved in the database.
+   * @param {PrivateUploadCreateManyAndReturnArgs} args - Arguments to create many PrivateUploads.
+   * @example
+   * // Create many PrivateUploads
+   * const privateUpload = await prisma.privateUpload.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many PrivateUploads and only return the `id`
+   * const privateUploadWithIdOnly = await prisma.privateUpload.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends PrivateUploadCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, PrivateUploadCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PrivateUploadPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a PrivateUpload.
    * @param {PrivateUploadDeleteArgs} args - Arguments to delete one PrivateUpload.
    * @example
@@ -666,6 +705,36 @@ export interface PrivateUploadDelegate<ExtArgs extends runtime.Types.Extensions.
    * 
    */
   updateMany<T extends PrivateUploadUpdateManyArgs>(args: Prisma.SelectSubset<T, PrivateUploadUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more PrivateUploads and returns the data updated in the database.
+   * @param {PrivateUploadUpdateManyAndReturnArgs} args - Arguments to update many PrivateUploads.
+   * @example
+   * // Update many PrivateUploads
+   * const privateUpload = await prisma.privateUpload.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more PrivateUploads and only return the `id`
+   * const privateUploadWithIdOnly = await prisma.privateUpload.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends PrivateUploadUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, PrivateUploadUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PrivateUploadPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one PrivateUpload.
@@ -1099,6 +1168,29 @@ export type PrivateUploadCreateManyArgs<ExtArgs extends runtime.Types.Extensions
 }
 
 /**
+ * PrivateUpload createManyAndReturn
+ */
+export type PrivateUploadCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PrivateUpload
+   */
+  select?: Prisma.PrivateUploadSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the PrivateUpload
+   */
+  omit?: Prisma.PrivateUploadOmit<ExtArgs> | null
+  /**
+   * The data used to create many PrivateUploads.
+   */
+  data: Prisma.PrivateUploadCreateManyInput | Prisma.PrivateUploadCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PrivateUploadIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * PrivateUpload update
  */
 export type PrivateUploadUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1140,6 +1232,36 @@ export type PrivateUploadUpdateManyArgs<ExtArgs extends runtime.Types.Extensions
    * Limit how many PrivateUploads to update.
    */
   limit?: number
+}
+
+/**
+ * PrivateUpload updateManyAndReturn
+ */
+export type PrivateUploadUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PrivateUpload
+   */
+  select?: Prisma.PrivateUploadSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the PrivateUpload
+   */
+  omit?: Prisma.PrivateUploadOmit<ExtArgs> | null
+  /**
+   * The data used to update PrivateUploads.
+   */
+  data: Prisma.XOR<Prisma.PrivateUploadUpdateManyMutationInput, Prisma.PrivateUploadUncheckedUpdateManyInput>
+  /**
+   * Filter which PrivateUploads to update
+   */
+  where?: Prisma.PrivateUploadWhereInput
+  /**
+   * Limit how many PrivateUploads to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PrivateUploadIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

@@ -300,7 +300,6 @@ export type RoleApplicationOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
-  _relevance?: Prisma.RoleApplicationOrderByRelevanceInput
 }
 
 export type RoleApplicationWhereUniqueInput = Prisma.AtLeast<{
@@ -521,12 +520,6 @@ export type RoleApplicationListRelationFilter = {
 
 export type RoleApplicationOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type RoleApplicationOrderByRelevanceInput = {
-  fields: Prisma.RoleApplicationOrderByRelevanceFieldEnum | Prisma.RoleApplicationOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type RoleApplicationUserIdTypeCompoundUniqueInput = {
@@ -830,7 +823,47 @@ export type RoleApplicationSelect<ExtArgs extends runtime.Types.Extensions.Inter
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["roleApplication"]>
 
+export type RoleApplicationSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  userId?: boolean
+  type?: boolean
+  status?: boolean
+  campus?: boolean
+  major?: boolean
+  studentProofUrl?: boolean
+  organizationName?: boolean
+  contactEmail?: boolean
+  logoUrl?: boolean
+  websiteUrl?: boolean
+  description?: boolean
+  reviewNote?: boolean
+  reviewedById?: boolean
+  reviewedAt?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["roleApplication"]>
 
+export type RoleApplicationSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  userId?: boolean
+  type?: boolean
+  status?: boolean
+  campus?: boolean
+  major?: boolean
+  studentProofUrl?: boolean
+  organizationName?: boolean
+  contactEmail?: boolean
+  logoUrl?: boolean
+  websiteUrl?: boolean
+  description?: boolean
+  reviewNote?: boolean
+  reviewedById?: boolean
+  reviewedAt?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["roleApplication"]>
 
 export type RoleApplicationSelectScalar = {
   id?: boolean
@@ -854,6 +887,12 @@ export type RoleApplicationSelectScalar = {
 
 export type RoleApplicationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "type" | "status" | "campus" | "major" | "studentProofUrl" | "organizationName" | "contactEmail" | "logoUrl" | "websiteUrl" | "description" | "reviewNote" | "reviewedById" | "reviewedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["roleApplication"]>
 export type RoleApplicationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type RoleApplicationIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type RoleApplicationIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 
@@ -998,6 +1037,30 @@ export interface RoleApplicationDelegate<ExtArgs extends runtime.Types.Extension
   createMany<T extends RoleApplicationCreateManyArgs>(args?: Prisma.SelectSubset<T, RoleApplicationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many RoleApplications and returns the data saved in the database.
+   * @param {RoleApplicationCreateManyAndReturnArgs} args - Arguments to create many RoleApplications.
+   * @example
+   * // Create many RoleApplications
+   * const roleApplication = await prisma.roleApplication.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many RoleApplications and only return the `id`
+   * const roleApplicationWithIdOnly = await prisma.roleApplication.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends RoleApplicationCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, RoleApplicationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RoleApplicationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a RoleApplication.
    * @param {RoleApplicationDeleteArgs} args - Arguments to delete one RoleApplication.
    * @example
@@ -1060,6 +1123,36 @@ export interface RoleApplicationDelegate<ExtArgs extends runtime.Types.Extension
    * 
    */
   updateMany<T extends RoleApplicationUpdateManyArgs>(args: Prisma.SelectSubset<T, RoleApplicationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more RoleApplications and returns the data updated in the database.
+   * @param {RoleApplicationUpdateManyAndReturnArgs} args - Arguments to update many RoleApplications.
+   * @example
+   * // Update many RoleApplications
+   * const roleApplication = await prisma.roleApplication.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more RoleApplications and only return the `id`
+   * const roleApplicationWithIdOnly = await prisma.roleApplication.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends RoleApplicationUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, RoleApplicationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RoleApplicationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one RoleApplication.
@@ -1505,6 +1598,29 @@ export type RoleApplicationCreateManyArgs<ExtArgs extends runtime.Types.Extensio
 }
 
 /**
+ * RoleApplication createManyAndReturn
+ */
+export type RoleApplicationCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the RoleApplication
+   */
+  select?: Prisma.RoleApplicationSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the RoleApplication
+   */
+  omit?: Prisma.RoleApplicationOmit<ExtArgs> | null
+  /**
+   * The data used to create many RoleApplications.
+   */
+  data: Prisma.RoleApplicationCreateManyInput | Prisma.RoleApplicationCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RoleApplicationIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * RoleApplication update
  */
 export type RoleApplicationUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1546,6 +1662,36 @@ export type RoleApplicationUpdateManyArgs<ExtArgs extends runtime.Types.Extensio
    * Limit how many RoleApplications to update.
    */
   limit?: number
+}
+
+/**
+ * RoleApplication updateManyAndReturn
+ */
+export type RoleApplicationUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the RoleApplication
+   */
+  select?: Prisma.RoleApplicationSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the RoleApplication
+   */
+  omit?: Prisma.RoleApplicationOmit<ExtArgs> | null
+  /**
+   * The data used to update RoleApplications.
+   */
+  data: Prisma.XOR<Prisma.RoleApplicationUpdateManyMutationInput, Prisma.RoleApplicationUncheckedUpdateManyInput>
+  /**
+   * Filter which RoleApplications to update
+   */
+  where?: Prisma.RoleApplicationWhereInput
+  /**
+   * Limit how many RoleApplications to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RoleApplicationIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
