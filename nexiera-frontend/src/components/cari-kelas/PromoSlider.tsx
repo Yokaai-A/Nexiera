@@ -67,7 +67,9 @@ export function PromoSlider() {
       aria-label="Banner cari kelas"
       className="w-full bg-white pt-6 pb-3"
     >
-      <div className="mx-auto max-w-[1180px] px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto grid w-full max-w-[1600px] grid-cols-1 gap-4 px-4 sm:px-6 lg:px-8 min-[900px]:grid-cols-[clamp(72px,9vw,130px)_minmax(0,1fr)_clamp(72px,9vw,130px)]">
+        <div aria-hidden="true" className="hidden min-[900px]:block" />
+        <div className="min-w-0 min-[1640px]:mx-auto min-[1640px]:max-w-[1180px]">
         <div className="relative aspect-[3/1] w-full overflow-hidden rounded-[6px] bg-white">
           {!loadedSlides[activeIndex] && (
             <div
@@ -142,6 +144,8 @@ export function PromoSlider() {
             />
           ))}
         </div>
+        </div>
+        <div aria-hidden="true" className="hidden min-[900px]:block" />
       </div>
     </section>
   );

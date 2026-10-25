@@ -244,7 +244,7 @@ export function CourseCatalog() {
 
   return (
     <div className="w-full py-6">
-      <div className="mx-auto grid w-full max-w-[1600px] grid-cols-1 gap-4 px-4 sm:px-6 lg:px-8 min-[900px]:grid-cols-[clamp(80px,11vw,160px)_minmax(0,1fr)_clamp(80px,11vw,160px)]">
+      <div className="mx-auto grid w-full max-w-[1600px] grid-cols-1 gap-4 px-4 sm:px-6 lg:px-8 min-[900px]:grid-cols-[clamp(72px,9vw,130px)_minmax(0,1fr)_clamp(72px,9vw,130px)]">
         <aside aria-label="Iklan samping kiri" className="sticky top-24 hidden h-fit min-w-0 self-start min-[900px]:block">
           <div className="relative aspect-[160/600] w-full overflow-hidden rounded-[6px] border border-[#D9DEE7] bg-white shadow-xs dark:border-[#343945] dark:bg-[#191C23]">
             {!loadedSideBanners.left && <div aria-hidden="true" className="skeleton-shimmer absolute inset-0" />}
@@ -258,7 +258,7 @@ export function CourseCatalog() {
                 decoding="async"
                 onLoad={() => setLoadedSideBanners((loaded) => ({ ...loaded, left: true }))}
                 onError={() => setLoadedSideBanners((loaded) => ({ ...loaded, left: true }))}
-                className="h-full w-full object-cover"
+                className="h-full w-full object-contain"
               />
             </a>
           </div>
@@ -488,7 +488,7 @@ export function CourseCatalog() {
 
           <div className="mt-6">
             {loading ? (
-              <div role="status" aria-label="Memuat daftar kelas" className="grid grid-cols-1 gap-5 min-[900px]:grid-cols-2 xl:grid-cols-3">
+              <div role="status" aria-label="Memuat daftar kelas" className="grid grid-cols-1 gap-5 min-[900px]:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
                 <span className="sr-only">Memuat kelas...</span>
                 {Array.from({ length: 6 }, (_, index) => (
                   <article
@@ -530,7 +530,7 @@ export function CourseCatalog() {
                 {searchQuery.trim() && <div className="mt-4"><button type="button" onClick={() => { setCourseRequestTitle(searchQuery.trim()); setCourseRequestOpen((open) => !open); setCourseRequestMessage(""); }} className="btn-secondary cursor-pointer">Ajukan Mata Kuliah Baru</button>{courseRequestOpen && <form className="mx-auto mt-4 grid max-w-md gap-3 text-left" onSubmit={(event) => { event.preventDefault(); setCourseRequestBusy(true); void nexieraApi.requestCourse({ title: courseRequestTitle.trim() }).then(() => { setCourseRequestMessage("Pengajuan mata kuliah tersimpan untuk ditinjau."); setCourseRequestOpen(false); }).catch((error) => setCourseRequestMessage(error instanceof Error ? error.message : "Pengajuan gagal dikirim.")).finally(() => setCourseRequestBusy(false)); }}><label className="text-xs font-semibold">Nama mata kuliah<input required maxLength={160} value={courseRequestTitle} onChange={(event) => setCourseRequestTitle(event.target.value)} className="nx-input mt-1 w-full" /></label><button disabled={courseRequestBusy} className="btn-primary cursor-pointer">{courseRequestBusy ? "Mengirim..." : "Kirim pengajuan"}</button></form>}{courseRequestMessage && <p role="status" className="mt-2 text-xs text-[#2457C5]">{courseRequestMessage}</p>}</div>}
               </div>
             ) : (
-              <div className="grid grid-cols-1 gap-5 min-[900px]:grid-cols-2 xl:grid-cols-3">
+              <div className="grid grid-cols-1 gap-5 min-[900px]:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
                 {paginatedCourses.map((course) => (
                   <ClassCard key={course.id} item={course} />
                 ))}
@@ -594,7 +594,7 @@ export function CourseCatalog() {
                 decoding="async"
                 onLoad={() => setLoadedSideBanners((loaded) => ({ ...loaded, right: true }))}
                 onError={() => setLoadedSideBanners((loaded) => ({ ...loaded, right: true }))}
-                className="h-full w-full object-cover"
+                className="h-full w-full object-contain"
               />
             </a>
           </div>

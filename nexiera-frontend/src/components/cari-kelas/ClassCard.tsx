@@ -104,7 +104,7 @@ export function ClassCard({ item }: { item: ApiClass | AcademicCourse }) {
     : null;
 
   return (
-    <article className="group flex h-full flex-col rounded-[6px] border border-[#D9DEE7] bg-white p-4 sm:p-5 transition-colors hover:border-[#BAC3D2] dark:border-slate-800 dark:bg-slate-900">
+    <article className="group flex h-full min-w-0 w-full flex-col rounded-[6px] border border-[#D9DEE7] bg-white p-3 sm:p-4 transition-colors hover:border-[#BAC3D2] dark:border-slate-800 dark:bg-slate-900">
       <div>
         {bannerUrl && (
           <div className="relative mb-3.5 aspect-video w-full overflow-hidden rounded-[4px] border border-[#D9DEE7] bg-slate-100 dark:border-slate-800 dark:bg-slate-800">
