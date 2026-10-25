@@ -248,7 +248,7 @@ export function CourseCatalog() {
         <aside aria-label="Iklan samping kiri" className="sticky top-24 hidden h-fit min-w-0 self-start min-[900px]:block">
           <div className="relative aspect-[208/650] w-full overflow-hidden rounded-[6px] border border-[#D9DEE7] bg-white shadow-xs dark:border-[#343945] dark:bg-[#191C23]">
             {!loadedSideBanners.left && <div aria-hidden="true" className="skeleton-shimmer absolute inset-0" />}
-            <a className="relative block w-full" href={activeSideAd?.targetUrl || "/cari-kelas"} target={activeSideAd ? "_blank" : undefined} rel={activeSideAd ? "noreferrer" : undefined} onClick={() => { if (activeSideAd) void nexieraApi.trackAdClick(activeSideAd.id).catch(() => undefined); }}>
+            <a className="absolute inset-0" href={activeSideAd?.targetUrl || "/cari-kelas"} target={activeSideAd ? "_blank" : undefined} rel={activeSideAd ? "noreferrer" : undefined} onClick={() => { if (activeSideAd) void nexieraApi.trackAdClick(activeSideAd.id).catch(() => undefined); }}>
               <img
                 ref={(image) => { sideBannerRefs.current.left = image; }}
                 src={activeSideImage || marginAdLeft}
@@ -584,7 +584,7 @@ export function CourseCatalog() {
         <aside aria-label="Iklan samping kanan" className="sticky top-24 hidden h-fit min-w-0 self-start min-[900px]:block">
           <div className="relative aspect-[208/650] w-full overflow-hidden rounded-[6px] border border-[#D9DEE7] bg-white shadow-xs dark:border-[#343945] dark:bg-[#191C23]">
             {!loadedSideBanners.right && <div aria-hidden="true" className="skeleton-shimmer absolute inset-0" />}
-            <a className="relative block w-full" href={activeSideAd?.targetUrl || "/cari-kelas"} target={activeSideAd ? "_blank" : undefined} rel={activeSideAd ? "noreferrer" : undefined} onClick={() => { if (activeSideAd) void nexieraApi.trackAdClick(activeSideAd.id).catch(() => undefined); }}>
+            <a className="absolute inset-0" href={activeSideAd?.targetUrl || "/cari-kelas"} target={activeSideAd ? "_blank" : undefined} rel={activeSideAd ? "noreferrer" : undefined} onClick={() => { if (activeSideAd) void nexieraApi.trackAdClick(activeSideAd.id).catch(() => undefined); }}>
               <img
                 ref={(image) => { sideBannerRefs.current.right = image; }}
                 src={activeSideImage || marginAdRight}
