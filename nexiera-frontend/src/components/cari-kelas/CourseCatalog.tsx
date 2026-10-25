@@ -246,9 +246,9 @@ export function CourseCatalog() {
     <div className="w-full py-6">
       <div className="mx-auto grid w-full max-w-[1600px] grid-cols-1 gap-4 px-4 sm:px-6 lg:px-8 min-[900px]:grid-cols-[clamp(72px,9vw,130px)_minmax(0,1fr)_clamp(72px,9vw,130px)]">
         <aside aria-label="Iklan samping kiri" className="sticky top-24 hidden h-fit min-w-0 self-start min-[900px]:block">
-          <div className="relative aspect-[160/600] w-full overflow-hidden rounded-[6px] border border-[#D9DEE7] bg-white shadow-xs dark:border-[#343945] dark:bg-[#191C23]">
+          <div className="relative w-full overflow-hidden rounded-[6px] border border-[#D9DEE7] bg-white shadow-xs dark:border-[#343945] dark:bg-[#191C23]">
             {!loadedSideBanners.left && <div aria-hidden="true" className="skeleton-shimmer absolute inset-0" />}
-            <a className="absolute inset-0" href={activeSideAd?.targetUrl || "/cari-kelas"} target={activeSideAd ? "_blank" : undefined} rel={activeSideAd ? "noreferrer" : undefined} onClick={() => { if (activeSideAd) void nexieraApi.trackAdClick(activeSideAd.id).catch(() => undefined); }}>
+            <a className="relative block w-full" href={activeSideAd?.targetUrl || "/cari-kelas"} target={activeSideAd ? "_blank" : undefined} rel={activeSideAd ? "noreferrer" : undefined} onClick={() => { if (activeSideAd) void nexieraApi.trackAdClick(activeSideAd.id).catch(() => undefined); }}>
               <img
                 ref={(image) => { sideBannerRefs.current.left = image; }}
                 src={activeSideImage || marginAdLeft}
@@ -258,7 +258,7 @@ export function CourseCatalog() {
                 decoding="async"
                 onLoad={() => setLoadedSideBanners((loaded) => ({ ...loaded, left: true }))}
                 onError={() => setLoadedSideBanners((loaded) => ({ ...loaded, left: true }))}
-                className="h-full w-full object-contain"
+                className="block h-auto w-full"
               />
             </a>
           </div>
@@ -582,9 +582,9 @@ export function CourseCatalog() {
         </main>
 
         <aside aria-label="Iklan samping kanan" className="sticky top-24 hidden h-fit min-w-0 self-start min-[900px]:block">
-          <div className="relative aspect-[160/600] w-full overflow-hidden rounded-[6px] border border-[#D9DEE7] bg-white shadow-xs dark:border-[#343945] dark:bg-[#191C23]">
+          <div className="relative w-full overflow-hidden rounded-[6px] border border-[#D9DEE7] bg-white shadow-xs dark:border-[#343945] dark:bg-[#191C23]">
             {!loadedSideBanners.right && <div aria-hidden="true" className="skeleton-shimmer absolute inset-0" />}
-            <a className="absolute inset-0" href={activeSideAd?.targetUrl || "/cari-kelas"} target={activeSideAd ? "_blank" : undefined} rel={activeSideAd ? "noreferrer" : undefined} onClick={() => { if (activeSideAd) void nexieraApi.trackAdClick(activeSideAd.id).catch(() => undefined); }}>
+            <a className="relative block w-full" href={activeSideAd?.targetUrl || "/cari-kelas"} target={activeSideAd ? "_blank" : undefined} rel={activeSideAd ? "noreferrer" : undefined} onClick={() => { if (activeSideAd) void nexieraApi.trackAdClick(activeSideAd.id).catch(() => undefined); }}>
               <img
                 ref={(image) => { sideBannerRefs.current.right = image; }}
                 src={activeSideImage || marginAdRight}
@@ -594,7 +594,7 @@ export function CourseCatalog() {
                 decoding="async"
                 onLoad={() => setLoadedSideBanners((loaded) => ({ ...loaded, right: true }))}
                 onError={() => setLoadedSideBanners((loaded) => ({ ...loaded, right: true }))}
-                className="h-full w-full object-contain"
+                className="block h-auto w-full"
               />
             </a>
           </div>
