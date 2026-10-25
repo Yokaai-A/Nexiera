@@ -244,53 +244,27 @@ export function CourseCatalog() {
 
   return (
     <div className="w-full py-6">
-      <div className="relative mx-auto w-full max-w-[1180px] px-4 sm:px-6 lg:px-8 min-[1640px]:min-h-[650px]">
-
-        <div className="pointer-events-none absolute inset-0 hidden min-[1640px]:block">
-          <div className="absolute -left-[224px] top-0 h-full w-[208px]">
-            <aside className="pointer-events-auto sticky top-24 self-start">
-              <div className="relative overflow-hidden rounded-[6px] border border-[#D9DEE7] bg-white shadow-xs dark:border-[#343945] dark:bg-[#191C23] min-h-[650px]">
-                {!loadedSideBanners.left && <div aria-hidden="true" className="skeleton-shimmer absolute inset-0" />}
-                <a href={activeSideAd?.targetUrl || "/cari-kelas"} target={activeSideAd ? "_blank" : undefined} rel={activeSideAd ? "noreferrer" : undefined} onClick={() => { if (activeSideAd) void nexieraApi.trackAdClick(activeSideAd.id).catch(() => undefined); }}>
-                  <img
-                    ref={(image) => { sideBannerRefs.current.left = image; }}
-                    src={activeSideImage || marginAdLeft}
-                    alt={activeSideAd?.subtitle || activeSideAd?.title || "Promo Banner NEXIERA"}
-                    loading="eager"
-                    fetchPriority="high"
-                    decoding="async"
-                    onLoad={() => setLoadedSideBanners((loaded) => ({ ...loaded, left: true }))}
-                    onError={() => setLoadedSideBanners((loaded) => ({ ...loaded, left: true }))}
-                    className="w-full h-full min-h-[650px] object-cover"
-                  />
-                </a>
-              </div>
-            </aside>
+      <div className="mx-auto grid w-full max-w-[1600px] grid-cols-1 gap-4 px-4 sm:px-6 lg:px-8 min-[900px]:grid-cols-[clamp(80px,11vw,160px)_minmax(0,1fr)_clamp(80px,11vw,160px)]">
+        <aside aria-label="Iklan samping kiri" className="sticky top-24 hidden h-fit min-w-0 self-start min-[900px]:block">
+          <div className="relative aspect-[160/600] w-full overflow-hidden rounded-[6px] border border-[#D9DEE7] bg-white shadow-xs dark:border-[#343945] dark:bg-[#191C23]">
+            {!loadedSideBanners.left && <div aria-hidden="true" className="skeleton-shimmer absolute inset-0" />}
+            <a className="absolute inset-0" href={activeSideAd?.targetUrl || "/cari-kelas"} target={activeSideAd ? "_blank" : undefined} rel={activeSideAd ? "noreferrer" : undefined} onClick={() => { if (activeSideAd) void nexieraApi.trackAdClick(activeSideAd.id).catch(() => undefined); }}>
+              <img
+                ref={(image) => { sideBannerRefs.current.left = image; }}
+                src={activeSideImage || marginAdLeft}
+                alt={activeSideAd?.subtitle || activeSideAd?.title || "Promo Banner NEXIERA"}
+                loading="eager"
+                fetchPriority="high"
+                decoding="async"
+                onLoad={() => setLoadedSideBanners((loaded) => ({ ...loaded, left: true }))}
+                onError={() => setLoadedSideBanners((loaded) => ({ ...loaded, left: true }))}
+                className="h-full w-full object-cover"
+              />
+            </a>
           </div>
-          <div className="absolute -right-[224px] top-0 h-full w-[208px]">
-            <aside className="pointer-events-auto sticky top-24 self-start">
-              <div className="relative overflow-hidden rounded-[6px] border border-[#D9DEE7] bg-white shadow-xs dark:border-[#343945] dark:bg-[#191C23] min-h-[650px]">
-                {!loadedSideBanners.right && <div aria-hidden="true" className="skeleton-shimmer absolute inset-0" />}
-                <a href={activeSideAd?.targetUrl || "/cari-kelas"} target={activeSideAd ? "_blank" : undefined} rel={activeSideAd ? "noreferrer" : undefined} onClick={() => { if (activeSideAd) void nexieraApi.trackAdClick(activeSideAd.id).catch(() => undefined); }}>
-                  <img
-                    ref={(image) => { sideBannerRefs.current.right = image; }}
-                    src={activeSideImage || marginAdRight}
-                    alt={activeSideAd?.subtitle || activeSideAd?.title || "Promo Banner NEXIERA"}
-                    loading="eager"
-                    fetchPriority="high"
-                    decoding="async"
-                    onLoad={() => setLoadedSideBanners((loaded) => ({ ...loaded, right: true }))}
-                    onError={() => setLoadedSideBanners((loaded) => ({ ...loaded, right: true }))}
-                    className="w-full h-full min-h-[650px] object-cover"
-                  />
-                </a>
-              </div>
-            </aside>
-          </div>
-        </div>
+        </aside>
 
-
-        <main className="relative z-0 w-full min-w-0">
+        <main className="relative z-0 mx-auto w-full min-w-0 min-[1640px]:max-w-[1180px]">
 
           <div className="rounded-[6px] border border-[#D9DEE7] bg-white p-4 shadow-xs dark:border-[#343945] dark:bg-[#191C23]">
             <div className="flex flex-col gap-3">
@@ -316,7 +290,7 @@ export function CourseCatalog() {
               </div>
 
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
+              <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 xl:grid-cols-4">
 
                 <div className="relative">
                   <label className="text-[10px] font-semibold uppercase tracking-wider text-[#626B78] dark:text-[#B1B7C3] mb-1 block">
@@ -514,7 +488,7 @@ export function CourseCatalog() {
 
           <div className="mt-6">
             {loading ? (
-              <div role="status" aria-label="Memuat daftar kelas" className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+              <div role="status" aria-label="Memuat daftar kelas" className="grid grid-cols-1 gap-5 min-[900px]:grid-cols-2 xl:grid-cols-3">
                 <span className="sr-only">Memuat kelas...</span>
                 {Array.from({ length: 6 }, (_, index) => (
                   <article
@@ -556,7 +530,7 @@ export function CourseCatalog() {
                 {searchQuery.trim() && <div className="mt-4"><button type="button" onClick={() => { setCourseRequestTitle(searchQuery.trim()); setCourseRequestOpen((open) => !open); setCourseRequestMessage(""); }} className="btn-secondary cursor-pointer">Ajukan Mata Kuliah Baru</button>{courseRequestOpen && <form className="mx-auto mt-4 grid max-w-md gap-3 text-left" onSubmit={(event) => { event.preventDefault(); setCourseRequestBusy(true); void nexieraApi.requestCourse({ title: courseRequestTitle.trim() }).then(() => { setCourseRequestMessage("Pengajuan mata kuliah tersimpan untuk ditinjau."); setCourseRequestOpen(false); }).catch((error) => setCourseRequestMessage(error instanceof Error ? error.message : "Pengajuan gagal dikirim.")).finally(() => setCourseRequestBusy(false)); }}><label className="text-xs font-semibold">Nama mata kuliah<input required maxLength={160} value={courseRequestTitle} onChange={(event) => setCourseRequestTitle(event.target.value)} className="nx-input mt-1 w-full" /></label><button disabled={courseRequestBusy} className="btn-primary cursor-pointer">{courseRequestBusy ? "Mengirim..." : "Kirim pengajuan"}</button></form>}{courseRequestMessage && <p role="status" className="mt-2 text-xs text-[#2457C5]">{courseRequestMessage}</p>}</div>}
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+              <div className="grid grid-cols-1 gap-5 min-[900px]:grid-cols-2 xl:grid-cols-3">
                 {paginatedCourses.map((course) => (
                   <ClassCard key={course.id} item={course} />
                 ))}
@@ -606,6 +580,25 @@ export function CourseCatalog() {
             )}
           </div>
         </main>
+
+        <aside aria-label="Iklan samping kanan" className="sticky top-24 hidden h-fit min-w-0 self-start min-[900px]:block">
+          <div className="relative aspect-[160/600] w-full overflow-hidden rounded-[6px] border border-[#D9DEE7] bg-white shadow-xs dark:border-[#343945] dark:bg-[#191C23]">
+            {!loadedSideBanners.right && <div aria-hidden="true" className="skeleton-shimmer absolute inset-0" />}
+            <a className="absolute inset-0" href={activeSideAd?.targetUrl || "/cari-kelas"} target={activeSideAd ? "_blank" : undefined} rel={activeSideAd ? "noreferrer" : undefined} onClick={() => { if (activeSideAd) void nexieraApi.trackAdClick(activeSideAd.id).catch(() => undefined); }}>
+              <img
+                ref={(image) => { sideBannerRefs.current.right = image; }}
+                src={activeSideImage || marginAdRight}
+                alt={activeSideAd?.subtitle || activeSideAd?.title || "Promo Banner NEXIERA"}
+                loading="eager"
+                fetchPriority="high"
+                decoding="async"
+                onLoad={() => setLoadedSideBanners((loaded) => ({ ...loaded, right: true }))}
+                onError={() => setLoadedSideBanners((loaded) => ({ ...loaded, right: true }))}
+                className="h-full w-full object-cover"
+              />
+            </a>
+          </div>
+        </aside>
 
       </div>
     </div>
