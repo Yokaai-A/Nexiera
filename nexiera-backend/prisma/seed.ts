@@ -297,6 +297,18 @@ async function main() {
     ],
   });
 
+  const adminEmails = (process.env.ADMIN_EMAILS || "")
+    .split(",")
+    .map((email) => email.trim().toLowerCase())
+    .filter(Boolean);
+  if (adminEmails.length) {
+    const verifiedAdmins = await prisma.user.updateMany({
+      where: { email: { in: adminEmails } },
+      data: { emailVerifiedAt: new Date() },
+    });
+    console.log(`Verified ${verifiedAdmins.count} existing ADMIN_EMAILS account(s).`);
+  }
+
   console.log("Database seeded successfully with authentic production-ready data!");
 }
 

@@ -38,11 +38,11 @@ Set these in the Railway service environment; do not upload or commit `.env` fil
 | `JWT_SECRET` | Random secret of at least 32 characters |
 | `AUTH_COOKIE_NAME` | `nexiera_access_token` |
 | `ADMIN_EMAILS` | Comma-separated admin account emails |
-| `EMAIL_VERIFICATION_DEV_LINKS` | `false` for production; local verification links are disabled in production code |
+| `EMAIL_VERIFICATION_DEV_LINKS` | `true` to return verification links directly in the signup/resend response without an email provider |
 | `MIDTRANS_SERVER_KEY` | Midtrans sandbox key for staging, production key for live payments |
 | `MIDTRANS_IS_PRODUCTION` | `false` for sandbox, `true` only for live Midtrans |
-| `RESEND_API_KEY` | Optional until email sending is configured |
-| `MAIL_FROM` | Optional until a sender domain is verified with Resend |
+| `RESEND_API_KEY` | Optional; only needed to send verification and notification emails |
+| `MAIL_FROM` | Optional; only needed to send email from a Resend verified sender domain |
 | `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | Optional; set only if Google login is enabled |
 | `GOOGLE_CALLBACK_URL` | `https://<backend-host>/api/auth/google/callback` when Google login is enabled |
 
@@ -52,7 +52,7 @@ The frontend additionally needs `NEXT_PUBLIC_API_BASE_URL=https://<backend-host>
 
 - `nexiera-backend/.env.example` contains local database placeholders. Cloud database values must be supplied in Railway.
 - `MIDTRANS_SERVER_KEY` is not configured locally. Checkout remains unavailable until the correct sandbox or production key is added.
-- Real email verification requires a working sender. If Resend is not configured, regular email/password signups in production cannot receive verification links. Local verification links are deliberately unavailable when `NODE_ENV=production`.
+- Email/password signup verification can use direct links by setting `EMAIL_VERIFICATION_DEV_LINKS=true` on the backend deployment. The link is returned to the signup or resend response, and the user opens it to verify. Set it to `false` when a Resend sender is configured and links should be delivered by email instead. Without either option, users cannot complete email verification.
 - Uploaded files currently use local disk paths. A persistent volume or private object storage is required so files survive redeploys.
 - Rotate any Resend API key that has appeared in diagnostic output before configuring it in the cloud.
 

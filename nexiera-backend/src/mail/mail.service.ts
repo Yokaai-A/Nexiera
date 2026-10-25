@@ -34,7 +34,7 @@ export class MailService implements OnModuleInit {
 
   onModuleInit() {
     if (!this.resendApiKey || !this.from) {
-      this.logger.warn("Email notifikasi nonaktif: atur RESEND_API_KEY dan MAIL_FROM pada environment.");
+      this.logger.warn("Pengiriman email nonaktif: notifikasi email tidak akan terkirim. Verifikasi akun dapat memakai tautan langsung dengan EMAIL_VERIFICATION_DEV_LINKS=true.");
     }
   }
 

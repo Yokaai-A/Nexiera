@@ -75,7 +75,7 @@ export class AuthService {
   verifyEmail(token: string) { return this.usersService.verifyEmailToken(token); }
 
   private devVerificationLinksEnabled() {
-    return process.env.NODE_ENV !== "production" && this.config.get<string>("EMAIL_VERIFICATION_DEV_LINKS") === "true";
+    return this.config.get<string>("EMAIL_VERIFICATION_DEV_LINKS") === "true";
   }
 
   async googleSignIn(profile: GoogleUserProfile) {

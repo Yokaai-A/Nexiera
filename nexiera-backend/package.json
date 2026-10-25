@@ -13,6 +13,7 @@
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "prisma:generate": "prisma generate",
+    "prisma:seed:deploy": "tsc --ignoreConfig prisma/seed.ts --outDir dist/seed --module NodeNext --moduleResolution NodeNext --target ES2023 --esModuleInterop --types node --skipLibCheck && node dist/seed/prisma/seed.js",
     "db:deploy": "npx prisma migrate deploy",
     "prisma:seed:demo": "tsc --ignoreConfig prisma/seed-demo-budi.ts --outDir dist/demo-seed --module NodeNext --moduleResolution NodeNext --target ES2023 --esModuleInterop --types node --skipLibCheck && node dist/demo-seed/prisma/seed-demo-budi.js",
     "prisma:seed:demo-sessions": "tsc --ignoreConfig prisma/seed-demo-class-sessions.ts prisma/demo-class-sessions.ts --outDir dist/demo-sessions --module NodeNext --moduleResolution NodeNext --target ES2023 --esModuleInterop --types node --skipLibCheck && node dist/demo-sessions/prisma/seed-demo-class-sessions.js",
