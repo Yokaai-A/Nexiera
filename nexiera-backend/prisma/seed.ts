@@ -6,6 +6,7 @@ import bcrypt from "bcryptjs";
 import { PrismaMariaDb } from "@prisma/adapter-mariadb";
 import { PrismaClient, Role, ClassType } from "../src/generated/prisma/client.js";
 import { universityCourses } from "../src/classes/university-courses.js";
+import { demoClassSessions } from "./demo-class-sessions.js";
 export { universityCourses };
 
 const adapter = new PrismaMariaDb({
@@ -24,9 +25,9 @@ async function main() {
   console.log("Seeding database with authentic NEXIERA academic classes...");
   const defaultPasswordHash = await bcrypt.hash("password123", 12);
 
-  // 1. Demo & Academic Users
-  // Evaluation demo accounts are pre-configured with all roles unlocked [MAHASISWA, PEER_TUTOR, MITRA_BOOTCAMP]
-  // Standard personal emails are used for login (NOT institutional domain emails)
+
+
+
   const tutorKevin = await prisma.user.upsert({
     where: { email: "kevin@student.com" },
     update: {
@@ -156,27 +157,13 @@ async function main() {
     },
   });
 
-  // 2. Canonical university academic courses
+
   async function upsertAcademicCourse(
     course: (typeof universityCourses)[number],
     creatorId: string,
   ) {
     const existing = await prisma.class.findUnique({ where: { slug: course.slug } });
-    // These schedules and links are deliberately demo-only and are only seeded
-    // for courses enrolled by Budi's evaluation account.
-    const demoSession = course.slug === "struktur-data-dan-algoritma"
-      ? {
-          startsAt: new Date("2026-10-29T19:00:00+07:00"),
-          meetingLink: "https://meet.jit.si/nexiera-demo-budi-struktur-data-2026",
-          materialLink: "https://visualgo.net/en",
-        }
-      : course.slug === "bootcamp-pemrograman-berorientasi-objek"
-        ? {
-            startsAt: new Date("2026-10-27T19:00:00+07:00"),
-            meetingLink: "https://meet.jit.si/nexiera-demo-budi-object-oriented-programming-2026",
-            materialLink: "https://docs.oracle.com/javase/tutorial/java/concepts/",
-          }
-        : null;
+    const demoSession = demoClassSessions[course.slug as keyof typeof demoClassSessions];
     const data = {
       title: course.title,
       slug: course.slug,
@@ -187,9 +174,9 @@ async function main() {
       major: course.major,
       campusTarget: course.campusTarget,
       bannerUrl: course.bannerUrl,
-      startsAt: demoSession?.startsAt ?? null,
-      meetingLink: demoSession?.meetingLink ?? null,
-      materialLink: demoSession?.materialLink ?? null,
+      startsAt: demoSession.startsAt,
+      meetingLink: demoSession.meetingLink,
+      materialLink: demoSession.materialLink,
       recordingLink: null,
       creatorId,
     };
@@ -232,8 +219,8 @@ async function main() {
     universityCourses[4],
     boosterAcademy.id,
   );
-  // Keep the evaluation student's enrollment list focused on its intended
-  // demo classes. This removes any old/local test enrollment from this course.
+
+
   await prisma.transaction.deleteMany({
     where: { userId: studentBudi.id, classId: courseDatabase.id },
   });
@@ -245,7 +232,7 @@ async function main() {
       orderId: { not: "NEX-SEED-ENROLL-1" },
     },
   });
-  // Seed demo enrollments against canonical academic course records.
+
   await prisma.transaction.upsert({
     where: { orderId: "NEX-SEED-ENROLL-1" },
     update: {
@@ -290,12 +277,12 @@ async function main() {
     },
   });
 
-  // Seed data must not publish fabricated student reviews.
+
   await prisma.review.deleteMany({
     where: { userId: studentBudi.id, classId: courseStructure.id },
   });
 
-  // Notifications
+
   await prisma.notification.deleteMany({
     where: { userId: studentBudi.id, type: "ENROLLMENT" },
   });

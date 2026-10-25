@@ -6,8 +6,8 @@ export type MaterialPlatform = "NOTION" | "DRIVE" | "PDF" | "GITHUB";
 
 export interface Tutor {
   id: string;
-  name: string; // Nama murni tanpa gelar formal
-  role: string; // Contoh: "Mahasiswa Teknik Informatika BINUS"
+  name: string;
+  role: string;
   avatarUrl: string;
 }
 
@@ -15,30 +15,31 @@ export interface AcademicCourse {
   id: string;
   slug?: string;
   bannerUrl?: string;
-  title: string; // Nama mata kuliah murni (tanpa kode matkul)
-  mainCategory: string; // Contoh: "Sains & Teknologi", "Ekonomi & Bisnis"
-  major: string; // Contoh: "Teknik Informatika", "Sistem Informasi"
-  subjectCategory?: string; // Kompatibilitas mundur
-  university: string; // Default: "BINUS University"
+  title: string;
+  mainCategory: string;
+  major: string;
+  subjectCategory?: string;
+  university: string;
   shortDescription: string;
   fullDescription: string;
 
-  type: CourseType; // "PEER_TUTORING" | "BOOTCAMP"
-  pricingModel: PricingModel; // "FREE" | "PAID"
+  type: CourseType;
+  pricingModel: PricingModel;
   priceAmount?: number;
 
   organizerName?: string;
   organizerLogo?: string;
-  tutors?: Tutor[]; // 1 orang jika Peer-Tutoring, Multi-tutor jika Bootcamp
+  tutors?: Tutor[];
 
   meetingPlatform?: MeetingPlatform;
-  meetingUrl?: string; // Link Sesi Live (Zoom / GMeet / Discord)
+  meetingUrl?: string;
   materialPlatform?: MaterialPlatform;
-  materialUrl?: string; // Link Catatan / Materi (Opsional - Invisible jika kosong)
-  recordingUrl?: string; // Link Penyimpanan / Rekaman Sesi (Opsional - Invisible jika kosong)
+  materialUrl?: string;
+  recordingUrl?: string;
 
   scheduleDate?: string;
   accessDuration?: string;
+  accessUntil?: string;
   maxQuota?: number;
   availableSeats?: number;
   requirements?: string[];
@@ -54,8 +55,8 @@ export interface UserProfile {
   id: string;
   fullName: string;
   email: string;
-  campus: string; // Default: "BINUS University"
-  major: string; // Contoh: "Teknik Informatika"
+  campus: string;
+  major: string;
   isCampusVerified: boolean;
   isLoggedIn: boolean;
   role?: "student" | "tutor" | "bootcamp" | "bootcamp_partner";

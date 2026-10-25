@@ -1,6 +1,5 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service.js";
-import { isUniversityCourseRecord } from "../classes/university-courses.js";
 
 @Injectable()
 export class DashboardService {
@@ -17,7 +16,7 @@ export class DashboardService {
       user.activeRole === "PEER_TUTOR" || user.activeRole === "MITRA_BOOTCAMP";
 
     if (!isTutorOrBootcamp) {
-      // Mahasiswa view
+
       const [enrolledTransactions] = await Promise.all([
         this.prisma.transaction.findMany({
           where: { userId, status: "PAID" },
@@ -32,26 +31,29 @@ export class DashboardService {
         }),
       ]);
 
-      const validEnrollments = enrolledTransactions.filter((t) => isUniversityCourseRecord(t.class));
+      const validEnrollments = enrolledTransactions;
       const uniqueEnrollments = Array.from(
         new Map(validEnrollments.map((transaction) => [transaction.class.id, transaction])).values(),
       );
-      const classes = uniqueEnrollments.map((t) => ({
+      const classes = uniqueEnrollments.map((t) => {
+        const accessExpired = Boolean(t.class.accessUntil && t.class.accessUntil < new Date());
+        return ({
         id: t.class.id,
         title: t.class.title,
         slug: t.class.slug,
         category: t.class.category,
         major: t.class.major,
         bannerUrl: t.class.bannerUrl,
-        meetingLink: t.class.meetingLink,
-        meetingUrl: t.class.meetingLink,
-        materialLink: t.class.materialLink,
-        materialUrl: t.class.materialLink,
-        recordingLink: t.class.recordingLink,
-        recordingUrl: t.class.recordingLink,
+        meetingLink: accessExpired ? null : t.class.meetingLink,
+        meetingUrl: accessExpired ? null : t.class.meetingLink,
+        materialLink: accessExpired ? null : t.class.materialLink,
+        materialUrl: accessExpired ? null : t.class.materialLink,
+        recordingLink: accessExpired ? null : t.class.recordingLink,
+        recordingUrl: accessExpired ? null : t.class.recordingLink,
         type: t.class.type,
         courseType: t.class.type,
         startsAt: t.class.startsAt,
+        accessUntil: t.class.accessUntil,
         status: "ACTIVE",
         creator: {
           id: t.class.creator.id,
@@ -59,7 +61,8 @@ export class DashboardService {
           email: t.class.creator.contactEmail || t.class.creator.email,
           phoneNumber: t.class.creator.phoneNumber,
         },
-      }));
+      });
+      });
 
       const transactions = validEnrollments.map((t) => ({
         id: t.id,
@@ -92,7 +95,7 @@ export class DashboardService {
       };
     }
 
-    // Tutor / Mitra Bootcamp view
+
     const [createdClasses, transactions, ads] = await Promise.all([
       this.prisma.class.findMany({
         where: { creatorId: userId },
@@ -134,16 +137,16 @@ export class DashboardService {
       }),
     ]);
 
-    const validCreatedClasses = createdClasses.filter(isUniversityCourseRecord);
-    const validTransactions = transactions.filter((t) => isUniversityCourseRecord(t.class));
+    const validCreatedClasses = createdClasses;
+    const validTransactions = transactions;
     const paidTransactions = validTransactions.filter((t) => t.status === "PAID");
     const grossRevenue = paidTransactions.reduce(
       (sum, t) => sum + Number(t.amount),
       0,
     );
-    // Net balance after 8% platform fee
+
     const netBalance = Math.round(grossRevenue * 0.92);
-    const pendingBalance = 0; // or unwithdrawn balance
+    const pendingBalance = 0;
     const completedClassRevenue = grossRevenue;
 
     const impressions = ads.reduce((sum, ad) => sum + ad.impressions, 0);

@@ -146,6 +146,11 @@ export function DashboardSidebar() {
       icon: <ShieldCheck className="h-4 w-4" />,
       exact: true,
     },
+    {
+      label: "Manajemen Iklan",
+      href: "/dashboard/admin/iklan",
+      icon: <Megaphone className="h-4 w-4" />,
+    },
   ];
 
   const isTutor = user.activeRole === "tutor" || user.activeViewRole === "tutor";
@@ -160,13 +165,13 @@ export function DashboardSidebar() {
 
   return (
     <aside className="w-full lg:w-72 shrink-0 flex flex-col gap-5">
-      {/* Box Status Role dengan tombol CHANGE */}
-      <SidebarRoleBox />
 
-      {/* Navigasi Menu Dashboard */}
+      {!user.roles.includes("admin") && <SidebarRoleBox />}
+
+
       <div className="rounded-[6px] border border-[#D9DEE7] dark:border-[#343945] bg-white dark:bg-[#191C23] p-3">
         <div className="px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-[#626B78] dark:text-[#B1B7C3]">
-          Navigasi
+          {user.roles.includes("admin") ? "Administrasi" : "Navigasi"}
         </div>
 
         <nav className="mt-1 space-y-1">

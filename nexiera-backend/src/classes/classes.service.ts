@@ -1,16 +1,18 @@
 import {
   BadRequestException,
+  ConflictException,
   ForbiddenException,
   Injectable,
   NotFoundException,
 } from "@nestjs/common";
+import { basename, extname, join } from "node:path";
+import { existsSync } from "node:fs";
 import { ClassType, PrivateUploadPurpose, Role } from "../generated/prisma/client.js";
 import { NotificationsService } from "../notifications/notifications.service.js";
 import { PrismaService } from "../prisma/prisma.service.js";
 import { CreateClassDto } from "./dto/create-class.dto.js";
 import { UpdateClassDto } from "./dto/update-class.dto.js";
 import { CreateClassReportDto } from "./dto/create-class-report.dto.js";
-import { findUniversityCourse, isUniversityCourseRecord } from "./university-courses.js";
 
 function slugify(text: string): string {
   return text
@@ -47,13 +49,16 @@ export class ClassesService {
     const studentCount = cls.transactions
       ? cls.transactions.filter((t: any) => t.status === "PAID").length
       : 0;
+    const reservedSeatCount = cls.transactions
+      ? cls.transactions.filter((t: any) => t.status === "PAID" || t.status === "PENDING").length
+      : studentCount;
 
     return {
       id: cls.id,
       title: cls.title,
       slug: cls.slug,
       description: cls.description,
-      shortDescription: cls.description.slice(0, 150) + "...",
+      shortDescription: cls.shortDescription || cls.description.slice(0, 150) + "...",
       type: cls.type,
       courseType: cls.type,
       price: String(cls.price),
@@ -71,13 +76,25 @@ export class ClassesService {
         : undefined,
       bannerUrl: cls.bannerUrl,
       startsAt: cls.startsAt,
-      meetingLink: cls.meetingLink,
-      meetingUrl: cls.meetingLink,
-      materialLink: cls.materialLink,
-      materialUrl: cls.materialLink,
-      recordingLink: cls.recordingLink,
-      recordingUrl: cls.recordingLink,
-      status: "ACTIVE",
+      accessDuration: cls.accessDuration,
+      accessUntil: cls.accessUntil,
+      maxQuota: cls.maxQuota,
+      availableSeats: cls.maxQuota == null ? null : Math.max(0, cls.maxQuota - reservedSeatCount),
+      meetingLink: cls.accessUntil && cls.accessUntil < new Date() ? null : cls.meetingLink,
+      meetingUrl: cls.accessUntil && cls.accessUntil < new Date() ? null : cls.meetingLink,
+      meetingPlatform: cls.meetingPlatform,
+      materialLink: cls.accessUntil && cls.accessUntil < new Date() ? null : cls.materialLink,
+      materialUrl: cls.accessUntil && cls.accessUntil < new Date() ? null : cls.materialLink,
+      materialPlatform: cls.materialPlatform,
+      recordingLink: cls.accessUntil && cls.accessUntil < new Date() ? null : cls.recordingLink,
+      recordingUrl: cls.accessUntil && cls.accessUntil < new Date() ? null : cls.recordingLink,
+      requirements: cls.requirements || [],
+      facilities: cls.facilities || [],
+      status: cls.reviewStatus === "PENDING_REVIEW" || cls.reviewStatus === "REJECTED" ? cls.reviewStatus : "ACTIVE",
+      reviewStatus: cls.reviewStatus || "APPROVED",
+      reviewNote: cls.reviewNote || null,
+      reviewedById: cls.reviewedById || null,
+      reviewedAt: cls.reviewedAt || null,
       createdAt: cls.createdAt,
       updatedAt: cls.updatedAt,
       creator: cls.creator
@@ -119,6 +136,7 @@ export class ClassesService {
 
   async listActiveClasses() {
     const classes = await this.prisma.class.findMany({
+      where: { reviewStatus: "APPROVED" },
       orderBy: { createdAt: "desc" },
       include: {
         creator: true,
@@ -128,10 +146,10 @@ export class ClassesService {
       },
     });
 
-    return classes.filter(isUniversityCourseRecord).map((c) => this.mapClassRecord(c));
+    return classes.map((c) => this.mapClassRecord(c));
   }
 
-  async getClassDetail(idOrSlug: string) {
+  async getClassDetail(idOrSlug: string, viewerId?: string) {
     const cls = await this.prisma.class.findFirst({
       where: {
         OR: [{ id: idOrSlug }, { slug: idOrSlug }],
@@ -148,11 +166,54 @@ export class ClassesService {
       },
     });
 
-    if (!cls || !isUniversityCourseRecord(cls)) {
+    if (!cls) {
+      throw new NotFoundException("Kelas tidak ditemukan.");
+    }
+    if (cls.reviewStatus !== "APPROVED" && cls.creatorId !== viewerId) {
       throw new NotFoundException("Kelas tidak ditemukan.");
     }
 
     return this.mapClassRecord(cls);
+  }
+
+  findPendingReviews() {
+    return this.prisma.class.findMany({
+      where: { reviewStatus: "PENDING_REVIEW" },
+      include: { creator: true, tutors: true, reviews: true, transactions: true },
+      orderBy: { createdAt: "asc" },
+    }).then((classes) => classes.map((item) => this.mapClassRecord(item)));
+  }
+
+  async reviewClass(adminId: string, classId: string, decision: "APPROVE" | "REJECT", note?: string) {
+    if (decision === "REJECT" && !note?.trim()) {
+      throw new BadRequestException("Berikan catatan perbaikan saat menolak kelas.");
+    }
+    const item = await this.prisma.class.findUnique({ where: { id: classId }, select: { id: true, creatorId: true, title: true, reviewStatus: true } });
+    if (!item) throw new NotFoundException("Pengajuan kelas tidak ditemukan.");
+    if (item.reviewStatus !== "PENDING_REVIEW") throw new ConflictException("Pengajuan kelas ini sudah ditinjau.");
+
+    const reviewStatus = decision === "APPROVE" ? "APPROVED" : "REJECTED";
+    const updated = await this.prisma.class.updateMany({
+      where: { id: classId, reviewStatus: "PENDING_REVIEW" },
+      data: { reviewStatus, reviewNote: note?.trim() || null, reviewedById: adminId, reviewedAt: new Date() },
+    });
+    if (updated.count === 0) throw new ConflictException("Pengajuan kelas ini sudah ditinjau.");
+
+    await this.notifications.createNotification({
+      userId: item.creatorId,
+      title: decision === "APPROVE" ? "Kelas Disetujui" : "Kelas Perlu Diperbaiki",
+      message: decision === "APPROVE"
+        ? `Kelas "${item.title}" telah disetujui dan sekarang tampil di katalog.`
+        : `Kelas "${item.title}" belum disetujui.${note?.trim() ? ` Catatan admin: ${note.trim()}` : " Silakan periksa kembali detail kelas dan kirim ulang untuk ditinjau."}`,
+      type: "SYSTEM",
+      linkUrl: "/dashboard/tutor/kelas",
+    }).catch(() => null);
+
+    const reviewedClass = await this.prisma.class.findUnique({
+      where: { id: classId }, include: { creator: true, tutors: true, reviews: true, transactions: true },
+    });
+    if (!reviewedClass) throw new NotFoundException("Pengajuan kelas tidak ditemukan.");
+    return this.mapClassRecord(reviewedClass);
   }
 
   async createClass(creatorId: string, body: CreateClassDto) {
@@ -200,20 +261,27 @@ export class ClassesService {
       throw new BadRequestException("Pilih nilai mata kuliah yang pernah Anda peroleh (A, A-, atau B+).");
     }
 
-    const category = body.category || body.mainCategory;
-    const campusTargetValue = body.campusTarget || body.university || "";
-    const campusTarget = campusTargetValue.trim() || null;
-    const academicCourse = findUniversityCourse(body.title, category, campusTarget);
-    if (
-      !academicCourse ||
-      classType !== academicCourse.type ||
-      Number(body.price) !== academicCourse.price
-    ) {
-      throw new BadRequestException("Pilih mata kuliah resmi dari katalog NEXIERA dengan nama, kategori, dan cakupan kampus yang sesuai.");
+    const category = (body.category || body.mainCategory || "").trim();
+    const major = body.major?.trim() || "";
+    const campusTarget = (body.campusTarget || body.university || "").trim();
+    if (!body.title.trim() || !category || !major || !campusTarget) {
+      throw new BadRequestException("Nama mata kuliah, kategori, jurusan, dan kampus wajib diisi.");
     }
-
-    if (category !== academicCourse.category || campusTarget !== academicCourse.campusTarget) {
-      throw new BadRequestException("Kategori dan cakupan kampus harus mengikuti data mata kuliah resmi.");
+    const accessUntil = new Date(body.accessUntil);
+    if (!Number.isFinite(accessUntil.getTime()) || accessUntil <= new Date()) {
+      throw new BadRequestException("Tanggal akhir akses harus berada di masa mendatang.");
+    }
+    const startsAt = body.startsAt ? new Date(body.startsAt) : null;
+    if (!startsAt || !Number.isFinite(startsAt.getTime()) || startsAt <= new Date() || accessUntil <= startsAt) {
+      throw new BadRequestException("Jadwal kelas harus berada di masa mendatang dan sebelum tanggal akhir akses.");
+    }
+    if (!Number.isFinite(Number(body.price)) || Number(body.price) < 0) {
+      throw new BadRequestException("Biaya kelas harus bernilai nol atau lebih.");
+    }
+    const bannerFilename = body.bannerUrl.startsWith("/uploads/") ? body.bannerUrl.slice("/uploads/".length) : "";
+    const bannerPath = join(process.cwd(), "uploads", bannerFilename);
+    if (!bannerFilename || basename(bannerFilename) !== bannerFilename || ![".png", ".jpg", ".jpeg", ".webp"].includes(extname(bannerFilename).toLowerCase()) || !existsSync(bannerPath)) {
+      throw new BadRequestException("Banner kelas harus berupa gambar yang berhasil diunggah (PNG, JPEG, atau WebP).");
     }
     const meetingLink = body.meetingLink || body.meetingUrl || null;
     const materialLink = body.materialLink || body.materialUrl || null;
@@ -224,24 +292,36 @@ export class ClassesService {
         title: body.title.trim(),
         slug: finalSlug,
         description: body.description.trim(),
+        shortDescription: body.shortDescription?.trim() || null,
         type: classType,
         tutorGrade: classType === ClassType.PEER_TUTORING ? body.tutorGrade : null,
         price: body.price || 0,
         category,
-        major: academicCourse.major,
+        major,
         campusTarget,
         bannerUrl: body.bannerUrl || null,
-        startsAt: body.startsAt ? new Date(body.startsAt) : null,
+        startsAt,
+        accessDuration: body.accessDuration?.trim() || null,
+        accessUntil,
+        maxQuota: body.maxQuota ?? null,
+        meetingPlatform: body.meetingPlatform?.trim() || null,
         meetingLink,
+        materialPlatform: body.materialPlatform?.trim() || null,
         materialLink,
         recordingLink,
+        requirements: body.requirements ?? [],
+        facilities: body.facilities ?? [],
+        reviewStatus: "PENDING_REVIEW",
+        reviewNote: null,
+        reviewedById: null,
+        reviewedAt: null,
         creatorId,
       },
     });
 
-    // If BOOTCAMP, handle tutors logic:
-    // Specification: Creating a Bootcamp requires at least 1 main tutor (auto-fill from user profile).
-    // Additional tutors via BootcampTutor are optional. Single-instructor bootcamps must operate seamlessly.
+
+
+
     if (classType === ClassType.BOOTCAMP) {
       if (body.tutors && body.tutors.length > 0) {
         for (const t of body.tutors) {
@@ -257,7 +337,7 @@ export class ClassesService {
           });
         }
       } else {
-        // Auto-fill main tutor from user profile
+
         await this.prisma.bootcampTutor.create({
           data: {
             classId: newClass.id,
@@ -271,7 +351,7 @@ export class ClassesService {
       }
     }
 
-    return this.getClassDetail(newClass.id);
+    return this.getClassDetail(newClass.id, creatorId);
   }
 
   async updateClass(classId: string, userId: string, body: UpdateClassDto) {
@@ -282,21 +362,7 @@ export class ClassesService {
     if (existing.creatorId !== userId) {
       throw new ForbiddenException("Hanya pembuat kelas yang dapat mengubah detail kelas.");
     }
-
-    const nextTitle = body.title?.trim() || existing.title;
-    const nextCategory = body.category || body.mainCategory || existing.category;
-    const nextCampusTarget = body.campusTarget || body.university || existing.campusTarget;
-    const academicCourse = findUniversityCourse(nextTitle, nextCategory, nextCampusTarget);
-    if (
-      !academicCourse ||
-      academicCourse.title !== nextTitle ||
-      (body.type && body.type !== academicCourse.type) ||
-      (nextCategory && nextCategory !== academicCourse.category) ||
-      (nextCampusTarget && nextCampusTarget !== academicCourse.campusTarget) ||
-      (body.price !== undefined && Number(body.price) !== academicCourse.price)
-    ) {
-      throw new BadRequestException("Kelas harus menggunakan kombinasi nama mata kuliah, kategori, dan cakupan kampus resmi dari katalog NEXIERA.");
-    }
+    const resubmittingForReview = existing.reviewStatus !== "APPROVED";
 
     const meetingLink = body.meetingLink || body.meetingUrl || undefined;
     const materialLink = body.materialLink || body.materialUrl || undefined;
@@ -310,19 +376,31 @@ export class ClassesService {
         title: body.title?.trim() || undefined,
         tutorGrade: body.tutorGrade,
         description: body.description?.trim() || undefined,
+        shortDescription: body.shortDescription?.trim() || undefined,
         category,
-        major: academicCourse.major,
-        campusTarget,
+        major: body.major?.trim() || undefined,
+        campusTarget: campusTarget?.trim() || undefined,
         bannerUrl: body.bannerUrl || undefined,
         startsAt: body.startsAt ? new Date(body.startsAt) : undefined,
+        accessDuration: body.accessDuration?.trim() || undefined,
+        accessUntil: body.accessUntil ? new Date(body.accessUntil) : undefined,
+        maxQuota: body.maxQuota,
         price: body.price !== undefined ? body.price : undefined,
         meetingLink,
+        meetingPlatform: body.meetingPlatform?.trim() || undefined,
         materialLink,
+        materialPlatform: body.materialPlatform?.trim() || undefined,
         recordingLink,
+        requirements: body.requirements,
+        facilities: body.facilities,
+        reviewStatus: resubmittingForReview ? "PENDING_REVIEW" : undefined,
+        reviewNote: resubmittingForReview ? null : undefined,
+        reviewedById: resubmittingForReview ? null : undefined,
+        reviewedAt: resubmittingForReview ? null : undefined,
       },
     });
 
-    // If meetingLink changed and not empty, send notifications to all enrolled students
+
     if (meetingLink && meetingLink !== existing.meetingLink) {
       const paidTransactions = await this.prisma.transaction.findMany({
         where: { classId, status: "PAID" },
@@ -340,11 +418,11 @@ export class ClassesService {
       }
     }
 
-    return this.getClassDetail(updated.id);
+    return this.getClassDetail(updated.id, userId);
   }
 
   async listMyClasses(userId: string) {
-    // Classes created by user OR enrolled by user
+
     const createdClasses = await this.prisma.class.findMany({
       where: { creatorId: userId },
       include: {
@@ -373,7 +451,6 @@ export class ClassesService {
 
     const enrolledMap = new Map();
     for (const tx of enrolledTransactions) {
-      if (!isUniversityCourseRecord(tx.class)) continue;
       if (!enrolledMap.has(tx.class.id)) {
         enrolledMap.set(tx.class.id, {
           ...this.mapClassRecord(tx.class),
@@ -384,7 +461,7 @@ export class ClassesService {
     }
 
     return {
-      created: createdClasses.filter(isUniversityCourseRecord).map((c) => this.mapClassRecord(c)),
+      created: createdClasses.map((c) => this.mapClassRecord(c)),
       enrolled: Array.from(enrolledMap.values()),
     };
   }
@@ -395,9 +472,11 @@ export class ClassesService {
       include: { creator: true },
     });
     if (!cls) throw new NotFoundException("Kelas tidak ditemukan");
-    if (!isUniversityCourseRecord(cls)) throw new NotFoundException("Kelas tidak termasuk mata kuliah resmi.");
 
     const isCreator = cls.creatorId === userId;
+    if (!isCreator && cls.accessUntil && cls.accessUntil < new Date()) {
+      throw new ForbiddenException("Masa akses pembelajaran untuk kelas ini sudah berakhir.");
+    }
     const isEnrolled = await this.prisma.transaction.findFirst({
       where: { classId, userId, status: "PAID" },
     });
@@ -486,7 +565,7 @@ export class ClassesService {
         price: true,
       },
     });
-    const classIds = myClasses.filter(isUniversityCourseRecord).map((c) => c.id);
+    const classIds = myClasses.map((c) => c.id);
 
     const transactions = await this.prisma.transaction.findMany({
       where: {
@@ -536,12 +615,11 @@ export class ClassesService {
       where: { id: classId },
     });
     if (!cls) throw new NotFoundException("Kelas tidak ditemukan");
-    if (!isUniversityCourseRecord(cls)) throw new NotFoundException("Kelas tidak termasuk mata kuliah resmi.");
     if (cls.creatorId !== userId) {
       throw new ForbiddenException("Hanya pembuat kelas yang dapat membatalkan kelas.");
     }
 
-    // Cancel all pending/paid transactions
+
     await this.prisma.transaction.updateMany({
       where: { classId, status: "PENDING" },
       data: { status: "CANCELLED" },

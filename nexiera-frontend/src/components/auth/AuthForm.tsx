@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
 import { AuthLayout } from "./AuthLayout";
 import { getApiBaseUrl, getBrowserAuthUrl, nexieraApi } from "@/src/lib/api";
 import { refreshUser } from "@/src/store/useUserStore";
@@ -16,6 +17,7 @@ export function AuthForm({ mode }: AuthFormProps) {
   const isRegister = mode === "register";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [fullName, setFullName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [error, setError] = useState("");
@@ -83,7 +85,21 @@ export function AuthForm({ mode }: AuthFormProps) {
           {isRegister && <label className="block text-[13px] font-semibold text-[#20232B]">Nama lengkap<input name="fullName" autoComplete="name" value={fullName} onChange={(event) => setFullName(event.target.value)} required minLength={2} maxLength={191} className={fieldClass} /></label>}
           <label className="block text-[13px] font-semibold text-[#20232B]">Email<input name="email" type="email" autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} required maxLength={191} className={fieldClass} placeholder="nama@email.com" /></label>
           {isRegister && <label className="block text-[13px] font-semibold text-[#20232B]">Nomor WhatsApp<input name="phoneNumber" type="tel" autoComplete="tel" value={phoneNumber} onChange={(event) => setPhoneNumber(event.target.value)} required minLength={8} maxLength={32} pattern="\+?[0-9\s().-]{8,32}" className={fieldClass} placeholder="+62 812 3456 7890" /></label>}
-          <label className="block text-[13px] font-semibold text-[#20232B]">Password<input name="password" type="password" autoComplete={isRegister ? "new-password" : "current-password"} value={password} onChange={(event) => setPassword(event.target.value)} required minLength={6} maxLength={72} className={fieldClass} placeholder={isRegister ? "Minimal 6 karakter" : "Masukkan password"} /></label>
+          <div>
+            <label htmlFor="auth-password" className="block text-[13px] font-semibold text-[#20232B]">Password</label>
+            <div className="relative mt-1.5">
+              <input id="auth-password" name="password" type={showPassword ? "text" : "password"} autoComplete={isRegister ? "new-password" : "current-password"} value={password} onChange={(event) => setPassword(event.target.value)} required minLength={6} maxLength={72} className={`${fieldClass} pr-12`} placeholder={isRegister ? "Minimal 6 karakter" : "Masukkan password"} />
+              <button
+                type="button"
+                onClick={() => setShowPassword((visible) => !visible)}
+                aria-label={showPassword ? "Sembunyikan password" : "Lihat password"}
+                aria-pressed={showPassword}
+                className="absolute inset-y-0 right-0 flex w-11 items-center justify-center rounded-r-[4px] text-[#626B78] transition-colors hover:text-[#2457C5] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#2457C5]"
+              >
+                {showPassword ? <EyeOff className="h-4 w-4" aria-hidden="true" /> : <Eye className="h-4 w-4" aria-hidden="true" />}
+              </button>
+            </div>
+          </div>
           {error && <p role="alert" className="rounded-[4px] border border-red-200 bg-red-50 px-3 py-2 text-xs leading-5 text-red-700">{error}</p>}
           {showLoginResend && <div className="rounded-[4px] border border-amber-200 bg-amber-50 p-3 text-xs text-amber-900"><p>Belum menerima tautan verifikasi?</p><button type="button" disabled={resending || !email.trim()} onClick={() => { setResending(true); setResendMessage(""); void nexieraApi.resendVerification(email.trim()).then((result) => { setResendMessage(result.message); setVerificationUrl(result.verificationUrl || ""); }).catch((cause) => setResendMessage(cause instanceof Error ? cause.message : "Permintaan kirim ulang gagal.")).finally(() => setResending(false)); }} className="mt-2 cursor-pointer font-semibold text-[#2457C5] underline disabled:cursor-not-allowed disabled:opacity-50">{resending ? "Mengirim ulang..." : "Kirim ulang tautan"}</button>{resendMessage && <p role="status" className="mt-2">{resendMessage} {!verificationUrl && "Jika email belum tiba, periksa folder spam."}</p>}{verificationUrl && <a href={verificationUrl} className="mt-2 inline-block font-semibold text-[#2457C5] underline">Buka tautan verifikasi lokal</a>}</div>}
           <button type="submit" disabled={submitting} className="btn-primary mt-1 h-11 w-full text-sm font-semibold disabled:cursor-wait disabled:opacity-60">

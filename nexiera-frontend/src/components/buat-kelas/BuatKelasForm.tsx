@@ -13,9 +13,30 @@ import {
   Video,
   X,
 } from "lucide-react";
-import { nexieraApi } from "@/src/lib/api";
+import { getPublicUploadUrl, nexieraApi } from "@/src/lib/api";
 import { UNIVERSITY_COURSES } from "@/src/lib/universityCourses";
+import { CATEGORIES_DATA } from "@/src/lib/taxonomy";
 import { CourseType, MaterialPlatform, MeetingPlatform, PricingModel, Tutor } from "@/src/types/course";
+
+const UNIVERSITY_OPTIONS = [
+  "BINUS University",
+  "Universitas Indonesia",
+  "Universitas Gadjah Mada",
+  "Institut Teknologi Bandung",
+  "Institut Teknologi Sepuluh Nopember",
+  "IPB University",
+  "Universitas Padjadjaran",
+  "Universitas Brawijaya",
+  "Universitas Airlangga",
+  "Universitas Diponegoro",
+  "Universitas Sebelas Maret",
+  "Telkom University",
+  "Universitas Hasanuddin",
+  "Universitas Negeri Yogyakarta",
+  "Universitas Negeri Jakarta",
+  "Universitas Multimedia Nusantara",
+];
+const ALL_MAJORS = Array.from(new Set(Object.values(CATEGORIES_DATA).flatMap((majors) => Object.keys(majors)))).sort((a, b) => a.localeCompare(b, "id"));
 
 function SectionTitle({ num, label }: { num: string; label: string }) {
   return (
@@ -43,7 +64,7 @@ function Field({
 }) {
   return (
     <div className={className}>
-      <div className="mb-1.5 flex items-center justify-between">
+      <div className="mb-1.5 flex min-h-8 items-start justify-between gap-2">
         <label className="text-xs font-semibold text-[#20232B]">
           {label} {required && <span className="text-red-500">*</span>}
         </label>
@@ -77,10 +98,10 @@ export function BuatKelasForm() {
     : user.name || user.fullName || "";
 
   const [mainCategory, setMainCategory] = useState<string>(initialCourse.category);
-  const [major, setMajor] = useState<string>(initialCourse.major);
+  const [major, setMajor] = useState<string>(user.major || initialCourse.major);
   const [title, setTitle] = useState<string>(initialCourse.title);
   const [tutorGrade, setTutorGrade] = useState<"" | "A" | "A_MINUS" | "B_PLUS">("");
-  const [university, setUniversity] = useState<string>(initialCourse.campusTarget || "");
+  const [university, setUniversity] = useState<string>(user.university || user.campus || initialCourse.campusTarget || "");
   const [shortDesc, setShortDesc] = useState("");
   const [fullDesc, setFullDesc] = useState("");
   const [bannerUrl, setBannerUrl] = useState("");
@@ -128,16 +149,26 @@ export function BuatKelasForm() {
   const [newFac, setNewFac] = useState("");
 
   const [scheduleDate, setScheduleDate] = useState("");
-  const [accessDuration, setAccessDuration] = useState("Selamanya (Lifetime Access)");
+  const [accessUntil, setAccessUntil] = useState("");
   const [maxQuota, setMaxQuota] = useState(25);
 
   const [meetingPlatform, setMeetingPlatform] = useState<MeetingPlatform>("ZOOM");
   const [meetingUrl, setMeetingUrl] = useState("");
   const [materialPlatform, setMaterialPlatform] = useState<MaterialPlatform>("NOTION");
-  const [materialUrl, setMaterialUrl] = useState(""); // Opsional
-  const [recordingUrl, setRecordingUrl] = useState(""); // Opsional
+  const [materialUrl, setMaterialUrl] = useState("");
+  const [recordingUrl, setRecordingUrl] = useState("");
 
   const [organizerName, setOrganizerName] = useState(defaultOrgName);
+  const universityOptions = Array.from(new Set<string>([
+    ...UNIVERSITY_OPTIONS,
+    ...UNIVERSITY_COURSES.map((course) => course.campusTarget || ""),
+    user.university || "",
+    user.campus || "",
+  ].filter((campus) => campus.length > 0))).sort((a, b) => a.localeCompare(b, "id"));
+  const categoryMajors = Object.keys(CATEGORIES_DATA[mainCategory] || {});
+  const majorOptions = categoryMajors.length > 0
+    ? Array.from(new Set([...categoryMajors, ...(user.major ? [user.major] : []), ...(major ? [major] : [])])).sort((a, b) => a.localeCompare(b, "id"))
+    : Array.from(new Set([...ALL_MAJORS, ...(user.major ? [user.major] : [])])).sort((a, b) => a.localeCompare(b, "id"));
   const [tutors, setTutors] = useState<Tutor[]>([
     {
       id: "tutor-main",
@@ -166,24 +197,10 @@ export function BuatKelasForm() {
     setType(defaultType);
   }, [defaultType]);
 
-  const selectAcademicCourse = (title: string, courseType = type) => {
-    const course = UNIVERSITY_COURSES.find((item) => item.title === title && item.type === courseType);
-    if (!course) return;
-    setTitle(course.title);
-    setTutorGrade("");
-    setMainCategory(course.category);
-    setMajor(course.major);
-    setUniversity(course.campusTarget || "");
-    setPricingModel(course.price === 0 ? "FREE" : "PAID");
-    setPriceAmount(course.price);
-  };
-
   const handleTypeChange = (newType: CourseType) => {
     if (isBootcampUser && newType !== "BOOTCAMP") return;
     if (isTutorUser && newType !== "PEER_TUTORING") return;
     setType(newType);
-    const nextCourse = UNIVERSITY_COURSES.find((course) => course.type === newType);
-    if (nextCourse) selectAcademicCourse(nextCourse.title, newType);
     if (newType === "BOOTCAMP") {
       setOrganizerName(user.organizationName || user.name || "");
     } else {
@@ -246,6 +263,18 @@ export function BuatKelasForm() {
       alert("Mohon lengkapi nama mata kuliah dan deskripsi singkat.");
       return;
     }
+    if (!university.trim() || !major.trim() || !mainCategory.trim()) {
+      alert("Pilih kategori, jurusan, dan kampus sebelum menerbitkan kelas.");
+      return;
+    }
+    if (pricingModel === "PAID" && (!Number.isFinite(priceAmount) || priceAmount <= 0)) {
+      alert("Masukkan biaya yang lebih besar dari Rp0 atau pilih Gratis.");
+      return;
+    }
+    if (!Number.isInteger(maxQuota) || maxQuota < 1 || maxQuota > 200) {
+      alert("Kuota harus antara 1 sampai 200 peserta.");
+      return;
+    }
     if (type === "PEER_TUTORING" && !tutorGrade) {
       alert("Pilih nilai yang pernah Anda peroleh untuk mata kuliah ini.");
       return;
@@ -263,6 +292,11 @@ export function BuatKelasForm() {
       alert("Pilih tanggal dan waktu pelaksanaan yang akan datang.");
       return;
     }
+    const accessUntilDate = accessUntil ? new Date(`${accessUntil}T23:59:59.999`) : null;
+    if (!accessUntilDate || !Number.isFinite(accessUntilDate.getTime()) || accessUntilDate <= new Date()) {
+      alert("Pilih tanggal akhir akses pembelajaran yang akan datang.");
+      return;
+    }
 
     setIsSubmitting(true);
     setSubmitError("");
@@ -272,16 +306,17 @@ export function BuatKelasForm() {
         title: title.trim(),
         shortDescription: shortDesc.trim(),
         description: fullDesc.trim() || shortDesc.trim(),
+        category: mainCategory,
         mainCategory,
-        major,
-        university,
+        major: major.trim(),
+        campusTarget: university.trim(),
+        university: university.trim(),
         courseType: type,
         tutorGrade: type === "PEER_TUTORING" ? tutorGrade : undefined,
-        organizerName,
         bannerUrl: bannerUrl || undefined,
         price: pricingModel === "PAID" ? Number(priceAmount) : 0,
         startsAt: scheduledAt.toISOString(),
-        accessDuration,
+        accessUntil: accessUntilDate.toISOString(),
         maxQuota: Number(maxQuota),
         meetingPlatform,
         meetingUrl: meetingUrl.trim(),
@@ -292,8 +327,8 @@ export function BuatKelasForm() {
         facilities: facilities.length > 0 ? facilities : ["Catatan Belajar"],
       });
 
-      setSuccessMsg("Kelas berhasil diterbitkan. Mengalihkan ke katalog...");
-      window.setTimeout(() => router.push("/cari-kelas"), 900);
+      setSuccessMsg("Kelas berhasil dikirim untuk ditinjau admin. Kelas akan tampil di katalog setelah disetujui.");
+      window.setTimeout(() => router.push("/dashboard/tutor/kelas"), 1400);
     } catch (cause) {
       setSubmitError(cause instanceof Error ? cause.message : "Kelas gagal disimpan. Coba lagi.");
     } finally {
@@ -320,28 +355,32 @@ export function BuatKelasForm() {
         <SectionTitle num="1" label="Kategori & Akademik" />
         <div className="grid gap-5 md:grid-cols-2">
           <Field label="Kategori Utama" required>
-            <input value={mainCategory} readOnly className={inputCls} />
+            <select value={mainCategory} onChange={(event) => { setMainCategory(event.target.value); setMajor(""); }} className={`${inputCls} cursor-pointer`} required>
+              <option value="" disabled>Pilih kategori</option>
+              {Object.keys(CATEGORIES_DATA).map((category) => <option key={category} value={category}>{category}</option>)}
+            </select>
           </Field>
 
           <Field label="Jurusan" required>
-            <input value={major} readOnly className={inputCls} />
+            <select value={major} onChange={(event) => setMajor(event.target.value)} className={`${inputCls} cursor-pointer`} required>
+              <option value="" disabled>Pilih jurusan</option>
+              {majorOptions.map((item) => <option key={item} value={item}>{item}</option>)}
+            </select>
           </Field>
 
           <Field
             label="Nama Mata Kuliah"
             required
-            hint="Gunakan nama resmi mata kuliah di kampus"
-            className="md:col-span-2"
+            hint="Ketik nama mata kuliah atau topik kelas"
           >
-            <select value={title} onChange={(e) => selectAcademicCourse(e.target.value)} className={inputCls} required>
-              {UNIVERSITY_COURSES.filter((course) => course.type === type).map((course) => (
-                <option key={`${course.title}-${course.category}-${course.campusTarget}`} value={course.title}>{course.title}</option>
-              ))}
-            </select>
+            <input type="text" value={title} onChange={(event) => setTitle(event.target.value)} placeholder="Contoh: Struktur Data dan Algoritma" className={inputCls} minLength={3} required />
           </Field>
 
-          <Field label="Kampus (opsional)">
-            <input value={university} readOnly className={inputCls} placeholder="Kelas umum" />
+          <Field label="Kampus" required>
+            <select value={university} onChange={(event) => setUniversity(event.target.value)} className={`${inputCls} cursor-pointer`} required>
+              <option value="" disabled>Pilih kampus</option>
+              {universityOptions.map((campus) => <option key={campus} value={campus}>{campus}</option>)}
+            </select>
           </Field>
 
           {type === "PEER_TUTORING" && (
@@ -386,6 +425,7 @@ export function BuatKelasForm() {
               onChange={(e) => setShortDesc(e.target.value)}
               placeholder="Ringkasan materi perkuliahan, pembahasan latihan soal, dan persiapan menghadapi ujian..."
               className={inputCls + " resize-none"}
+              maxLength={500}
               required
             />
           </Field>
@@ -401,13 +441,13 @@ export function BuatKelasForm() {
           </Field>
 
           <div className="md:col-span-2">
-            <Field label="Banner Sampul Kelas (Unggah Langsung)" required hint="Format PNG/JPEG/WebP, maks. 5 MB">
+            <Field label="Banner Sampul Kelas (Unggah Langsung)" required hint="Rasio 16:9 · Rekomendasi 1200 × 675 px · Maks. 5 MB">
               <div className="rounded-[4px] border border-dashed border-[#D9DEE7] p-4 bg-slate-50/50">
                 {bannerUrl ? (
                   <div className="space-y-3">
                     <div className="relative aspect-video w-full max-w-md overflow-hidden rounded-[4px] border border-[#D9DEE7]">
                       <img
-                        src={bannerUrl.startsWith("/uploads") ? `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000"}${bannerUrl}` : bannerUrl}
+                        src={bannerUrl.startsWith("/uploads") ? getPublicUploadUrl(bannerUrl) : bannerUrl}
                         alt="Preview Banner Kelas"
                         className="h-full w-full object-cover"
                       />
@@ -431,7 +471,7 @@ export function BuatKelasForm() {
                   </div>
                 ) : (
                   <div className="flex flex-col items-center justify-center py-4 text-center">
-                    <p className="text-xs text-[#626B78] mb-2">Unggah gambar banner representatif untuk kartu kelas di katalog.</p>
+                    <p className="mb-2 max-w-lg text-xs leading-relaxed text-[#626B78]">Gunakan gambar horizontal rasio 16:9 agar pas di kartu kelas. Rekomendasi 1200 × 675 piksel. Format PNG, JPEG, atau WebP; ukuran maksimal 5 MB.</p>
                     <button
                       type="button"
                       disabled={uploadingBanner}
@@ -551,7 +591,7 @@ export function BuatKelasForm() {
                 value={meetingUrl}
                 onChange={(e) => setMeetingUrl(e.target.value)}
                 placeholder="https://zoom.us/j/... atau https://meet.google.com/..."
-                className={inputCls}
+                className={`${inputCls} pr-10`}
                 required
               />
               <MonitorPlay className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" aria-hidden="true" />
@@ -569,7 +609,7 @@ export function BuatKelasForm() {
                 value={materialUrl}
                 onChange={(e) => setMaterialUrl(e.target.value)}
                 placeholder="https://... (Link dokumen catatan / materi belajar)"
-                className={inputCls}
+                className={`${inputCls} pr-10`}
               />
               <BookOpenText className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" aria-hidden="true" />
             </div>
@@ -586,7 +626,7 @@ export function BuatKelasForm() {
                 value={recordingUrl}
                 onChange={(e) => setRecordingUrl(e.target.value)}
                 placeholder="https://drive.google.com/... (Link Google Drive / Cloud rekaman video)"
-                className={inputCls}
+                className={`${inputCls} pr-10`}
               />
               <Video className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" aria-hidden="true" />
             </div>
@@ -726,19 +766,7 @@ export function BuatKelasForm() {
       <section className="border-t border-slate-100 pt-6">
         <SectionTitle num="4" label="Kapasitas Kuota & Biaya" />
         <div className="grid gap-5 md:grid-cols-2">
-          <Field label="Masa Akses Pembelajaran" required>
-            <select
-              value={accessDuration}
-              onChange={(e) => setAccessDuration(e.target.value)}
-              className={inputCls}
-            >
-              <option value="Selamanya (Lifetime Access)">Selamanya (Lifetime Access)</option>
-              <option value="1 Semester Aktif">1 Semester Aktif</option>
-              <option value="Hingga Pekan UAS Selesai">Hingga Pekan UAS Selesai</option>
-            </select>
-          </Field>
-
-          <Field label="Batas Kuota Peserta" required>
+          <Field label="Batas Kuota Peserta" required hint="Maksimal 200 peserta">
             <input
               type="number"
               value={maxQuota}
@@ -749,16 +777,47 @@ export function BuatKelasForm() {
               required
             />
           </Field>
+
+          <Field label="Akses sampai tanggal" required>
+            <>
+              <input
+                type="date"
+                value={accessUntil}
+                onChange={(event) => setAccessUntil(event.target.value)}
+                min={(() => { const today = new Date(); today.setMinutes(today.getMinutes() - today.getTimezoneOffset()); return today.toISOString().slice(0, 10); })()}
+                className={inputCls}
+                required
+              />
+              <p className="mt-1.5 text-[11px] leading-relaxed text-[#626B78]">Akses berakhir pukul 23.59 pada tanggal yang dipilih.</p>
+            </>
+          </Field>
         </div>
 
-        <div className="mt-5">
-          <Field label="Biaya sesuai katalog mata kuliah" required>
-            <input
-              value={pricingModel === "FREE" ? "Gratis" : new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", maximumFractionDigits: 0 }).format(priceAmount)}
-              readOnly
-              className={inputCls}
-            />
+        <div className="mt-5 space-y-4">
+          <Field label="Model Biaya" required hint="Menentukan alur pendaftaran">
+            <div className="grid gap-3 sm:grid-cols-2">
+              {([
+                ["FREE", "Gratis", "Peserta dapat mendaftar tanpa pembayaran."],
+                ["PAID", "Berbayar", "Peserta membayar melalui checkout."],
+              ] as const).map(([value, label, description]) => (
+                <button key={value} type="button" aria-pressed={pricingModel === value} onClick={() => setPricingModel(value)} className={`rounded-[4px] border p-3 text-left transition-colors ${pricingModel === value ? "border-[#2457C5] bg-blue-50/60 dark:border-blue-500 dark:bg-blue-950/30" : "border-[#D9DEE7] bg-white hover:bg-slate-50 dark:border-[#343945] dark:bg-[#191C23]"}`}>
+                  <span className="block text-sm font-semibold text-[#20232B] dark:text-slate-100">{label}</span>
+                  <span className="mt-1 block text-xs text-[#626B78] dark:text-slate-400">{description}</span>
+                </button>
+              ))}
+            </div>
           </Field>
+
+          {pricingModel === "PAID" ? (
+            <Field label="Biaya per Peserta" required hint="Pembayaran online akan diminta saat pendaftaran">
+              <div className="flex overflow-hidden rounded-[4px] border border-[#D9DEE7] focus-within:border-[#2457C5] dark:border-[#343945]">
+                <span className="flex items-center border-r border-[#D9DEE7] bg-slate-50 px-3 text-sm font-semibold text-[#626B78] dark:border-[#343945] dark:bg-[#111318]">Rp</span>
+                <input type="number" min={1} step={1000} value={priceAmount} onChange={(event) => setPriceAmount(Number(event.target.value))} className="w-full bg-white px-3.5 py-2.5 text-xs text-[#20232B] outline-none dark:bg-[#191C23] dark:text-slate-100" required />
+              </div>
+            </Field>
+          ) : (
+            <p className="rounded-[4px] border border-emerald-200 bg-emerald-50 p-3 text-xs text-emerald-800">Pendaftaran gratis: peserta langsung terdaftar tanpa diarahkan ke pembayaran.</p>
+          )}
         </div>
       </section>
 

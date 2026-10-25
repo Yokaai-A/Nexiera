@@ -13,14 +13,14 @@ import React, {
 
 interface RevealProps {
   children: ReactNode;
-  delay?: number; // delay in milliseconds
-  duration?: number; // duration in milliseconds
-  y?: number; // translateY distance in px (default: 24)
-  x?: number; // translateX distance in px (default: 0)
+  delay?: number;
+  duration?: number;
+  y?: number;
+  x?: number;
   className?: string;
   threshold?: number;
   once?: boolean;
-  immediate?: boolean; // triggers immediately on mount (ideal for Hero entrance)
+  immediate?: boolean;
   as?: ElementType;
   style?: CSSProperties;
 }

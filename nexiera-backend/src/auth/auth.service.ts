@@ -27,16 +27,13 @@ export class AuthService {
     }
     const passwordHash = await bcrypt.hash(dto.password, 12);
     const email = dto.email.trim().toLowerCase();
-    const adminEmails = (this.config.get<string>("ADMIN_EMAILS") || "").split(",").map((value) => value.trim().toLowerCase()).filter(Boolean);
-    const isAllowlistedAdmin = adminEmails.includes(email);
     const user = await this.usersService.createPasswordUser({
       email: dto.email,
       passwordHash,
       fullName: dto.fullName,
       phoneNumber: dto.phoneNumber,
-      emailVerified: isAllowlistedAdmin,
+      emailVerified: false,
     });
-    if (isAllowlistedAdmin) return { accessToken: await this.createAccessToken(user.id, user.email), user };
     const token = await this.usersService.issueEmailVerification(user.id);
     const url = new URL(`/verify-email?token=${encodeURIComponent(token)}`, this.config.get<string>("FRONTEND_URL") || "http://localhost:3000").toString();
     if (this.devVerificationLinksEnabled()) {
@@ -54,8 +51,7 @@ export class AuthService {
     if (!user?.password || !(await bcrypt.compare(dto.password, user.password))) {
       throw new UnauthorizedException("Email atau kata sandi tidak valid.");
     }
-    const allowlistedAdmin = (this.config.get<string>("ADMIN_EMAILS") || "").split(",").map((value) => value.trim().toLowerCase()).filter(Boolean).includes(user.email.toLowerCase());
-    if (!user.emailVerifiedAt && !allowlistedAdmin) throw new UnauthorizedException("Verifikasi email melalui tautan yang dikirim sebelum masuk.");
+    if (!user.emailVerifiedAt) throw new UnauthorizedException("Verifikasi email melalui tautan yang dikirim sebelum masuk.");
     const { password: _password, ...profile } = user;
     return {
       accessToken: await this.createAccessToken(profile.id, profile.email),

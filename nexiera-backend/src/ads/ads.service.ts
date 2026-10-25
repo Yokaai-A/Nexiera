@@ -1,5 +1,4 @@
-import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
+import { BadRequestException, ConflictException, Injectable, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service.js";
 import { CreateAdDto, type AdPlacementType } from "./dto/create-ad.dto.js";
 
@@ -7,7 +6,6 @@ import { CreateAdDto, type AdPlacementType } from "./dto/create-ad.dto.js";
 export class AdsService {
   constructor(
     private readonly prisma: PrismaService,
-    private readonly config: ConfigService,
   ) {}
 
   async getSlot(placement: AdPlacementType) {
@@ -15,7 +13,7 @@ export class AdsService {
     const ads = await this.prisma.ad.findMany({
       where: {
         placement,
-        status: "ACTIVE",
+        status: "APPROVED",
         startsAt: { lte: now },
         endsAt: { gte: now },
       },
@@ -29,25 +27,12 @@ export class AdsService {
         targetUrl: true,
         startsAt: true,
         endsAt: true,
+        status: true,
+        impressions: true,
+        clicks: true,
       },
     });
-    if (ads.length > 0) return { source: "advertiser" as const, ads };
-
-    const frontendUrl = this.config.getOrThrow<string>("FRONTEND_URL");
-    const isSideMargin = placement === "SIDE_MARGIN";
-    return {
-      source: "nexiera" as const,
-      ads: [
-        {
-          id: `official-${placement.toLowerCase()}`,
-          title: isSideMargin ? "Selamat datang di NEXIERA" : "Belajar lebih terarah bersama NEXIERA",
-          placement,
-          imageUrl: `${frontendUrl}/${isSideMargin ? "Banner_Samping_Kanan.webp" : "banner-cari-kelas.jpeg"}`,
-          targetUrl: `${frontendUrl}/cari-kelas`,
-          official: true,
-        },
-      ],
-    };
+    return { source: ads.length > 0 ? "advertiser" as const : "nexiera" as const, ads };
   }
 
   async create(ownerId: string, body: CreateAdDto) {
@@ -70,7 +55,7 @@ export class AdsService {
         targetUrl: body.targetUrl,
         startsAt,
         endsAt,
-        status: "ACTIVE",
+        status: "PENDING_REVIEW",
       },
     });
   }
@@ -102,12 +87,28 @@ export class AdsService {
     });
   }
 
+  findPendingAdmin() {
+    return this.prisma.ad.findMany({
+      where: { status: "PENDING_REVIEW" },
+      include: { owner: { select: { id: true, fullName: true, email: true } } },
+      orderBy: { createdAt: "asc" },
+    });
+  }
+
+  async reviewAdmin(adId: string, decision: "APPROVE" | "REJECT") {
+    const ad = await this.prisma.ad.findUnique({ where: { id: adId }, select: { id: true, status: true } });
+    if (!ad) throw new NotFoundException("Pengajuan iklan tidak ditemukan.");
+    if (ad.status !== "PENDING_REVIEW") throw new ConflictException("Pengajuan iklan sudah ditinjau.");
+    const status = decision === "APPROVE" ? "APPROVED" : "REJECTED";
+    return this.prisma.ad.update({ where: { id: adId }, data: { status } });
+  }
+
   private async findActiveAd(adId: string) {
     const now = new Date();
     const ad = await this.prisma.ad.findFirst({
       where: {
         id: adId,
-        status: "ACTIVE",
+        status: "APPROVED",
         startsAt: { lte: now },
         endsAt: { gte: now },
       },

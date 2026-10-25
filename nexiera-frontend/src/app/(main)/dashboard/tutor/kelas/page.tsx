@@ -33,7 +33,7 @@ export default function KelolaKelasPage() {
 
   return (
     <div className="space-y-4">
-      {/* Header */}
+
       <header className="flex flex-wrap items-center justify-between gap-3 rounded-[6px] border border-[#D9DEE7] bg-white p-4 dark:border-[#343945] dark:bg-[#191C23]">
         <div>
           <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-[#2457C5] dark:text-[#78A0FF]">
@@ -65,7 +65,7 @@ export default function KelolaKelasPage() {
         </p>
       )}
 
-      {/* Konten Daftar Kelas */}
+
       <section className="rounded-[6px] border border-[#D9DEE7] bg-white p-4 dark:border-[#343945] dark:bg-[#191C23]">
         {loading ? (
           <p className="py-6 text-xs text-[#626B78] dark:text-[#B1B7C3]">Memuat data kelas...</p>
@@ -89,6 +89,8 @@ export default function KelolaKelasPage() {
           <div className="space-y-4">
             {classes.map((item) => {
               const isCancelled = item.status === "CANCELLED";
+              const isPendingReview = item.reviewStatus === "PENDING_REVIEW" || item.status === "PENDING_REVIEW";
+              const isRejected = item.reviewStatus === "REJECTED" || item.status === "REJECTED";
               const isBootcamp = item.courseType === "BOOTCAMP";
 
               return (
@@ -105,12 +107,16 @@ export default function KelolaKelasPage() {
                         className={`rounded-[4px] px-2 py-0.5 text-xs font-semibold ${
                           item.status === "ACTIVE"
                             ? "bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800"
+                            : isPendingReview
+                              ? "bg-amber-50 text-amber-800 border border-amber-200 dark:bg-amber-950/40 dark:text-amber-300 dark:border-amber-800"
+                              : isRejected
+                                ? "bg-red-50 text-red-800 border border-red-200 dark:bg-red-950/40 dark:text-red-300 dark:border-red-800"
                             : isCancelled
                               ? "bg-red-50 text-red-800 border border-red-200 dark:bg-red-950/40 dark:text-red-300 dark:border-red-800"
                               : "bg-slate-100 text-slate-800 border border-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700"
                         }`}
                       >
-                        {item.status || "DRAFT"}
+                        {isPendingReview ? "MENUNGGU PERSETUJUAN" : isRejected ? "PERLU DIPERBAIKI" : item.status || "DRAFT"}
                       </span>
                     </div>
 
@@ -131,6 +137,8 @@ export default function KelolaKelasPage() {
                         : "Jadwal belum ditentukan"}{" "}
                       · Kuota: {item.maxQuota ?? "Tidak Dibatasi"}
                     </p>
+                    {isPendingReview && <p className="mt-2 text-xs text-amber-700 dark:text-amber-300">Admin sedang meninjau data dan banner kelas ini.</p>}
+                    {isRejected && item.reviewNote && <p className="mt-2 whitespace-pre-wrap text-xs text-red-700 dark:text-red-300">Catatan admin: {item.reviewNote}</p>}
                   </div>
 
                   <div className="flex items-center gap-2 self-start sm:self-center">

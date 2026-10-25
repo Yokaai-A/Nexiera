@@ -11,11 +11,7 @@ export interface MidtransNotification {
   bank_confirmed_at?: string;
 }
 
-/**
- * Validate only fields used by NEXIERA while preserving the rest of Midtrans'
- * notification payload. Midtrans may add provider fields over time, so a
- * whitelist DTO would incorrectly reject valid webhook deliveries.
- */
+
 export function parseMidtransNotification(value: unknown): MidtransNotification {
   if (typeof value !== "object" || value === null || Array.isArray(value)) {
     throw new BadRequestException("Invalid Midtrans notification payload");

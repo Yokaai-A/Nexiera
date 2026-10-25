@@ -182,7 +182,7 @@ export function SidebarRoleBox() {
               );
             })}
 
-            {/* Direct Registration Callouts if roles locked */}
+
             {(!isRoleUnlocked("tutor") || !isRoleUnlocked("bootcamp_partner")) && (
               <div className="mt-2 border-t border-[#D9DEE7] pt-1.5 dark:border-[#343945]">
                 {!isRoleUnlocked("tutor") && (

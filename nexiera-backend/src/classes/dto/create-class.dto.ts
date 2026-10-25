@@ -5,7 +5,9 @@ import {
   IsNumber,
   IsOptional,
   IsString,
+  MaxLength,
   Min,
+  Max,
   MinLength,
 } from "class-validator";
 import { ClassType, TutorGrade } from "../../generated/prisma/client.js";
@@ -40,6 +42,11 @@ export class CreateClassDto {
   description!: string;
 
   @IsOptional()
+  @IsString()
+  @MaxLength(500)
+  shortDescription?: string;
+
+  @IsOptional()
   @IsEnum(ClassType)
   type?: ClassType;
 
@@ -47,7 +54,7 @@ export class CreateClassDto {
   @IsEnum(TutorGrade)
   tutorGrade?: TutorGrade;
 
-  // Backward compatibility alias
+
   @IsOptional()
   @IsString()
   courseType?: string;
@@ -64,7 +71,7 @@ export class CreateClassDto {
   @IsString()
   major?: string;
 
-  // Backward compatibility alias
+
   @IsOptional()
   @IsString()
   mainCategory?: string;
@@ -73,7 +80,7 @@ export class CreateClassDto {
   @IsString()
   campusTarget?: string;
 
-  // Backward compatibility alias
+
   @IsOptional()
   @IsString()
   university?: string;
@@ -86,7 +93,7 @@ export class CreateClassDto {
   @IsString()
   meetingLink?: string;
 
-  // Backward compatibility alias
+
   @IsOptional()
   @IsString()
   meetingUrl?: string;
@@ -95,7 +102,7 @@ export class CreateClassDto {
   @IsString()
   materialLink?: string;
 
-  // Backward compatibility alias
+
   @IsOptional()
   @IsString()
   materialUrl?: string;
@@ -104,10 +111,28 @@ export class CreateClassDto {
   @IsString()
   recordingLink?: string;
 
-  // Backward compatibility alias
+
   @IsOptional()
   @IsString()
   recordingUrl?: string;
+
+  @IsOptional()
+  @IsString()
+  meetingPlatform?: string;
+
+  @IsOptional()
+  @IsString()
+  materialPlatform?: string;
+
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  requirements?: string[];
+
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  facilities?: string[];
 
   @IsOptional()
   @IsArray()
@@ -116,4 +141,17 @@ export class CreateClassDto {
   @IsOptional()
   @IsDateString()
   startsAt?: string;
+
+  @IsOptional()
+  @IsString()
+  accessDuration?: string;
+
+  @IsDateString()
+  accessUntil!: string;
+
+  @IsOptional()
+  @IsNumber()
+  @Min(1)
+  @Max(200)
+  maxQuota?: number;
 }

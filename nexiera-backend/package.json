@@ -15,6 +15,7 @@
     "prisma:generate": "prisma generate",
     "db:deploy": "npx prisma migrate deploy",
     "prisma:seed:demo": "tsc --ignoreConfig prisma/seed-demo-budi.ts --outDir dist/demo-seed --module NodeNext --moduleResolution NodeNext --target ES2023 --esModuleInterop --types node --skipLibCheck && node dist/demo-seed/prisma/seed-demo-budi.js",
+    "prisma:seed:demo-sessions": "tsc --ignoreConfig prisma/seed-demo-class-sessions.ts prisma/demo-class-sessions.ts --outDir dist/demo-sessions --module NodeNext --moduleResolution NodeNext --target ES2023 --esModuleInterop --types node --skipLibCheck && node dist/demo-sessions/prisma/seed-demo-class-sessions.js",
     "prisma:migrate": "prisma migrate dev",
     "prisma:studio": "prisma studio"
   },
@@ -25,6 +26,7 @@
     "@nestjs/jwt": "^12.0.3",
     "@nestjs/passport": "^12.0.0",
     "@nestjs/platform-express": "^12.2.0",
+    "@nestjs/throttler": "^6.7.1",
     "@prisma/adapter-mariadb": "^7.10.0",
     "@prisma/client": "^7.10.0",
     "bcryptjs": "^3.0.3",
@@ -32,6 +34,8 @@
     "class-validator": "^0.14.2",
     "cookie-parser": "^1.4.7",
     "dotenv": "^16.6.1",
+    "file-type": "^22.2.0",
+    "multer": "^2.5.0",
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0",
     "passport-jwt": "^4.0.1",
@@ -50,5 +54,8 @@
     "@types/passport-jwt": "^4.0.1",
     "prisma": "^7.10.0",
     "typescript": "^6.0.0"
+  },
+  "overrides": {
+    "multer": "^2.5.0"
   }
 }

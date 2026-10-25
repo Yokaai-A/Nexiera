@@ -10,9 +10,12 @@ import {
   UseGuards,
 } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
+import { Throttle } from "@nestjs/throttler";
 import type { Request, Response } from "express";
 import { LoginDto } from "./dto/login.dto.js";
 import { RegisterDto } from "./dto/register.dto.js";
+import { ResendVerificationDto } from "./dto/resend-verification.dto.js";
+import { VerifyEmailDto } from "./dto/verify-email.dto.js";
 import { AuthService } from "./auth.service.js";
 import { GoogleOAuthGuard } from "./google-oauth.guard.js";
 import type { GoogleUserProfile } from "../users/users.service.js";
@@ -27,6 +30,7 @@ export class AuthController {
   ) {}
 
   @Post("register")
+  @Throttle({ default: { limit: 5, ttl: 60_000 } })
   async register(
     @Body() body: RegisterDto,
     @Res({ passthrough: true }) response: Response,
@@ -38,14 +42,17 @@ export class AuthController {
 
   @Post("verify-email")
   @HttpCode(HttpStatus.OK)
-  verifyEmail(@Body() body: { token: string }) { return this.authService.verifyEmail(body.token); }
+  @Throttle({ default: { limit: 10, ttl: 60_000 } })
+  verifyEmail(@Body() body: VerifyEmailDto) { return this.authService.verifyEmail(body.token); }
 
   @Post("resend-verification")
   @HttpCode(HttpStatus.OK)
-  resendVerification(@Body() body: { email: string }) { return this.authService.resendVerification(body.email); }
+  @Throttle({ default: { limit: 3, ttl: 15 * 60_000 } })
+  resendVerification(@Body() body: ResendVerificationDto) { return this.authService.resendVerification(body.email); }
 
   @Post("login")
   @HttpCode(HttpStatus.OK)
+  @Throttle({ default: { limit: 5, ttl: 60_000 } })
   async login(
     @Body() body: LoginDto,
     @Res({ passthrough: true }) response: Response,
@@ -56,10 +63,12 @@ export class AuthController {
   }
 
   @Get("google")
+  @Throttle({ default: { limit: 10, ttl: 60_000 } })
   @UseGuards(GoogleOAuthGuard)
   googleLogin() {}
 
   @Get("google/callback")
+  @Throttle({ default: { limit: 10, ttl: 60_000 } })
   @UseGuards(GoogleOAuthGuard)
   async googleCallback(@Req() request: GoogleRequest, @Res() response: Response) {
     const result = await this.authService.googleSignIn(request.user);

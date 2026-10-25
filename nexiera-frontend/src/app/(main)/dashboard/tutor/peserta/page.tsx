@@ -53,7 +53,7 @@ export default function DataPesertaPage() {
 
   return (
     <div className="space-y-4">
-      {/* Header */}
+
       <header className="rounded-[6px] border border-[#D9DEE7] bg-white p-4 dark:border-[#343945] dark:bg-[#191C23]">
         <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-[#2457C5] dark:text-[#78A0FF]">
           <Users2 className="h-4 w-4" /> Data Peserta Bimbingan
@@ -76,7 +76,7 @@ export default function DataPesertaPage() {
       )}
 
       <section className="rounded-[6px] border border-[#D9DEE7] bg-white p-4 dark:border-[#343945] dark:bg-[#191C23]">
-        {/* Input Pencarian */}
+
         <label className="flex items-center gap-2 rounded-[4px] border border-[#D9DEE7] px-3 py-2 bg-white dark:border-[#343945] dark:bg-[#111318]">
           <Search className="h-4 w-4 text-[#626B78] dark:text-[#B1B7C3]" />
           <input

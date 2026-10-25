@@ -8,7 +8,7 @@ import {
   UserRound,
   UsersRound,
 } from "lucide-react";
-import type { ApiClass } from "@/src/lib/api";
+import { getPublicUploadUrl, type ApiClass } from "@/src/lib/api";
 import { slugify } from "@/src/lib/slug";
 
 import type { AcademicCourse } from "@/src/types/course";
@@ -38,6 +38,7 @@ export function normalizeCourseToApiClass(item: ApiClass | AcademicCourse): ApiC
     currency: "IDR",
     startsAt: ac.scheduleDate || null,
     accessDuration: ac.accessDuration || null,
+    accessUntil: ac.accessUntil || null,
     maxQuota: ac.maxQuota || null,
     availableSeats: ac.availableSeats ?? ac.maxQuota ?? null,
     requirements: ac.requirements || null,
@@ -92,13 +93,13 @@ export function ClassCard({ item }: { item: ApiClass | AcademicCourse }) {
 
   const resolvedAvatar = avatarUrl
     ? avatarUrl.startsWith("/uploads")
-      ? `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000"}${avatarUrl}`
+      ? getPublicUploadUrl(avatarUrl)
       : avatarUrl
     : null;
 
   const bannerUrl = normalized.bannerUrl
     ? normalized.bannerUrl.startsWith("/uploads")
-      ? `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000"}${normalized.bannerUrl}`
+      ? getPublicUploadUrl(normalized.bannerUrl)
       : normalized.bannerUrl
     : null;
 

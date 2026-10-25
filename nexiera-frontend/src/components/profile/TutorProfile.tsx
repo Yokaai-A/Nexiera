@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, BookOpen, GraduationCap, Handshake, Landmark, Rocket, Search, UserRound } from "lucide-react";
-import { nexieraApi, type ApiClass } from "@/src/lib/api";
+import { getPublicUploadUrl, nexieraApi, type ApiClass } from "@/src/lib/api";
 import { slugify } from "@/src/lib/slug";
 import { ClassCard } from "@/src/components/cari-kelas/ClassCard";
 
@@ -106,10 +106,13 @@ export function TutorProfile({ slug }: { slug: string }) {
 
   const hasBootcamp = tutorCourses.some((course) => course.courseType === "BOOTCAMP");
   const hasPeerTutoring = tutorCourses.some((course) => course.courseType === "PEER_TUTORING");
+  const avatarUrl = tutor.avatarUrl?.startsWith("/uploads")
+    ? getPublicUploadUrl(tutor.avatarUrl)
+    : tutor.avatarUrl;
 
   return (
     <div className="min-h-screen bg-white pb-20">
-      {/* Breadcrumb Bar */}
+
       <div className="border-b border-[#D9DEE7] bg-white">
         <div className="mx-auto flex max-w-[1180px] items-center justify-between px-4 sm:px-6 lg:px-8 py-3 text-xs text-[#626B78]">
           <Link
@@ -124,27 +127,28 @@ export function TutorProfile({ slug }: { slug: string }) {
         </div>
       </div>
 
-      {/* Top Banner Cover Area (Visual murni tanpa overlay teks) */}
+
       <div className="relative w-full bg-[#E5E9F0] border-b border-[#D9DEE7] overflow-hidden h-36 sm:h-48">
         <div className="absolute inset-0 bg-[#2457C5]/10" />
       </div>
 
-      {/* Tutor Profile Header (Dalam Container Putih) */}
+
       <div className="mx-auto max-w-[1180px] px-4 sm:px-6 lg:px-8">
-        {/* Avatar Box menumpang rapi di batas banner */}
+
         <div className="relative -mt-12 sm:-mt-14 mb-4">
           <div className="relative flex h-24 w-24 sm:h-28 sm:w-28 shrink-0 items-center justify-center rounded-full border-2 border-white ring-2 ring-[#D9DEE7] bg-[#E5E9F0] text-xl font-semibold text-[#2457C5] shadow-sm overflow-hidden">
-            {tutor.avatarUrl ? <Image
-              src={tutor.avatarUrl}
+            {avatarUrl ? <Image
+              src={avatarUrl}
               alt={tutor.name}
               fill
               sizes="112px"
+              unoptimized={avatarUrl.includes("/uploads/")}
               className="object-cover"
             /> : tutor.name.split(/\s+/).map((part) => part[0]).slice(0, 2).join("").toUpperCase()}
           </div>
         </div>
 
-        {/* Info Card 5 Baris Terstruktur */}
+
         <div className="rounded-[6px] border border-[#D9DEE7] bg-white p-6 sm:p-8">
           <div>
             <div className="inline-flex items-center gap-1.5 rounded-[4px] border border-[#D9DEE7] bg-[#E5E9F0]/60 px-3 py-1 text-xs font-semibold text-[#20232B]">
@@ -184,7 +188,7 @@ export function TutorProfile({ slug }: { slug: string }) {
           </div>
         </div>
 
-        {/* Bio Section */}
+
         <div className="mt-6 rounded-[6px] border border-[#D9DEE7] bg-white p-6 sm:p-8">
           <h2 className="text-sm font-semibold uppercase tracking-wider text-[#20232B]">
             Tentang Tutor
@@ -194,7 +198,7 @@ export function TutorProfile({ slug }: { slug: string }) {
           </p>
         </div>
 
-        {/* Tutor Classes Grid Section */}
+
         <div className="mt-10">
           <div className="flex items-center justify-between border-b border-[#D9DEE7] pb-3 mb-6">
             <div className="flex items-center gap-2">

@@ -28,7 +28,7 @@ export default function KeuanganTutorPage() {
   const [isPayoutModalOpen, setIsPayoutModalOpen] = useState(false);
   const [payoutSuccess, setPayoutSuccess] = useState(false);
 
-  // Form State untuk Payout
+
   const [bankName, setBankName] = useState("BCA");
   const [accountNumber, setAccountNumber] = useState("");
   const [accountHolder, setAccountHolder] = useState("");
@@ -46,7 +46,7 @@ export default function KeuanganTutorPage() {
   }, []);
 
   const grossRevenue = data?.totalRevenue ?? 0;
-  const platformFee = Math.round(grossRevenue * 0.08); // 8% fee
+  const platformFee = Math.round(grossRevenue * 0.08);
   const netBalance = data?.netBalance ?? Math.max(0, grossRevenue - platformFee);
   const pendingBalance = data?.pendingBalance ?? 0;
   const completedRevenue = netBalance;
@@ -64,7 +64,7 @@ export default function KeuanganTutorPage() {
 
   return (
     <div className="space-y-4">
-      {/* Header */}
+
       <header className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 rounded-[6px] border border-[#D9DEE7] bg-white p-4 dark:border-[#343945] dark:bg-[#191C23]">
         <div>
           <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-[#2457C5] dark:text-[#78A0FF]">
@@ -98,7 +98,7 @@ export default function KeuanganTutorPage() {
         </p>
       )}
 
-      {/* 4 Metric Cards */}
+
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <article className="rounded-[6px] border border-[#D9DEE7] bg-white p-4 dark:border-[#343945] dark:bg-[#191C23]">
           <div className="flex items-center justify-between text-[#626B78] dark:text-[#B1B7C3]">
@@ -153,7 +153,7 @@ export default function KeuanganTutorPage() {
         </article>
       </div>
 
-      {/* Tabel Transaksi */}
+
       <section className="rounded-[6px] border border-[#D9DEE7] bg-white p-4 dark:border-[#343945] dark:bg-[#191C23]">
         <h2 className="border-b border-[#D9DEE7] pb-2.5 text-sm font-semibold text-[#20232B] dark:border-[#343945] dark:text-[#F3F4F6]">
           Riwayat Transaksi Keuangan
@@ -220,7 +220,7 @@ export default function KeuanganTutorPage() {
         )}
       </section>
 
-      {/* Kebijakan Transparansi Keuangan */}
+
       <div className="rounded-[6px] border border-[#D9DEE7] bg-white p-3.5 text-xs text-[#626B78] dark:border-[#343945] dark:bg-[#191C23] dark:text-[#B1B7C3]">
         <p className="font-semibold text-[#20232B] dark:text-[#F3F4F6] mb-1">
           Kebijakan Transparansi Keuangan (Tanpa Internal Wallet):
@@ -230,7 +230,7 @@ export default function KeuanganTutorPage() {
         </p>
       </div>
 
-      {/* Modal Payout Langsung */}
+
       {isPayoutModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 animate-in fade-in">
           <div className="w-full max-w-md rounded-[6px] border border-[#D9DEE7] bg-white p-4 shadow-lg dark:border-[#343945] dark:bg-[#191C23]">

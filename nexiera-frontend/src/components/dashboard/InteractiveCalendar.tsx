@@ -41,11 +41,11 @@ export function InteractiveCalendar() {
       try {
         setLoading(true);
         const res = await nexieraApi.myClasses();
-        // Combine enrolled and created classes
+
         const all = [...(res.enrolled || []), ...(res.created || [])];
         applySchedule(Array.from(new Map(all.map((item) => [item.id, item])).values()));
       } catch {
-        // Fallback to dashboard api
+
         try {
           const dash = await nexieraApi.dashboard();
           applySchedule(dash.classes || []);
@@ -81,7 +81,7 @@ export function InteractiveCalendar() {
     );
   };
 
-  // Calendar dates come only from class schedules saved by the tutor.
+
   const getClassesForDate = (date: Date) => {
     return classes.filter((cls) => {
       if (!cls.startsAt) return false;
@@ -100,9 +100,9 @@ export function InteractiveCalendar() {
 
   return (
     <div className="space-y-5">
-      {/* Calendar Card */}
+
       <div className="rounded-[6px] border border-[#D9DEE7] bg-white p-4 dark:border-[#343945] dark:bg-[#191C23]">
-        {/* Calendar Header */}
+
         <div className="flex items-center justify-between pb-3 border-b border-[#D9DEE7] dark:border-[#343945]">
           <div className="flex items-center gap-2">
             <CalendarIcon className="h-4 w-4 text-[#2457C5] dark:text-[#78A0FF]" />
@@ -141,7 +141,7 @@ export function InteractiveCalendar() {
           </div>
         </div>
 
-        {/* Days Header */}
+
         <div className="grid grid-cols-7 gap-1 pt-3 text-center text-xs font-semibold uppercase tracking-wider text-[#626B78] dark:text-[#B1B7C3]">
           {DAYS_HEADER.map((day) => (
             <div key={day} className="py-1">
@@ -150,7 +150,7 @@ export function InteractiveCalendar() {
           ))}
         </div>
 
-        {/* Calendar Grid */}
+
         <div className="grid grid-cols-7 gap-1.5 pt-2">
           {Array.from({ length: firstDayOfMonth }).map((_, index) => (
             <div key={`empty-${index}`} className="h-10 sm:h-12" />
@@ -190,7 +190,7 @@ export function InteractiveCalendar() {
         </div>
       </div>
 
-      {/* Selected Date Session Cards */}
+
       <div className="space-y-3">
         <div className="flex items-center justify-between">
           <h3 className="text-sm font-semibold text-[#20232B] dark:text-[#F3F4F6]">
@@ -259,7 +259,7 @@ export function InteractiveCalendar() {
                       Pengajar: <span className="font-semibold text-[#20232B] dark:text-[#F3F4F6]">{tutorName}</span>
                     </p>
 
-                    {/* Tutor Contacts */}
+
                     {(tutorPhone || tutorEmail) && <div className="flex flex-wrap items-center gap-2 pt-1">
                       {tutorPhone && (
                       <a
@@ -285,7 +285,7 @@ export function InteractiveCalendar() {
                     </div>}
                   </div>
 
-                  {/* Actions */}
+
                   <div className="flex flex-wrap items-center gap-2 shrink-0">
                     {meetingUrl && (
                       <a

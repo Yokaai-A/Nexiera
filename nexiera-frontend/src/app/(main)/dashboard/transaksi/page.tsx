@@ -51,7 +51,7 @@ export default function DashboardTransaksiPage() {
 
   return (
     <div className="space-y-5">
-      {/* Header Halaman Transaksi */}
+
       <header className="rounded-[6px] border border-[#D9DEE7] bg-white p-4 dark:border-[#343945] dark:bg-[#191C23]">
         <Link
           href="/dashboard"
@@ -81,7 +81,7 @@ export default function DashboardTransaksiPage() {
         </p>
       )}
 
-      {/* Tabel Transaksi */}
+
       <section className="rounded-[6px] border border-[#D9DEE7] bg-white p-4 dark:border-[#343945] dark:bg-[#191C23]">
         <h2 className="border-b border-[#D9DEE7] pb-3 text-sm font-semibold text-[#20232B] dark:border-[#343945] dark:text-[#F3F4F6]">
           Daftar Pendaftaran Bimbingan

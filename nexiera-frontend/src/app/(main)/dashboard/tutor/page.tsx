@@ -78,7 +78,7 @@ export default function TutorOverviewPage() {
         </div>
       )}
 
-      {/* 4 Metric Cards */}
+
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         {[
           ["Kelas Aktif", loading ? "Memuat..." : data ? activeCount : "—"],

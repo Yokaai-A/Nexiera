@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import {
@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import { Logo } from "@/src/components/ui/Logo";
 import { applyTheme, getInitialTheme, Theme } from "@/src/lib/theme";
-import { nexieraApi } from "@/src/lib/api";
+import { getPublicUploadUrl, nexieraApi } from "@/src/lib/api";
 import { refreshUser, useUserStore } from "@/src/store/useUserStore";
 
 const NAV_LINKS = [
@@ -26,12 +26,23 @@ const NAV_LINKS = [
 
 export function Navbar() {
   const pathname = usePathname();
+  const router = useRouter();
   const user = useUserStore();
   const [theme, setTheme] = useState<Theme>("light");
   const [menuOpen, setMenuOpen] = useState(false);
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [notifications, setNotifications] = useState<any[]>([]);
   const menuRef = useRef<HTMLDivElement>(null);
+  const avatarUrl = user.avatarUrl?.startsWith("/uploads")
+    ? getPublicUploadUrl(user.avatarUrl)
+    : user.avatarUrl;
+  const userInitials = user.name
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0])
+    .join("")
+    .toUpperCase() || "NX";
 
   useEffect(() => {
     if (user.isLoggedIn) {
@@ -72,11 +83,16 @@ export function Navbar() {
     await nexieraApi.logout().catch(() => undefined);
     await refreshUser();
     setMenuOpen(false);
+    router.replace("/login");
   };
 
-  const dashboardHref = user.role === "tutor" || user.role === "bootcamp" || user.role === "bootcamp_partner"
-    ? "/dashboard/tutor"
-    : "/dashboard";
+  const isAdmin = user.roles.includes("admin");
+  const dashboardHref = isAdmin
+    ? "/dashboard/admin"
+    : user.role === "tutor" || user.role === "bootcamp" || user.role === "bootcamp_partner"
+      ? "/dashboard/tutor"
+      : "/dashboard";
+  const dashboardLabel = isAdmin ? "Tinjauan Admin" : "Dashboard";
 
   const toggleTheme = () => {
     const nextTheme = theme === "dark" ? "light" : "dark";
@@ -112,7 +128,7 @@ export function Navbar() {
         </ul>
 
         <div ref={menuRef} className="flex items-center gap-2.5">
-          {/* Theme Mode Toggle (Outlined) */}
+
           <button
             type="button"
             onClick={toggleTheme}
@@ -123,7 +139,7 @@ export function Navbar() {
             {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </button>
 
-          {/* Notifikasi (Only rendered if authenticated) */}
+
           {user.isLoggedIn && (
             <div className="relative">
               <button
@@ -186,18 +202,18 @@ export function Navbar() {
             </div>
           )}
 
-          {/* Tombol Dashboard (Outlined & Compact) */}
+
           {user.isLoggedIn && (
             <Link
               href={dashboardHref}
               className="hidden items-center gap-1.5 rounded-[4px] border border-[#2457C5] bg-transparent px-2.5 py-1.5 text-xs font-semibold text-[#2457C5] transition-colors hover:bg-[#2457C5]/10 dark:border-[#78A0FF] dark:text-[#78A0FF] dark:hover:bg-[#78A0FF]/15 sm:inline-flex"
             >
               <LayoutDashboard className="h-3.5 w-3.5" aria-hidden="true" />
-              <span>Dashboard</span>
+              <span>{dashboardLabel}</span>
             </Link>
           )}
 
-          {/* Profil User (Outlined) */}
+
           {user.isLoggedIn ? (
             <div className="relative">
               <button
@@ -209,19 +225,20 @@ export function Navbar() {
                 className="flex items-center gap-1.5 rounded-[4px] border border-[#D9DEE7] bg-white px-2 py-1 text-xs font-medium text-[#20232B] transition-colors hover:bg-[#E5E9F0] focus:outline-none dark:border-[#343945] dark:bg-[#191C23] dark:text-[#F3F4F6] dark:hover:bg-[#20242D]"
                 aria-label="Menu Profil"
               >
-                {user.avatarUrl ? (
+                {avatarUrl ? (
                   <div className="relative h-6 w-6 overflow-hidden rounded-[2px] border border-[#D9DEE7] dark:border-[#343945]">
                     <Image
-                      src={user.avatarUrl}
+                      src={avatarUrl}
                       alt={user.name}
                       fill
                       sizes="24px"
+                      unoptimized={avatarUrl.includes("/uploads/")}
                       className="object-cover"
                     />
                   </div>
                 ) : (
                   <div className="flex h-6 w-6 items-center justify-center rounded-[2px] border border-[#D9DEE7] bg-slate-100 text-[10px] font-semibold text-[#20232B] dark:border-[#343945] dark:bg-slate-800 dark:text-[#F3F4F6]">
-                    {user.name.slice(0, 2).toUpperCase()}
+                    {userInitials}
                   </div>
                 )}
                 <span className="hidden sm:inline text-xs font-medium max-w-[100px] truncate">
@@ -233,13 +250,13 @@ export function Navbar() {
               {menuOpen && (
                 <div className="absolute right-0 z-50 mt-2 w-72 max-w-[calc(100vw-1rem)] rounded-[6px] border border-[#D9DEE7] bg-white p-3 dark:border-[#343945] dark:bg-[#191C23]">
                   <div className="flex items-center gap-3 border-b border-[#D9DEE7] px-2 pb-3 dark:border-[#343945]">
-                    {user.avatarUrl ? (
+                    {avatarUrl ? (
                       <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-[4px] border border-[#D9DEE7] dark:border-[#343945]">
-                        <Image src={user.avatarUrl} alt="" fill sizes="40px" className="object-cover" />
+                        <Image src={avatarUrl} alt="" fill sizes="40px" unoptimized={avatarUrl.includes("/uploads/")} className="object-cover" />
                       </div>
                     ) : (
                       <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[4px] border border-[#D9DEE7] bg-slate-100 text-xs font-semibold text-[#20232B] dark:border-[#343945] dark:bg-slate-800 dark:text-[#F3F4F6]">
-                        {user.name.slice(0, 2).toUpperCase()}
+                        {userInitials}
                       </div>
                     )}
                     <div className="min-w-0 flex-1">
@@ -269,7 +286,7 @@ export function Navbar() {
                       className="flex items-center gap-2 rounded-[4px] px-2.5 py-1.5 text-xs font-medium text-[#20232B] hover:bg-[#E5E9F0] dark:text-[#F3F4F6] dark:hover:bg-[#20242D] transition-colors"
                     >
                       <LayoutDashboard className="h-3.5 w-3.5 text-[#2457C5] dark:text-[#78A0FF]" aria-hidden="true" />
-                      Dashboard
+                      {dashboardLabel}
                     </Link>
                     <Link
                       href="/pengaturan"

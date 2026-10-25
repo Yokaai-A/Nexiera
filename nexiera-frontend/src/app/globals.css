@@ -14,7 +14,7 @@
   --color-muted: #626B78;
   --color-border: #D9DEE7;
 
-  /* Align Tailwind utility colors directly with Design.md palette */
+
   --color-blue-600: #2563EB;
   --color-blue-700: #1D4ED8;
   --color-blue-50: #F0F4FC;
@@ -75,7 +75,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Design.md Core Utility Styles */
+
 .nx-container {
   max-width: var(--content-max);
   margin-left: auto;
@@ -98,7 +98,7 @@ body {
   }
 }
 
-/* Primary and Secondary button presets */
+
 .btn-primary {
   display: inline-flex;
   align-items: center;
@@ -282,7 +282,7 @@ body {
   border-color: #2563eb !important;
 }
 
-/* Interaction transitions per Design.md Section 8 (120-180ms) */
+
 a,
 button,
 [role="button"] {

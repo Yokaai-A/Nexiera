@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import { Camera, X } from "lucide-react";
 import { useUserStore } from "@/src/store/useUserStore";
-import { nexieraApi } from "@/src/lib/api";
+import { getPublicUploadUrl, nexieraApi } from "@/src/lib/api";
 
 export function AccountSettingsForm({ dashboard = false }: { dashboard?: boolean }) {
   const user = useUserStore();
@@ -96,7 +96,7 @@ export function AccountSettingsForm({ dashboard = false }: { dashboard?: boolean
 
   return (
     <div className="mx-auto max-w-[900px] space-y-6">
-      {/* Header */}
+
       <header className="rounded-[6px] border border-[#D9DEE7] bg-white p-6 shadow-xs dark:border-slate-800 dark:bg-slate-900">
         <p className="text-xs font-semibold uppercase tracking-wider text-[#2457C5] dark:text-[#78A0FF]">
           Pengaturan Akun Personal
@@ -113,7 +113,7 @@ export function AccountSettingsForm({ dashboard = false }: { dashboard?: boolean
         </p>
       </header>
 
-      {/* Form Data Diri */}
+
       <form
         onSubmit={save}
         className="grid gap-5 rounded-[6px] border border-[#D9DEE7] bg-white p-6 sm:grid-cols-2 shadow-xs dark:border-slate-800 dark:bg-slate-900"
@@ -212,7 +212,7 @@ export function AccountSettingsForm({ dashboard = false }: { dashboard?: boolean
             <div className="relative h-16 w-16 overflow-hidden rounded-full border-2 border-[#D9DEE7] bg-slate-100 dark:border-slate-700 dark:bg-slate-800 shrink-0">
               {avatarUrl ? (
                 <img
-                  src={avatarUrl.startsWith("/uploads") ? `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000"}${avatarUrl}` : avatarUrl}
+                  src={avatarUrl.startsWith("/uploads") ? getPublicUploadUrl(avatarUrl) : avatarUrl}
                   alt="Foto Profil"
                   className="h-full w-full object-cover"
                 />

@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import { CourseType, PricingModel } from "@/src/types/course";
 import { CATEGORIES_DATA } from "@/src/lib/taxonomy";
-import { nexieraApi, type ApiClass, type ApiAd } from "@/src/lib/api";
+import { getPublicUploadUrl, nexieraApi, type ApiClass, type ApiAd } from "@/src/lib/api";
 import { ClassCard } from "./ClassCard";
 import {
   BookOpen,
@@ -23,7 +23,7 @@ import {
   Handshake,
 } from "lucide-react";
 
-const ITEMS_PER_PAGE = 12; // 3 columns x 4 rows
+const ITEMS_PER_PAGE = 12;
 
 export function CourseCatalog() {
   const searchParams = useSearchParams();
@@ -32,6 +32,9 @@ export function CourseCatalog() {
   const [courses, setCourses] = useState<ApiClass[]>([]);
   const [loading, setLoading] = useState(true);
   const [loadedSideBanners, setLoadedSideBanners] = useState({ left: false, right: false });
+  const sideBannerRefs = useRef<{ left: HTMLImageElement | null; right: HTMLImageElement | null }>({ left: null, right: null });
+  const [sideAds, setSideAds] = useState<ApiAd[]>([]);
+  const [sideAdIndex, setSideAdIndex] = useState(0);
   const [loadError, setLoadError] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [courseRequestOpen, setCourseRequestOpen] = useState(false);
@@ -53,9 +56,53 @@ export function CourseCatalog() {
     [courses],
   );
 
-  // Margin Ads
+
   const marginAdLeft = "/Banner_Samping_Kiri.webp";
   const marginAdRight = "/Banner_Samping_Kanan.webp";
+
+  useEffect(() => {
+    let active = true;
+    void nexieraApi.adsSlot("SIDE_MARGIN").then(({ ads }) => {
+      if (!active) return;
+      setSideAds(ads.filter((ad) => ad.status === "APPROVED" && ad.placement === "SIDE_MARGIN").slice(0, 3));
+      setSideAdIndex(0);
+    }).catch(() => undefined);
+    return () => { active = false; };
+  }, []);
+
+  useEffect(() => {
+    if (sideAds.length < 2) return;
+    const timer = window.setInterval(() => {
+      setSideAdIndex((index) => (index + 1) % sideAds.length);
+    }, 7000);
+    return () => window.clearInterval(timer);
+  }, [sideAds.length]);
+
+  const activeSideAd = sideAds[sideAdIndex];
+  const activeSideImage = activeSideAd
+    ? activeSideAd.imageUrl.startsWith("http") ? activeSideAd.imageUrl : getPublicUploadUrl(activeSideAd.imageUrl)
+    : null;
+
+  useEffect(() => {
+    setLoadedSideBanners({ left: false, right: false });
+  }, [sideAdIndex, activeSideImage]);
+
+  useEffect(() => {
+    const loaded = {
+      left: sideBannerRefs.current.left?.complete ?? false,
+      right: sideBannerRefs.current.right?.complete ?? false,
+    };
+    if (loaded.left || loaded.right) {
+      setLoadedSideBanners((current) => ({
+        left: current.left || loaded.left,
+        right: current.right || loaded.right,
+      }));
+    }
+  }, [sideAdIndex, activeSideImage]);
+
+  useEffect(() => {
+    if (activeSideAd) void nexieraApi.trackAdImpression(activeSideAd.id).catch(() => undefined);
+  }, [activeSideAd?.id]);
 
   useEffect(() => {
     let active = true;
@@ -89,42 +136,36 @@ export function CourseCatalog() {
     }
   }, [searchParams]);
 
-  // Reset to page 1 whenever any filter changes
+
   useEffect(() => {
     setCurrentPage(1);
   }, [searchQuery, campusFilter, mainCategoryFilter, majorFilter, subjectFilter, typeFilter, pricingFilter]);
 
   const availableMajors = useMemo(() => {
-    if (mainCategoryFilter !== "ALL" && CATEGORIES_DATA[mainCategoryFilter]) {
-      return Object.keys(CATEGORIES_DATA[mainCategoryFilter]);
-    }
-    const allMajors = new Set<string>();
-    Object.values(CATEGORIES_DATA).forEach((majorsObj) => {
-      Object.keys(majorsObj).forEach((m) => allMajors.add(m));
-    });
-    return Array.from(allMajors);
-  }, [mainCategoryFilter]);
+    const catalogMajors = courses
+      .filter((course) => mainCategoryFilter === "ALL" || (course.category || course.mainCategory) === mainCategoryFilter)
+      .map((course) => course.major)
+      .filter((major): major is string => Boolean(major?.trim()));
+    const knownMajors = mainCategoryFilter !== "ALL" && CATEGORIES_DATA[mainCategoryFilter]
+      ? Object.keys(CATEGORIES_DATA[mainCategoryFilter])
+      : Object.values(CATEGORIES_DATA).flatMap((majors) => Object.keys(majors));
+    return Array.from(new Set([...knownMajors, ...catalogMajors])).sort((a, b) => a.localeCompare(b, "id"));
+  }, [courses, mainCategoryFilter]);
 
   const availableSubjects = useMemo(() => {
-    if (mainCategoryFilter !== "ALL" && majorFilter !== "ALL") {
-      return CATEGORIES_DATA[mainCategoryFilter]?.[majorFilter] || [];
-    }
-    if (majorFilter !== "ALL") {
-      for (const cat of Object.keys(CATEGORIES_DATA)) {
-        if (CATEGORIES_DATA[cat][majorFilter]) {
-          return CATEGORIES_DATA[cat][majorFilter];
-        }
-      }
-    }
-    if (mainCategoryFilter !== "ALL" && CATEGORIES_DATA[mainCategoryFilter]) {
-      const subjects: string[] = [];
-      Object.values(CATEGORIES_DATA[mainCategoryFilter]).forEach((subs) => {
-        subs.forEach((s) => subjects.push(s));
-      });
-      return subjects;
-    }
-    return [];
-  }, [mainCategoryFilter, majorFilter]);
+    const matchingCourses = courses.filter((course) => {
+      const category = course.category || course.mainCategory || "";
+      if (mainCategoryFilter !== "ALL" && category !== mainCategoryFilter) return false;
+      if (majorFilter !== "ALL" && course.major !== majorFilter) return false;
+      return true;
+    }).map((course) => course.title);
+    const knownSubjects = mainCategoryFilter !== "ALL"
+      ? Object.entries(CATEGORIES_DATA[mainCategoryFilter] || {})
+          .filter(([major]) => majorFilter === "ALL" || major === majorFilter)
+          .flatMap(([, subjects]) => subjects)
+      : [];
+    return Array.from(new Set([...knownSubjects, ...matchingCourses])).sort((a, b) => a.localeCompare(b, "id"));
+  }, [courses, mainCategoryFilter, majorFilter]);
 
   const handleResetFilter = () => {
     setSearchQuery("");
@@ -164,16 +205,7 @@ export function CourseCatalog() {
         }
       }
 
-      if (majorFilter !== "ALL" && course.major !== majorFilter) {
-          return false;
-      }
-
-      if (majorFilter !== "ALL") {
-        const courseMajor = course.major || "";
-        if (courseMajor && !courseMajor.toLowerCase().includes(majorFilter.toLowerCase())) {
-          return false;
-        }
-      }
+      if (majorFilter !== "ALL" && course.major !== majorFilter) return false;
 
       if (subjectFilter !== "ALL") {
         if (!course.title.toLowerCase().includes(subjectFilter.toLowerCase())) {
@@ -181,7 +213,7 @@ export function CourseCatalog() {
         }
       }
 
-      // Filter Fix: When "ALL", show BOTH Bootcamp and Peer-Tutoring!
+
       if (typeFilter !== "ALL") {
         const actualType = (course.type || course.courseType || "").toUpperCase();
         if (typeFilter === "BOOTCAMP" && actualType !== "BOOTCAMP") {
@@ -202,7 +234,7 @@ export function CourseCatalog() {
     });
   }, [courses, searchQuery, campusFilter, mainCategoryFilter, majorFilter, subjectFilter, typeFilter, pricingFilter]);
 
-  // Pagination calculation
+
   const totalItems = filteredCourses.length;
   const totalPages = Math.max(1, Math.ceil(totalItems / ITEMS_PER_PAGE));
   const paginatedCourses = useMemo(() => {
@@ -213,21 +245,25 @@ export function CourseCatalog() {
   return (
     <div className="w-full py-6">
       <div className="relative mx-auto w-full max-w-[1180px] px-4 sm:px-6 lg:px-8 min-[1640px]:min-h-[650px]">
-        {/* Side banners sit outside the catalog width when the viewport has room. */}
+
         <div className="pointer-events-none absolute inset-0 hidden min-[1640px]:block">
           <div className="absolute -left-[224px] top-0 h-full w-[208px]">
             <aside className="pointer-events-auto sticky top-24 self-start">
               <div className="relative overflow-hidden rounded-[6px] border border-[#D9DEE7] bg-white shadow-xs dark:border-[#343945] dark:bg-[#191C23] min-h-[650px]">
                 {!loadedSideBanners.left && <div aria-hidden="true" className="skeleton-shimmer absolute inset-0" />}
-                <img
-                  src={marginAdLeft || "/Banner_samping.png"}
-                  alt="Promo Banner NEXIERA"
-                  loading="eager"
-                  decoding="async"
-                  onLoad={() => setLoadedSideBanners((loaded) => ({ ...loaded, left: true }))}
-                  onError={() => setLoadedSideBanners((loaded) => ({ ...loaded, left: true }))}
-                  className="w-full h-full min-h-[650px] object-cover"
-                />
+                <a href={activeSideAd?.targetUrl || "/cari-kelas"} target={activeSideAd ? "_blank" : undefined} rel={activeSideAd ? "noreferrer" : undefined} onClick={() => { if (activeSideAd) void nexieraApi.trackAdClick(activeSideAd.id).catch(() => undefined); }}>
+                  <img
+                    ref={(image) => { sideBannerRefs.current.left = image; }}
+                    src={activeSideImage || marginAdLeft}
+                    alt={activeSideAd?.subtitle || activeSideAd?.title || "Promo Banner NEXIERA"}
+                    loading="eager"
+                    fetchPriority="high"
+                    decoding="async"
+                    onLoad={() => setLoadedSideBanners((loaded) => ({ ...loaded, left: true }))}
+                    onError={() => setLoadedSideBanners((loaded) => ({ ...loaded, left: true }))}
+                    className="w-full h-full min-h-[650px] object-cover"
+                  />
+                </a>
               </div>
             </aside>
           </div>
@@ -235,26 +271,30 @@ export function CourseCatalog() {
             <aside className="pointer-events-auto sticky top-24 self-start">
               <div className="relative overflow-hidden rounded-[6px] border border-[#D9DEE7] bg-white shadow-xs dark:border-[#343945] dark:bg-[#191C23] min-h-[650px]">
                 {!loadedSideBanners.right && <div aria-hidden="true" className="skeleton-shimmer absolute inset-0" />}
-                <img
-                  src={marginAdRight || "/Banner_samping.png"}
-                  alt="Promo Banner NEXIERA"
-                  loading="eager"
-                  decoding="async"
-                  onLoad={() => setLoadedSideBanners((loaded) => ({ ...loaded, right: true }))}
-                  onError={() => setLoadedSideBanners((loaded) => ({ ...loaded, right: true }))}
-                  className="w-full h-full min-h-[650px] object-cover"
-                />
+                <a href={activeSideAd?.targetUrl || "/cari-kelas"} target={activeSideAd ? "_blank" : undefined} rel={activeSideAd ? "noreferrer" : undefined} onClick={() => { if (activeSideAd) void nexieraApi.trackAdClick(activeSideAd.id).catch(() => undefined); }}>
+                  <img
+                    ref={(image) => { sideBannerRefs.current.right = image; }}
+                    src={activeSideImage || marginAdRight}
+                    alt={activeSideAd?.subtitle || activeSideAd?.title || "Promo Banner NEXIERA"}
+                    loading="eager"
+                    fetchPriority="high"
+                    decoding="async"
+                    onLoad={() => setLoadedSideBanners((loaded) => ({ ...loaded, right: true }))}
+                    onError={() => setLoadedSideBanners((loaded) => ({ ...loaded, right: true }))}
+                    className="w-full h-full min-h-[650px] object-cover"
+                  />
+                </a>
               </div>
             </aside>
           </div>
         </div>
 
-        {/* Main Center Catalog Area */}
+
         <main className="relative z-0 w-full min-w-0">
-          {/* Filter Box */}
+
           <div className="rounded-[6px] border border-[#D9DEE7] bg-white p-4 shadow-xs dark:border-[#343945] dark:bg-[#191C23]">
             <div className="flex flex-col gap-3">
-              {/* Search Input */}
+
               <div className="flex flex-1 items-center gap-2.5 rounded-[4px] border border-[#D9DEE7] bg-white px-3 py-2 transition-colors focus-within:border-[#2457C5] dark:border-[#343945] dark:bg-[#111318]">
                 <Search className="h-4 w-4 text-[#626B78] dark:text-[#B1B7C3]" aria-hidden="true" />
                 <input
@@ -275,9 +315,9 @@ export function CourseCatalog() {
                 )}
               </div>
 
-              {/* 4-Level Dropdowns */}
+
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
-                {/* Kampus */}
+
                 <div className="relative">
                   <label className="text-[10px] font-semibold uppercase tracking-wider text-[#626B78] dark:text-[#B1B7C3] mb-1 block">
                     1. Kampus
@@ -300,7 +340,7 @@ export function CourseCatalog() {
                   </div>
                 </div>
 
-                {/* Kategori Utama */}
+
                 <div className="relative">
                   <label className="text-[10px] font-semibold uppercase tracking-wider text-[#626B78] dark:text-[#B1B7C3] mb-1 block">
                     2. Kategori Utama
@@ -327,7 +367,7 @@ export function CourseCatalog() {
                   </div>
                 </div>
 
-                {/* Jurusan */}
+
                 <div className="relative">
                   <label className="text-[10px] font-semibold uppercase tracking-wider text-[#626B78] dark:text-[#B1B7C3] mb-1 block">
                     3. Jurusan
@@ -353,7 +393,7 @@ export function CourseCatalog() {
                   </div>
                 </div>
 
-                {/* Mata Kuliah */}
+
                 <div className="relative">
                   <label className="text-[10px] font-semibold uppercase tracking-wider text-[#626B78] dark:text-[#B1B7C3] mb-1 block">
                     4. Mata Kuliah
@@ -378,10 +418,10 @@ export function CourseCatalog() {
               </div>
             </div>
 
-            {/* Filter Baris Bawah: Tipe, Biaya, Reset */}
+
             <div className="mt-3.5 flex flex-col gap-2.5 border-t border-[#D9DEE7] pt-2.5 sm:flex-row sm:items-center sm:justify-between dark:border-[#343945]">
               <div className="flex flex-wrap items-center gap-2">
-                {/* Tipe Kelas */}
+
                 <div className="inline-flex rounded-[4px] border border-[#D9DEE7] bg-white p-0.5 dark:border-[#343945] dark:bg-[#111318]">
                   <button
                     type="button"
@@ -418,7 +458,7 @@ export function CourseCatalog() {
                   </button>
                 </div>
 
-                {/* Biaya Kelas */}
+
                 <div className="inline-flex rounded-[4px] border border-[#D9DEE7] bg-white p-0.5 dark:border-[#343945] dark:bg-[#111318]">
                   <button
                     type="button"
@@ -455,7 +495,7 @@ export function CourseCatalog() {
                   </button>
                 </div>
 
-                {/* Reset Button */}
+
                 <button
                   type="button"
                   onClick={handleResetFilter}
@@ -471,7 +511,7 @@ export function CourseCatalog() {
             </div>
           </div>
 
-          {/* Grid Kelas: 3 Kolom per Baris (grid-cols-1 md:grid-cols-2 lg:grid-cols-3) */}
+
           <div className="mt-6">
             {loading ? (
               <div role="status" aria-label="Memuat daftar kelas" className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -523,7 +563,7 @@ export function CourseCatalog() {
               </div>
             )}
 
-            {/* Pagination Bar (Muncul bila jumlah item melebihi 12) */}
+
             {totalPages > 1 && (
               <div className="mt-8 flex items-center justify-center gap-2">
                 <button

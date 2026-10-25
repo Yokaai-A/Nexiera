@@ -153,7 +153,11 @@ export class UsersService {
     }
     const roleList = Array.isArray(roles) ? [...roles] as string[] : [Role.MAHASISWA];
     const adminEmails = (this.config.get<string>("ADMIN_EMAILS") || "").split(",").map((email) => email.trim().toLowerCase()).filter(Boolean);
-    if (adminEmails.includes(user.email.toLowerCase()) && !roleList.includes("ADMIN")) roleList.push("ADMIN");
+    const isAllowlistedAdmin = adminEmails.includes(user.email.toLowerCase());
+    if (!isAllowlistedAdmin) {
+      return { ...user, roles: roleList.filter((role) => role !== "ADMIN") };
+    }
+    if (!roleList.includes("ADMIN")) roleList.push("ADMIN");
     return { ...user, roles: roleList };
   }
 

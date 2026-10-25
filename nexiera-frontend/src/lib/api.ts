@@ -78,9 +78,14 @@ export interface ApiClass {
   bannerUrl?: string | null;
   price: string;
   currency: string;
-  status?: "DRAFT" | "ACTIVE" | "CANCELLED";
+  status?: "DRAFT" | "ACTIVE" | "CANCELLED" | "PENDING_REVIEW" | "REJECTED";
+  reviewStatus?: "PENDING_REVIEW" | "APPROVED" | "REJECTED";
+  reviewNote?: string | null;
+  reviewedById?: string | null;
+  reviewedAt?: string | null;
   startsAt?: string | null;
   accessDuration?: string | null;
+  accessUntil?: string | null;
   maxQuota?: number | null;
   availableSeats?: number | null;
   requirements?: string[] | null;
@@ -158,7 +163,7 @@ export interface ApiAd {
   targetUrl: string;
   startsAt: string;
   endsAt: string;
-  status: "ACTIVE" | "PAUSED";
+  status: "PENDING_REVIEW" | "APPROVED" | "REJECTED" | "ACTIVE" | "PAUSED";
   impressions: number;
   clicks: number;
 }
@@ -424,6 +429,9 @@ export const nexieraApi = {
   adsSlot: (placement: ApiAd["placement"]) => apiFetch<{ source: "advertiser" | "nexiera"; ads: Array<ApiAd & { official?: boolean }> }>(
     `/ads/slot/${placement}`,
   ),
+  adminPendingAds: () => apiFetch<Array<ApiAd & { owner: Pick<ApiUser, "id" | "name" | "fullName" | "email"> }>>("/ads/admin/pending"),
+  reviewAd: (adId: string, decision: "APPROVE" | "REJECT") =>
+    apiFetch<ApiAd>(`/ads/${encodeURIComponent(adId)}/review`, { method: "PATCH", body: JSON.stringify({ decision }) }),
   myAds: () => apiFetch<ApiAd[]>("/ads/mine"),
   createAd: (payload: { title: string; subtitle: string; placement: ApiAd["placement"]; imageUrl: string; targetUrl: string; startsAt: string; endsAt: string }) =>
     apiFetch<ApiAd>("/ads", { method: "POST", body: JSON.stringify(payload) }),
@@ -440,6 +448,12 @@ export const nexieraApi = {
   uploadReportEvidence: (file: File) => { const form = new FormData(); form.append("file", file); return apiFetch<{ url: string }>("/uploads/report-evidence", { method: "POST", body: form }); },
   myReports: () => apiFetch<Array<{ id: string; targetType: string; targetId: string; classId: string | null; category: string; status: string; adminNote?: string | null; createdAt: string }>>("/classes/reports/mine"),
   adminReports: () => apiFetch<Array<{ id: string; targetType: string; targetId: string; category: string; description: string; evidenceUrl?: string | null; status: string; reporter: { fullName: string; email: string }; class?: { title: string } | null }>>("/classes/reports/admin"),
+  adminPendingClasses: () => apiFetch<ApiClass[]>("/classes/admin/pending"),
+  reviewClass: (classId: string, decision: "APPROVE" | "REJECT", note?: string) =>
+    apiFetch<ApiClass>(`/classes/${encodeURIComponent(classId)}/review`, {
+      method: "PATCH",
+      body: JSON.stringify({ decision, note }),
+    }),
   reviewReport: (id: string, status: "RESOLVED" | "DISMISSED", note?: string) => apiFetch(`/classes/reports/${encodeURIComponent(id)}/status`, { method: "PATCH", body: JSON.stringify({ status, note }) }),
   requestCourse: (payload: { title: string; campus?: string; major?: string; courseCode?: string; note?: string }) => apiFetch("/classes/course-requests", { method: "POST", body: JSON.stringify(payload) }),
   createReport: (payload: { targetType: "CLASS" | "ORGANIZER"; targetId: string; category: string; description: string; evidenceUrl?: string; classId?: string }) =>

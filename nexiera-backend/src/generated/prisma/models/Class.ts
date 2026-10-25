@@ -28,10 +28,12 @@ export type AggregateClass = {
 
 export type ClassAvgAggregateOutputType = {
   price: runtime.Decimal | null
+  maxQuota: number | null
 }
 
 export type ClassSumAggregateOutputType = {
   price: runtime.Decimal | null
+  maxQuota: number | null
 }
 
 export type ClassMinAggregateOutputType = {
@@ -39,6 +41,7 @@ export type ClassMinAggregateOutputType = {
   title: string | null
   slug: string | null
   description: string | null
+  shortDescription: string | null
   type: $Enums.ClassType | null
   tutorGrade: $Enums.TutorGrade | null
   price: runtime.Decimal | null
@@ -47,9 +50,18 @@ export type ClassMinAggregateOutputType = {
   campusTarget: string | null
   bannerUrl: string | null
   startsAt: Date | null
+  accessDuration: string | null
+  accessUntil: Date | null
+  maxQuota: number | null
+  meetingPlatform: string | null
   meetingLink: string | null
+  materialPlatform: string | null
   materialLink: string | null
   recordingLink: string | null
+  reviewStatus: string | null
+  reviewNote: string | null
+  reviewedById: string | null
+  reviewedAt: Date | null
   creatorId: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -60,6 +72,7 @@ export type ClassMaxAggregateOutputType = {
   title: string | null
   slug: string | null
   description: string | null
+  shortDescription: string | null
   type: $Enums.ClassType | null
   tutorGrade: $Enums.TutorGrade | null
   price: runtime.Decimal | null
@@ -68,9 +81,18 @@ export type ClassMaxAggregateOutputType = {
   campusTarget: string | null
   bannerUrl: string | null
   startsAt: Date | null
+  accessDuration: string | null
+  accessUntil: Date | null
+  maxQuota: number | null
+  meetingPlatform: string | null
   meetingLink: string | null
+  materialPlatform: string | null
   materialLink: string | null
   recordingLink: string | null
+  reviewStatus: string | null
+  reviewNote: string | null
+  reviewedById: string | null
+  reviewedAt: Date | null
   creatorId: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -81,6 +103,7 @@ export type ClassCountAggregateOutputType = {
   title: number
   slug: number
   description: number
+  shortDescription: number
   type: number
   tutorGrade: number
   price: number
@@ -89,9 +112,20 @@ export type ClassCountAggregateOutputType = {
   campusTarget: number
   bannerUrl: number
   startsAt: number
+  accessDuration: number
+  accessUntil: number
+  maxQuota: number
+  meetingPlatform: number
   meetingLink: number
+  materialPlatform: number
   materialLink: number
   recordingLink: number
+  requirements: number
+  facilities: number
+  reviewStatus: number
+  reviewNote: number
+  reviewedById: number
+  reviewedAt: number
   creatorId: number
   createdAt: number
   updatedAt: number
@@ -101,10 +135,12 @@ export type ClassCountAggregateOutputType = {
 
 export type ClassAvgAggregateInputType = {
   price?: true
+  maxQuota?: true
 }
 
 export type ClassSumAggregateInputType = {
   price?: true
+  maxQuota?: true
 }
 
 export type ClassMinAggregateInputType = {
@@ -112,6 +148,7 @@ export type ClassMinAggregateInputType = {
   title?: true
   slug?: true
   description?: true
+  shortDescription?: true
   type?: true
   tutorGrade?: true
   price?: true
@@ -120,9 +157,18 @@ export type ClassMinAggregateInputType = {
   campusTarget?: true
   bannerUrl?: true
   startsAt?: true
+  accessDuration?: true
+  accessUntil?: true
+  maxQuota?: true
+  meetingPlatform?: true
   meetingLink?: true
+  materialPlatform?: true
   materialLink?: true
   recordingLink?: true
+  reviewStatus?: true
+  reviewNote?: true
+  reviewedById?: true
+  reviewedAt?: true
   creatorId?: true
   createdAt?: true
   updatedAt?: true
@@ -133,6 +179,7 @@ export type ClassMaxAggregateInputType = {
   title?: true
   slug?: true
   description?: true
+  shortDescription?: true
   type?: true
   tutorGrade?: true
   price?: true
@@ -141,9 +188,18 @@ export type ClassMaxAggregateInputType = {
   campusTarget?: true
   bannerUrl?: true
   startsAt?: true
+  accessDuration?: true
+  accessUntil?: true
+  maxQuota?: true
+  meetingPlatform?: true
   meetingLink?: true
+  materialPlatform?: true
   materialLink?: true
   recordingLink?: true
+  reviewStatus?: true
+  reviewNote?: true
+  reviewedById?: true
+  reviewedAt?: true
   creatorId?: true
   createdAt?: true
   updatedAt?: true
@@ -154,6 +210,7 @@ export type ClassCountAggregateInputType = {
   title?: true
   slug?: true
   description?: true
+  shortDescription?: true
   type?: true
   tutorGrade?: true
   price?: true
@@ -162,9 +219,20 @@ export type ClassCountAggregateInputType = {
   campusTarget?: true
   bannerUrl?: true
   startsAt?: true
+  accessDuration?: true
+  accessUntil?: true
+  maxQuota?: true
+  meetingPlatform?: true
   meetingLink?: true
+  materialPlatform?: true
   materialLink?: true
   recordingLink?: true
+  requirements?: true
+  facilities?: true
+  reviewStatus?: true
+  reviewNote?: true
+  reviewedById?: true
+  reviewedAt?: true
   creatorId?: true
   createdAt?: true
   updatedAt?: true
@@ -262,6 +330,7 @@ export type ClassGroupByOutputType = {
   title: string
   slug: string
   description: string
+  shortDescription: string | null
   type: $Enums.ClassType
   tutorGrade: $Enums.TutorGrade | null
   price: runtime.Decimal
@@ -270,9 +339,20 @@ export type ClassGroupByOutputType = {
   campusTarget: string | null
   bannerUrl: string | null
   startsAt: Date | null
+  accessDuration: string | null
+  accessUntil: Date | null
+  maxQuota: number | null
+  meetingPlatform: string | null
   meetingLink: string | null
+  materialPlatform: string | null
   materialLink: string | null
   recordingLink: string | null
+  requirements: runtime.JsonValue | null
+  facilities: runtime.JsonValue | null
+  reviewStatus: string
+  reviewNote: string | null
+  reviewedById: string | null
+  reviewedAt: Date | null
   creatorId: string
   createdAt: Date
   updatedAt: Date
@@ -306,6 +386,7 @@ export type ClassWhereInput = {
   title?: Prisma.StringFilter<"Class"> | string
   slug?: Prisma.StringFilter<"Class"> | string
   description?: Prisma.StringFilter<"Class"> | string
+  shortDescription?: Prisma.StringNullableFilter<"Class"> | string | null
   type?: Prisma.EnumClassTypeFilter<"Class"> | $Enums.ClassType
   tutorGrade?: Prisma.EnumTutorGradeNullableFilter<"Class"> | $Enums.TutorGrade | null
   price?: Prisma.DecimalFilter<"Class"> | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -314,9 +395,20 @@ export type ClassWhereInput = {
   campusTarget?: Prisma.StringNullableFilter<"Class"> | string | null
   bannerUrl?: Prisma.StringNullableFilter<"Class"> | string | null
   startsAt?: Prisma.DateTimeNullableFilter<"Class"> | Date | string | null
+  accessDuration?: Prisma.StringNullableFilter<"Class"> | string | null
+  accessUntil?: Prisma.DateTimeNullableFilter<"Class"> | Date | string | null
+  maxQuota?: Prisma.IntNullableFilter<"Class"> | number | null
+  meetingPlatform?: Prisma.StringNullableFilter<"Class"> | string | null
   meetingLink?: Prisma.StringNullableFilter<"Class"> | string | null
+  materialPlatform?: Prisma.StringNullableFilter<"Class"> | string | null
   materialLink?: Prisma.StringNullableFilter<"Class"> | string | null
   recordingLink?: Prisma.StringNullableFilter<"Class"> | string | null
+  requirements?: Prisma.JsonNullableFilter<"Class">
+  facilities?: Prisma.JsonNullableFilter<"Class">
+  reviewStatus?: Prisma.StringFilter<"Class"> | string
+  reviewNote?: Prisma.StringNullableFilter<"Class"> | string | null
+  reviewedById?: Prisma.StringNullableFilter<"Class"> | string | null
+  reviewedAt?: Prisma.DateTimeNullableFilter<"Class"> | Date | string | null
   creatorId?: Prisma.StringFilter<"Class"> | string
   createdAt?: Prisma.DateTimeFilter<"Class"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Class"> | Date | string
@@ -332,6 +424,7 @@ export type ClassOrderByWithRelationInput = {
   title?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  shortDescription?: Prisma.SortOrderInput | Prisma.SortOrder
   type?: Prisma.SortOrder
   tutorGrade?: Prisma.SortOrderInput | Prisma.SortOrder
   price?: Prisma.SortOrder
@@ -340,9 +433,20 @@ export type ClassOrderByWithRelationInput = {
   campusTarget?: Prisma.SortOrderInput | Prisma.SortOrder
   bannerUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   startsAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  accessDuration?: Prisma.SortOrderInput | Prisma.SortOrder
+  accessUntil?: Prisma.SortOrderInput | Prisma.SortOrder
+  maxQuota?: Prisma.SortOrderInput | Prisma.SortOrder
+  meetingPlatform?: Prisma.SortOrderInput | Prisma.SortOrder
   meetingLink?: Prisma.SortOrderInput | Prisma.SortOrder
+  materialPlatform?: Prisma.SortOrderInput | Prisma.SortOrder
   materialLink?: Prisma.SortOrderInput | Prisma.SortOrder
   recordingLink?: Prisma.SortOrderInput | Prisma.SortOrder
+  requirements?: Prisma.SortOrderInput | Prisma.SortOrder
+  facilities?: Prisma.SortOrderInput | Prisma.SortOrder
+  reviewStatus?: Prisma.SortOrder
+  reviewNote?: Prisma.SortOrderInput | Prisma.SortOrder
+  reviewedById?: Prisma.SortOrderInput | Prisma.SortOrder
+  reviewedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   creatorId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -362,6 +466,7 @@ export type ClassWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.ClassWhereInput | Prisma.ClassWhereInput[]
   title?: Prisma.StringFilter<"Class"> | string
   description?: Prisma.StringFilter<"Class"> | string
+  shortDescription?: Prisma.StringNullableFilter<"Class"> | string | null
   type?: Prisma.EnumClassTypeFilter<"Class"> | $Enums.ClassType
   tutorGrade?: Prisma.EnumTutorGradeNullableFilter<"Class"> | $Enums.TutorGrade | null
   price?: Prisma.DecimalFilter<"Class"> | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -370,9 +475,20 @@ export type ClassWhereUniqueInput = Prisma.AtLeast<{
   campusTarget?: Prisma.StringNullableFilter<"Class"> | string | null
   bannerUrl?: Prisma.StringNullableFilter<"Class"> | string | null
   startsAt?: Prisma.DateTimeNullableFilter<"Class"> | Date | string | null
+  accessDuration?: Prisma.StringNullableFilter<"Class"> | string | null
+  accessUntil?: Prisma.DateTimeNullableFilter<"Class"> | Date | string | null
+  maxQuota?: Prisma.IntNullableFilter<"Class"> | number | null
+  meetingPlatform?: Prisma.StringNullableFilter<"Class"> | string | null
   meetingLink?: Prisma.StringNullableFilter<"Class"> | string | null
+  materialPlatform?: Prisma.StringNullableFilter<"Class"> | string | null
   materialLink?: Prisma.StringNullableFilter<"Class"> | string | null
   recordingLink?: Prisma.StringNullableFilter<"Class"> | string | null
+  requirements?: Prisma.JsonNullableFilter<"Class">
+  facilities?: Prisma.JsonNullableFilter<"Class">
+  reviewStatus?: Prisma.StringFilter<"Class"> | string
+  reviewNote?: Prisma.StringNullableFilter<"Class"> | string | null
+  reviewedById?: Prisma.StringNullableFilter<"Class"> | string | null
+  reviewedAt?: Prisma.DateTimeNullableFilter<"Class"> | Date | string | null
   creatorId?: Prisma.StringFilter<"Class"> | string
   createdAt?: Prisma.DateTimeFilter<"Class"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Class"> | Date | string
@@ -388,6 +504,7 @@ export type ClassOrderByWithAggregationInput = {
   title?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  shortDescription?: Prisma.SortOrderInput | Prisma.SortOrder
   type?: Prisma.SortOrder
   tutorGrade?: Prisma.SortOrderInput | Prisma.SortOrder
   price?: Prisma.SortOrder
@@ -396,9 +513,20 @@ export type ClassOrderByWithAggregationInput = {
   campusTarget?: Prisma.SortOrderInput | Prisma.SortOrder
   bannerUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   startsAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  accessDuration?: Prisma.SortOrderInput | Prisma.SortOrder
+  accessUntil?: Prisma.SortOrderInput | Prisma.SortOrder
+  maxQuota?: Prisma.SortOrderInput | Prisma.SortOrder
+  meetingPlatform?: Prisma.SortOrderInput | Prisma.SortOrder
   meetingLink?: Prisma.SortOrderInput | Prisma.SortOrder
+  materialPlatform?: Prisma.SortOrderInput | Prisma.SortOrder
   materialLink?: Prisma.SortOrderInput | Prisma.SortOrder
   recordingLink?: Prisma.SortOrderInput | Prisma.SortOrder
+  requirements?: Prisma.SortOrderInput | Prisma.SortOrder
+  facilities?: Prisma.SortOrderInput | Prisma.SortOrder
+  reviewStatus?: Prisma.SortOrder
+  reviewNote?: Prisma.SortOrderInput | Prisma.SortOrder
+  reviewedById?: Prisma.SortOrderInput | Prisma.SortOrder
+  reviewedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   creatorId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -417,6 +545,7 @@ export type ClassScalarWhereWithAggregatesInput = {
   title?: Prisma.StringWithAggregatesFilter<"Class"> | string
   slug?: Prisma.StringWithAggregatesFilter<"Class"> | string
   description?: Prisma.StringWithAggregatesFilter<"Class"> | string
+  shortDescription?: Prisma.StringNullableWithAggregatesFilter<"Class"> | string | null
   type?: Prisma.EnumClassTypeWithAggregatesFilter<"Class"> | $Enums.ClassType
   tutorGrade?: Prisma.EnumTutorGradeNullableWithAggregatesFilter<"Class"> | $Enums.TutorGrade | null
   price?: Prisma.DecimalWithAggregatesFilter<"Class"> | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -425,9 +554,20 @@ export type ClassScalarWhereWithAggregatesInput = {
   campusTarget?: Prisma.StringNullableWithAggregatesFilter<"Class"> | string | null
   bannerUrl?: Prisma.StringNullableWithAggregatesFilter<"Class"> | string | null
   startsAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Class"> | Date | string | null
+  accessDuration?: Prisma.StringNullableWithAggregatesFilter<"Class"> | string | null
+  accessUntil?: Prisma.DateTimeNullableWithAggregatesFilter<"Class"> | Date | string | null
+  maxQuota?: Prisma.IntNullableWithAggregatesFilter<"Class"> | number | null
+  meetingPlatform?: Prisma.StringNullableWithAggregatesFilter<"Class"> | string | null
   meetingLink?: Prisma.StringNullableWithAggregatesFilter<"Class"> | string | null
+  materialPlatform?: Prisma.StringNullableWithAggregatesFilter<"Class"> | string | null
   materialLink?: Prisma.StringNullableWithAggregatesFilter<"Class"> | string | null
   recordingLink?: Prisma.StringNullableWithAggregatesFilter<"Class"> | string | null
+  requirements?: Prisma.JsonNullableWithAggregatesFilter<"Class">
+  facilities?: Prisma.JsonNullableWithAggregatesFilter<"Class">
+  reviewStatus?: Prisma.StringWithAggregatesFilter<"Class"> | string
+  reviewNote?: Prisma.StringNullableWithAggregatesFilter<"Class"> | string | null
+  reviewedById?: Prisma.StringNullableWithAggregatesFilter<"Class"> | string | null
+  reviewedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Class"> | Date | string | null
   creatorId?: Prisma.StringWithAggregatesFilter<"Class"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Class"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Class"> | Date | string
@@ -438,6 +578,7 @@ export type ClassCreateInput = {
   title: string
   slug: string
   description: string
+  shortDescription?: string | null
   type?: $Enums.ClassType
   tutorGrade?: $Enums.TutorGrade | null
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -446,9 +587,20 @@ export type ClassCreateInput = {
   campusTarget?: string | null
   bannerUrl?: string | null
   startsAt?: Date | string | null
+  accessDuration?: string | null
+  accessUntil?: Date | string | null
+  maxQuota?: number | null
+  meetingPlatform?: string | null
   meetingLink?: string | null
+  materialPlatform?: string | null
   materialLink?: string | null
   recordingLink?: string | null
+  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  reviewStatus?: string
+  reviewNote?: string | null
+  reviewedById?: string | null
+  reviewedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   creator: Prisma.UserCreateNestedOneWithoutClassesCreatedInput
@@ -463,6 +615,7 @@ export type ClassUncheckedCreateInput = {
   title: string
   slug: string
   description: string
+  shortDescription?: string | null
   type?: $Enums.ClassType
   tutorGrade?: $Enums.TutorGrade | null
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -471,9 +624,20 @@ export type ClassUncheckedCreateInput = {
   campusTarget?: string | null
   bannerUrl?: string | null
   startsAt?: Date | string | null
+  accessDuration?: string | null
+  accessUntil?: Date | string | null
+  maxQuota?: number | null
+  meetingPlatform?: string | null
   meetingLink?: string | null
+  materialPlatform?: string | null
   materialLink?: string | null
   recordingLink?: string | null
+  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  reviewStatus?: string
+  reviewNote?: string | null
+  reviewedById?: string | null
+  reviewedAt?: Date | string | null
   creatorId: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -488,6 +652,7 @@ export type ClassUpdateInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumClassTypeFieldUpdateOperationsInput | $Enums.ClassType
   tutorGrade?: Prisma.NullableEnumTutorGradeFieldUpdateOperationsInput | $Enums.TutorGrade | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -496,9 +661,20 @@ export type ClassUpdateInput = {
   campusTarget?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accessDuration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accessUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  maxQuota?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  meetingPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   meetingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  materialPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   materialLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   recordingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  reviewStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   creator?: Prisma.UserUpdateOneRequiredWithoutClassesCreatedNestedInput
@@ -513,6 +689,7 @@ export type ClassUncheckedUpdateInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumClassTypeFieldUpdateOperationsInput | $Enums.ClassType
   tutorGrade?: Prisma.NullableEnumTutorGradeFieldUpdateOperationsInput | $Enums.TutorGrade | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -521,9 +698,20 @@ export type ClassUncheckedUpdateInput = {
   campusTarget?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accessDuration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accessUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  maxQuota?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  meetingPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   meetingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  materialPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   materialLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   recordingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  reviewStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   creatorId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -538,6 +726,7 @@ export type ClassCreateManyInput = {
   title: string
   slug: string
   description: string
+  shortDescription?: string | null
   type?: $Enums.ClassType
   tutorGrade?: $Enums.TutorGrade | null
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -546,9 +735,20 @@ export type ClassCreateManyInput = {
   campusTarget?: string | null
   bannerUrl?: string | null
   startsAt?: Date | string | null
+  accessDuration?: string | null
+  accessUntil?: Date | string | null
+  maxQuota?: number | null
+  meetingPlatform?: string | null
   meetingLink?: string | null
+  materialPlatform?: string | null
   materialLink?: string | null
   recordingLink?: string | null
+  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  reviewStatus?: string
+  reviewNote?: string | null
+  reviewedById?: string | null
+  reviewedAt?: Date | string | null
   creatorId: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -559,6 +759,7 @@ export type ClassUpdateManyMutationInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumClassTypeFieldUpdateOperationsInput | $Enums.ClassType
   tutorGrade?: Prisma.NullableEnumTutorGradeFieldUpdateOperationsInput | $Enums.TutorGrade | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -567,9 +768,20 @@ export type ClassUpdateManyMutationInput = {
   campusTarget?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accessDuration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accessUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  maxQuota?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  meetingPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   meetingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  materialPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   materialLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   recordingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  reviewStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -579,6 +791,7 @@ export type ClassUncheckedUpdateManyInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumClassTypeFieldUpdateOperationsInput | $Enums.ClassType
   tutorGrade?: Prisma.NullableEnumTutorGradeFieldUpdateOperationsInput | $Enums.TutorGrade | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -587,9 +800,20 @@ export type ClassUncheckedUpdateManyInput = {
   campusTarget?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accessDuration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accessUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  maxQuota?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  meetingPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   meetingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  materialPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   materialLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   recordingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  reviewStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   creatorId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -616,6 +840,7 @@ export type ClassCountOrderByAggregateInput = {
   title?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  shortDescription?: Prisma.SortOrder
   type?: Prisma.SortOrder
   tutorGrade?: Prisma.SortOrder
   price?: Prisma.SortOrder
@@ -624,9 +849,20 @@ export type ClassCountOrderByAggregateInput = {
   campusTarget?: Prisma.SortOrder
   bannerUrl?: Prisma.SortOrder
   startsAt?: Prisma.SortOrder
+  accessDuration?: Prisma.SortOrder
+  accessUntil?: Prisma.SortOrder
+  maxQuota?: Prisma.SortOrder
+  meetingPlatform?: Prisma.SortOrder
   meetingLink?: Prisma.SortOrder
+  materialPlatform?: Prisma.SortOrder
   materialLink?: Prisma.SortOrder
   recordingLink?: Prisma.SortOrder
+  requirements?: Prisma.SortOrder
+  facilities?: Prisma.SortOrder
+  reviewStatus?: Prisma.SortOrder
+  reviewNote?: Prisma.SortOrder
+  reviewedById?: Prisma.SortOrder
+  reviewedAt?: Prisma.SortOrder
   creatorId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -634,6 +870,7 @@ export type ClassCountOrderByAggregateInput = {
 
 export type ClassAvgOrderByAggregateInput = {
   price?: Prisma.SortOrder
+  maxQuota?: Prisma.SortOrder
 }
 
 export type ClassMaxOrderByAggregateInput = {
@@ -641,6 +878,7 @@ export type ClassMaxOrderByAggregateInput = {
   title?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  shortDescription?: Prisma.SortOrder
   type?: Prisma.SortOrder
   tutorGrade?: Prisma.SortOrder
   price?: Prisma.SortOrder
@@ -649,9 +887,18 @@ export type ClassMaxOrderByAggregateInput = {
   campusTarget?: Prisma.SortOrder
   bannerUrl?: Prisma.SortOrder
   startsAt?: Prisma.SortOrder
+  accessDuration?: Prisma.SortOrder
+  accessUntil?: Prisma.SortOrder
+  maxQuota?: Prisma.SortOrder
+  meetingPlatform?: Prisma.SortOrder
   meetingLink?: Prisma.SortOrder
+  materialPlatform?: Prisma.SortOrder
   materialLink?: Prisma.SortOrder
   recordingLink?: Prisma.SortOrder
+  reviewStatus?: Prisma.SortOrder
+  reviewNote?: Prisma.SortOrder
+  reviewedById?: Prisma.SortOrder
+  reviewedAt?: Prisma.SortOrder
   creatorId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -662,6 +909,7 @@ export type ClassMinOrderByAggregateInput = {
   title?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  shortDescription?: Prisma.SortOrder
   type?: Prisma.SortOrder
   tutorGrade?: Prisma.SortOrder
   price?: Prisma.SortOrder
@@ -670,9 +918,18 @@ export type ClassMinOrderByAggregateInput = {
   campusTarget?: Prisma.SortOrder
   bannerUrl?: Prisma.SortOrder
   startsAt?: Prisma.SortOrder
+  accessDuration?: Prisma.SortOrder
+  accessUntil?: Prisma.SortOrder
+  maxQuota?: Prisma.SortOrder
+  meetingPlatform?: Prisma.SortOrder
   meetingLink?: Prisma.SortOrder
+  materialPlatform?: Prisma.SortOrder
   materialLink?: Prisma.SortOrder
   recordingLink?: Prisma.SortOrder
+  reviewStatus?: Prisma.SortOrder
+  reviewNote?: Prisma.SortOrder
+  reviewedById?: Prisma.SortOrder
+  reviewedAt?: Prisma.SortOrder
   creatorId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -680,6 +937,7 @@ export type ClassMinOrderByAggregateInput = {
 
 export type ClassSumOrderByAggregateInput = {
   price?: Prisma.SortOrder
+  maxQuota?: Prisma.SortOrder
 }
 
 export type ClassScalarRelationFilter = {
@@ -750,6 +1008,14 @@ export type DecimalFieldUpdateOperationsInput = {
   divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
 export type ClassCreateNestedOneWithoutTutorsInput = {
   create?: Prisma.XOR<Prisma.ClassCreateWithoutTutorsInput, Prisma.ClassUncheckedCreateWithoutTutorsInput>
   connectOrCreate?: Prisma.ClassCreateOrConnectWithoutTutorsInput
@@ -813,6 +1079,7 @@ export type ClassCreateWithoutCreatorInput = {
   title: string
   slug: string
   description: string
+  shortDescription?: string | null
   type?: $Enums.ClassType
   tutorGrade?: $Enums.TutorGrade | null
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -821,9 +1088,20 @@ export type ClassCreateWithoutCreatorInput = {
   campusTarget?: string | null
   bannerUrl?: string | null
   startsAt?: Date | string | null
+  accessDuration?: string | null
+  accessUntil?: Date | string | null
+  maxQuota?: number | null
+  meetingPlatform?: string | null
   meetingLink?: string | null
+  materialPlatform?: string | null
   materialLink?: string | null
   recordingLink?: string | null
+  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  reviewStatus?: string
+  reviewNote?: string | null
+  reviewedById?: string | null
+  reviewedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   tutors?: Prisma.BootcampTutorCreateNestedManyWithoutClassInput
@@ -837,6 +1115,7 @@ export type ClassUncheckedCreateWithoutCreatorInput = {
   title: string
   slug: string
   description: string
+  shortDescription?: string | null
   type?: $Enums.ClassType
   tutorGrade?: $Enums.TutorGrade | null
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -845,9 +1124,20 @@ export type ClassUncheckedCreateWithoutCreatorInput = {
   campusTarget?: string | null
   bannerUrl?: string | null
   startsAt?: Date | string | null
+  accessDuration?: string | null
+  accessUntil?: Date | string | null
+  maxQuota?: number | null
+  meetingPlatform?: string | null
   meetingLink?: string | null
+  materialPlatform?: string | null
   materialLink?: string | null
   recordingLink?: string | null
+  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  reviewStatus?: string
+  reviewNote?: string | null
+  reviewedById?: string | null
+  reviewedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   tutors?: Prisma.BootcampTutorUncheckedCreateNestedManyWithoutClassInput
@@ -890,6 +1180,7 @@ export type ClassScalarWhereInput = {
   title?: Prisma.StringFilter<"Class"> | string
   slug?: Prisma.StringFilter<"Class"> | string
   description?: Prisma.StringFilter<"Class"> | string
+  shortDescription?: Prisma.StringNullableFilter<"Class"> | string | null
   type?: Prisma.EnumClassTypeFilter<"Class"> | $Enums.ClassType
   tutorGrade?: Prisma.EnumTutorGradeNullableFilter<"Class"> | $Enums.TutorGrade | null
   price?: Prisma.DecimalFilter<"Class"> | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -898,9 +1189,20 @@ export type ClassScalarWhereInput = {
   campusTarget?: Prisma.StringNullableFilter<"Class"> | string | null
   bannerUrl?: Prisma.StringNullableFilter<"Class"> | string | null
   startsAt?: Prisma.DateTimeNullableFilter<"Class"> | Date | string | null
+  accessDuration?: Prisma.StringNullableFilter<"Class"> | string | null
+  accessUntil?: Prisma.DateTimeNullableFilter<"Class"> | Date | string | null
+  maxQuota?: Prisma.IntNullableFilter<"Class"> | number | null
+  meetingPlatform?: Prisma.StringNullableFilter<"Class"> | string | null
   meetingLink?: Prisma.StringNullableFilter<"Class"> | string | null
+  materialPlatform?: Prisma.StringNullableFilter<"Class"> | string | null
   materialLink?: Prisma.StringNullableFilter<"Class"> | string | null
   recordingLink?: Prisma.StringNullableFilter<"Class"> | string | null
+  requirements?: Prisma.JsonNullableFilter<"Class">
+  facilities?: Prisma.JsonNullableFilter<"Class">
+  reviewStatus?: Prisma.StringFilter<"Class"> | string
+  reviewNote?: Prisma.StringNullableFilter<"Class"> | string | null
+  reviewedById?: Prisma.StringNullableFilter<"Class"> | string | null
+  reviewedAt?: Prisma.DateTimeNullableFilter<"Class"> | Date | string | null
   creatorId?: Prisma.StringFilter<"Class"> | string
   createdAt?: Prisma.DateTimeFilter<"Class"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Class"> | Date | string
@@ -911,6 +1213,7 @@ export type ClassCreateWithoutTutorsInput = {
   title: string
   slug: string
   description: string
+  shortDescription?: string | null
   type?: $Enums.ClassType
   tutorGrade?: $Enums.TutorGrade | null
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -919,9 +1222,20 @@ export type ClassCreateWithoutTutorsInput = {
   campusTarget?: string | null
   bannerUrl?: string | null
   startsAt?: Date | string | null
+  accessDuration?: string | null
+  accessUntil?: Date | string | null
+  maxQuota?: number | null
+  meetingPlatform?: string | null
   meetingLink?: string | null
+  materialPlatform?: string | null
   materialLink?: string | null
   recordingLink?: string | null
+  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  reviewStatus?: string
+  reviewNote?: string | null
+  reviewedById?: string | null
+  reviewedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   creator: Prisma.UserCreateNestedOneWithoutClassesCreatedInput
@@ -935,6 +1249,7 @@ export type ClassUncheckedCreateWithoutTutorsInput = {
   title: string
   slug: string
   description: string
+  shortDescription?: string | null
   type?: $Enums.ClassType
   tutorGrade?: $Enums.TutorGrade | null
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -943,9 +1258,20 @@ export type ClassUncheckedCreateWithoutTutorsInput = {
   campusTarget?: string | null
   bannerUrl?: string | null
   startsAt?: Date | string | null
+  accessDuration?: string | null
+  accessUntil?: Date | string | null
+  maxQuota?: number | null
+  meetingPlatform?: string | null
   meetingLink?: string | null
+  materialPlatform?: string | null
   materialLink?: string | null
   recordingLink?: string | null
+  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  reviewStatus?: string
+  reviewNote?: string | null
+  reviewedById?: string | null
+  reviewedAt?: Date | string | null
   creatorId: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -975,6 +1301,7 @@ export type ClassUpdateWithoutTutorsInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumClassTypeFieldUpdateOperationsInput | $Enums.ClassType
   tutorGrade?: Prisma.NullableEnumTutorGradeFieldUpdateOperationsInput | $Enums.TutorGrade | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -983,9 +1310,20 @@ export type ClassUpdateWithoutTutorsInput = {
   campusTarget?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accessDuration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accessUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  maxQuota?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  meetingPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   meetingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  materialPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   materialLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   recordingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  reviewStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   creator?: Prisma.UserUpdateOneRequiredWithoutClassesCreatedNestedInput
@@ -999,6 +1337,7 @@ export type ClassUncheckedUpdateWithoutTutorsInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumClassTypeFieldUpdateOperationsInput | $Enums.ClassType
   tutorGrade?: Prisma.NullableEnumTutorGradeFieldUpdateOperationsInput | $Enums.TutorGrade | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1007,9 +1346,20 @@ export type ClassUncheckedUpdateWithoutTutorsInput = {
   campusTarget?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accessDuration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accessUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  maxQuota?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  meetingPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   meetingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  materialPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   materialLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   recordingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  reviewStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   creatorId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1023,6 +1373,7 @@ export type ClassCreateWithoutReviewsInput = {
   title: string
   slug: string
   description: string
+  shortDescription?: string | null
   type?: $Enums.ClassType
   tutorGrade?: $Enums.TutorGrade | null
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1031,9 +1382,20 @@ export type ClassCreateWithoutReviewsInput = {
   campusTarget?: string | null
   bannerUrl?: string | null
   startsAt?: Date | string | null
+  accessDuration?: string | null
+  accessUntil?: Date | string | null
+  maxQuota?: number | null
+  meetingPlatform?: string | null
   meetingLink?: string | null
+  materialPlatform?: string | null
   materialLink?: string | null
   recordingLink?: string | null
+  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  reviewStatus?: string
+  reviewNote?: string | null
+  reviewedById?: string | null
+  reviewedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   creator: Prisma.UserCreateNestedOneWithoutClassesCreatedInput
@@ -1047,6 +1409,7 @@ export type ClassUncheckedCreateWithoutReviewsInput = {
   title: string
   slug: string
   description: string
+  shortDescription?: string | null
   type?: $Enums.ClassType
   tutorGrade?: $Enums.TutorGrade | null
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1055,9 +1418,20 @@ export type ClassUncheckedCreateWithoutReviewsInput = {
   campusTarget?: string | null
   bannerUrl?: string | null
   startsAt?: Date | string | null
+  accessDuration?: string | null
+  accessUntil?: Date | string | null
+  maxQuota?: number | null
+  meetingPlatform?: string | null
   meetingLink?: string | null
+  materialPlatform?: string | null
   materialLink?: string | null
   recordingLink?: string | null
+  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  reviewStatus?: string
+  reviewNote?: string | null
+  reviewedById?: string | null
+  reviewedAt?: Date | string | null
   creatorId: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1087,6 +1461,7 @@ export type ClassUpdateWithoutReviewsInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumClassTypeFieldUpdateOperationsInput | $Enums.ClassType
   tutorGrade?: Prisma.NullableEnumTutorGradeFieldUpdateOperationsInput | $Enums.TutorGrade | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1095,9 +1470,20 @@ export type ClassUpdateWithoutReviewsInput = {
   campusTarget?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accessDuration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accessUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  maxQuota?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  meetingPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   meetingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  materialPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   materialLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   recordingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  reviewStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   creator?: Prisma.UserUpdateOneRequiredWithoutClassesCreatedNestedInput
@@ -1111,6 +1497,7 @@ export type ClassUncheckedUpdateWithoutReviewsInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumClassTypeFieldUpdateOperationsInput | $Enums.ClassType
   tutorGrade?: Prisma.NullableEnumTutorGradeFieldUpdateOperationsInput | $Enums.TutorGrade | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1119,9 +1506,20 @@ export type ClassUncheckedUpdateWithoutReviewsInput = {
   campusTarget?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accessDuration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accessUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  maxQuota?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  meetingPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   meetingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  materialPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   materialLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   recordingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  reviewStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   creatorId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1135,6 +1533,7 @@ export type ClassCreateWithoutTransactionsInput = {
   title: string
   slug: string
   description: string
+  shortDescription?: string | null
   type?: $Enums.ClassType
   tutorGrade?: $Enums.TutorGrade | null
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1143,9 +1542,20 @@ export type ClassCreateWithoutTransactionsInput = {
   campusTarget?: string | null
   bannerUrl?: string | null
   startsAt?: Date | string | null
+  accessDuration?: string | null
+  accessUntil?: Date | string | null
+  maxQuota?: number | null
+  meetingPlatform?: string | null
   meetingLink?: string | null
+  materialPlatform?: string | null
   materialLink?: string | null
   recordingLink?: string | null
+  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  reviewStatus?: string
+  reviewNote?: string | null
+  reviewedById?: string | null
+  reviewedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   creator: Prisma.UserCreateNestedOneWithoutClassesCreatedInput
@@ -1159,6 +1569,7 @@ export type ClassUncheckedCreateWithoutTransactionsInput = {
   title: string
   slug: string
   description: string
+  shortDescription?: string | null
   type?: $Enums.ClassType
   tutorGrade?: $Enums.TutorGrade | null
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1167,9 +1578,20 @@ export type ClassUncheckedCreateWithoutTransactionsInput = {
   campusTarget?: string | null
   bannerUrl?: string | null
   startsAt?: Date | string | null
+  accessDuration?: string | null
+  accessUntil?: Date | string | null
+  maxQuota?: number | null
+  meetingPlatform?: string | null
   meetingLink?: string | null
+  materialPlatform?: string | null
   materialLink?: string | null
   recordingLink?: string | null
+  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  reviewStatus?: string
+  reviewNote?: string | null
+  reviewedById?: string | null
+  reviewedAt?: Date | string | null
   creatorId: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1199,6 +1621,7 @@ export type ClassUpdateWithoutTransactionsInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumClassTypeFieldUpdateOperationsInput | $Enums.ClassType
   tutorGrade?: Prisma.NullableEnumTutorGradeFieldUpdateOperationsInput | $Enums.TutorGrade | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1207,9 +1630,20 @@ export type ClassUpdateWithoutTransactionsInput = {
   campusTarget?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accessDuration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accessUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  maxQuota?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  meetingPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   meetingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  materialPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   materialLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   recordingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  reviewStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   creator?: Prisma.UserUpdateOneRequiredWithoutClassesCreatedNestedInput
@@ -1223,6 +1657,7 @@ export type ClassUncheckedUpdateWithoutTransactionsInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumClassTypeFieldUpdateOperationsInput | $Enums.ClassType
   tutorGrade?: Prisma.NullableEnumTutorGradeFieldUpdateOperationsInput | $Enums.TutorGrade | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1231,9 +1666,20 @@ export type ClassUncheckedUpdateWithoutTransactionsInput = {
   campusTarget?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accessDuration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accessUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  maxQuota?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  meetingPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   meetingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  materialPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   materialLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   recordingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  reviewStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   creatorId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1247,6 +1693,7 @@ export type ClassCreateWithoutReportsInput = {
   title: string
   slug: string
   description: string
+  shortDescription?: string | null
   type?: $Enums.ClassType
   tutorGrade?: $Enums.TutorGrade | null
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1255,9 +1702,20 @@ export type ClassCreateWithoutReportsInput = {
   campusTarget?: string | null
   bannerUrl?: string | null
   startsAt?: Date | string | null
+  accessDuration?: string | null
+  accessUntil?: Date | string | null
+  maxQuota?: number | null
+  meetingPlatform?: string | null
   meetingLink?: string | null
+  materialPlatform?: string | null
   materialLink?: string | null
   recordingLink?: string | null
+  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  reviewStatus?: string
+  reviewNote?: string | null
+  reviewedById?: string | null
+  reviewedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   creator: Prisma.UserCreateNestedOneWithoutClassesCreatedInput
@@ -1271,6 +1729,7 @@ export type ClassUncheckedCreateWithoutReportsInput = {
   title: string
   slug: string
   description: string
+  shortDescription?: string | null
   type?: $Enums.ClassType
   tutorGrade?: $Enums.TutorGrade | null
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1279,9 +1738,20 @@ export type ClassUncheckedCreateWithoutReportsInput = {
   campusTarget?: string | null
   bannerUrl?: string | null
   startsAt?: Date | string | null
+  accessDuration?: string | null
+  accessUntil?: Date | string | null
+  maxQuota?: number | null
+  meetingPlatform?: string | null
   meetingLink?: string | null
+  materialPlatform?: string | null
   materialLink?: string | null
   recordingLink?: string | null
+  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  reviewStatus?: string
+  reviewNote?: string | null
+  reviewedById?: string | null
+  reviewedAt?: Date | string | null
   creatorId: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1311,6 +1781,7 @@ export type ClassUpdateWithoutReportsInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumClassTypeFieldUpdateOperationsInput | $Enums.ClassType
   tutorGrade?: Prisma.NullableEnumTutorGradeFieldUpdateOperationsInput | $Enums.TutorGrade | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1319,9 +1790,20 @@ export type ClassUpdateWithoutReportsInput = {
   campusTarget?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accessDuration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accessUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  maxQuota?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  meetingPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   meetingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  materialPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   materialLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   recordingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  reviewStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   creator?: Prisma.UserUpdateOneRequiredWithoutClassesCreatedNestedInput
@@ -1335,6 +1817,7 @@ export type ClassUncheckedUpdateWithoutReportsInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumClassTypeFieldUpdateOperationsInput | $Enums.ClassType
   tutorGrade?: Prisma.NullableEnumTutorGradeFieldUpdateOperationsInput | $Enums.TutorGrade | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1343,9 +1826,20 @@ export type ClassUncheckedUpdateWithoutReportsInput = {
   campusTarget?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accessDuration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accessUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  maxQuota?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  meetingPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   meetingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  materialPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   materialLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   recordingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  reviewStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   creatorId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1359,6 +1853,7 @@ export type ClassCreateManyCreatorInput = {
   title: string
   slug: string
   description: string
+  shortDescription?: string | null
   type?: $Enums.ClassType
   tutorGrade?: $Enums.TutorGrade | null
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1367,9 +1862,20 @@ export type ClassCreateManyCreatorInput = {
   campusTarget?: string | null
   bannerUrl?: string | null
   startsAt?: Date | string | null
+  accessDuration?: string | null
+  accessUntil?: Date | string | null
+  maxQuota?: number | null
+  meetingPlatform?: string | null
   meetingLink?: string | null
+  materialPlatform?: string | null
   materialLink?: string | null
   recordingLink?: string | null
+  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  reviewStatus?: string
+  reviewNote?: string | null
+  reviewedById?: string | null
+  reviewedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1379,6 +1885,7 @@ export type ClassUpdateWithoutCreatorInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumClassTypeFieldUpdateOperationsInput | $Enums.ClassType
   tutorGrade?: Prisma.NullableEnumTutorGradeFieldUpdateOperationsInput | $Enums.TutorGrade | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1387,9 +1894,20 @@ export type ClassUpdateWithoutCreatorInput = {
   campusTarget?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accessDuration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accessUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  maxQuota?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  meetingPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   meetingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  materialPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   materialLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   recordingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  reviewStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tutors?: Prisma.BootcampTutorUpdateManyWithoutClassNestedInput
@@ -1403,6 +1921,7 @@ export type ClassUncheckedUpdateWithoutCreatorInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumClassTypeFieldUpdateOperationsInput | $Enums.ClassType
   tutorGrade?: Prisma.NullableEnumTutorGradeFieldUpdateOperationsInput | $Enums.TutorGrade | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1411,9 +1930,20 @@ export type ClassUncheckedUpdateWithoutCreatorInput = {
   campusTarget?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accessDuration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accessUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  maxQuota?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  meetingPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   meetingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  materialPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   materialLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   recordingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  reviewStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tutors?: Prisma.BootcampTutorUncheckedUpdateManyWithoutClassNestedInput
@@ -1427,6 +1957,7 @@ export type ClassUncheckedUpdateManyWithoutCreatorInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  shortDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumClassTypeFieldUpdateOperationsInput | $Enums.ClassType
   tutorGrade?: Prisma.NullableEnumTutorGradeFieldUpdateOperationsInput | $Enums.TutorGrade | null
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -1435,9 +1966,20 @@ export type ClassUncheckedUpdateManyWithoutCreatorInput = {
   campusTarget?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accessDuration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accessUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  maxQuota?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  meetingPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   meetingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  materialPlatform?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   materialLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   recordingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requirements?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  facilities?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  reviewStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1505,6 +2047,7 @@ export type ClassSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   title?: boolean
   slug?: boolean
   description?: boolean
+  shortDescription?: boolean
   type?: boolean
   tutorGrade?: boolean
   price?: boolean
@@ -1513,9 +2056,20 @@ export type ClassSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   campusTarget?: boolean
   bannerUrl?: boolean
   startsAt?: boolean
+  accessDuration?: boolean
+  accessUntil?: boolean
+  maxQuota?: boolean
+  meetingPlatform?: boolean
   meetingLink?: boolean
+  materialPlatform?: boolean
   materialLink?: boolean
   recordingLink?: boolean
+  requirements?: boolean
+  facilities?: boolean
+  reviewStatus?: boolean
+  reviewNote?: boolean
+  reviewedById?: boolean
+  reviewedAt?: boolean
   creatorId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1534,6 +2088,7 @@ export type ClassSelectScalar = {
   title?: boolean
   slug?: boolean
   description?: boolean
+  shortDescription?: boolean
   type?: boolean
   tutorGrade?: boolean
   price?: boolean
@@ -1542,15 +2097,26 @@ export type ClassSelectScalar = {
   campusTarget?: boolean
   bannerUrl?: boolean
   startsAt?: boolean
+  accessDuration?: boolean
+  accessUntil?: boolean
+  maxQuota?: boolean
+  meetingPlatform?: boolean
   meetingLink?: boolean
+  materialPlatform?: boolean
   materialLink?: boolean
   recordingLink?: boolean
+  requirements?: boolean
+  facilities?: boolean
+  reviewStatus?: boolean
+  reviewNote?: boolean
+  reviewedById?: boolean
+  reviewedAt?: boolean
   creatorId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type ClassOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "slug" | "description" | "type" | "tutorGrade" | "price" | "category" | "major" | "campusTarget" | "bannerUrl" | "startsAt" | "meetingLink" | "materialLink" | "recordingLink" | "creatorId" | "createdAt" | "updatedAt", ExtArgs["result"]["class"]>
+export type ClassOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "slug" | "description" | "shortDescription" | "type" | "tutorGrade" | "price" | "category" | "major" | "campusTarget" | "bannerUrl" | "startsAt" | "accessDuration" | "accessUntil" | "maxQuota" | "meetingPlatform" | "meetingLink" | "materialPlatform" | "materialLink" | "recordingLink" | "requirements" | "facilities" | "reviewStatus" | "reviewNote" | "reviewedById" | "reviewedAt" | "creatorId" | "createdAt" | "updatedAt", ExtArgs["result"]["class"]>
 export type ClassInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   creator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   tutors?: boolean | Prisma.Class$tutorsArgs<ExtArgs>
@@ -1574,6 +2140,7 @@ export type $ClassPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     title: string
     slug: string
     description: string
+    shortDescription: string | null
     type: $Enums.ClassType
     tutorGrade: $Enums.TutorGrade | null
     price: runtime.Decimal
@@ -1582,9 +2149,20 @@ export type $ClassPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     campusTarget: string | null
     bannerUrl: string | null
     startsAt: Date | null
+    accessDuration: string | null
+    accessUntil: Date | null
+    maxQuota: number | null
+    meetingPlatform: string | null
     meetingLink: string | null
+    materialPlatform: string | null
     materialLink: string | null
     recordingLink: string | null
+    requirements: runtime.JsonValue | null
+    facilities: runtime.JsonValue | null
+    reviewStatus: string
+    reviewNote: string | null
+    reviewedById: string | null
+    reviewedAt: Date | null
     creatorId: string
     createdAt: Date
     updatedAt: Date
@@ -1966,6 +2544,7 @@ export interface ClassFieldRefs {
   readonly title: Prisma.FieldRef<"Class", 'String'>
   readonly slug: Prisma.FieldRef<"Class", 'String'>
   readonly description: Prisma.FieldRef<"Class", 'String'>
+  readonly shortDescription: Prisma.FieldRef<"Class", 'String'>
   readonly type: Prisma.FieldRef<"Class", 'ClassType'>
   readonly tutorGrade: Prisma.FieldRef<"Class", 'TutorGrade'>
   readonly price: Prisma.FieldRef<"Class", 'Decimal'>
@@ -1974,9 +2553,20 @@ export interface ClassFieldRefs {
   readonly campusTarget: Prisma.FieldRef<"Class", 'String'>
   readonly bannerUrl: Prisma.FieldRef<"Class", 'String'>
   readonly startsAt: Prisma.FieldRef<"Class", 'DateTime'>
+  readonly accessDuration: Prisma.FieldRef<"Class", 'String'>
+  readonly accessUntil: Prisma.FieldRef<"Class", 'DateTime'>
+  readonly maxQuota: Prisma.FieldRef<"Class", 'Int'>
+  readonly meetingPlatform: Prisma.FieldRef<"Class", 'String'>
   readonly meetingLink: Prisma.FieldRef<"Class", 'String'>
+  readonly materialPlatform: Prisma.FieldRef<"Class", 'String'>
   readonly materialLink: Prisma.FieldRef<"Class", 'String'>
   readonly recordingLink: Prisma.FieldRef<"Class", 'String'>
+  readonly requirements: Prisma.FieldRef<"Class", 'Json'>
+  readonly facilities: Prisma.FieldRef<"Class", 'Json'>
+  readonly reviewStatus: Prisma.FieldRef<"Class", 'String'>
+  readonly reviewNote: Prisma.FieldRef<"Class", 'String'>
+  readonly reviewedById: Prisma.FieldRef<"Class", 'String'>
+  readonly reviewedAt: Prisma.FieldRef<"Class", 'DateTime'>
   readonly creatorId: Prisma.FieldRef<"Class", 'String'>
   readonly createdAt: Prisma.FieldRef<"Class", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Class", 'DateTime'>

@@ -88,6 +88,10 @@ export default function DashboardOverviewPage() {
   }, [fullGreeting]);
 
   useEffect(() => {
+    if (user.isLoggedIn && user.roles.includes("admin")) {
+      router.replace("/dashboard/admin");
+      return;
+    }
     let active = true;
     setLoading(true);
     setError("");
@@ -111,7 +115,7 @@ export default function DashboardOverviewPage() {
     return () => {
       active = false;
     };
-  }, [reloadKey, router]);
+  }, [reloadKey, router, user.isLoggedIn, user.roles]);
 
   const classes = Array.from(new Map((data?.classes || []).map((item) => [item.id, item])).values());
   const transactions = data?.transactions || [];
@@ -119,7 +123,7 @@ export default function DashboardOverviewPage() {
 
   return (
     <div className="space-y-4">
-      {/* Header Sapaan Mahasiswa */}
+
       <header className="rounded-[6px] border border-[#D9DEE7] bg-white p-4 dark:border-[#343945] dark:bg-[#191C23]">
         <h1
           aria-label={fullGreeting}
@@ -149,7 +153,7 @@ export default function DashboardOverviewPage() {
       ) : (
       <>
 
-      {/* 3 Kartu Metrik Utama */}
+
       <div className="grid gap-3 sm:grid-cols-3">
         {[
           { label: "Kelas Diikuti", value: loading ? "—" : classes.length },
@@ -170,7 +174,7 @@ export default function DashboardOverviewPage() {
         ))}
       </div>
 
-      {/* Section Kelas yang Sedang Diikuti */}
+
       <section className="rounded-[6px] border border-[#D9DEE7] bg-white p-4 dark:border-[#343945] dark:bg-[#191C23]">
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#D9DEE7] pb-3.5 dark:border-[#343945]">
           <div>
@@ -248,7 +252,7 @@ export default function DashboardOverviewPage() {
                       {dateText(item.startsAt ?? null, isBootcamp)} <span className="rounded-[4px] bg-[#2457C5]/10 px-1.5 py-0.5 text-[10px] font-semibold text-[#2457C5] dark:text-[#78A0FF]">{isBootcamp ? "Bootcamp" : "Peer-Tutoring"}</span> · Pengajar: <b>{item.tutor?.name ?? item.creator?.name ?? "—"}</b>
                     </p>
 
-                    {/* Kontak Langsung WhatsApp & Email Tutor */}
+
                     <div className="mt-2 flex items-center gap-2.5 text-[11px]">
                       <span className="text-[#626B78] dark:text-[#B1B7C3]">Kontak Tutor:</span>
                       {item.tutor?.phoneNumber ? (
@@ -274,7 +278,7 @@ export default function DashboardOverviewPage() {
                     </div>
                   </div>
 
-                  {/* Aksi Pembelajaran */}
+
                   <div className="flex flex-wrap items-center gap-2 self-start md:self-center">
                     {hasMeeting ? (
                       <a

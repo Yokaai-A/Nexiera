@@ -46,7 +46,7 @@ export function DetailKelas() {
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [reportOpen, setReportOpen] = useState(false);
 
-  // Reviews State
+
   const [reviewsData, setReviewsData] = useState<ReviewsData | null>(null);
   const [reviewRating, setReviewRating] = useState(5);
   const [reviewComment, setReviewComment] = useState("");
@@ -111,6 +111,7 @@ export function DetailKelas() {
                 )
               : "",
             accessDuration: apiClass.accessDuration || "",
+            accessUntil: apiClass.accessUntil || "",
             maxQuota: apiClass.maxQuota ?? 0,
             availableSeats: apiClass.availableSeats ?? apiClass.maxQuota ?? 0,
             requirements: apiClass.requirements || [],
@@ -119,7 +120,7 @@ export function DetailKelas() {
           };
           setCourse(converted);
 
-          // Check if current user is enrolled in this class
+
           if (user.isLoggedIn) {
             try {
               const myClasses = await nexieraApi.myClasses();
@@ -135,7 +136,7 @@ export function DetailKelas() {
             } catch {}
           }
 
-          // Load real reviews
+
           void loadReviews(apiClass.id);
         })
         .catch(() => {
@@ -183,6 +184,7 @@ export function DetailKelas() {
     if (!course) return;
 
     try {
+
       const res = await nexieraApi.checkout(course.id);
       if (res.redirectUrl) {
         window.location.href = res.redirectUrl;
@@ -240,6 +242,7 @@ export function DetailKelas() {
 
   const isBootcamp = course.type === "BOOTCAMP";
   const isFree = course.pricingModel === "FREE";
+  const isSoldOut = course.availableSeats != null && course.availableSeats <= 0;
   const categoryName = course.mainCategory;
   const majorName = course.major;
 
@@ -258,9 +261,9 @@ export function DetailKelas() {
 
       <div className="mx-auto max-w-[1180px] px-4 sm:px-6 lg:px-8 py-6">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
-          {/* Main Left Content */}
+
           <div className="lg:col-span-2 space-y-4">
-            {/* Header Card */}
+
             <div className="rounded-[6px] border border-[#D9DEE7] bg-white p-5 dark:border-[#343945] dark:bg-[#191C23]">
               <div className="flex flex-wrap items-center gap-2">
                 <span className="rounded-[4px] border border-[#D9DEE7] bg-[#E5E9F0]/60 px-2 py-0.5 text-[11px] font-semibold text-[#2457C5] uppercase tracking-wide dark:border-[#343945] dark:bg-[#20242D] dark:text-[#78A0FF]">
@@ -302,9 +305,11 @@ export function DetailKelas() {
                 </div>
 
                 <div className="rounded-[4px] border border-[#D9DEE7] bg-[#E5E9F0]/30 p-2.5 dark:border-[#343945] dark:bg-[#111318]">
-                  <div className="text-[10px] font-semibold uppercase tracking-wider text-[#626B78] dark:text-[#B1B7C3]">Masa Akses</div>
+                  <div className="text-[10px] font-semibold uppercase tracking-wider text-[#626B78] dark:text-[#B1B7C3]">Akses sampai</div>
                   <div className="mt-1 flex items-center gap-1 text-xs font-semibold text-[#20232B] dark:text-[#F3F4F6]">
-                    {course.accessDuration || "Belum ditentukan"}
+                    {course.accessUntil
+                      ? new Intl.DateTimeFormat("id-ID", { dateStyle: "long" }).format(new Date(course.accessUntil))
+                      : course.accessDuration || "Belum ditentukan"}
                   </div>
                 </div>
 
@@ -317,7 +322,7 @@ export function DetailKelas() {
               </div>
             </div>
 
-            {/* Tentang Program */}
+
             <div className="rounded-[6px] border border-[#D9DEE7] bg-white p-5 dark:border-[#343945] dark:bg-[#191C23]">
               <h2 className="text-sm font-semibold text-[#20232B] dark:text-[#F3F4F6]">Tentang Program Pembelajaran</h2>
               <p className="mt-2 text-xs leading-relaxed text-[#626B78] dark:text-[#B1B7C3] whitespace-pre-line">
@@ -355,7 +360,7 @@ export function DetailKelas() {
               </div>
             </div>
 
-            {/* Tim Pengajar / Tutor */}
+
             <div className="rounded-[6px] border border-[#D9DEE7] bg-white p-5 dark:border-[#343945] dark:bg-[#191C23]">
               <div className="flex items-center justify-between mb-3 border-b border-[#D9DEE7] pb-2.5 dark:border-[#343945]">
                 <h2 className="text-sm font-semibold text-[#20232B] dark:text-[#F3F4F6]">
@@ -384,7 +389,7 @@ export function DetailKelas() {
               </div>
             </div>
 
-            {/* REAL CLASS REVIEWS SECTION (Specification 7) */}
+
             <div className="rounded-[6px] border border-[#D9DEE7] bg-white p-5 dark:border-[#343945] dark:bg-[#191C23]">
               <div className="flex items-center justify-between border-b border-[#D9DEE7] pb-3 dark:border-[#343945]">
                 <div className="flex items-center gap-2">
@@ -395,7 +400,7 @@ export function DetailKelas() {
                 </div>
               </div>
 
-              {/* Summary Score & Breakdown Bars */}
+
               {totalReviews > 0 && (
                 <div className="mt-4 flex flex-col sm:flex-row items-center gap-6 rounded-[4px] border border-[#D9DEE7] bg-[#FAFAFA] p-4 dark:border-[#343945] dark:bg-[#111318]">
                   <div className="text-center sm:text-left shrink-0">
@@ -442,7 +447,7 @@ export function DetailKelas() {
                 </div>
               )}
 
-              {/* Review Submission Form for Enrolled Students */}
+
               {isRegistered && (
                 <form onSubmit={handleSubmitReview} className="mt-4 rounded-[4px] border border-[#2457C5]/30 bg-[#2457C5]/5 p-4 dark:border-[#78A0FF]/30 dark:bg-[#2457C5]/10 space-y-3">
                   <h3 className="text-xs font-semibold text-[#2457C5] dark:text-[#78A0FF] uppercase tracking-wider flex items-center gap-1.5">
@@ -513,7 +518,7 @@ export function DetailKelas() {
                 </form>
               )}
 
-              {/* Reviews List or Strictly Clean Empty State */}
+
               <div className="mt-4 divide-y divide-[#D9DEE7] dark:divide-[#343945]">
                 {totalReviews === 0 ? (
                   <div className="rounded-[4px] border border-dashed border-[#D9DEE7] p-8 text-center dark:border-[#343945]">
@@ -566,7 +571,7 @@ export function DetailKelas() {
             </div>
           </div>
 
-          {/* Sticky Right Sidebar (CTA & Registration) */}
+
           <div className="space-y-4 lg:sticky lg:top-24">
             <div className="rounded-[6px] border border-[#D9DEE7] bg-white p-5 dark:border-[#343945] dark:bg-[#191C23]">
               <div className="text-[10px] font-semibold uppercase tracking-wider text-[#626B78] dark:text-[#B1B7C3]">
@@ -580,7 +585,7 @@ export function DetailKelas() {
                     <span className="text-2xl font-bold text-[#20232B] dark:text-[#F3F4F6]">
                       Rp {course.priceAmount?.toLocaleString("id-ID")}
                     </span>
-                    <span className="text-xs text-[#626B78] dark:text-[#B1B7C3]">/ semester</span>
+                    <span className="text-xs text-[#626B78] dark:text-[#B1B7C3]">per peserta</span>
                   </>
                 )}
               </div>
@@ -607,9 +612,10 @@ export function DetailKelas() {
                 <button
                   type="button"
                   onClick={handleCtaClick}
-                  className="mt-4 flex w-full items-center justify-center gap-1.5 rounded-[4px] bg-[#2457C5] px-3.5 py-2 text-xs font-semibold text-white hover:bg-[#1D4ED8] transition-colors shadow-sm"
+                  disabled={isSoldOut}
+                  className="mt-4 flex w-full items-center justify-center gap-1.5 rounded-[4px] bg-[#2457C5] px-3.5 py-2 text-xs font-semibold text-white hover:bg-[#1D4ED8] transition-colors shadow-sm disabled:cursor-not-allowed disabled:bg-slate-400"
                 >
-                  <span>Daftar Kelas</span>
+                  <span>{isSoldOut ? "Kuota Penuh" : "Daftar Kelas"}</span>
                   <ArrowRight className="h-3.5 w-3.5" />
                 </button>
               )}
@@ -650,7 +656,7 @@ export function DetailKelas() {
       </div>
       <ReportModal isOpen={reportOpen} onClose={() => setReportOpen(false)} targetType="class" targetId={course.id} targetTitle={course.title} tutorId={course.tutors?.[0]?.id} tutorName={course.tutors?.[0]?.name} />
 
-      {/* Auth Modal */}
+
       {showAuthModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
           <div className="w-full max-w-sm rounded-[6px] border border-[#D9DEE7] bg-white p-5 dark:border-[#343945] dark:bg-[#191C23]">
@@ -692,7 +698,7 @@ export function DetailKelas() {
         </div>
       )}
 
-      {/* Complete academic profile before registration */}
+
       {showProfileCompletionModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
           <form onSubmit={handleCompleteStudentProfile} className="w-full max-w-md rounded-[6px] border border-[#D9DEE7] bg-white p-5 shadow-lg dark:border-[#343945] dark:bg-[#191C23]">
@@ -721,7 +727,7 @@ export function DetailKelas() {
         </div>
       )}
 
-      {/* Confirm Registration Modal */}
+
       {showConfirmModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
           <div className="w-full max-w-sm rounded-[6px] border border-[#D9DEE7] bg-white p-5 dark:border-[#343945] dark:bg-[#191C23]">
@@ -747,8 +753,9 @@ export function DetailKelas() {
                 <label className="text-[11px] font-semibold text-[#20232B] dark:text-[#F3F4F6] block mb-1">Nama Mahasiswa</label>
                 <input
                   type="text"
-                  defaultValue={user.fullName || user.name}
+                  value={user.fullName || user.name}
                   required
+                  readOnly
                   className="w-full rounded-[4px] border border-[#D9DEE7] bg-white px-2.5 py-1.5 text-xs text-[#20232B] dark:border-[#343945] dark:bg-[#111318] dark:text-[#F3F4F6]"
                 />
               </div>
@@ -757,11 +764,16 @@ export function DetailKelas() {
                 <label className="text-[11px] font-semibold text-[#20232B] dark:text-[#F3F4F6] block mb-1">Email Mahasiswa</label>
                 <input
                   type="email"
-                  defaultValue={user.email}
+                  value={user.email}
                   required
+                  readOnly
                   className="w-full rounded-[4px] border border-[#D9DEE7] bg-white px-2.5 py-1.5 text-xs text-[#20232B] dark:border-[#343945] dark:bg-[#111318] dark:text-[#F3F4F6]"
                 />
               </div>
+
+              <p className="text-[10px] leading-relaxed text-[#626B78] dark:text-[#B1B7C3]">
+                Nama dan email mengikuti akun yang sedang login dan tidak dapat diubah di sini.
+              </p>
 
               <div className="rounded-[4px] border border-[#D9DEE7] bg-[#E5E9F0]/40 p-2.5 text-[11px] text-[#20232B] dark:border-[#343945] dark:bg-[#111318] dark:text-[#F3F4F6]">
                 Setelah pendaftaran dikonfirmasi, tautan sesi live dan materi belajar akan langsung tersedia di menu <b>Kelas Saya</b>.

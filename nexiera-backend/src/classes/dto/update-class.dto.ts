@@ -6,6 +6,7 @@ import {
   IsOptional,
   IsString,
   Min,
+  Max,
   MinLength,
 } from "class-validator";
 import { ClassType, TutorGrade } from "../../generated/prisma/client.js";
@@ -31,6 +32,13 @@ export class UpdateClassDto {
   @IsOptional() @IsString() materialUrl?: string;
   @IsOptional() @IsString() recordingLink?: string;
   @IsOptional() @IsString() recordingUrl?: string;
+  @IsOptional() @IsString() meetingPlatform?: string;
+  @IsOptional() @IsString() materialPlatform?: string;
+  @IsOptional() @IsArray() @IsString({ each: true }) requirements?: string[];
+  @IsOptional() @IsArray() @IsString({ each: true }) facilities?: string[];
   @IsOptional() @IsArray() tutors?: BootcampTutorDto[];
   @IsOptional() @IsDateString() startsAt?: string;
+  @IsOptional() @IsString() accessDuration?: string;
+  @IsOptional() @IsDateString() accessUntil?: string;
+  @IsOptional() @IsNumber() @Min(1) @Max(200) maxQuota?: number;
 }

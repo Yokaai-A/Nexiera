@@ -13,6 +13,7 @@ import { JwtAuthGuard } from "../auth/jwt-auth.guard.js";
 import { AdminGuard } from "../auth/admin.guard.js";
 import { CreateClassDto } from "./dto/create-class.dto.js";
 import { UpdateReportStatusDto } from "./dto/update-report-status.dto.js";
+import { ReviewClassDto } from "./dto/review-class.dto.js";
 import { UpdateClassDto } from "./dto/update-class.dto.js";
 import { ClassesService } from "./classes.service.js";
 
@@ -25,6 +26,18 @@ export class ClassesController {
   @Get()
   listActiveClasses() {
     return this.classesService.listActiveClasses();
+  }
+
+  @Get("admin/pending")
+  @UseGuards(JwtAuthGuard, AdminGuard)
+  listPendingAdmin() {
+    return this.classesService.findPendingReviews();
+  }
+
+  @Patch(":classId/review")
+  @UseGuards(JwtAuthGuard, AdminGuard)
+  reviewAdmin(@Req() request: AuthenticatedRequest, @Param("classId") classId: string, @Body() body: ReviewClassDto) {
+    return this.classesService.reviewClass(request.user.userId, classId, body.decision, body.note);
   }
 
   @Post()
@@ -47,14 +60,14 @@ export class ClassesController {
 
   @Patch(":classId/publish")
   @UseGuards(JwtAuthGuard)
-  publishClass(@Param("classId") classId: string) {
-    return this.classesService.getClassDetail(classId);
+  publishClass(@Param("classId") classId: string, @Req() request: AuthenticatedRequest) {
+    return this.classesService.getClassDetail(classId, request.user.userId);
   }
 
   @Get(":classId/manage")
   @UseGuards(JwtAuthGuard)
-  getManagedClass(@Param("classId") classId: string) {
-    return this.classesService.getClassDetail(classId);
+  getManagedClass(@Param("classId") classId: string, @Req() request: AuthenticatedRequest) {
+    return this.classesService.getClassDetail(classId, request.user.userId);
   }
 
   @Patch(":classId")

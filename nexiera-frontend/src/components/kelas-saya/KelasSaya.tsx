@@ -64,7 +64,7 @@ export function KelasSaya() {
   return (
     <>
     <div className="space-y-4">
-      {/* Header Ruang Belajar */}
+
       <header className="rounded-[6px] border border-[#D9DEE7] bg-white p-4 dark:border-[#343945] dark:bg-[#191C23]">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
@@ -88,7 +88,7 @@ export function KelasSaya() {
         </div>
       </header>
 
-      {/* Konten Daftar Kelas */}
+
       {loading ? (
         <div className="rounded-[6px] border border-[#D9DEE7] bg-white p-6 text-center dark:border-[#343945] dark:bg-[#191C23]">
           <p className="text-sm text-[#626B78] dark:text-[#B1B7C3]">Memuat data kelas...</p>
@@ -125,6 +125,7 @@ export function KelasSaya() {
             {classes.map((course) => {
               const isBootcamp = course.courseType === "BOOTCAMP" || course.type === "BOOTCAMP";
               const isCancelled = course.status === "CANCELLED";
+              const isAccessExpired = Boolean(course.accessUntil && new Date(course.accessUntil) < new Date());
               const categoryName = course.mainCategory || "Sains & Teknologi";
               const majorName = course.major || "Teknik Informatika";
               const schedule = course.startsAt
@@ -186,7 +187,7 @@ export function KelasSaya() {
                         </span>
                       </div>
 
-                      {/* Kontak Langsung WhatsApp & Email Tutor */}
+
                       <div className="mt-3 flex flex-wrap items-center gap-3 text-xs">
                         <span className="text-[#626B78] dark:text-[#B1B7C3]">Kontak Pengajar:</span>
                         {course.tutor?.phoneNumber ? (
@@ -212,7 +213,7 @@ export function KelasSaya() {
                       </div>
                     </div>
 
-                    {/* Akses Pembelajaran Langsung (Diproteksi) */}
+
                     <div className="lg:w-72 shrink-0 border-t border-[#D9DEE7] lg:border-t-0 lg:border-l lg:pl-4 pt-3 lg:pt-0 dark:border-[#343945]">
                       <div className="text-[11px] font-semibold uppercase tracking-wider text-[#626B78] mb-2 dark:text-[#B1B7C3]">
                         Akses Pembelajaran Langsung
@@ -222,6 +223,10 @@ export function KelasSaya() {
                         {isCancelled ? (
                           <div className="rounded-[4px] border border-red-200 bg-red-50 p-3 text-xs text-red-700 dark:border-red-900/60 dark:bg-red-950/40 dark:text-red-300">
                             Tautan pertemuan dinonaktifkan karena kelas ini telah dibatalkan oleh pengajar.
+                          </div>
+                        ) : isAccessExpired ? (
+                          <div className="rounded-[4px] border border-amber-200 bg-amber-50 p-3 text-xs text-amber-800 dark:border-amber-900/60 dark:bg-amber-950/40 dark:text-amber-300">
+                            Masa akses pembelajaran berakhir pada {new Intl.DateTimeFormat("id-ID", { dateStyle: "long" }).format(new Date(course.accessUntil!))}.
                           </div>
                         ) : course.meetingUrl ? (
                           <a
@@ -242,7 +247,7 @@ export function KelasSaya() {
                           </p>
                         )}
 
-                        {course.materialUrl && !isCancelled && (
+                        {course.materialUrl && !isCancelled && !isAccessExpired && (
                           <a
                             href={course.materialUrl}
                             target="_blank"
@@ -257,7 +262,7 @@ export function KelasSaya() {
                           </a>
                         )}
 
-                        {course.recordingUrl && !isCancelled && (
+                        {course.recordingUrl && !isCancelled && !isAccessExpired && (
                           <a
                             href={course.recordingUrl}
                             target="_blank"

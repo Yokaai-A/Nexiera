@@ -92,7 +92,7 @@ export default function TutorClassDetailPage() {
 
   return (
     <div className="space-y-4">
-      {/* Header */}
+
       <header className="rounded-[6px] border border-[#D9DEE7] bg-white p-4 dark:border-[#343945] dark:bg-[#191C23]">
         <Link
           href="/dashboard/tutor/kelas"
@@ -166,7 +166,7 @@ export default function TutorClassDetailPage() {
         </p>
       )}
 
-      {/* Ringkasan Metrik Kelas */}
+
       <section className="grid gap-3 sm:grid-cols-3">
         <article className="rounded-[6px] border border-[#D9DEE7] bg-white p-4 dark:border-[#343945] dark:bg-[#191C23]">
           <p className="text-xs font-semibold uppercase text-[#626B78] dark:text-[#B1B7C3]">
@@ -198,7 +198,7 @@ export default function TutorClassDetailPage() {
         </article>
       </section>
 
-      {/* Tautan Pembelajaran */}
+
       <section className="rounded-[6px] border border-[#D9DEE7] bg-white p-4 dark:border-[#343945] dark:bg-[#191C23]">
         <h2 className="font-semibold text-[#20232B] dark:text-[#F3F4F6]">Tautan Akses Kelas</h2>
         <p className="mt-1 text-xs text-[#626B78] dark:text-[#B1B7C3]">
@@ -238,7 +238,7 @@ export default function TutorClassDetailPage() {
         </div>
       </section>
 
-      {/* Banner Informasi Pembatalan */}
+
       {item.status === "CANCELLED" && (
         <section className="rounded-[6px] border border-red-200 bg-red-50 p-4 dark:border-red-900/60 dark:bg-red-950/40">
           <h2 className="font-semibold text-red-800 dark:text-red-300">Kelas Telah Dibatalkan</h2>
@@ -254,7 +254,7 @@ export default function TutorClassDetailPage() {
         </section>
       )}
 
-      {/* Modal Konfirmasi Pembatalan Kelas (Auto-Refund 100%) */}
+
       {isCancelModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 animate-in fade-in">
           <div className="w-full max-w-md rounded-[6px] border border-[#D9DEE7] bg-white p-4 shadow-md dark:border-[#343945] dark:bg-[#191C23]">

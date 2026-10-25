@@ -57,8 +57,8 @@ export class NotificationsService {
       },
     });
 
-    // Email delivery is deliberately fire-and-forget so SMTP/API delays never
-    // hold up the transaction or notification API response.
+
+
     void this.prisma.user.findUnique({
       where: { id: data.userId },
       select: { email: true, fullName: true },

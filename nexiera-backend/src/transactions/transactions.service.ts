@@ -14,7 +14,6 @@ import { ConfigService } from "@nestjs/config";
 import { PrivateUploadPurpose, TransactionStatus } from "../generated/prisma/client.js";
 import { NotificationsService } from "../notifications/notifications.service.js";
 import { PrismaService } from "../prisma/prisma.service.js";
-import { isUniversityCourseRecord } from "../classes/university-courses.js";
 import { MidtransService } from "./midtrans.service.js";
 
 @Injectable()
@@ -38,11 +37,13 @@ export class TransactionsService {
         select: {
           id: true,
           creatorId: true,
+          reviewStatus: true,
           title: true,
           price: true,
           type: true,
           category: true,
           campusTarget: true,
+          maxQuota: true,
         },
       }),
     ]);
@@ -52,27 +53,35 @@ export class TransactionsService {
       throw new BadRequestException("Lengkapi kampus dan program studi di profil utama sebelum mendaftar kelas.");
     }
     if (!classRecord) throw new NotFoundException("Kelas tidak ditemukan.");
-    if (!isUniversityCourseRecord(classRecord)) {
-      throw new NotFoundException("Kelas tidak termasuk mata kuliah resmi yang tersedia di NEXIERA.");
+    if (classRecord.reviewStatus !== "APPROVED") {
+      throw new BadRequestException("Kelas belum disetujui admin dan belum dapat menerima pendaftaran.");
     }
-
     if (classRecord.creatorId === userId) {
       throw new ForbiddenException("Pengajar tidak dapat mendaftar di kelas sendiri.");
     }
 
     const priceNum = Number(classRecord.price);
 
-    // Check if already paid
+
     const alreadyPaid = await this.prisma.transaction.findFirst({
-      where: { userId, classId, status: TransactionStatus.PAID },
+      where: { userId, classId, status: { in: [TransactionStatus.PAID, TransactionStatus.PENDING] } },
     });
     if (alreadyPaid) {
-      throw new ConflictException("Anda sudah terdaftar pada kelas ini.");
+      throw new ConflictException(alreadyPaid.status === TransactionStatus.PAID
+        ? "Anda sudah terdaftar pada kelas ini."
+        : "Pembayaran untuk kelas ini sedang menunggu konfirmasi.");
+    }
+
+    if (classRecord.maxQuota != null) {
+      const reservedSeats = await this.prisma.transaction.count({
+        where: { classId, status: { in: [TransactionStatus.PAID, TransactionStatus.PENDING] } },
+      });
+      if (reservedSeats >= classRecord.maxQuota) throw new ConflictException("Kuota kelas sudah penuh.");
     }
 
     const orderId = `NEX-${Date.now()}-${randomUUID().slice(0, 6)}`;
 
-    // Free class: auto PAID
+
     if (priceNum === 0) {
       const transaction = await this.prisma.transaction.create({
         data: {
@@ -84,7 +93,7 @@ export class TransactionsService {
         },
       });
 
-      // Send notifications
+
       await this.notifications.createNotification({
         userId,
         title: "Pendaftaran Kelas Berhasil",
@@ -127,7 +136,7 @@ export class TransactionsService {
       };
     }
 
-    // Midtrans integration if server key is present
+
     const pendingTransaction = await this.prisma.transaction.create({
       data: { orderId, userId, classId, amount: priceNum, status: TransactionStatus.PENDING },
     });
@@ -176,7 +185,7 @@ export class TransactionsService {
       },
     });
 
-    return list.filter((t) => isUniversityCourseRecord(t.class)).map((t) => ({
+    return list.map((t) => ({
       id: t.id,
       orderId: t.orderId,
       amount: String(t.amount),

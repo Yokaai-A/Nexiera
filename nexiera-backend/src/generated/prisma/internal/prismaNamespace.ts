@@ -1296,6 +1296,7 @@ export const ClassScalarFieldEnum = {
   title: 'title',
   slug: 'slug',
   description: 'description',
+  shortDescription: 'shortDescription',
   type: 'type',
   tutorGrade: 'tutorGrade',
   price: 'price',
@@ -1304,9 +1305,20 @@ export const ClassScalarFieldEnum = {
   campusTarget: 'campusTarget',
   bannerUrl: 'bannerUrl',
   startsAt: 'startsAt',
+  accessDuration: 'accessDuration',
+  accessUntil: 'accessUntil',
+  maxQuota: 'maxQuota',
+  meetingPlatform: 'meetingPlatform',
   meetingLink: 'meetingLink',
+  materialPlatform: 'materialPlatform',
   materialLink: 'materialLink',
   recordingLink: 'recordingLink',
+  requirements: 'requirements',
+  facilities: 'facilities',
+  reviewStatus: 'reviewStatus',
+  reviewNote: 'reviewNote',
+  reviewedById: 'reviewedById',
+  reviewedAt: 'reviewedAt',
   creatorId: 'creatorId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -1494,6 +1506,14 @@ export const JsonNullValueInput = {
 export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
 export const JsonNullValueFilter = {
   DbNull: DbNull,
   JsonNull: JsonNull,
@@ -1550,13 +1570,20 @@ export const ClassOrderByRelevanceFieldEnum = {
   title: 'title',
   slug: 'slug',
   description: 'description',
+  shortDescription: 'shortDescription',
   category: 'category',
   major: 'major',
   campusTarget: 'campusTarget',
   bannerUrl: 'bannerUrl',
+  accessDuration: 'accessDuration',
+  meetingPlatform: 'meetingPlatform',
   meetingLink: 'meetingLink',
+  materialPlatform: 'materialPlatform',
   materialLink: 'materialLink',
   recordingLink: 'recordingLink',
+  reviewStatus: 'reviewStatus',
+  reviewNote: 'reviewNote',
+  reviewedById: 'reviewedById',
   creatorId: 'creatorId'
 } as const
 

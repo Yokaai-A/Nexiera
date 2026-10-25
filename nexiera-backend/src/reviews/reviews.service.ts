@@ -90,7 +90,7 @@ export class ReviewsService {
       throw new NotFoundException("Kelas tidak ditemukan.");
     }
 
-    // Check enrollment with PAID transaction
+
     const transaction = await this.prisma.transaction.findFirst({
       where: {
         classId,
@@ -105,7 +105,7 @@ export class ReviewsService {
       );
     }
 
-    // Check if user already reviewed
+
     const existing = await this.prisma.review.findUnique({
       where: {
         userId_classId: { userId, classId },
@@ -135,7 +135,7 @@ export class ReviewsService {
       },
     });
 
-    // Send notification to class creator
+
     await this.notifications.createNotification({
       userId: classItem.creatorId,
       title: "Ulasan Baru Diterima",
@@ -221,7 +221,7 @@ export class ReviewsService {
       },
     });
 
-    // Notify reviewer
+
     await this.notifications
       .createNotification({
         userId: review.userId,

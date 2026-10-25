@@ -3,18 +3,20 @@ import cookieParser from "cookie-parser";
 import { RequestMethod, ValidationPipe } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import { ConfigService } from "@nestjs/config";
+import type { NextFunction, Request, Response } from "express";
 import { AppModule } from "./app.module.js";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const config = app.get(ConfigService);
   const frontendUrl = config.getOrThrow<string>("FRONTEND_URL");
-  const frontendOrigins = new Set([frontendUrl]);
+  const frontendOrigin = new URL(frontendUrl).origin;
+  const frontendOrigins = new Set([frontendOrigin]);
 
-  // Localhost and 127.0.0.1 are common equivalent dev URLs, but browsers
-  // treat them as different origins for CORS, cookies, and CSRF checks.
+
+
   if (process.env.NODE_ENV !== "production") {
-    const configuredOrigin = new URL(frontendUrl);
+    const configuredOrigin = new URL(frontendOrigin);
     if (configuredOrigin.hostname === "localhost" || configuredOrigin.hostname === "127.0.0.1") {
       const loopbackAlias = new URL(frontendUrl);
       loopbackAlias.hostname = configuredOrigin.hostname === "localhost" ? "127.0.0.1" : "localhost";
@@ -23,6 +25,10 @@ async function bootstrap() {
   }
 
   app.useSecurityHeaders();
+  app.getHttpAdapter().getInstance().disable("x-powered-by");
+  if (process.env.NODE_ENV === "production") {
+    app.getHttpAdapter().getInstance().set("trust proxy", 1);
+  }
   app.enableCsrfProtection({
     trustedOrigins: [...frontendOrigins],
     exclude: [
@@ -32,7 +38,14 @@ async function bootstrap() {
   app.setGlobalPrefix("api");
   const uploadsPath = (await import("path")).join(process.cwd(), "uploads");
   const express = (await import("express")).default;
-  app.use("/uploads", express.static(uploadsPath));
+  app.use("/uploads", (_request: Request, response: Response, next: NextFunction) => {
+
+
+    if (!_request.originalUrl.startsWith("/uploads/private/")) {
+      response.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
+    }
+    next();
+  }, express.static(uploadsPath));
   app.use(cookieParser());
   app.enableCors({
     origin: [...frontendOrigins],

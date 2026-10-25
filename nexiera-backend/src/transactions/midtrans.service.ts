@@ -122,8 +122,8 @@ export class MidtransService {
     }
 
     const payload = (await response.json().catch(() => ({}))) as MidtransRefundResponse;
-    // A repeated request with the same refund_key means Midtrans already has
-    // that idempotent request; keep it processing until the webhook confirms it.
+
+
     if (payload.status_code === "406") return payload;
 
     if (!response.ok || payload.status_code !== "200") {

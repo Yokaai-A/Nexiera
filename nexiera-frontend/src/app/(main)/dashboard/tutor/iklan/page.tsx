@@ -169,7 +169,7 @@ export default function PengiklananPage() {
       setImageUrl("");
       setTargetUrl("");
       setEndsAt("");
-      setNotice("Iklan berhasil didaftarkan sebagai pure image banner dan langsung aktif.");
+      setNotice("Pengajuan iklan berhasil dikirim. Iklan akan tayang setelah disetujui admin dan tanggal mulai tercapai.");
       await load();
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : "Iklan gagal disimpan.");
@@ -180,7 +180,7 @@ export default function PengiklananPage() {
 
   return (
     <div className="space-y-4">
-      {/* Header */}
+
       <header className="rounded-[6px] border border-[#D9DEE7] bg-white p-4 dark:border-[#343945] dark:bg-[#191C23]">
         <span className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-[#2457C5] dark:text-[#78A0FF]">
           <Megaphone className="h-4 w-4" /> Promosi Mandiri &amp; Self-Serve Ads
@@ -193,7 +193,7 @@ export default function PengiklananPage() {
         </p>
       </header>
 
-      {/* 4 Metric Cards */}
+
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <article className="rounded-[6px] border border-[#D9DEE7] bg-white p-4 dark:border-[#343945] dark:bg-[#191C23]">
           <div className="flex items-center justify-between text-[#626B78] dark:text-[#B1B7C3]">
@@ -254,7 +254,7 @@ export default function PengiklananPage() {
         </article>
       </div>
 
-      {/* Ad Rental Pricing Table (Katalog Tarif Sewa Slot Promosi) */}
+
       <section className="rounded-[6px] border border-[#D9DEE7] bg-white p-4 dark:border-[#343945] dark:bg-[#191C23]">
         <div className="flex items-center gap-2 border-b border-[#D9DEE7] pb-2.5 dark:border-[#343945]">
           <TableIcon className="h-4 w-4 text-[#2457C5] dark:text-[#78A0FF]" />
@@ -307,7 +307,7 @@ export default function PengiklananPage() {
         </p>
       )}
 
-      {/* Formulir Pasang Iklan */}
+
       <section className="rounded-[6px] border border-[#D9DEE7] bg-white p-4 dark:border-[#343945] dark:bg-[#191C23]">
         <h2 className="text-sm font-semibold text-[#20232B] dark:text-[#F3F4F6]">Pasang Iklan Baru (Pure Image)</h2>
         <p className="mt-0.5 text-xs text-[#626B78] dark:text-[#B1B7C3]">
@@ -355,7 +355,7 @@ export default function PengiklananPage() {
             />
           </label>
 
-          {/* Upload Banner Direct */}
+
           <div className="sm:col-span-2">
             <label className="block text-xs font-semibold text-[#20232B] dark:text-[#F3F4F6] mb-1">
               Upload File Banner (Maks. 5MB, format PNG/JPG/WebP)
@@ -432,10 +432,10 @@ export default function PengiklananPage() {
         </form>
       </section>
 
-      {/* Daftar Iklan Aktif */}
+
       <section className="rounded-[6px] border border-[#D9DEE7] bg-white p-4 dark:border-[#343945] dark:bg-[#191C23]">
         <h2 className="border-b border-[#D9DEE7] pb-2.5 text-sm font-semibold text-[#20232B] dark:border-[#343945] dark:text-[#F3F4F6]">
-          Daftar Iklan Anda
+          Pengajuan Iklan Anda
         </h2>
 
         {loading ? (
@@ -489,12 +489,14 @@ export default function PengiklananPage() {
                   </span>
                   <span
                     className={`rounded-[4px] px-2 py-0.5 text-[11px] font-semibold ${
-                      ad.status === "ACTIVE"
+                      ad.status === "APPROVED"
                         ? "bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800"
-                        : "bg-slate-100 text-slate-800 border border-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700"
+                        : ad.status === "PENDING_REVIEW"
+                          ? "bg-amber-50 text-amber-800 border border-amber-200 dark:bg-amber-950/40 dark:text-amber-300 dark:border-amber-800"
+                          : "bg-slate-100 text-slate-800 border border-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700"
                     }`}
                   >
-                    {ad.status === "ACTIVE" ? "Aktif" : "Dihentikan"}
+                    {({ PENDING_REVIEW: "Menunggu tinjauan", APPROVED: "Disetujui", REJECTED: "Ditolak", ACTIVE: "Aktif", PAUSED: "Dihentikan" } as Record<string, string>)[ad.status] || ad.status}
                   </span>
                 </div>
               </article>

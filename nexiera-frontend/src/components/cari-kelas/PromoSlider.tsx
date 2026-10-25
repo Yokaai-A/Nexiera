@@ -2,29 +2,53 @@
 
 import { useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { getPublicUploadUrl, nexieraApi, type ApiAd } from "@/src/lib/api";
 
-const slides = [
-  {
-    src: "/Nexiera_Banner_Welcoming.png",
-    alt: "Selamat datang di Nexiera. Temukan kelas dan tutor terbaik.",
-  },
-  {
-    src: "/banner-cari-kelas.jpeg",
-    alt: "Bootcamp akademik terbaik dari Booster Academy.",
-  },
-];
+type BannerSlide = { id: string; src: string; alt: string; href: string; adId?: string };
+const DEFAULT_SLIDE: BannerSlide = {
+  id: "nexiera-welcome",
+  src: "/Nexiera_Banner_Welcoming.png",
+  alt: "Selamat datang di Nexiera. Temukan kelas dan tutor terbaik.",
+  href: "/cari-kelas",
+};
 
 export function PromoSlider() {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [slides, setSlides] = useState<BannerSlide[]>([DEFAULT_SLIDE]);
   const [loadedSlides, setLoadedSlides] = useState<Record<number, boolean>>({});
   const imageRefs = useRef<Array<HTMLImageElement | null>>([]);
+
+  useEffect(() => {
+    let active = true;
+    void nexieraApi.adsSlot("HOME_HERO").then(({ ads }) => {
+      if (!active) return;
+      const approvedAds = ads
+        .filter((ad) => ad.status === "APPROVED" && ad.placement === "HOME_HERO")
+        .slice(0, 4)
+        .map((ad: ApiAd) => ({
+          id: ad.id,
+          adId: ad.id,
+          src: ad.imageUrl.startsWith("http") ? ad.imageUrl : getPublicUploadUrl(ad.imageUrl),
+          alt: ad.subtitle?.trim() || ad.title,
+          href: ad.targetUrl,
+        }));
+      setSlides([DEFAULT_SLIDE, ...approvedAds]);
+      setActiveIndex(0);
+    }).catch(() => undefined);
+    return () => { active = false; };
+  }, []);
 
   useEffect(() => {
     const activeImage = imageRefs.current[activeIndex];
     if (activeImage?.complete && activeImage.naturalWidth > 0) {
       setLoadedSlides((loaded) => ({ ...loaded, [activeIndex]: true }));
     }
-  }, [activeIndex]);
+  }, [activeIndex, slides.length]);
+
+  useEffect(() => {
+    const slide = slides[activeIndex];
+    if (slide?.adId) void nexieraApi.trackAdImpression(slide.adId).catch(() => undefined);
+  }, [activeIndex, slides]);
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -32,7 +56,7 @@ export function PromoSlider() {
     }, 5000);
 
     return () => window.clearTimeout(timer);
-  }, [activeIndex]);
+  }, [activeIndex, slides.length]);
 
   const showSlide = (index: number) => {
     setActiveIndex((index + slides.length) % slides.length);
@@ -62,19 +86,27 @@ export function PromoSlider() {
             </div>
           )}
           {slides.map((slide, index) => (
-            <img
-              key={slide.src}
-              ref={(element) => {
-                imageRefs.current[index] = element;
-              }}
-              src={slide.src}
-              alt={slide.alt}
+            <a
+              key={slide.id}
+              href={slide.href}
+              target={slide.adId ? "_blank" : undefined}
+              rel={slide.adId ? "noreferrer" : undefined}
+              aria-label={slide.alt}
               aria-hidden={index !== activeIndex || !loadedSlides[index]}
-              onLoad={() => setLoadedSlides((loaded) => ({ ...loaded, [index]: true }))}
-              className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${
+              onClick={() => { if (slide.adId) void nexieraApi.trackAdClick(slide.adId).catch(() => undefined); }}
+              tabIndex={index === activeIndex ? 0 : -1}
+              className={`absolute inset-0 transition-opacity duration-500 ${
                 index === activeIndex && loadedSlides[index] ? "z-20 opacity-100" : "z-0 opacity-0"
               }`}
-            />
+            >
+              <img
+                ref={(element) => { imageRefs.current[index] = element; }}
+                src={slide.src}
+                alt={slide.alt}
+                onLoad={() => setLoadedSlides((loaded) => ({ ...loaded, [index]: true }))}
+                className="h-full w-full object-cover"
+              />
+            </a>
           ))}
 
           <button

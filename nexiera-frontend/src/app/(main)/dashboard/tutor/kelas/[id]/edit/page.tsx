@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState, useRef } from "react";
 import { ArrowLeft } from "lucide-react";
-import { nexieraApi, type ApiClass } from "@/src/lib/api";
+import { getPublicUploadUrl, nexieraApi, type ApiClass } from "@/src/lib/api";
 
 const localDateTime = (value: string | null) =>
   value
@@ -202,7 +202,7 @@ export default function EditKelasPage() {
               <div className="space-y-3">
                 <div className="relative aspect-video w-full max-w-sm overflow-hidden rounded-[4px] border border-[#D9DEE7] dark:border-slate-700">
                   <img
-                    src={item.bannerUrl.startsWith("/uploads") ? `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000"}${item.bannerUrl}` : item.bannerUrl}
+                    src={item.bannerUrl.startsWith("/uploads") ? getPublicUploadUrl(item.bannerUrl) : item.bannerUrl}
                     alt="Banner Kelas"
                     className="h-full w-full object-cover"
                   />
