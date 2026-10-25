@@ -488,7 +488,7 @@ export function CourseCatalog() {
 
           <div className="mt-6">
             {loading ? (
-              <div role="status" aria-label="Memuat daftar kelas" className="grid grid-cols-1 gap-5 min-[900px]:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+              <div role="status" aria-label="Memuat daftar kelas" className="grid grid-cols-1 gap-5 min-[900px]:grid-cols-2 xl:grid-cols-3">
                 <span className="sr-only">Memuat kelas...</span>
                 {Array.from({ length: 6 }, (_, index) => (
                   <article
@@ -530,7 +530,7 @@ export function CourseCatalog() {
                 {searchQuery.trim() && <div className="mt-4"><button type="button" onClick={() => { setCourseRequestTitle(searchQuery.trim()); setCourseRequestOpen((open) => !open); setCourseRequestMessage(""); }} className="btn-secondary cursor-pointer">Ajukan Mata Kuliah Baru</button>{courseRequestOpen && <form className="mx-auto mt-4 grid max-w-md gap-3 text-left" onSubmit={(event) => { event.preventDefault(); setCourseRequestBusy(true); void nexieraApi.requestCourse({ title: courseRequestTitle.trim() }).then(() => { setCourseRequestMessage("Pengajuan mata kuliah tersimpan untuk ditinjau."); setCourseRequestOpen(false); }).catch((error) => setCourseRequestMessage(error instanceof Error ? error.message : "Pengajuan gagal dikirim.")).finally(() => setCourseRequestBusy(false)); }}><label className="text-xs font-semibold">Nama mata kuliah<input required maxLength={160} value={courseRequestTitle} onChange={(event) => setCourseRequestTitle(event.target.value)} className="nx-input mt-1 w-full" /></label><button disabled={courseRequestBusy} className="btn-primary cursor-pointer">{courseRequestBusy ? "Mengirim..." : "Kirim pengajuan"}</button></form>}{courseRequestMessage && <p role="status" className="mt-2 text-xs text-[#2457C5]">{courseRequestMessage}</p>}</div>}
               </div>
             ) : (
-              <div className="grid grid-cols-1 gap-5 min-[900px]:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+              <div className="grid grid-cols-1 gap-5 min-[900px]:grid-cols-2 xl:grid-cols-3">
                 {paginatedCourses.map((course) => (
                   <ClassCard key={course.id} item={course} />
                 ))}
