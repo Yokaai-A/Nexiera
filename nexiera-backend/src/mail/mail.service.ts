@@ -34,8 +34,12 @@ export class MailService implements OnModuleInit {
 
   onModuleInit() {
     if (!this.resendApiKey || !this.from) {
-      this.logger.warn("Pengiriman email nonaktif: notifikasi email tidak akan terkirim. Verifikasi akun dapat memakai tautan langsung dengan EMAIL_VERIFICATION_DEV_LINKS=true.");
+      this.logger.warn("Pengiriman email nonaktif: notifikasi tidak akan terkirim dan pendaftaran password akan langsung mengaktifkan akun.");
     }
+  }
+
+  isEmailConfigured() {
+    return Boolean(this.resendApiKey && this.from);
   }
 
   async sendNotificationEmail(input: NotificationEmail) {

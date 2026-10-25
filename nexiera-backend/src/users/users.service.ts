@@ -115,6 +115,14 @@ export class UsersService {
     });
   }
 
+  async markEmailVerified(userId: string) {
+    return this.prisma.user.update({
+      where: { id: userId },
+      data: { emailVerifiedAt: new Date() },
+      select: PUBLIC_USER_SELECT,
+    });
+  }
+
   async findGoogleUser(profile: GoogleUserProfile) {
     const byEmail = await this.prisma.user.findUnique({
       where: { email: profile.email.toLowerCase() },

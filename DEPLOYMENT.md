@@ -38,7 +38,7 @@ Set these in the Railway service environment; do not upload or commit `.env` fil
 | `JWT_SECRET` | Random secret of at least 32 characters |
 | `AUTH_COOKIE_NAME` | `nexiera_access_token` |
 | `ADMIN_EMAILS` | Comma-separated admin account emails |
-| `EMAIL_VERIFICATION_DEV_LINKS` | `true` to return verification links directly in the signup/resend response without an email provider |
+| `EMAIL_VERIFICATION_DEV_LINKS` | Optional; when `true` and Resend is configured, return verification links directly instead of emailing them |
 | `MIDTRANS_SERVER_KEY` | Midtrans sandbox key for staging, production key for live payments |
 | `MIDTRANS_IS_PRODUCTION` | `false` for sandbox, `true` only for live Midtrans |
 | `RESEND_API_KEY` | Optional; only needed to send verification and notification emails |
@@ -52,7 +52,7 @@ The frontend additionally needs `NEXT_PUBLIC_API_BASE_URL=https://<backend-host>
 
 - `nexiera-backend/.env.example` contains local database placeholders. Cloud database values must be supplied in Railway.
 - `MIDTRANS_SERVER_KEY` is not configured locally. Checkout remains unavailable until the correct sandbox or production key is added.
-- Email/password signup verification can use direct links by setting `EMAIL_VERIFICATION_DEV_LINKS=true` on the backend deployment. The link is returned to the signup or resend response, and the user opens it to verify. Set it to `false` when a Resend sender is configured and links should be delivered by email instead. Without either option, users cannot complete email verification.
+- When Resend is not configured, email/password signup activates the account immediately so users can register and log in without email verification. With Resend configured, accounts must verify by email unless `EMAIL_VERIFICATION_DEV_LINKS=true`, which returns the verification link in the signup/resend response.
 - Uploaded files currently use local disk paths. A persistent volume or private object storage is required so files survive redeploys.
 - Rotate any Resend API key that has appeared in diagnostic output before configuring it in the cloud.
 

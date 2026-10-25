@@ -27,13 +27,20 @@ export class AuthService {
     }
     const passwordHash = await bcrypt.hash(dto.password, 12);
     const email = dto.email.trim().toLowerCase();
+    const verificationRequired = this.mail.isEmailConfigured();
     const user = await this.usersService.createPasswordUser({
       email: dto.email,
       passwordHash,
       fullName: dto.fullName,
       phoneNumber: dto.phoneNumber,
-      emailVerified: false,
+      emailVerified: !verificationRequired,
     });
+    if (!verificationRequired) {
+      return {
+        accessToken: await this.createAccessToken(user.id, user.email),
+        user,
+      };
+    }
     const token = await this.usersService.issueEmailVerification(user.id);
     const url = new URL(`/verify-email?token=${encodeURIComponent(token)}`, this.config.get<string>("FRONTEND_URL") || "http://localhost:3000").toString();
     if (this.devVerificationLinksEnabled()) {
@@ -51,11 +58,17 @@ export class AuthService {
     if (!user?.password || !(await bcrypt.compare(dto.password, user.password))) {
       throw new UnauthorizedException("Email atau kata sandi tidak valid.");
     }
-    if (!user.emailVerifiedAt) throw new UnauthorizedException("Verifikasi email melalui tautan yang dikirim sebelum masuk.");
-    const { password: _password, ...profile } = user;
+    let profile = user;
+    if (!user.emailVerifiedAt) {
+      if (this.mail.isEmailConfigured()) {
+        throw new UnauthorizedException("Verifikasi email melalui tautan yang dikirim sebelum masuk.");
+      }
+      profile = { ...user, ...(await this.usersService.markEmailVerified(user.id)) };
+    }
+    const { password: _password, ...publicProfile } = profile;
     return {
-      accessToken: await this.createAccessToken(profile.id, profile.email),
-      user: profile,
+      accessToken: await this.createAccessToken(publicProfile.id, publicProfile.email),
+      user: publicProfile,
     };
   }
 
@@ -75,7 +88,7 @@ export class AuthService {
   verifyEmail(token: string) { return this.usersService.verifyEmailToken(token); }
 
   private devVerificationLinksEnabled() {
-    return this.config.get<string>("EMAIL_VERIFICATION_DEV_LINKS") === "true";
+    return this.mail.isEmailConfigured() && this.config.get<string>("EMAIL_VERIFICATION_DEV_LINKS") === "true";
   }
 
   async googleSignIn(profile: GoogleUserProfile) {
