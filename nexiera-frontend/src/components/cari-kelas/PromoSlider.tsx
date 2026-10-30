@@ -7,7 +7,7 @@ import { getPublicUploadUrl, nexieraApi, type ApiAd } from "@/src/lib/api";
 type BannerSlide = { id: string; src: string; alt: string; href: string; adId?: string };
 const DEFAULT_SLIDE: BannerSlide = {
   id: "nexiera-welcome",
-  src: "/Nexiera_Banner_Welcoming.png",
+  src: "/Selamat_Datang_Nexiera_Utama.png",
   alt: "Selamat datang di Nexiera. Temukan kelas dan tutor terbaik.",
   href: "/cari-kelas",
 };
