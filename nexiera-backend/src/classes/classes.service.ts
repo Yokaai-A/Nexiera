@@ -38,7 +38,8 @@ export class ClassesService {
   ) {}
 
   private mapClassRecord(cls: any, viewerId?: string) {
-    const demoData = isDemoMode() ? getDemoClassData(cls.slug || cls.id) : null;
+    const demoMode = isDemoMode();
+    const demoData = getDemoClassData(cls.slug || cls.id);
     const reviews = cls.reviews || [];
     const totalReviews = reviews.length;
     const avgRating =
@@ -57,6 +58,11 @@ export class ClassesService {
     const reservedSeatCount = cls.transactions
       ? cls.transactions.filter((t: any) => t.status === "PAID" || t.status === "PENDING").length
       : studentCount;
+    const now = new Date();
+    const startsAt = cls.startsAt ? new Date(cls.startsAt) : null;
+    const accessUntil = cls.accessUntil ? new Date(cls.accessUntil) : null;
+    const hasFutureSchedule = Boolean(startsAt && Number.isFinite(startsAt.getTime()) && startsAt > now);
+    const hasActiveAccess = Boolean(accessUntil && Number.isFinite(accessUntil.getTime()) && accessUntil > now);
     const canViewClassLinks = Boolean(
       viewerId &&
       (cls.creatorId === viewerId || cls.transactions?.some((transaction: any) => transaction.userId === viewerId && transaction.status === "PAID")),
@@ -84,19 +90,21 @@ export class ClassesService {
         ? cls.creator?.organizationLogoUrl || cls.creator?.avatarUrl
         : undefined,
       bannerUrl: cls.bannerUrl,
-      startsAt: demoData?.startsAt || cls.startsAt,
-      accessDuration: demoData?.accessDuration || cls.accessDuration,
-      accessUntil: demoData?.accessUntil || cls.accessUntil,
-      maxQuota: demoData?.maxQuota ?? cls.maxQuota,
-      availableSeats: demoData?.availableSeats ?? (cls.maxQuota == null ? null : Math.max(0, cls.maxQuota - reservedSeatCount)),
-      meetingLink: canViewClassLinks ? demoData?.meetingLink || (cls.accessUntil && cls.accessUntil < new Date() ? null : cls.meetingLink) : null,
-      meetingUrl: canViewClassLinks ? demoData?.meetingLink || (cls.accessUntil && cls.accessUntil < new Date() ? null : cls.meetingLink) : null,
-      meetingPlatform: demoData?.meetingPlatform || cls.meetingPlatform,
-      materialLink: canViewClassLinks ? demoData?.materialLink || (cls.accessUntil && cls.accessUntil < new Date() ? null : cls.materialLink) : null,
-      materialUrl: canViewClassLinks ? demoData?.materialLink || (cls.accessUntil && cls.accessUntil < new Date() ? null : cls.materialLink) : null,
-      materialPlatform: demoData?.materialPlatform || cls.materialPlatform,
-      recordingLink: canViewClassLinks && (demoData || !cls.accessUntil || cls.accessUntil >= new Date()) ? cls.recordingLink : null,
-      recordingUrl: canViewClassLinks && (demoData || !cls.accessUntil || cls.accessUntil >= new Date()) ? cls.recordingLink : null,
+      startsAt: demoMode || !hasFutureSchedule ? demoData.startsAt : cls.startsAt,
+      accessDuration: demoMode ? demoData.accessDuration : cls.accessDuration || demoData.accessDuration,
+      accessUntil: demoMode || !hasActiveAccess ? demoData.accessUntil : cls.accessUntil,
+      maxQuota: demoMode || cls.maxQuota == null ? demoData.maxQuota : cls.maxQuota,
+      availableSeats: demoMode || cls.maxQuota == null
+        ? demoData.availableSeats
+        : Math.max(0, cls.maxQuota - reservedSeatCount),
+      meetingLink: canViewClassLinks ? (demoMode ? demoData.meetingLink : cls.meetingLink) : null,
+      meetingUrl: canViewClassLinks ? (demoMode ? demoData.meetingLink : cls.meetingLink) : null,
+      meetingPlatform: demoMode ? demoData.meetingPlatform : cls.meetingPlatform || demoData.meetingPlatform,
+      materialLink: canViewClassLinks ? (demoMode ? demoData.materialLink : hasActiveAccess ? cls.materialLink : null) : null,
+      materialUrl: canViewClassLinks ? (demoMode ? demoData.materialLink : hasActiveAccess ? cls.materialLink : null) : null,
+      materialPlatform: demoMode ? demoData.materialPlatform : cls.materialPlatform || demoData.materialPlatform,
+      recordingLink: canViewClassLinks && (demoMode || hasActiveAccess) ? cls.recordingLink : null,
+      recordingUrl: canViewClassLinks && (demoMode || hasActiveAccess) ? cls.recordingLink : null,
       requirements: cls.requirements || [],
       facilities: cls.facilities || [],
       status: cls.reviewStatus === "PENDING_REVIEW" || cls.reviewStatus === "REJECTED" ? cls.reviewStatus : "ACTIVE",
@@ -178,7 +186,7 @@ export class ClassesService {
       throw new NotFoundException("Kelas tidak ditemukan.");
     }
 
-    return this.mapClassRecord(cls);
+    return this.mapClassRecord(cls, viewerId);
   }
 
   findPendingReviews() {
