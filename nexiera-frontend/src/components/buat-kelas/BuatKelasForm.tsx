@@ -133,7 +133,7 @@ export function BuatKelasForm() {
 
   const [type, setType] = useState<CourseType>(defaultType);
   const [pricingModel, setPricingModel] = useState<PricingModel>(initialCourse.price === 0 ? "FREE" : "PAID");
-  const [priceAmount, setPriceAmount] = useState<number>(initialCourse.price);
+  const [priceAmount, setPriceAmount] = useState<string>(String(initialCourse.price));
 
   const [requirements, setRequirements] = useState<string[]>([
     "Mahasiswa aktif jurusan terkait",
@@ -267,7 +267,8 @@ export function BuatKelasForm() {
       alert("Pilih kategori, jurusan, dan kampus sebelum menerbitkan kelas.");
       return;
     }
-    if (pricingModel === "PAID" && (!Number.isFinite(priceAmount) || priceAmount <= 0)) {
+    const numericPrice = Number(priceAmount);
+    if (pricingModel === "PAID" && (!priceAmount || !Number.isFinite(numericPrice) || numericPrice <= 0)) {
       alert("Masukkan biaya yang lebih besar dari Rp0 atau pilih Gratis.");
       return;
     }
@@ -314,7 +315,7 @@ export function BuatKelasForm() {
         courseType: type,
         tutorGrade: type === "PEER_TUTORING" ? tutorGrade : undefined,
         bannerUrl: bannerUrl || undefined,
-        price: pricingModel === "PAID" ? Number(priceAmount) : 0,
+        price: pricingModel === "PAID" ? numericPrice : 0,
         startsAt: scheduledAt.toISOString(),
         accessUntil: accessUntilDate.toISOString(),
         maxQuota: Number(maxQuota),
@@ -812,7 +813,7 @@ export function BuatKelasForm() {
             <Field label="Biaya per Peserta" required hint="Pembayaran online akan diminta saat pendaftaran">
               <div className="flex overflow-hidden rounded-[4px] border border-[#D9DEE7] focus-within:border-[#2457C5] dark:border-[#343945]">
                 <span className="flex items-center border-r border-[#D9DEE7] bg-slate-50 px-3 text-sm font-semibold text-[#626B78] dark:border-[#343945] dark:bg-[#111318]">Rp</span>
-                <input type="number" min={1} step={1000} value={priceAmount} onChange={(event) => setPriceAmount(Number(event.target.value))} className="w-full bg-white px-3.5 py-2.5 text-xs text-[#20232B] outline-none dark:bg-[#191C23] dark:text-slate-100" required />
+                <input type="text" inputMode="numeric" pattern="[0-9]+" value={priceAmount} onChange={(event) => setPriceAmount(event.target.value.replace(/\D/g, ""))} className="w-full bg-white px-3.5 py-2.5 text-xs text-[#20232B] outline-none dark:bg-[#191C23] dark:text-slate-100" required />
               </div>
             </Field>
           ) : (

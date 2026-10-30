@@ -5,6 +5,7 @@ import { NestFactory } from "@nestjs/core";
 import { ConfigService } from "@nestjs/config";
 import type { NextFunction, Request, Response } from "express";
 import { AppModule } from "./app.module.js";
+import { getPublicUploadsDir } from "./uploads/storage-paths.js";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -36,7 +37,6 @@ async function bootstrap() {
     ],
   });
   app.setGlobalPrefix("api");
-  const uploadsPath = (await import("path")).join(process.cwd(), "uploads");
   const express = (await import("express")).default;
   app.use("/uploads", (_request: Request, response: Response, next: NextFunction) => {
 
@@ -45,7 +45,7 @@ async function bootstrap() {
       response.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
     }
     next();
-  }, express.static(uploadsPath));
+  }, express.static(getPublicUploadsDir()));
   app.use(cookieParser());
   app.enableCors({
     origin: [...frontendOrigins],

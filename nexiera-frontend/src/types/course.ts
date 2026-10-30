@@ -41,7 +41,7 @@ export interface AcademicCourse {
   accessDuration?: string;
   accessUntil?: string;
   maxQuota?: number;
-  availableSeats?: number;
+  availableSeats?: number | null;
   requirements?: string[];
   facilities?: string[];
   createdAt?: string;

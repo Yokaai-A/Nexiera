@@ -5,15 +5,7 @@ if (process.env.NODE_ENV === "production" && !configuredApiBaseUrl) {
 const API_BASE_URL = (configuredApiBaseUrl || "http://localhost:4000/api").replace(/\/$/, "");
 
 function getBrowserApiBaseUrl() {
-  if (typeof window === "undefined" || process.env.NODE_ENV === "production") return API_BASE_URL;
-
-  const apiUrl = new URL(API_BASE_URL);
-  const pageHost = window.location.hostname;
-  const isLoopback = (hostname: string) => hostname === "localhost" || hostname === "127.0.0.1";
-  if (isLoopback(apiUrl.hostname) && isLoopback(pageHost)) {
-    apiUrl.hostname = pageHost;
-    return apiUrl.toString().replace(/\/$/, "");
-  }
+  if (typeof window !== "undefined") return "/api";
   return API_BASE_URL;
 }
 
@@ -44,7 +36,6 @@ export interface ApiUser {
 }
 
 export interface AuthResponse {
-  accessToken?: string;
   user?: ApiUser;
   emailVerificationRequired?: boolean;
   email?: string;
@@ -252,17 +243,11 @@ export interface ApiRoleApplication {
   user?: Pick<ApiUser, "id" | "fullName" | "email" | "campus" | "major">;
 }
 
-export function getStoredToken(): string | null {
-  if (typeof window === "undefined") return null;
-  return localStorage.getItem("nexiera_access_token");
-}
-
-export function setStoredToken(token: string | null) {
-  if (typeof window === "undefined") return;
-  if (token) {
-    localStorage.setItem("nexiera_access_token", token);
-  } else {
+if (typeof window !== "undefined") {
+  try {
     localStorage.removeItem("nexiera_access_token");
+  } catch {
+    // Authentication uses the HttpOnly cookie; localStorage is optional and may be disabled.
   }
 }
 
@@ -271,11 +256,6 @@ export async function apiFetch<T>(path: string, init: RequestInit = {}): Promise
   if (init.body && !(init.body instanceof FormData) && !headers.has("content-type")) {
     headers.set("content-type", "application/json");
   }
-  const token = getStoredToken();
-  if (token && !headers.has("authorization")) {
-    headers.set("authorization", `Bearer ${token}`);
-  }
-
   const response = await fetch(`${getBrowserApiBaseUrl()}${path.startsWith("/") ? path : `/${path}`}`, {
     ...init,
     headers,
@@ -294,34 +274,26 @@ export async function apiFetch<T>(path: string, init: RequestInit = {}): Promise
   return response.json() as Promise<T>;
 }
 
-export function getApiBaseUrl() {
-  return API_BASE_URL;
-}
-
 export function getPrivateFileUrl(path: string) {
-  return `${getBrowserApiBaseUrl()}${path}`;
+  return path.startsWith("/api/") ? path : `/api${path.startsWith("/") ? path : `/${path}`}`;
 }
 
 export function getPublicUploadUrl(path: string) {
-  return `${getBrowserApiBaseUrl().replace(/\/api\/?$/, "")}${path}`;
+  return path.startsWith("/") ? path : `/${path}`;
 }
 
 export function getBrowserAuthUrl(path: string) {
-  return `${getBrowserApiBaseUrl()}${path.startsWith("/") ? path : `/${path}`}`;
+  return `/api${path.startsWith("/") ? path : `/${path}`}`;
 }
 
 export const nexieraApi = {
   register: async (payload: { email: string; password: string; fullName: string; phoneNumber: string }) => {
-    const res = await apiFetch<AuthResponse>("/auth/register", { method: "POST", body: JSON.stringify(payload) });
-    if (res?.accessToken) setStoredToken(res.accessToken);
-    return res;
+    return apiFetch<AuthResponse>("/auth/register", { method: "POST", body: JSON.stringify(payload) });
   },
   verifyEmail: (token: string) => apiFetch<{ success: boolean }>("/auth/verify-email", { method: "POST", body: JSON.stringify({ token }) }),
   resendVerification: (email: string) => apiFetch<{ success: boolean; message: string; verificationUrl?: string }>("/auth/resend-verification", { method: "POST", body: JSON.stringify({ email }) }),
   login: async (payload: { email: string; password: string }) => {
-    const res = await apiFetch<AuthResponse>("/auth/login", { method: "POST", body: JSON.stringify(payload) });
-    if (res?.accessToken) setStoredToken(res.accessToken);
-    return res;
+    return apiFetch<AuthResponse>("/auth/login", { method: "POST", body: JSON.stringify(payload) });
   },
   me: () => apiFetch<ApiUser>("/users/me"),
   updateProfile: (profile: Partial<ApiUser>) =>
@@ -362,7 +334,6 @@ export const nexieraApi = {
     notes?: string;
   }) => apiFetch<ApiTutorApplication>("/users/me/tutor-application", { method: "POST", body: JSON.stringify(payload) }),
   logout: async () => {
-    setStoredToken(null);
     return apiFetch<{ success: boolean }>("/auth/logout", { method: "POST" });
   },
   uploadProfile: async (file: File) => {

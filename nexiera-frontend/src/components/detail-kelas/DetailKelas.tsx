@@ -112,8 +112,8 @@ export function DetailKelas() {
               : "",
             accessDuration: apiClass.accessDuration || "",
             accessUntil: apiClass.accessUntil || "",
-            maxQuota: apiClass.maxQuota ?? 0,
-            availableSeats: apiClass.availableSeats ?? apiClass.maxQuota ?? 0,
+            maxQuota: apiClass.maxQuota ?? undefined,
+            availableSeats: apiClass.availableSeats ?? apiClass.maxQuota ?? null,
             requirements: apiClass.requirements || [],
             facilities: apiClass.facilities || [],
             createdAt: apiClass.createdAt || "",
@@ -563,6 +563,17 @@ export function DetailKelas() {
                         <p className="text-xs text-[#626B78] dark:text-[#B1B7C3] leading-relaxed pl-8">
                           {rev.comment}
                         </p>
+                      )}
+
+                      {rev.reply && (
+                        <div className="ml-8 rounded-[4px] border border-[#D9DEE7] bg-[#E5E9F0]/45 p-3 dark:border-[#343945] dark:bg-slate-800/50">
+                          <p className="text-[10px] font-semibold text-[#2457C5] dark:text-blue-300">
+                            Balasan pengajar
+                          </p>
+                          <p className="mt-1 whitespace-pre-wrap text-xs leading-relaxed text-[#414854] dark:text-[#D1D5DB]">
+                            {rev.reply}
+                          </p>
+                        </div>
                       )}
                     </div>
                   ))

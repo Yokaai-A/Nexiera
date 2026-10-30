@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { AuthLayout } from "./AuthLayout";
-import { getApiBaseUrl, getBrowserAuthUrl, nexieraApi } from "@/src/lib/api";
+import { getBrowserAuthUrl, nexieraApi } from "@/src/lib/api";
 import { refreshUser } from "@/src/store/useUserStore";
 
 type AuthFormProps = { mode: "login" | "register" };
@@ -46,7 +46,7 @@ export function AuthForm({ mode }: AuthFormProps) {
           fullName: fullName.trim(),
           phoneNumber: phoneNumber.trim(),
         });
-        if (result.accessToken) {
+        if (result.user) {
           await refreshUser();
           router.replace("/dashboard");
           return;
@@ -108,7 +108,7 @@ export function AuthForm({ mode }: AuthFormProps) {
         </form>
         <div className="my-4 flex items-center gap-3 text-[11px] font-medium text-[#8892A0]"><span className="h-px flex-1 bg-[#D9DEE7]" />atau<span className="h-px flex-1 bg-[#D9DEE7]" /></div>
         <a
-          href={`${getApiBaseUrl()}/auth/google`}
+          href={getBrowserAuthUrl("/auth/google")}
           onClick={(event) => {
             event.preventDefault();
             window.location.assign(getBrowserAuthUrl("/auth/google"));

@@ -2,6 +2,17 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  async rewrites() {
+    const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+    if (!apiBaseUrl) return [];
+
+    const normalizedApiBaseUrl = apiBaseUrl.replace(/\/$/, "");
+    const backendOrigin = new URL(normalizedApiBaseUrl).origin;
+    return [
+      { source: "/api/:path*", destination: `${normalizedApiBaseUrl}/:path*` },
+      { source: "/uploads/:path*", destination: `${backendOrigin}/uploads/:path*` },
+    ];
+  },
   images: {
     remotePatterns: [
       {

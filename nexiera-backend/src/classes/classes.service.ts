@@ -9,6 +9,9 @@ import { basename, extname, join } from "node:path";
 import { existsSync } from "node:fs";
 import { ClassType, PrivateUploadPurpose, Role } from "../generated/prisma/client.js";
 import { NotificationsService } from "../notifications/notifications.service.js";
+import { getPublicUploadsDir } from "../uploads/storage-paths.js";
+import { UploadStorageService } from "../uploads/upload-storage.service.js";
+import { getDemoClassData, isDemoMode } from "./demo-class-data.js";
 import { PrismaService } from "../prisma/prisma.service.js";
 import { CreateClassDto } from "./dto/create-class.dto.js";
 import { UpdateClassDto } from "./dto/update-class.dto.js";
@@ -31,9 +34,11 @@ export class ClassesService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly notifications: NotificationsService,
+    private readonly uploadStorage: UploadStorageService,
   ) {}
 
-  private mapClassRecord(cls: any) {
+  private mapClassRecord(cls: any, viewerId?: string) {
+    const demoData = isDemoMode() ? getDemoClassData(cls.slug || cls.id) : null;
     const reviews = cls.reviews || [];
     const totalReviews = reviews.length;
     const avgRating =
@@ -52,6 +57,10 @@ export class ClassesService {
     const reservedSeatCount = cls.transactions
       ? cls.transactions.filter((t: any) => t.status === "PAID" || t.status === "PENDING").length
       : studentCount;
+    const canViewClassLinks = Boolean(
+      viewerId &&
+      (cls.creatorId === viewerId || cls.transactions?.some((transaction: any) => transaction.userId === viewerId && transaction.status === "PAID")),
+    );
 
     return {
       id: cls.id,
@@ -75,19 +84,19 @@ export class ClassesService {
         ? cls.creator?.organizationLogoUrl || cls.creator?.avatarUrl
         : undefined,
       bannerUrl: cls.bannerUrl,
-      startsAt: cls.startsAt,
-      accessDuration: cls.accessDuration,
-      accessUntil: cls.accessUntil,
-      maxQuota: cls.maxQuota,
-      availableSeats: cls.maxQuota == null ? null : Math.max(0, cls.maxQuota - reservedSeatCount),
-      meetingLink: cls.accessUntil && cls.accessUntil < new Date() ? null : cls.meetingLink,
-      meetingUrl: cls.accessUntil && cls.accessUntil < new Date() ? null : cls.meetingLink,
-      meetingPlatform: cls.meetingPlatform,
-      materialLink: cls.accessUntil && cls.accessUntil < new Date() ? null : cls.materialLink,
-      materialUrl: cls.accessUntil && cls.accessUntil < new Date() ? null : cls.materialLink,
-      materialPlatform: cls.materialPlatform,
-      recordingLink: cls.accessUntil && cls.accessUntil < new Date() ? null : cls.recordingLink,
-      recordingUrl: cls.accessUntil && cls.accessUntil < new Date() ? null : cls.recordingLink,
+      startsAt: demoData?.startsAt || cls.startsAt,
+      accessDuration: demoData?.accessDuration || cls.accessDuration,
+      accessUntil: demoData?.accessUntil || cls.accessUntil,
+      maxQuota: demoData?.maxQuota ?? cls.maxQuota,
+      availableSeats: demoData?.availableSeats ?? (cls.maxQuota == null ? null : Math.max(0, cls.maxQuota - reservedSeatCount)),
+      meetingLink: canViewClassLinks ? demoData?.meetingLink || (cls.accessUntil && cls.accessUntil < new Date() ? null : cls.meetingLink) : null,
+      meetingUrl: canViewClassLinks ? demoData?.meetingLink || (cls.accessUntil && cls.accessUntil < new Date() ? null : cls.meetingLink) : null,
+      meetingPlatform: demoData?.meetingPlatform || cls.meetingPlatform,
+      materialLink: canViewClassLinks ? demoData?.materialLink || (cls.accessUntil && cls.accessUntil < new Date() ? null : cls.materialLink) : null,
+      materialUrl: canViewClassLinks ? demoData?.materialLink || (cls.accessUntil && cls.accessUntil < new Date() ? null : cls.materialLink) : null,
+      materialPlatform: demoData?.materialPlatform || cls.materialPlatform,
+      recordingLink: canViewClassLinks && (demoData || !cls.accessUntil || cls.accessUntil >= new Date()) ? cls.recordingLink : null,
+      recordingUrl: canViewClassLinks && (demoData || !cls.accessUntil || cls.accessUntil >= new Date()) ? cls.recordingLink : null,
       requirements: cls.requirements || [],
       facilities: cls.facilities || [],
       status: cls.reviewStatus === "PENDING_REVIEW" || cls.reviewStatus === "REJECTED" ? cls.reviewStatus : "ACTIVE",
@@ -102,8 +111,6 @@ export class ClassesService {
             id: cls.creator.id,
             name: cls.creator.fullName,
             fullName: cls.creator.fullName,
-            email: cls.creator.contactEmail || cls.creator.email,
-            phoneNumber: cls.creator.phoneNumber,
             campus: cls.creator.campus,
             university: cls.creator.campus,
             major: cls.creator.major,
@@ -116,8 +123,6 @@ export class ClassesService {
         ? {
             id: cls.creator.id,
             name: cls.creator.fullName,
-            email: cls.creator.contactEmail || cls.creator.email,
-            phoneNumber: cls.creator.phoneNumber,
             campus: cls.creator.campus,
             university: cls.creator.campus,
             major: cls.creator.major,
@@ -279,8 +284,15 @@ export class ClassesService {
       throw new BadRequestException("Biaya kelas harus bernilai nol atau lebih.");
     }
     const bannerFilename = body.bannerUrl.startsWith("/uploads/") ? body.bannerUrl.slice("/uploads/".length) : "";
-    const bannerPath = join(process.cwd(), "uploads", bannerFilename);
-    if (!bannerFilename || basename(bannerFilename) !== bannerFilename || ![".png", ".jpg", ".jpeg", ".webp"].includes(extname(bannerFilename).toLowerCase()) || !existsSync(bannerPath)) {
+    const bannerPath = join(getPublicUploadsDir(), bannerFilename);
+    const validLocalBanner = Boolean(
+      bannerFilename &&
+      basename(bannerFilename) === bannerFilename &&
+      [".png", ".jpg", ".jpeg", ".webp"].includes(extname(bannerFilename).toLowerCase()) &&
+      existsSync(bannerPath),
+    );
+    const validCloudBanner = await this.uploadStorage.isUploadedPublicUrl(body.bannerUrl);
+    if (!validLocalBanner && !validCloudBanner) {
       throw new BadRequestException("Banner kelas harus berupa gambar yang berhasil diunggah (PNG, JPEG, atau WebP).");
     }
     const meetingLink = body.meetingLink || body.meetingUrl || null;
@@ -452,8 +464,8 @@ export class ClassesService {
     const enrolledMap = new Map();
     for (const tx of enrolledTransactions) {
       if (!enrolledMap.has(tx.class.id)) {
-        enrolledMap.set(tx.class.id, {
-          ...this.mapClassRecord(tx.class),
+      enrolledMap.set(tx.class.id, {
+          ...this.mapClassRecord(tx.class, userId),
           paymentStatus: "PAID",
           paidAt: tx.createdAt,
         });
@@ -461,7 +473,7 @@ export class ClassesService {
     }
 
     return {
-      created: createdClasses.map((c) => this.mapClassRecord(c)),
+      created: createdClasses.map((c) => this.mapClassRecord(c, userId)),
       enrolled: Array.from(enrolledMap.values()),
     };
   }
@@ -474,7 +486,7 @@ export class ClassesService {
     if (!cls) throw new NotFoundException("Kelas tidak ditemukan");
 
     const isCreator = cls.creatorId === userId;
-    if (!isCreator && cls.accessUntil && cls.accessUntil < new Date()) {
+    if (!isDemoMode() && !isCreator && cls.accessUntil && cls.accessUntil < new Date()) {
       throw new ForbiddenException("Masa akses pembelajaran untuk kelas ini sudah berakhir.");
     }
     const isEnrolled = await this.prisma.transaction.findFirst({
@@ -487,11 +499,12 @@ export class ClassesService {
       );
     }
 
+    const demoData = isDemoMode() ? getDemoClassData(cls.slug || cls.id) : null;
     return {
-      meetingLink: cls.meetingLink,
-      meetingUrl: cls.meetingLink,
-      materialLink: cls.materialLink,
-      materialUrl: cls.materialLink,
+      meetingLink: demoData?.meetingLink || cls.meetingLink,
+      meetingUrl: demoData?.meetingLink || cls.meetingLink,
+      materialLink: demoData?.materialLink || cls.materialLink,
+      materialUrl: demoData?.materialLink || cls.materialLink,
       recordingLink: cls.recordingLink,
       recordingUrl: cls.recordingLink,
       creator: {

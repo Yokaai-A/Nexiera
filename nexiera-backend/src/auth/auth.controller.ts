@@ -37,7 +37,7 @@ export class AuthController {
   ) {
     const result = await this.authService.register(body);
     if ("accessToken" in result && typeof result.accessToken === "string") this.setAccessCookie(response, result.accessToken);
-    return result;
+    return this.withoutAccessToken(result);
   }
 
   @Post("verify-email")
@@ -59,7 +59,7 @@ export class AuthController {
   ) {
     const result = await this.authService.login(body);
     this.setAccessCookie(response, result.accessToken);
-    return result;
+    return this.withoutAccessToken(result);
   }
 
   @Get("google")
@@ -100,5 +100,10 @@ export class AuthController {
 
   private cookieName() {
     return this.config.get<string>("AUTH_COOKIE_NAME") || "nexiera_access_token";
+  }
+
+  private withoutAccessToken<T extends object>(result: T & { accessToken?: string }) {
+    const { accessToken: _accessToken, ...safeResult } = result;
+    return safeResult;
   }
 }

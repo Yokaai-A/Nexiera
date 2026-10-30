@@ -9,12 +9,14 @@ import {
   Logger,
   Injectable,
   NotFoundException,
+  ServiceUnavailableException,
 } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { PrivateUploadPurpose, TransactionStatus } from "../generated/prisma/client.js";
 import { NotificationsService } from "../notifications/notifications.service.js";
 import { PrismaService } from "../prisma/prisma.service.js";
 import { MidtransService } from "./midtrans.service.js";
+import { isDemoMode } from "../classes/demo-class-data.js";
 
 @Injectable()
 export class TransactionsService {
@@ -72,7 +74,7 @@ export class TransactionsService {
         : "Pembayaran untuk kelas ini sedang menunggu konfirmasi.");
     }
 
-    if (classRecord.maxQuota != null) {
+    if (!isDemoMode() && classRecord.maxQuota != null) {
       const reservedSeats = await this.prisma.transaction.count({
         where: { classId, status: { in: [TransactionStatus.PAID, TransactionStatus.PENDING] } },
       });
@@ -82,13 +84,18 @@ export class TransactionsService {
     const orderId = `NEX-${Date.now()}-${randomUUID().slice(0, 6)}`;
 
 
-    if (priceNum === 0) {
+    const serverKey = this.config.get<string>("MIDTRANS_SERVER_KEY");
+    if (priceNum > 0 && !isDemoMode() && !serverKey?.trim()) {
+      throw new ServiceUnavailableException("Pembayaran online belum dikonfigurasi. Silakan hubungi pengelola kelas.");
+    }
+
+    if (priceNum === 0 || isDemoMode()) {
       const transaction = await this.prisma.transaction.create({
         data: {
           orderId,
           userId,
           classId,
-          amount: 0,
+          amount: priceNum,
           status: TransactionStatus.PAID,
         },
       });
@@ -96,16 +103,20 @@ export class TransactionsService {
 
       await this.notifications.createNotification({
         userId,
-        title: "Pendaftaran Kelas Berhasil",
-        message: `Selamat! Anda berhasil terdaftar di kelas gratis "${classRecord.title}". Akses materi dan link pertemuan di Kelas Saya.`,
+        title: isDemoMode() ? "Pendaftaran Demo Berhasil" : "Pendaftaran Kelas Berhasil",
+        message: isDemoMode()
+          ? `Pendaftaran demo untuk kelas "${classRecord.title}" berhasil. Harga kelas tetap dicatat, tanpa memanggil Midtrans.`
+          : `Selamat! Anda berhasil terdaftar di kelas gratis "${classRecord.title}". Akses materi dan link pertemuan di Kelas Saya.`,
         type: "ENROLLMENT",
         linkUrl: "/dashboard/kelas-saya",
       }).catch(() => null);
 
       await this.notifications.createNotification({
         userId: classRecord.creatorId,
-        title: "Peserta Baru Terdaftar",
-        message: `${user.fullName} telah bergabung ke kelas "${classRecord.title}".`,
+        title: isDemoMode() ? "Peserta Demo Baru" : "Peserta Baru Terdaftar",
+        message: isDemoMode()
+          ? `${user.fullName} bergabung ke kelas demo "${classRecord.title}". Harga kelas tetap dicatat, tanpa memanggil Midtrans.`
+          : `${user.fullName} telah bergabung ke kelas "${classRecord.title}".`,
         type: "ENROLLMENT",
         linkUrl: "/dashboard/tutor/peserta",
       }).catch(() => null);
@@ -116,26 +127,6 @@ export class TransactionsService {
         redirectUrl: null,
       };
     }
-
-    const serverKey = this.config.get<string>("MIDTRANS_SERVER_KEY");
-    if (!serverKey || serverKey.trim() === "") {
-      const transaction = await this.prisma.transaction.create({
-        data: {
-          orderId,
-          userId,
-          classId,
-          amount: priceNum,
-          status: TransactionStatus.FAILED,
-        },
-      });
-
-      return {
-        transactionId: transaction.id,
-        status: transaction.status,
-        redirectUrl: null,
-      };
-    }
-
 
     const pendingTransaction = await this.prisma.transaction.create({
       data: { orderId, userId, classId, amount: priceNum, status: TransactionStatus.PENDING },
@@ -154,13 +145,11 @@ export class TransactionsService {
         },
       });
 
-    } catch {
-      const transaction = await this.prisma.transaction.update({ where: { id: pendingTransaction.id }, data: { status: TransactionStatus.FAILED } });
-      return {
-        transactionId: transaction.id,
-        status: transaction.status,
-        redirectUrl: null,
-      };
+    } catch (cause) {
+      const reason = cause instanceof Error ? cause.message : "Unknown Midtrans error";
+      this.logger.warn(`Midtrans checkout failed for order ${orderId}: ${reason}`);
+      await this.prisma.transaction.update({ where: { id: pendingTransaction.id }, data: { status: TransactionStatus.FAILED } });
+      throw new ServiceUnavailableException("Checkout ditolak oleh Midtrans. Periksa konfigurasi pembayaran dan nominal kelas.");
     }
 
     return { transactionId: pendingTransaction.id, status: pendingTransaction.status, redirectUrl: snap.redirectUrl };

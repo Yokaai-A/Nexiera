@@ -277,12 +277,12 @@ export default function EditKelasPage() {
         <label className="text-xs font-semibold text-[#20232B] dark:text-[#F3F4F6]">
           Harga (IDR)
           <input
-            type="number"
-            min="0"
-            step="1"
+            type="text"
+            inputMode="numeric"
+            pattern="[0-9]+"
             required
             value={item.price}
-            onChange={(e) => setItem({ ...item, price: e.target.value })}
+            onChange={(e) => setItem({ ...item, price: e.target.value.replace(/\D/g, "") })}
             className={inputClass}
           />
         </label>

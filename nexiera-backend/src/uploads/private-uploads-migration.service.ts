@@ -1,8 +1,9 @@
 import { Injectable, Logger, OnModuleInit } from "@nestjs/common";
-import { copyFileSync, existsSync, mkdirSync, renameSync, unlinkSync } from "node:fs";
+import { copyFileSync, existsSync, mkdirSync, readFileSync, renameSync, unlinkSync } from "node:fs";
 import { basename, join } from "node:path";
 import { PrismaService } from "../prisma/prisma.service.js";
 import { PrivateUploadPurpose, type PrivateUploadPurpose as PrivateUploadPurposeType } from "../generated/prisma/client.js";
+import { UploadStorageService } from "./upload-storage.service.js";
 
 @Injectable()
 export class PrivateUploadsMigration implements OnModuleInit {
@@ -10,7 +11,7 @@ export class PrivateUploadsMigration implements OnModuleInit {
   private readonly publicDirectory = join(process.cwd(), "uploads");
   private readonly privateDirectory = join(process.cwd(), "private-uploads");
 
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService, private readonly storage: UploadStorageService) {}
 
   async onModuleInit() {
     mkdirSync(this.privateDirectory, { recursive: true });
@@ -53,6 +54,11 @@ export class PrivateUploadsMigration implements OnModuleInit {
           unlinkSync(oldPath);
         }
       }
+      if (this.storage.isCloudStorageConfigured() && existsSync(newPath)) {
+        await this.storage.save(filename, readFileSync(newPath), this.mimeType(filename), true).catch((error) => {
+          this.logger.warn(`Could not migrate private upload ${filename} to cloud storage: ${error instanceof Error ? error.message : "unknown storage error"}`);
+        });
+      }
       for (const owner of owners) {
         let ownerId: string | undefined;
         let purpose: PrivateUploadPurposeType = PrivateUploadPurpose.STUDENT_PROOF;
@@ -83,7 +89,42 @@ export class PrivateUploadsMigration implements OnModuleInit {
         }
       }
     }
+    if (this.storage.isCloudStorageConfigured()) {
+      await this.migratePublicUploads();
+    }
     if (references.size) this.logger.log(`Migrated ${references.size} legacy private upload reference(s) to protected storage.`);
+  }
+
+  private async migratePublicUploads() {
+    const [users, classes, applications, ads] = await Promise.all([
+      this.prisma.user.findMany({ where: { OR: [{ avatarUrl: { startsWith: "/uploads/" } }, { bannerUrl: { startsWith: "/uploads/" } }, { organizationLogoUrl: { startsWith: "/uploads/" } }] }, select: { avatarUrl: true, bannerUrl: true, organizationLogoUrl: true } }),
+      this.prisma.class.findMany({ where: { bannerUrl: { startsWith: "/uploads/" } }, select: { bannerUrl: true } }),
+      this.prisma.roleApplication.findMany({ where: { logoUrl: { startsWith: "/uploads/" } }, select: { logoUrl: true } }),
+      this.prisma.ad.findMany({ where: { imageUrl: { startsWith: "/uploads/" } }, select: { imageUrl: true } }),
+    ]);
+    const urls = new Set<string>();
+    users.forEach((user) => [user.avatarUrl, user.bannerUrl, user.organizationLogoUrl].forEach((url) => { if (url?.startsWith("/uploads/") && !url.startsWith("/uploads/private/")) urls.add(url); }));
+    classes.forEach((item) => { if (item.bannerUrl?.startsWith("/uploads/")) urls.add(item.bannerUrl); });
+    applications.forEach((item) => { if (item.logoUrl?.startsWith("/uploads/")) urls.add(item.logoUrl); });
+    ads.forEach((item) => { if (item.imageUrl.startsWith("/uploads/")) urls.add(item.imageUrl); });
+
+    for (const oldUrl of urls) {
+      const filename = basename(oldUrl);
+      if (filename !== oldUrl.slice("/uploads/".length) || !/^[a-zA-Z0-9._-]+$/.test(filename)) continue;
+      const path = join(this.publicDirectory, filename);
+      if (!existsSync(path)) continue;
+      try {
+        const stored = await this.storage.save(filename, readFileSync(path), this.mimeType(filename), false);
+        await this.repointPublicReferences(oldUrl, stored.url);
+      } catch (error) {
+        this.logger.warn(`Could not migrate public upload ${filename} to cloud storage: ${error instanceof Error ? error.message : "unknown storage error"}`);
+      }
+    }
+  }
+
+  private mimeType(filename: string) {
+    const extension = filename.slice(filename.lastIndexOf(".") + 1).toLowerCase();
+    return extension === "png" ? "image/png" : extension === "webp" ? "image/webp" : extension === "pdf" ? "application/pdf" : "image/jpeg";
   }
 
   private async repointPublicReferences(oldUrl: string, newUrl: string) {
