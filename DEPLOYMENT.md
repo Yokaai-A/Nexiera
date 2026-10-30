@@ -42,6 +42,7 @@ Set these in the Render backend service environment; do not upload or commit `.e
 | `EMAIL_VERIFICATION_DEV_LINKS` | Optional; when `true` and Resend is configured, return verification links directly instead of emailing them |
 | `MIDTRANS_SERVER_KEY` | Midtrans sandbox key for staging, production key for live payments |
 | `MIDTRANS_IS_PRODUCTION` | `false` for sandbox, `true` only for live Midtrans |
+| `MIDTRANS_ENABLED` | Leave unset or `false` for direct demo enrollment without calling Midtrans. Set `true` only when payments are ready to launch and a valid server key is configured. |
 | `SUPABASE_URL` | Supabase project URL |
 | `SUPABASE_SECRET_KEY` | Supabase server-only secret key; never expose to the frontend |
 | `SUPABASE_PUBLIC_BUCKET` | `nexiera-public` |
@@ -57,10 +58,10 @@ The frontend additionally needs `NEXT_PUBLIC_API_BASE_URL=https://<backend-host>
 ## Current readiness limits
 
 - `nexiera-backend/.env.example` contains local database placeholders. Cloud database values must be supplied in Render.
-- `MIDTRANS_SERVER_KEY` is not configured locally. Checkout remains unavailable until the correct sandbox or production key is added.
+- Midtrans checkout is disabled by default. Paid classes use direct demo enrollment while preserving the listed price; enable Midtrans explicitly only when payments are ready to launch.
 - When Resend is not configured, email/password signup activates the account immediately so users can register and log in without email verification. With Resend configured, accounts must verify by email unless `EMAIL_VERIFICATION_DEV_LINKS=true`, which returns the verification link in the signup/resend response.
 - Local development falls back to filesystem storage. Render production uploads require Supabase configuration; existing local files are copied to Supabase on startup when still present, and missing files must be uploaded again.
-- For the demo deployment, set `DEMO_MODE=true` on the Render backend service. This presents stable, class-specific 20–30 open seats, future sample dates, Jitsi demo rooms, and sample material links; it disables quota enforcement and marks paid-class demo enrollments active while preserving the listed class price in the demo transaction, without calling Midtrans. Leave it `false` for a real marketplace deployment.
+- For the demo deployment, leave `MIDTRANS_ENABLED` unset or set it to `false` on the Render backend service. Paid classes enroll directly while preserving the listed price, without calling Midtrans. `DEMO_MODE=true` additionally forces sample schedules, 20–30 open seats, and demo meeting/material links. For a real marketplace, set `DEMO_MODE=false`, `MIDTRANS_ENABLED=true`, and configure a valid server key.
 - Rotate any Resend API key that has appeared in diagnostic output before configuring it in the cloud.
 
 ## Push behavior

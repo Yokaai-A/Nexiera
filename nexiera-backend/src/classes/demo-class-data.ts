@@ -1,5 +1,6 @@
 export function isDemoMode() {
-  return process.env.DEMO_MODE === "true";
+  // Payment stays in demo mode until Midtrans is explicitly enabled.
+  return process.env.DEMO_MODE === "true" || process.env.MIDTRANS_ENABLED !== "true";
 }
 
 export function getDemoClassData(slugOrId: string) {
