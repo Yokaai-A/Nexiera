@@ -37,7 +37,7 @@ export class ClassesService {
     private readonly uploadStorage: UploadStorageService,
   ) {}
 
-  private mapClassRecord(cls: any, viewerId?: string) {
+  private mapClassRecord(cls: any, viewerId?: string, includeCreatorEmail = false) {
     const demoMode = isDemoMode();
     const demoData = getDemoClassData(cls.slug || cls.id);
     const reviews = cls.reviews || [];
@@ -119,6 +119,7 @@ export class ClassesService {
             id: cls.creator.id,
             name: cls.creator.fullName,
             fullName: cls.creator.fullName,
+            ...(includeCreatorEmail ? { email: cls.creator.contactEmail || cls.creator.email } : {}),
             campus: cls.creator.campus,
             university: cls.creator.campus,
             major: cls.creator.major,
@@ -194,7 +195,7 @@ export class ClassesService {
       where: { reviewStatus: "PENDING_REVIEW" },
       include: { creator: true, tutors: true, reviews: true, transactions: true },
       orderBy: { createdAt: "asc" },
-    }).then((classes) => classes.map((item) => this.mapClassRecord(item)));
+    }).then((classes) => classes.map((item) => this.mapClassRecord(item, undefined, true)));
   }
 
   async reviewClass(adminId: string, classId: string, decision: "APPROVE" | "REJECT", note?: string) {
