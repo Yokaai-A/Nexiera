@@ -3,6 +3,8 @@
 > **Platform Bimbingan Belajar & Peer-Tutoring Mahasiswa**  
 > NEXIERA menghubungkan mahasiswa dengan Peer-Tutor terverifikasi dan Mitra Bootcamp untuk pengalaman belajar mata kuliah kampus yang lebih terarah, aman, dan fleksibel.
 
+![Tampilan beranda NEXIERA](Nexiera_Ss.png)
+
 ---
 
 ## 🚀 Fitur Utama
