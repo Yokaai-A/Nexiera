@@ -36,7 +36,7 @@
 | ------------------- | --------------------------------------------------------------- |
 | **Frontend**        | Next.js 16, React 19, TypeScript, Tailwind CSS 4                |
 | **Backend**         | NestJS 12, TypeScript, Prisma 7 (ORM)                           |
-| **Database**        | MySQL                                                           |
+| **Database**        | PostgreSQL                                                      |
 | **Payment Gateway** | Midtrans (Sandbox / Production)                                 |
 | **Email Service**   | Resend API (Async / Non-blocking MailService)                   |
 | **Storage**         | Private Local Uploads (`/private-uploads`) dengan proteksi Auth |
@@ -61,7 +61,7 @@
 
 - **Node.js** v22.22.3 atau versi lebih baru
 - **npm** v10+
-- **MySQL** (Bisa menggunakan instance lokal atau `docker-compose.yml` yang disediakan)
+- **PostgreSQL** (lokal atau layanan PostgreSQL yang dapat diakses backend)
 
 ---
 
@@ -119,7 +119,7 @@ npm run dev
 
 | Variabel                 | Deskripsi                              | Keterangan                                         |
 | ------------------------ | -------------------------------------- | -------------------------------------------------- |
-| `DATABASE_URL`           | URL koneksi MySQL Prisma               | Contoh: `mysql://root:pass@localhost:3306/nexiera` |
+| `DATABASE_URL`           | URL koneksi PostgreSQL Prisma          | Contoh: `postgresql://nexiera:local_password@localhost:5432/nexiera?schema=public` |
 | `PORT`                   | Port server backend                    | Default: `4000`                                    |
 | `JWT_SECRET`             | Key rahasia token autentikasi          | Wajib diisi string acak & kuat                     |
 | `ADMIN_EMAILS`           | Email staf yang diberi hak akses Admin | Pisahkan dengan koma (misal: `admin@nexiera.id`)   |

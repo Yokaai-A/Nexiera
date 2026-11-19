@@ -45,18 +45,18 @@ const FOUNDERS = [
 const VALUES = [
   {
     icon: Target,
-    title: "100% Khusus Matkul Kampus",
-    desc: "Kebutuhan kuliah punya konteks dan tantangannya sendiri. Karena itu, NEXIERA berfokus pada mata kuliah kampus—mulai dari AlgoProg, ADA, Kalkulus, Rekayasa Perangkat Lunak, hingga Basis Data—agar mahasiswa lebih mudah menemukan kelas yang selaras dengan materi yang sedang mereka pelajari.",
+      title: "Kelas yang Sesuai Kebutuhan",
+      desc: "NEXIERA membantu mahasiswa menemukan bimbingan mata kuliah sesuai jurusan, materi, dan kurikulum kampus. Dari AlgoProg dan ADA hingga Kalkulus dan Basis Data, kelas yang relevan dengan kebutuhan belajar dan persiapan ujian lebih mudah dijelajahi.",
   },
   {
     icon: BookOpenText,
-    title: "Catatan Belajar Terstruktur",
-    desc: "Catatan yang tersusun baik membuat waktu belajar lebih bermakna. Melalui tautan catatan belajar, silabus, rangkuman, dan pembahasan latihan dapat dikumpulkan dalam format yang rapi sehingga mahasiswa bisa kembali ke materi penting tanpa harus mencarinya dari awal.",
+      title: "Belajar dari Tutor Sebaya",
+      desc: "Mahasiswa belajar bersama tutor senior dan mitra penyelenggara yang memahami silabus serta tantangan perkuliahan. Pengalaman belajar yang dekat dengan keseharian kampus membuat diskusi konsep, latihan soal, dan persiapan ujian terasa lebih mudah diikuti.",
   },
   {
     icon: UsersRound,
-    title: "Tutor Sebaya yang Relevan",
-      desc: "Tutor sebaya memahami ritme dan tantangan perkuliahan dari pengalaman langsung. Kedekatan ini membuka ruang belajar yang lebih cair. Mahasiswa dapat bertanya dengan nyaman, membahas konsep langkah demi langkah, dan melihat materi dari sudut pandang yang lebih dekat dengan keseharian mereka.",
+      title: "Ruang untuk Berbagi Ilmu",
+      desc: "Mahasiswa yang menguasai suatu mata kuliah dapat membuka kelas dan membagikan cara belajarnya kepada teman sebaya. NEXIERA memberi ruang bagi tutor untuk membangun reputasi akademik, sekaligus membantu lebih banyak mahasiswa belajar dengan terarah.",
   },
 ];
 
@@ -174,11 +174,11 @@ export default function TentangKamiPage() {
           </p>
         </div>
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-6">
           {FOUNDERS.map((f) => (
             <div
               key={f.name}
-              className="nx-card p-6 flex flex-col justify-between"
+              className="nx-card p-6 flex flex-col justify-between lg:col-span-2 [&:nth-child(4)]:lg:col-start-2"
             >
               <div>
                 <h3 className="text-base font-semibold text-[#20232B]">

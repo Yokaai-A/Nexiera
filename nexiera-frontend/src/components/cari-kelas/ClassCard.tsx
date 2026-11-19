@@ -104,8 +104,8 @@ export function ClassCard({ item }: { item: ApiClass | AcademicCourse }) {
     : null;
 
   return (
-    <article className="group flex h-full min-w-0 w-full flex-col rounded-[6px] border border-[#D9DEE7] bg-white p-3 sm:p-4 transition-colors hover:border-[#BAC3D2] dark:border-slate-800 dark:bg-slate-900">
-      <div>
+    <article className="group flex h-full min-w-0 w-full flex-col overflow-hidden rounded-[6px] border border-[#D9DEE7] bg-white p-3 sm:p-4 transition-colors hover:border-[#BAC3D2] dark:border-slate-800 dark:bg-slate-900">
+      <div className="min-w-0">
         {bannerUrl && (
           <div className="relative mb-3.5 aspect-video w-full overflow-hidden rounded-[4px] border border-[#D9DEE7] bg-slate-100 dark:border-slate-800 dark:bg-slate-800">
             <img
@@ -151,7 +151,7 @@ export function ClassCard({ item }: { item: ApiClass | AcademicCourse }) {
           </span>
         </div>
 
-        <div className="mt-3.5 border-t border-[#D9DEE7] pt-3 dark:border-slate-800">
+        <div className="mt-3.5 min-w-0 border-t border-[#D9DEE7] pt-3 dark:border-slate-800">
           {normalized.mainCategory && <div className="text-[10px] font-semibold uppercase tracking-wider text-[#626B78] dark:text-slate-400">{normalized.mainCategory}</div>}
           {normalized.major && <div className="text-xs font-medium text-[#2457C5]">{normalized.major}</div>}
           <h3 className="mt-1 line-clamp-2 text-base font-semibold text-[#20232B] transition-colors group-hover:text-[#2457C5] dark:text-slate-100">
@@ -180,8 +180,8 @@ export function ClassCard({ item }: { item: ApiClass | AcademicCourse }) {
         )}
       </div>
 
-      <div className="mt-auto flex items-center justify-between gap-3 border-t border-[#D9DEE7] pt-3.5 dark:border-slate-800">
-        <div>
+      <div className="mt-auto flex min-w-0 items-center justify-between gap-2 border-t border-[#D9DEE7] bg-white pt-3.5 dark:border-slate-800 dark:bg-slate-900">
+        <div className="min-w-0">
           <div className="text-[10px] font-semibold uppercase text-[#626B78] dark:text-slate-400">Biaya kelas</div>
           {isFree ? <span className="text-sm font-semibold text-emerald-700 dark:text-emerald-400">Gratis</span> : <span className="text-sm font-semibold text-[#20232B] dark:text-slate-100">{formattedPrice || "Harga belum tersedia"}</span>}
         </div>

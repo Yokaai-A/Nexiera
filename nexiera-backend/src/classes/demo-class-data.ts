@@ -16,7 +16,7 @@ export function getDemoClassData(slugOrId: string) {
     startsAt,
     accessUntil,
     accessDuration: "45 hari",
-    meetingPlatform: "Jitsi Meet (Demo)",
+    meetingPlatform: "Sesi live",
     meetingLink: `https://meet.jit.si/nexiera-demo-${key}`,
     materialPlatform: "Web (Demo)",
     materialLink: "https://www.khanacademy.org/",
