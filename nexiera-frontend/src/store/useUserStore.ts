@@ -163,6 +163,10 @@ export async function refreshUser() {
   await hydration;
 }
 
+export function getUserSnapshot(): UserSnapshot {
+  return currentState;
+}
+
 function subscribe(listener: () => void) {
   listeners.add(listener);
   return () => listeners.delete(listener);

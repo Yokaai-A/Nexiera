@@ -43,6 +43,15 @@ export default function DashboardOverviewPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [reloadKey, setReloadKey] = useState(0);
+  const [tutorRequiredNotice, setTutorRequiredNotice] = useState(false);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("notice") === "tutor-required") {
+      setTutorRequiredNotice(true);
+      window.history.replaceState(null, "", window.location.pathname);
+    }
+  }, []);
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -136,6 +145,16 @@ export default function DashboardOverviewPage() {
           Selamat datang di dashboard akademik mahasiswa. Akses jadwal bimbingan, link tatap muka langsung, dan materi perkuliahan aktifmu.
         </p>
       </header>
+
+      {tutorRequiredNotice && (
+        <div role="alert" className="flex items-start justify-between gap-3 rounded-[6px] border border-amber-200 bg-amber-50 p-4 text-xs text-amber-900 dark:border-amber-900/60 dark:bg-amber-950/40 dark:text-amber-200">
+          <p>
+            Anda harus mendaftar dan terverifikasi sebagai tutor terlebih dahulu untuk mempublikasikan kelas.{" "}
+            <Link href="/dashboard/tutor" className="font-semibold underline">Ajukan verifikasi tutor</Link>
+          </p>
+          <button type="button" aria-label="Tutup notifikasi" onClick={() => setTutorRequiredNotice(false)} className="font-semibold">×</button>
+        </div>
+      )}
 
       {error && (
         <div role="alert" className="rounded-[6px] border border-red-200 bg-red-50 p-4 text-xs text-red-700 dark:border-red-900/60 dark:bg-red-950/40 dark:text-red-300">

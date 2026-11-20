@@ -1,7 +1,22 @@
-import Link from "next/link";
-import { Logo } from "@/src/components/ui/Logo";
+"use client";
 
-const COLUMNS = [
+import type { MouseEvent } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { Logo } from "@/src/components/ui/Logo";
+import { getUserSnapshot, refreshUser } from "@/src/store/useUserStore";
+
+type Access = "login" | "tutor";
+
+interface FooterLink {
+  label: string;
+  href: string;
+  access?: Access;
+}
+
+const TUTOR_CREATE_CLASS_HREF = "/dashboard/tutor/buat-kelas";
+
+const COLUMNS: { title: string; links: FooterLink[] }[] = [
   {
     title: "KATEGORI UTAMA",
     links: [
@@ -17,7 +32,7 @@ const COLUMNS = [
     links: [
       { label: "Cari Kelas Kuliah", href: "/cari-kelas" },
       { label: "Catatan Belajar Mahasiswa", href: "/cari-kelas" },
-      { label: "Dashboard Kelas Saya", href: "/dashboard/kelas-saya" },
+      { label: "Dashboard Kelas Saya", href: "/dashboard/kelas-saya", access: "login" },
       { label: "Tutor Sebaya Terverifikasi", href: "/cari-kelas" },
       { label: "Panduan Mahasiswa Baru", href: "/tentang-kami" },
     ],
@@ -25,9 +40,9 @@ const COLUMNS = [
   {
     title: "TUTOR & MITRA",
     links: [
-      { label: "Publikasikan Kelas", href: "/buat-kelas" },
-      { label: "Menjadi Tutor Sebaya", href: "/buat-kelas" },
-      { label: "Mitra Organisasi Kampus", href: "/buat-kelas" },
+      { label: "Publikasikan Kelas", href: TUTOR_CREATE_CLASS_HREF, access: "tutor" },
+      { label: "Menjadi Tutor Sebaya", href: TUTOR_CREATE_CLASS_HREF, access: "tutor" },
+      { label: "Mitra Organisasi Kampus", href: TUTOR_CREATE_CLASS_HREF, access: "tutor" },
       { label: "Standar Integritas Akademik", href: "/tentang-kami" },
     ],
   },
@@ -43,6 +58,27 @@ const COLUMNS = [
 ];
 
 export function Footer() {
+  const router = useRouter();
+
+  async function handleGatedClick(event: MouseEvent<HTMLAnchorElement>, link: FooterLink) {
+    if (!link.access) return;
+    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
+
+    await refreshUser();
+    const user = getUserSnapshot();
+    if (!user.isLoggedIn) {
+      router.push("/login");
+      return;
+    }
+    const isVerifiedTutor = user.roles.includes("tutor") || user.roles.includes("bootcamp_partner");
+    if (link.access === "tutor" && !isVerifiedTutor) {
+      router.push("/dashboard?notice=tutor-required");
+      return;
+    }
+    router.push(link.href);
+  }
+
   return (
     <footer className="mt-20 border-t border-[#D9DEE7] bg-white">
       <div className="mx-auto grid max-w-[1180px] grid-cols-2 gap-10 px-4 sm:px-6 lg:px-8 py-14 md:grid-cols-6">
@@ -67,6 +103,7 @@ export function Footer() {
                 <li key={link.label}>
                   <Link
                     href={link.href}
+                    onClick={(event) => void handleGatedClick(event, link)}
                     className="text-xs font-medium text-[#626B78] hover:text-[#2457C5] transition-colors"
                   >
                     {link.label}
